@@ -35,6 +35,7 @@ body{
     background-color: gray;
 }
 #SideBarDiv{
+    z-index: 11;
     position: absolute;
     background-color: rgb(90,90,90);
     color: white;
@@ -79,6 +80,16 @@ body{
 #CloseButton:hover{
     background-color: gray;
 }
+.BlackBackgroundActive{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.6);
+    height: 100%;
+    width: 100%;
+    transition: .6s;
+}
 #Time{
     position: absolute;
     top: 0;
@@ -113,7 +124,6 @@ body{
     color: white;
     background-color: gray;
 }
-
 .h2Active:hover{
     margin-left: 0vw !important;
 }
