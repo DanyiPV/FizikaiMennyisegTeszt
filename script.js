@@ -4,14 +4,25 @@ var TablazatokOpen = 0;
 var Timer = setInterval(Timer,1000);
 function Fooldal(){
     AlapDiv.innerHTML="";
+    document.getElementById('FoOldal').classList.add('h2Active');
+    document.getElementById('TestKitoltes').classList.remove('h2Active');
     let FoTittle = document.createElement('div');
     FoTittle.id ="FoTittle";
     FoTittle.innerHTML="<h2>Próbáld ki, mennyire értesz a Fizikához!</h2>";
     AlapDiv.appendChild(FoTittle);
+    CloseSideBar();
 }
 function ProbaTest(){
     AlapDiv.innerHTML="";
+    document.getElementById('TestKitoltes').classList.add('h2Active');
+    document.getElementById('FoOldal').classList.remove('h2Active');
+    let FoTittle = document.createElement('div');
+    FoTittle.id ="FoTittle";
+    FoTittle.innerHTML="<h2>Ez lesz a test oldal</h2>";
+    AlapDiv.appendChild(FoTittle);
+    CloseSideBar();
 }
+
 function SideBar(){
     if(SideBarOpen == 0){
         SideBarOpen=1;

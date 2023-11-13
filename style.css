@@ -17,6 +17,7 @@ body{
     height: fit-content;
     width: fit-content;
     margin-left: .8vw;
+    margin-top: .2vw;
 }
 #Sidebar{
     width: 2.5vw;
@@ -40,10 +41,10 @@ body{
     background-color: rgb(90,90,90);
     color: white;
     padding: 1vw;
-    width: 20vw;
+    width: 27vw;
     height: 100%;
     top: 0;
-    right: -22vw;
+    right: -29vw;
     transition: .6s;
 }
 .SideBarDivOpen{
@@ -60,13 +61,13 @@ body{
     transition: .4s;
 }
 #FeherVonal{
-    margin-top: 2vw;
+    margin-top: 4vw;
     border: 1px solid white;
 }
 #CloseButton{
-    margin-top: -.8vw;
-    width: 1.8vw;
-    height: 1.8vw;
+    margin-top: 0vw;
+    width: 3vw;
+    height: 3vw;
     position: absolute;
     right: 1.2vw;
     transition: .4s;
@@ -95,11 +96,11 @@ body{
     top: 0;
     left: 0;
     margin: 1vw;
-    margin-top: -0.5vw;
-    font-size: 1.5vw;
+    margin-top: -2vw;
+    font-size: 3vw;
 }
 .SideBarh2{
-    font-size: .8vw;
+    font-size: 1.4vw;
     text-transform: uppercase;
     letter-spacing: .0em;
     color: gray;
@@ -123,7 +124,7 @@ body{
     border-radius: .6vw;
     color: white;
     background-color: gray;
-    margin-left: .5vw;
+    margin-left: .5vw !important;
 }
 .h2Active:hover{
     margin-left: .5vw !important;
@@ -137,9 +138,10 @@ body{
     margin-left: 22vw;
     z-index: 11;
     transition: .5s;
+    opacity: 0;
 }
 #TabazatokDiv h2{
-    font-size: 1vw;
+    font-size: 1.5vw;
     cursor: pointer;
     transition: .6s;
     padding: .5vw .2vw;
@@ -155,6 +157,7 @@ body{
 .TabazatokDivOpen{
     margin-left: 3vw !important;
     transition: .5s;
+    opacity: 1 !important;
 }
 
 .AlapDiv{
@@ -211,32 +214,32 @@ body{
         right: -100vw;
     }
     #FeherVonal{
-        margin-top: 7vw;
+        margin-top: 12vw;
     }
     #CloseButton{
         margin-top: 0vw;
-        width: 5vw;
-        height: 5vw;
-        padding: .5vw;
+        width: 10vw;
+        height: 10vw;
+        padding: .8vw;
     }
     #Time{
         margin: 1vw;
         margin-top: -1.5vw;
-        font-size: 4vw;
+        font-size: 6vw;
     }
     .SideBarh2{
-        font-size: 2vw;
+        font-size: 3.5vw;
         margin: 1.5vw 0;
         letter-spacing: .1em;
     }
     .SideBarh2 h2{
-        padding: .5vw;
+        padding: .8vw;
     }
     #TabazatokDiv{
         margin-left: 100vw;
     }
     #TabazatokDiv h2{
-        font-size: 2.5vw;
+        font-size: 4vw;
         padding: 1vw .5vw;
     }
     #TabazatokDiv h2:hover{
