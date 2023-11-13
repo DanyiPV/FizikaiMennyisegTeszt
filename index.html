@@ -8,15 +8,23 @@
     <script src="script.js" defer></script>
     <title>Salamon - Emán oldal</title>
 </head>
-<body>
+<body style="overflow: hidden;">
     <nav>
         <div id="NavDiv">
             <div id="OldalName">
                 <h2>Fizikai Mennyiségek</h2>
             </div>
-            <div id="Sidebar">
+            <div id="Sidebar" onclick="SideBar()">
                 <img src="ph/menu.png" alt="">
             </div>
+        </div>
+        <div id="SideBarDiv" class="SideBarDiv">
+            <div id="Time"></div>
+            <div id="CloseButton" onclick="CloseSideBar()"><img src="ph/close.png" alt=""></div>
+            <div id="FeherVonal"></div>
+            <div class="SideBarh2 h2Active"><h2>Főoldal</h2></div>
+            <div class="SideBarh2"><h2>Teszt kitöltés</h2></div>
+            <div class="SideBarh2"><h2>Fizikai Mennyiségek</h2></div>
         </div>
     </nav>
     <div class="AlapDiv">

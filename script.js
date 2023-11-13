@@ -1,5 +1,7 @@
+var AlapDiv = document.getElementsByClassName('AlapDiv')[0];
+var SideBarOpen = 0;
+var Timer = setInterval(Timer,1000);
 function Fooldal(){
-    let AlapDiv = document.getElementsByClassName('AlapDiv')[0];
     AlapDiv.innerHTML="";
     let FoTittle = document.createElement('div');
     FoTittle.id ="FoTittle";
@@ -8,8 +10,28 @@ function Fooldal(){
 }
 
 function ProbaTest(){
-    let AlapDiv = document.getElementsByClassName('AlapDiv')[0];
     AlapDiv.innerHTML="";
+}
+
+function SideBar(){
+    if(SideBarOpen == 0){
+        SideBarOpen=1;
+        document.getElementById('SideBarDiv').classList.add('SideBarDivOpen');
+    }
+}
+
+function CloseSideBar(){
+    if(SideBarOpen == 1){
+        SideBarOpen=0;
+        document.getElementById('SideBarDiv').classList.remove('SideBarDivOpen');
+    }
+}
+
+function Timer(){
+    const d = new Date();
+    let hour = d.getHours();
+    let min = d.getMinutes()
+    document.getElementById('Time').innerHTML = "<p>"+hour+":"+min+"</p>"
 }
 
 Fooldal();

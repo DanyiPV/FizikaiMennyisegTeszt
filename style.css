@@ -1,6 +1,6 @@
 body{
     background-color: rgb(80, 80, 80);
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family:sans-serif;
 }
 #NavDiv{
     width: 100%;
@@ -18,24 +18,37 @@ body{
     margin-left: .8vw;
 }
 #Sidebar{
-    width: 2vw;
-    height: 2vw;
-    margin-top: .8vw;
+    width: 2.5vw;
+    height: 2.5vw;
+    margin-top: .4vw;
     margin-right: 1.5vw;
     transition: .4s;
     cursor: pointer;
     border-radius: .4vw;
-    padding: .5vw .5vw 0 .5vw;
+    padding: .7vw .5vw 0 .5vw;
 }
-
 #Sidebar img{
     width: 100%;
 }
-
 #Sidebar:hover{
     background-color: gray;
 }
-
+#SideBarDiv{
+    position: absolute;
+    background-color: rgb(90,90,90);
+    color: white;
+    padding: 1vw;
+    width: 20vw;
+    height: 100%;
+    top: 0;
+    right: -22vw;
+    transition: .6s;
+}
+.SideBarDivOpen{
+    overflow-y: hidden;
+    right: 0 !important;
+    transition: .6s;
+}
 #OldalName h2{
     color: white;
     font-size: 1.3vw;
@@ -44,23 +57,81 @@ body{
     cursor: default;
     transition: .4s;
 }
+#FeherVonal{
+    margin-top: 2vw;
+    border: 1px solid white;
+}
+#CloseButton{
+    margin-top: -.8vw;
+    width: 1.8vw;
+    height: 1.8vw;
+    position: absolute;
+    right: 1.2vw;
+    transition: .4s;
+    padding: .3vw;
+    border-radius: .4vw;
+    cursor: pointer;
+}
+#CloseButton img{
+    width: 100%;
+}
+#CloseButton:hover{
+    background-color: gray;
+}
+#Time{
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 1vw;
+    margin-top: -0.5vw;
+    font-size: 1.5vw;
+}
+.SideBarh2{
+    font-size: .8vw;
+    text-transform: uppercase;
+    letter-spacing: .0em;
+    color: gray;
+    margin: 1.5vw 0;
+    cursor: pointer;
+    transition: .6s;
+    position: relative;
+    letter-spacing: .1em;
+    width: fit-content;
+}
+.SideBarh2 h2{
+    padding: .5vw;
+}
+.SideBarh2:hover{
+    border-radius: .4vw;
+    color: white;
+    background-color: gray;
+    margin-left: 1vw;
+}
+.h2Active{
+    border-radius: .4vw;
+    color: white;
+    background-color: gray;
+}
+
+.h2Active:hover{
+    margin-left: 0vw !important;
+}
 
 .AlapDiv{
-    margin-top: 60px;
-    margin: 60px auto 0 auto;
+    margin: 4.5vw auto 0 auto;
     width: auto;
     transition:  all .4s;
 }
 #FoTittle{
     margin: auto;
     margin-top: 4.5vw;
-    width: 38%;
-    text-align: justify;
+    width: 100%;
+    text-align: center;
     transition:  all .4s;    
 }
-
 #FoTittle h2{
     font-size: 2vw;
+    width:100%;
     color: white;
     transition:  all .4s;
 }
@@ -81,15 +152,44 @@ body{
     #Sidebar{
         width: 7vw;
         height: 7vw;
-        margin-top: 2.5vw;
+        margin-top: 3vw;
         margin-right: 1.5vw;
-        padding: 1.6vw .5vw 0 .5vw;
+        padding: 1.7vw 1vw 0 1vw;
+        border-radius: .7vw;
+    }
+    #SideBarDiv{
+        width: 98%;
+        right: -100vw;
+    }
+    #FeherVonal{
+        margin-top: 7vw;
+    }
+    #CloseButton{
+        margin-top: 0vw;
+        width: 5vw;
+        height: 5vw;
+        padding: .5vw;
+    }
+    #Time{
+        margin: 1vw;
+        margin-top: -1.5vw;
+        font-size: 4vw;
+    }
+    .SideBarh2{
+        font-size: 2vw;
+        margin: 1.5vw 0;
+        letter-spacing: .1em;
+    }
+    .SideBarh2 h2{
+        padding: .5vw;
     }
 
-    #FoTittle{
-        width: 60%;
+    .AlapDiv{
+        margin: 14.5vw auto 0 auto;
     }
     #FoTittle h2{
-        font-size: 3vw;
+        font-size: 4vw;
+        text-align: center;
+        width:100%;
     }
 }
