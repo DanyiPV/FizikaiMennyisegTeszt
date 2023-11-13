@@ -79,17 +79,17 @@ body{
         transition: .4s;
     }    
     #Sidebar{
-        width: 5vw;
-        height: 5vw;
-        margin-top: 4.5vw;
+        width: 7vw;
+        height: 7vw;
+        margin-top: 2.5vw;
         margin-right: 1.5vw;
-        padding: .8vw .5vw 0 .5vw;
+        padding: 1.6vw .5vw 0 .5vw;
     }
 
     #FoTittle{
         width: 60%;
     }
     #FoTittle h2{
-        font-size: 3.2vw;
+        font-size: 3vw;
     }
 }
