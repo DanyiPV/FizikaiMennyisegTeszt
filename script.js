@@ -31,7 +31,7 @@ function Timer(){
     const d = new Date();
     let hour = d.getHours();
     let min = d.getMinutes()
-    document.getElementById('Time').innerHTML = "<p>"+hour+":"+min+"</p>"
+    document.getElementById('Time').innerHTML = "<p>"+(hour<10?"0"+hour:hour)+":"+(min<10?"0"+min:min)+"</p>"
 }
 
 Fooldal();
