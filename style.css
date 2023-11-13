@@ -120,12 +120,41 @@ body{
     margin-left: 1vw;
 }
 .h2Active{
-    border-radius: .4vw;
+    border-radius: .6vw;
     color: white;
     background-color: gray;
+    margin-left: .5vw;
 }
 .h2Active:hover{
-    margin-left: 0vw !important;
+    margin-left: .5vw !important;
+}
+#TabazatokDiv{
+    color: gray;
+    position: relative;
+    width: fit-content;
+    right: 1.5vw;
+    padding: 0 .5vw;
+    margin-left: 22vw;
+    z-index: 11;
+    transition: .5s;
+}
+#TabazatokDiv h2{
+    font-size: 1vw;
+    cursor: pointer;
+    transition: .6s;
+    padding: .5vw .2vw;
+    width: fit-content;
+    transition: .5s;
+}
+#TabazatokDiv h2:hover{
+    color:white;
+    border-radius: .4vw;
+    background-color: gray;
+    margin-left: .5vw;
+}
+.TabazatokDivOpen{
+    margin-left: 3vw !important;
+    transition: .5s;
 }
 
 .AlapDiv{
@@ -202,6 +231,17 @@ body{
     }
     .SideBarh2 h2{
         padding: .5vw;
+    }
+    #TabazatokDiv{
+        margin-left: 100vw;
+    }
+    #TabazatokDiv h2{
+        font-size: 2.5vw;
+        padding: 1vw .5vw;
+    }
+    #TabazatokDiv h2:hover{
+        border-radius: .6vw;
+        margin-left: 1vw;
     }
 
     .AlapDiv{
