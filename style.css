@@ -138,9 +138,17 @@ body{
 }
 
 @media only screen and (max-width: 1000px) {
-    html{overflow-x:hidden !important }
+    html,body{
+        overflow-x: hidden !important;
+        height: 100%;
+    }
+    body{
+        position: relative;
+        margin: 0;
+    }
     #NavDiv{
         height: 14vw;
+        overflow: hidden !important;
     }
     #OldalName h2{
         color: white;
