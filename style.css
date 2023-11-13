@@ -1,0 +1,67 @@
+body{
+    background-color: rgb(80, 80, 80);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+#NavDiv{
+    width: 100%;
+    background-color: rgb(58, 58, 58);
+    height: 4vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#OldalName{
+    height: fit-content;
+    width: fit-content;
+    margin-left: .8vw;
+}
+
+#OldalName h2{
+    color: white;
+    font-size: 1.3vw;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    cursor: default;
+    transition: .4s;
+}
+
+.AlapDiv{
+    margin-top: 60px;
+    margin: 60px auto 0 auto;
+    width: auto;
+    transition:  all .4s;
+}
+#FoTittle{
+    margin: auto;
+    width: 38%;
+    text-align: justify;
+    transition:  all .4s;    
+}
+
+#FoTittle h2{
+    font-size: 2vw;
+    color: white;
+    transition:  all .4s;
+}
+
+@media only screen and (max-width: 1000px) {
+    #NavDiv{
+        height: 14vw;
+    }
+    #OldalName h2{
+        color: white;
+        font-size: 3.5vw;
+        margin-top: 5vw;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        cursor: default;
+        transition: .4s;
+    }    
+
+    #FoTittle{
+        width: 60%;
+    }
+    #FoTittle h2{
+        font-size: 3vw;
+    }
+  }
