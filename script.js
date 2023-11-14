@@ -10,8 +10,46 @@ function Fooldal(){
     document.getElementById('OldalName').innerHTML="<h2>Fizikai Mennyiségek</h2><p> - Főoldal</p>";
     let FoTittle = document.createElement('div');
     FoTittle.id ="FoTittle";
-    FoTittle.innerHTML="<h2>Próbáld ki, mennyire értesz a Fizikához!</h2>";
+    FoTittle.innerHTML="<h2>Próbáld ki, mit érsz a fizika ellen!</h2>";
     AlapDiv.appendChild(FoTittle);
+
+    let TudnivalokDiv = document.createElement('div');
+    TudnivalokDiv.classList.add('AlapKeretDiv');
+    TudnivalokDiv.innerHTML="<p>Tudnivalók</p>";
+    let TudnivalokDBDiv = document.createElement('div');
+    TudnivalokDBDiv.classList.add('TudnivalokDBDiv');
+    TudnivalokDBDiv.innerHTML +="<h2>1 - Tudni való</h2>";
+    TudnivalokDBDiv.innerHTML +="<h2>2 - Tudni való</h2>";
+    TudnivalokDBDiv.innerHTML +="<h2>3 - Tudni való</h2>";
+    TudnivalokDBDiv.innerHTML +="<h2>4 - Tudni való</h2>";
+    TudnivalokDiv.appendChild(TudnivalokDBDiv);
+    AlapDiv.appendChild(TudnivalokDiv);
+
+    let HaladoMozgas = document.createElement('div');
+    HaladoMozgas.classList.add('AlapKeretDiv');
+    HaladoMozgas.innerHTML="<p>Haladómozgással kapcsolatos</p>";
+    let AlaTablaDiv = document.createElement('div');
+    AlaTablaDiv.classList.add('AlaTablaKeret');
+    let NevDiv = document.createElement('div');
+    NevDiv.classList.add('NevDiv');
+    NevDiv.innerHTML ="<p>Neve</p>";
+    let JeleDiv = document.createElement('div');
+    JeleDiv.classList.add('JeleDiv');
+    JeleDiv.innerHTML ="<p>Jele</p>";
+    let DefDiv = document.createElement('div');
+    DefDiv.classList.add('DefDiv');
+    DefDiv.innerHTML ="<p>Definíciója</p>";
+    let MertekDiv = document.createElement('div');
+    MertekDiv.innerHTML ="<p>Mértékegysége</p>";
+    MertekDiv.classList.add('MertekDiv');
+    AlaTablaDiv.appendChild(NevDiv);
+    AlaTablaDiv.appendChild(JeleDiv);
+    AlaTablaDiv.appendChild(DefDiv);
+    AlaTablaDiv.appendChild(MertekDiv);
+    HaladoMozgas.appendChild(AlaTablaDiv);
+    AlapDiv.appendChild(HaladoMozgas);
+
+
     CloseSideBar();
 }
 function ProbaTest(){
