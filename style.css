@@ -52,6 +52,14 @@ body{
     right: 0 !important;
     transition: .6s;
 }
+#DarkBackground{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(50, 50, 50, 0.6);
+    height: 5vw;
+    width: 30vw;
+}
 #OldalName h2{
     color: white;
     font-size: 1.3vw;
@@ -62,10 +70,12 @@ body{
 }
 #FeherVonal{
     margin-top: 4vw;
+    width: 30vw;
+    margin-left: -1vw;
     border: 1px solid white;
 }
 #CloseButton{
-    margin-top: 0vw;
+    margin-top: -.3vw;
     width: 3vw;
     height: 3vw;
     position: absolute;
@@ -93,6 +103,7 @@ body{
 }
 #Time{
     position: absolute;
+    cursor: default;
     top: 0;
     left: 0;
     margin: 1vw;
@@ -122,6 +133,7 @@ body{
 }
 .h2Active{
     border-radius: .6vw;
+    width: fit-content !important;
     color: white;
     background-color: gray;
     margin-left: .5vw !important;
@@ -147,6 +159,7 @@ body{
     padding: .5vw .2vw;
     width: fit-content;
     transition: .5s;
+    width: 25vw;
 }
 #TabazatokDiv h2:hover{
     color:white;
@@ -213,8 +226,13 @@ body{
         width: 98%;
         right: -100vw;
     }
+    #DarkBackground{
+        height: 13vw;
+        width: 100vw;
+    }
     #FeherVonal{
         margin-top: 12vw;
+        width: 100vw;
     }
     #CloseButton{
         margin-top: 0vw;
@@ -224,8 +242,9 @@ body{
     }
     #Time{
         margin: 1vw;
-        margin-top: -1.5vw;
-        font-size: 6vw;
+        margin-top: -5vw;
+        font-size: 8vw;
+        font-weight: bold;
     }
     .SideBarh2{
         font-size: 3.5vw;
@@ -239,7 +258,8 @@ body{
         margin-left: 100vw;
     }
     #TabazatokDiv h2{
-        font-size: 4vw;
+        width: 90vw;
+        font-size: 5.2vw;
         padding: 1vw .5vw;
     }
     #TabazatokDiv h2:hover{
