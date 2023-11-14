@@ -88,11 +88,11 @@ function TestTablaDivek(){
         document.getElementById('SideBarDiv').style.overflowY = "auto";
         document.getElementById('SideBarDiv').style.overflowX = "hidden";
         document.getElementById('TestTablazatokKiNyil').classList.add('TriangleDown');
-        document.getElementById('TestTablaDivek').classList.add('TestTablaDivekOpen');
+        document.getElementById('TestTablaDivek').classList.add('TabazatokDivOpen');
     }else if(TestTablazatokOpen == 1){
         TestTablazatokOpen = 0;
         document.getElementById('TestTablazatokKiNyil').classList.remove('TriangleDown');
-        document.getElementById('TestTablaDivek').classList.remove('TestTablaDivekOpen');
+        document.getElementById('TestTablaDivek').classList.remove('TabazatokDivOpen');
     }
     if(TablazatokOpen == 0 && TestTablazatokOpen == 0){
         document.getElementById('SideBarDiv').style.overflowY = "hidden";
