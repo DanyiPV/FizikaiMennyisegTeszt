@@ -152,6 +152,9 @@ body{
 .h2Active:hover{
     margin-left: .5vw !important;
 }
+#Tablazatok{
+    color: white;
+}
 #TabazatokDiv{
     color: gray;
     position: relative;

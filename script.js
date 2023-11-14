@@ -6,6 +6,7 @@ function Fooldal(){
     AlapDiv.innerHTML="";
     document.getElementById('FoOldal').classList.add('h2Active');
     document.getElementById('TestKitoltes').classList.remove('h2Active');
+    document.getElementById('OldalName').innerHTML="<h2>Fizikai Mennyiségek - Főoldal</h2>";
     let FoTittle = document.createElement('div');
     FoTittle.id ="FoTittle";
     FoTittle.innerHTML="<h2>Próbáld ki, mennyire értesz a Fizikához!</h2>";
@@ -16,6 +17,7 @@ function ProbaTest(){
     AlapDiv.innerHTML="";
     document.getElementById('TestKitoltes').classList.add('h2Active');
     document.getElementById('FoOldal').classList.remove('h2Active');
+    document.getElementById('OldalName').innerHTML="<h2>Fizikai Mennyiségek - Teszt kitöltés</h2>";
     let FoTittle = document.createElement('div');
     FoTittle.id ="FoTittle";
     FoTittle.innerHTML="<h2>Ez lesz a test oldal</h2>";
@@ -58,11 +60,9 @@ function TablazatokMegjelenit(){
     if(TablazatokOpen == 0){
         TablazatokOpen=1;
         document.getElementById('TabazatokDiv').classList.add('TabazatokDivOpen');
-        document.getElementById('Tablazatok').classList.add('h2Active');
     }else if(TablazatokOpen == 1){
         TablazatokOpen=0;
         document.getElementById('TabazatokDiv').classList.remove('TabazatokDivOpen');
-        document.getElementById('Tablazatok').classList.remove('h2Active');
     }
 }
 Fooldal();
