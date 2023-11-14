@@ -202,10 +202,10 @@ body{
 .TriangleDown{
     background-color: rgb(20, 20, 20) !important;
 }
-#TabazatokDiv{
+#TabazatokDiv,#TestTablaDivek{
+    position: relative;
     color: gray;
     width: auto;
-    position: absolute;
     border-radius: .7vw;
     margin-left: 1vw;
     transition: .5s;
@@ -214,7 +214,7 @@ body{
     opacity: 0;
     background-color: rgba(0, 0, 0, 0.7) !important;
 }
-#TabazatokDiv h2{
+#TabazatokDiv h2, #TestTablaDivek h2{
     font-size: 1.5vw;
     margin-left: 1vw;
     cursor: default;
@@ -225,7 +225,7 @@ body{
     padding: .5vw;
     padding-left: 1vw;
 }
-#TabazatokDiv h2:hover{
+#TabazatokDiv h2:hover, #TestTablaDivek h2:hover{
     background-color: grey;
     color: white;
     border-radius: 3vw;
@@ -237,39 +237,11 @@ body{
     cursor: pointer;
 }
 #TestKitoltes{
+    margin-top: -22vw;
     transition: all .4s;
 }
 .TestDown{
-    margin-top: 22.5vw;
-}
-#TestTablaDivek{
-    position: relative;
-    color: gray;
-    width: auto;
-    border-radius: .7vw;
-    margin-left: 1vw;
-    margin-bottom: 2vw;
-    transition: .5s;
-    padding: .5vw;
-    z-index: -1;
-    opacity: 0;
-    background-color: rgba(0, 0, 0, 0.7) !important;
-}
-#TestTablaDivek h2{
-    font-size: 1.5vw;
-    margin-left: 1vw;
-    cursor: default;
-    transition: .6s;
-    width: auto;
-    transition: .5s;
-    position: static;
-    padding: .5vw;
-    padding-left: 1vw;
-}
-#TestTablaDivek h2:hover{
-    background-color: grey;
-    color: white;
-    border-radius: 3vw;
+    margin-top: 0 !important;
 }
 .TestTablaDivekOpen{
     transition: .5s;
@@ -320,7 +292,7 @@ body{
         transition: .4s;
     }
     #OldalName p{
-        margin-top: 5.3vw;
+        margin-top: 5.4vw;
         margin-left: 1.5vw;
         font-size: 2.5vw;
     } 
@@ -378,28 +350,24 @@ body{
         height: 3vw;
         padding: 4.45vw;
     }
-    #TabazatokDiv{
+    #TabazatokDiv, #TestTablaDivek{
         margin-top: -4vw;
     }
-    #TabazatokDiv h2{
+    #TabazatokDiv h2,#TestTablaDivek h2{
         width: 90vw;
         font-size: 4vw;
         padding: 1vw .5vw;
         padding-left: 2vw;
         margin-left: 2vw;
     }
-    #TestTablaDivek{
-        margin-top: -4vw;
+    #TestKitoltes{
+        margin-top: -50vw;
     }
-    #TestTablaDivek h2{
-        width: 90vw;
-        font-size: 4vw;
-        padding: 1vw .5vw;
-        padding-left: 2vw;
-        margin-left: 2vw;
+    #TestKitoltes h2{
+        padding: 2.85vw !important;
     }
     .TestDown{
-        margin-top: 53vw;
+        margin-top: .5vw !important;
     }
 
     .AlapDiv{
