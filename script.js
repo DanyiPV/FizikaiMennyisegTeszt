@@ -26,6 +26,7 @@ function ProbaTest(){
 function SideBar(){
     if(SideBarOpen == 0){
         SideBarOpen=1;
+        document.body.style.overflow = "hidden";
         document.getElementById('SideBarDiv').classList.add('SideBarDivOpen');
         document.getElementById('BlackBackground').classList.add('BlackBackgroundActive');
         document.getElementById('BlackBackground').setAttribute('onclick',"CloseSideBar()")
@@ -34,6 +35,7 @@ function SideBar(){
 function CloseSideBar(){
     if(SideBarOpen == 1){
         SideBarOpen=0;
+        document.body.style.overflow = "";
         document.getElementById('SideBarDiv').classList.remove('SideBarDivOpen');
         document.getElementById('BlackBackground').classList.remove('BlackBackgroundActive');
         document.getElementById('BlackBackground').removeAttribute('onclick',"CloseSideBar()")

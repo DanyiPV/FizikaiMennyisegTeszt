@@ -1,7 +1,7 @@
 body{
     background-color: rgb(80, 80, 80);
     font-family:sans-serif;
-    overflow:hidden
+    overflow-x:hidden
 }
 #NavDiv{
     width: 100%;
@@ -37,7 +37,7 @@ body{
 }
 #SideBarDiv{
     z-index: 11;
-    position: absolute;
+    position: fixed;
     background-color: rgb(90,90,90);
     color: white;
     padding: 1vw;
@@ -48,7 +48,6 @@ body{
     transition: .6s;
 }
 .SideBarDivOpen{
-    overflow: hidden;
     right: 0 !important;
     transition: .6s;
 }
@@ -92,7 +91,7 @@ body{
     background-color: gray;
 }
 .BlackBackgroundActive{
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 10;
@@ -121,10 +120,21 @@ body{
     position: relative;
     letter-spacing: .1em;
     width: fit-content;
+    display: flex;
 }
 .SideBarh2 h2{
     padding: .5vw;
 }
+.SideBarIMG{
+    margin-top: 1.2vw;
+    margin-left: .5vw;
+    width: 4.5vw;
+    height: 4.5vw;
+}
+.SideBarIMG img{
+    width: 100%;
+}
+
 .SideBarh2:hover{
     border-radius: .4vw;
     color: white;
@@ -253,6 +263,12 @@ body{
     }
     .SideBarh2 h2{
         padding: .8vw;
+    }
+    .SideBarIMG{
+        margin-top: 3vw;
+        margin-left: 1vw;
+        width: 10vw;
+        height: 10vw;
     }
     #TabazatokDiv{
         margin-left: 100vw;
