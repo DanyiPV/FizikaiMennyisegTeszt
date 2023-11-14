@@ -68,6 +68,7 @@ function TablazatokKiNyil(){
     if(TablazatokOpen == 0){
         TablazatokOpen = 1;
         document.getElementById('SideBarDiv').style.overflowY = "auto";
+        document.getElementById('SideBarDiv').style.overflowX = "hidden";
         document.getElementById('TablazatokKiNyil').classList.add('TriangleDown');
         document.getElementById('TestKitoltes').classList.add('TestDown');
         document.getElementById('TabazatokDiv').classList.add('TabazatokDivOpen');
@@ -85,6 +86,7 @@ function TestTablaDivek(){
     if(TestTablazatokOpen == 0){
         TestTablazatokOpen = 1;
         document.getElementById('SideBarDiv').style.overflowY = "auto";
+        document.getElementById('SideBarDiv').style.overflowX = "hidden";
         document.getElementById('TestTablazatokKiNyil').classList.add('TriangleDown');
         document.getElementById('TestTablaDivek').classList.add('TestTablaDivekOpen');
     }else if(TestTablazatokOpen == 1){
