@@ -406,6 +406,7 @@ body{
     }
     #TabazatokDiv, #TestTablaDivek{
         margin-top: -4.5vw;
+        margin-left: 100vw;
     }
     #TabazatokDiv h2,#TestTablaDivek h2{
         width: 90vw;
