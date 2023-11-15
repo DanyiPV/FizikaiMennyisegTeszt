@@ -290,15 +290,12 @@ body{
 .TudnivalokDBDiv{
     width: 50%;
     margin: auto;
-    margin-top: 3.5vw;
+    margin-top: 3vw;
     color: white;
 }
 .TudnivalokDBDiv h2{
     width: 100%;
-    text-align: center;
-}
-.TudnivalokDBDiv h3{
-    width: 100%;
+    font-size: 1.5vw;
     text-align: center;
 }
 .AlaTablaKeret{
@@ -440,6 +437,11 @@ body{
     }
     .TudnivalokDBDiv{
         margin-top: 8vw;
+    }
+    .TudnivalokDBDiv h2{
+        width: 100%;
+        font-size: 3vw;
+        text-align: center;
     }
     .AlapKeretDiv > p{
         font-size: 3.8vw;
