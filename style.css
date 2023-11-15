@@ -186,7 +186,7 @@ body{
 .TriangleDown > img{
     transform: rotate(180deg);
 }
-.SideBarh2:hover > h2{
+.SideBarh2 h2:hover, .SideBarIMG:hover + h2{
     color: white !important;
 }
 .h2Active{
