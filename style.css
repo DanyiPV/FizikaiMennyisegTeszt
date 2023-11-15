@@ -268,9 +268,9 @@ body{
 }
 .AlapKeretDiv{
     padding: .5vw;
-    width: 85%;
+    width: 95%;
     margin: auto;
-    margin-top: 1vw;
+    margin-top: 1.5vw;
     height: auto;
     border-radius: 2vw;
     background-color: rgb(40, 40, 44);
@@ -437,14 +437,17 @@ body{
         text-align: center;
         width:100%;
     }
+    .TudnivalokDBDiv{
+        margin-top: 8vw;
+    }
     .AlapKeretDiv > p{
-        font-size: 3.5vw;
+        font-size: 3.8vw;
     }
     .AlaTablaKeret{
         border: 2px solid white;
-        width: 90%;
+        width: 95%;
         height: 5vw;
-        margin: 8vw auto 1vw auto;
+        margin: 10vw auto 1vw auto;
     }
     .AlaTablaKeret div{
         border-left: 2px solid white;
