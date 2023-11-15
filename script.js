@@ -83,11 +83,15 @@ function CloseSideBar(){
             document.getElementById('TablazatokKiNyil').classList.remove('TriangleDown');
             document.getElementById('TestKitoltes').classList.remove('TestDown');
             document.getElementById('TabazatokDiv').classList.remove('TabazatokDivOpen');
+            document.getElementById('SideBarIMG1').classList.remove('SharpEdgeBL');
+            document.getElementById('TablazatokKiNyil').classList.remove('SharpEdgeBR');
         }
         if(TestTablazatokOpen == 1){
             TestTablazatokOpen = 0;
             document.getElementById('TestTablazatokKiNyil').classList.remove('TriangleDown');
-            document.getElementById('TestTablaDivek').classList.remove('TestTablaDivekOpen');
+            document.getElementById('TestTablaDivek').classList.remove('TabazatokTestDivOpen');
+            document.getElementById('SideBarIMG2').classList.remove('SharpEdgeBL');
+            document.getElementById('TestTablazatokKiNyil').classList.remove('SharpEdgeBR');
         }
         if(TablazatokOpen == 0 && TestTablazatokOpen == 0){
             document.getElementById('SideBarDiv').style.overflowY = "hidden";
@@ -110,11 +114,15 @@ function TablazatokKiNyil(){
         document.getElementById('TablazatokKiNyil').classList.add('TriangleDown');
         document.getElementById('TestKitoltes').classList.add('TestDown');
         document.getElementById('TabazatokDiv').classList.add('TabazatokDivOpen');
+        document.getElementById('SideBarIMG1').classList.add('SharpEdgeBL');
+        document.getElementById('TablazatokKiNyil').classList.add('SharpEdgeBR');
     }else if(TablazatokOpen == 1){
         TablazatokOpen = 0;
         document.getElementById('TablazatokKiNyil').classList.remove('TriangleDown');
         document.getElementById('TestKitoltes').classList.remove('TestDown');
         document.getElementById('TabazatokDiv').classList.remove('TabazatokDivOpen');
+        document.getElementById('SideBarIMG1').classList.remove('SharpEdgeBL');
+        document.getElementById('TablazatokKiNyil').classList.remove('SharpEdgeBR');
     }
     if(TablazatokOpen == 0 && TestTablazatokOpen == 0){
         document.getElementById('SideBarDiv').style.overflowY = "hidden";
@@ -126,11 +134,15 @@ function TestTablaDivek(){
         document.getElementById('SideBarDiv').style.overflowY = "auto";
         document.getElementById('SideBarDiv').style.overflowX = "hidden";
         document.getElementById('TestTablazatokKiNyil').classList.add('TriangleDown');
-        document.getElementById('TestTablaDivek').classList.add('TabazatokDivOpen');
+        document.getElementById('TestTablaDivek').classList.add('TabazatokTestDivOpen');
+        document.getElementById('SideBarIMG2').classList.add('SharpEdgeBL');
+        document.getElementById('TestTablazatokKiNyil').classList.add('SharpEdgeBR');
     }else if(TestTablazatokOpen == 1){
         TestTablazatokOpen = 0;
         document.getElementById('TestTablazatokKiNyil').classList.remove('TriangleDown');
-        document.getElementById('TestTablaDivek').classList.remove('TabazatokDivOpen');
+        document.getElementById('TestTablaDivek').classList.remove('TabazatokTestDivOpen');
+        document.getElementById('SideBarIMG2').classList.remove('SharpEdgeBL');
+        document.getElementById('TestTablazatokKiNyil').classList.remove('SharpEdgeBR');
     }
     if(TablazatokOpen == 0 && TestTablazatokOpen == 0){
         document.getElementById('SideBarDiv').style.overflowY = "hidden";

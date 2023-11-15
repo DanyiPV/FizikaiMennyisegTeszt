@@ -119,13 +119,14 @@ body{
 }
 .SideBarh2{
     z-index: 11;
+    position: absolute;
     font-size: 1.4vw;
     text-transform: uppercase;
     letter-spacing: .0em;
     transition: .6s;
     position: relative;
     letter-spacing: .1em;
-    width: fit-content;
+    width: 100%;
     height: fit-content;
     display: flex;
 }
@@ -137,6 +138,8 @@ body{
     color: gray;
     background-color: rgb(44, 44, 44);
     transition: .4s;
+    width: 100%;
+    text-align: center;
 }
 .SideBarIMG{
     cursor: pointer;
@@ -144,17 +147,18 @@ body{
     color: gray;
     margin-top: 1.2vw;
     margin-left: .5vw;
-    width: 3.5vw;
+    width: 25%;
     height: 3.5vw;
     transition: .4s;
     border-bottom-left-radius: 3vw;
     border-top-left-radius: 3vw;
     padding: 1vw;
-    padding-left: 1.5vw;
+    padding-left: 1vw;
     background-color: rgb(44, 44, 44)
 }
 .SideBarIMG img{
     width: 100%;
+    margin-top: -.2vw;
 }
 .SideBarTriangle{
     cursor: pointer;
@@ -162,7 +166,7 @@ body{
     padding: 2vw;
     margin-top: 1.2vw;
     background-color: rgb(44, 44, 44);
-    width: 1.5vw;
+    width: 10%;
     height: 1.5vw;
     border-bottom-right-radius: 3vw;
     border-top-right-radius: 3vw;
@@ -188,6 +192,7 @@ body{
 .h2Active{
     border-radius: .6vw;
     width: fit-content !important;
+    width: 70%;
     color: white;
 }
 .h2Active div, .h2Active h2{
@@ -204,48 +209,63 @@ body{
 #TabazatokDiv,#TestTablaDivek{
     position: relative;
     color: gray;
-    width: auto;
-    border-radius: .7vw;
-    margin-top: -1vw;
-    margin-left: 50vw;
+    border-radius: 0 0 2vw 2vw;
+    margin-top: -1.7vw;
+    margin-left: .5vw;
     transition: .5s;
     padding: .5vw;
     z-index: -1;
     opacity: 0;
+    cursor: default;
     background-color: rgba(0, 0, 0, 0.7) !important;
 }
 #TabazatokDiv h2, #TestTablaDivek h2{
     font-size: 1.5vw;
-    margin-left: 1vw;
+    margin: .5vw 1vw;
     cursor: default;
     transition: .6s;
     width: auto;
     transition: .5s;
     position: static;
+    cursor: pointer;
     padding: .5vw;
     padding-left: 1vw;
 }
 #TabazatokDiv h2:hover, #TestTablaDivek h2:hover{
     background-color: grey;
     color: white;
-    border-radius: 3vw;
+    border-radius: 1vw;
 }
 #TestTablaDivek{
+    margin-top: -1.75vw;
     margin-bottom: 3vw;
 }
 .TabazatokDivOpen{
     transition: .5s;
     opacity: 1 !important;
     z-index: 11 !important;
-    margin-left: 1vw !important;
+    margin-top: -1.7vw !important;
+    cursor: pointer;
+}
+.TabazatokTestDivOpen{
+    transition: .5s;
+    opacity: 1 !important;
+    z-index: 11 !important;
+    margin-top: -1.7vw !important;
     cursor: pointer;
 }
 #TestKitoltes{
-    margin-top: -29vw;
+    margin-top: -17vw;
     transition: all .4s;
 }
 .TestDown{
     margin-top: 0 !important;
+}
+.SharpEdgeBL{
+    border-bottom-left-radius: 0;
+}
+.SharpEdgeBR{
+    border-bottom-right-radius: 0;
 }
 
 .AlapDiv{
@@ -392,31 +412,43 @@ body{
         padding: 2.9vw;
     }
     .SideBarIMG{
-        width: 9.5vw;
-        height: 9.5vw;
+        width: 13%;
+        height: 9.4vw;
         padding: 1.2vw;
+        border-top-left-radius: 45%;
+        border-bottom-left-radius: 45%;
+    }
+    #SideBarIMG1{
+        height: 9.5vw;
     }
     .SideBarIMG img{
-        margin-left: 1vw;
+        margin-left: .8vw;
+        margin-top: .5vw;
     }
     .SideBarTriangle{
-        width: 3.5vw;
+        width: 6%;
         height: 3vw;
+        border-top-right-radius: 45%;
+        border-bottom-right-radius: 45%;
         padding: 4.45vw;
     }
+    .SideBarTriangle img{
+        margin-top: -1vw;
+    }
     #TabazatokDiv, #TestTablaDivek{
-        margin-top: -4.5vw;
-        margin-left: 100vw;
+        margin-top: -5.7vw;
+        margin-left: .5vw;
+        border-bottom-left-radius: 5vw;
+        border-bottom-right-radius: 5vw;
     }
     #TabazatokDiv h2,#TestTablaDivek h2{
-        width: 90vw;
         font-size: 4vw;
         padding: 1vw .5vw;
         padding-left: 2vw;
         margin-left: 2vw;
     }
     #TestKitoltes{
-        margin-top: -52vw;
+        margin-top: -33vw;
     }
     #TestKitoltes h2{
         padding: 2.85vw !important;
@@ -426,6 +458,15 @@ body{
     }
     #TestTablaDivek{
         margin-bottom: 6vw;
+    }
+    .SharpEdgeBL{
+        border-bottom-left-radius: 0;
+    }
+    .SharpEdgeBR{
+        border-bottom-right-radius: 0;
+    }
+    .TabazatokDivOpen, .TabazatokTestDivOpen{
+        margin-top: -5.7vw !important;
     }
 
     .AlapDiv{
