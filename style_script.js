@@ -52,9 +52,20 @@ function Fooldal(){
 
     CloseSideBar();
 }
+
+var BG = document.getElementById('BlackBackground');
+var SBD = document.getElementById('SideBarDiv');
+var TK = document.getElementById('TablazatokKiNyil');
+var TK1 = document.getElementById('TestTablazatokKiNyil');
+var TTD = document.getElementById('TestTablaDivek');
+var TKS = document.getElementById('TestKitoltes');
+var TD = document.getElementById('TabazatokDiv');
+var SIMG1 = document.getElementById('SideBarIMG1');
+var SIMG2 = document.getElementById('SideBarIMG2');
+
 function ProbaTest(){
     AlapDiv.innerHTML="";
-    document.getElementById('TestKitoltes').classList.add('h2Active');
+    TKS.classList.add('h2Active');
     document.getElementById('FoOldal').classList.remove('h2Active');
     document.getElementById('OldalName').innerHTML="<h2>Fizikai Mennyiségek</h2><p> - Teszt kitöltés</p>";
     let FoTittle = document.createElement('div');
@@ -67,34 +78,34 @@ function ProbaTest(){
 function SideBar(){
     if(SideBarOpen == 0){
         SideBarOpen=1;
-        document.getElementById('SideBarDiv').classList.add('SideBarDivOpen');
-        document.getElementById('BlackBackground').classList.add('BlackBackgroundActive');
-        document.getElementById('BlackBackground').setAttribute('onclick',"CloseSideBar()")
+        SBD.classList.add('SideBarDivOpen');
+        BG.classList.add('BlackBackgroundActive');
+        BG.setAttribute('onclick',"CloseSideBar()")
     }
 }
 function CloseSideBar(){
     if(SideBarOpen == 1){
         SideBarOpen = 0;
-        document.getElementById('SideBarDiv').classList.remove('SideBarDivOpen');
-        document.getElementById('BlackBackground').classList.remove('BlackBackgroundActive');
-        document.getElementById('BlackBackground').removeAttribute('onclick',"CloseSideBar()")
+        SBD.classList.remove('SideBarDivOpen');
+        BG.classList.remove('BlackBackgroundActive');
+        BG.removeAttribute('onclick',"CloseSideBar()")
         if(TablazatokOpen == 1){
             TablazatokOpen = 0;
-            document.getElementById('TablazatokKiNyil').classList.remove('TriangleDown');
-            document.getElementById('TestKitoltes').classList.remove('TestDown');
-            document.getElementById('TabazatokDiv').classList.remove('TabazatokDivOpen');
-            document.getElementById('SideBarIMG1').classList.remove('SharpEdgeBL');
-            document.getElementById('TablazatokKiNyil').classList.remove('SharpEdgeBR');
+            TK.classList.remove('TriangleDown');
+            TK.classList.remove('SharpEdgeBR');
+            TKS.classList.remove('TestDown');
+            TD.classList.remove('TabazatokDivOpen');
+            SIMG1.classList.remove('SharpEdgeBL');
         }
         if(TestTablazatokOpen == 1){
             TestTablazatokOpen = 0;
-            document.getElementById('TestTablazatokKiNyil').classList.remove('TriangleDown');
-            document.getElementById('TestTablaDivek').classList.remove('TabazatokTestDivOpen');
-            document.getElementById('SideBarIMG2').classList.remove('SharpEdgeBL');
-            document.getElementById('TestTablazatokKiNyil').classList.remove('SharpEdgeBR');
+            TK1.classList.remove('TriangleDown');
+            TK1.classList.remove('SharpEdgeBR');
+            TTD.classList.remove('TabazatokTestDivOpen');
+            SIMG2.classList.remove('SharpEdgeBL');
         }
         if(TablazatokOpen == 0 && TestTablazatokOpen == 0){
-            document.getElementById('SideBarDiv').style.overflowY = "hidden";
+            SBD.style.overflowY = "hidden";
         }
     }
 }
@@ -109,47 +120,47 @@ function Timer(){
 function TablazatokKiNyil(){
     if(TablazatokOpen == 0){
         TablazatokOpen = 1;
-        document.getElementById('SideBarDiv').style.overflowY = "auto";
-        document.getElementById('SideBarDiv').style.overflowX = "hidden";
-        document.getElementById('TablazatokKiNyil').classList.add('TriangleDown');
-        document.getElementById('TestKitoltes').classList.add('TestDown');
-        document.getElementById('TabazatokDiv').classList.add('TabazatokDivOpen');
-        document.getElementById('SideBarIMG1').classList.add('SharpEdgeBL');
-        document.getElementById('TablazatokKiNyil').classList.add('SharpEdgeBR');
+        SBD.style.overflowY = "auto";
+        SBD.style.overflowX = "hidden";
+        TK.classList.add('TriangleDown');
+        TKS.classList.add('TestDown');
+        TD.classList.add('TabazatokDivOpen');
+        SIMG1.classList.add('SharpEdgeBL');
+        TK.classList.add('SharpEdgeBR');
         setTimeout(Opacity1,200,'TabazatokDiv', "t");
     }else if(TablazatokOpen == 1){
         TablazatokOpen = 0;
-        document.getElementById('TablazatokKiNyil').classList.remove('TriangleDown');
-        document.getElementById('TestKitoltes').classList.remove('TestDown');
-        document.getElementById('TabazatokDiv').classList.remove('TabazatokDivOpen');
-        document.getElementById('SideBarIMG1').classList.remove('SharpEdgeBL');
-        document.getElementById('TablazatokKiNyil').classList.remove('SharpEdgeBR');
+        TK.classList.remove('TriangleDown');
+        TK.classList.remove('SharpEdgeBR');
+        TKS.classList.remove('TestDown');
+        TD.classList.remove('TabazatokDivOpen');
+        SIMG1.classList.remove('SharpEdgeBL');
         Opacity1('TabazatokDiv', "f");
     }
     if(TablazatokOpen == 0 && TestTablazatokOpen == 0){
-        document.getElementById('SideBarDiv').style.overflowY = "hidden";
+        SBD.style.overflowY = "hidden";
     }
 }
 function TestTablaDivek(){
     if(TestTablazatokOpen == 0){
         TestTablazatokOpen = 1;
-        document.getElementById('SideBarDiv').style.overflowY = "auto";
-        document.getElementById('SideBarDiv').style.overflowX = "hidden";
-        document.getElementById('TestTablazatokKiNyil').classList.add('TriangleDown');
-        document.getElementById('TestTablaDivek').classList.add('TabazatokTestDivOpen');
-        document.getElementById('SideBarIMG2').classList.add('SharpEdgeBL');
-        document.getElementById('TestTablazatokKiNyil').classList.add('SharpEdgeBR');
+        SBD.style.overflowY = "auto";
+        SBD.style.overflowX = "hidden";
+        TK1.classList.add('TriangleDown');
+        TK1.classList.add('SharpEdgeBR');
+        TTD.classList.add('TabazatokTestDivOpen');
+        SIMG2.classList.add('SharpEdgeBL');
         setTimeout(Opacity1,200,'TestTablaDivek', "t");
     }else if(TestTablazatokOpen == 1){
         TestTablazatokOpen = 0;
-        document.getElementById('TestTablazatokKiNyil').classList.remove('TriangleDown');
-        document.getElementById('TestTablaDivek').classList.remove('TabazatokTestDivOpen');
-        document.getElementById('SideBarIMG2').classList.remove('SharpEdgeBL');
-        document.getElementById('TestTablazatokKiNyil').classList.remove('SharpEdgeBR');
+        TK1.classList.remove('TriangleDown');
+        TK1.classList.remove('SharpEdgeBR');
+        TTD.classList.remove('TabazatokTestDivOpen');
+        SIMG2.classList.remove('SharpEdgeBL');
         Opacity1('TestTablaDivek', "f");
     }
     if(TablazatokOpen == 0 && TestTablazatokOpen == 0){
-        document.getElementById('SideBarDiv').style.overflowY = "hidden";
+        SBD.style.overflowY = "hidden";
     }
 }
 
