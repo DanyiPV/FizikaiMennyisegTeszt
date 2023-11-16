@@ -51,7 +51,6 @@ body{
     background-color: gray;
 }
 #SideBarDiv{
-    z-index: 11;
     position: fixed;
     background-color: rgb(90,90,90);
     color: white;
@@ -61,10 +60,15 @@ body{
     top: 0;
     right: -32vw;
     transition: .6s;
+    z-index: 11;
 }
 .SideBarDivOpen{
     right: 0 !important;
     transition: .6s;
+}
+.OsszOsztaly{
+    background-color: rgb(90,90,90);
+    z-index: 12;
 }
 #DarkBackground{
     position: absolute;
@@ -98,7 +102,7 @@ body{
     background-color: gray;
 }
 .BlackBackgroundActive{
-    z-index: 11;
+    z-index: 5;
     position: fixed;
     top: 0;
     left: 0;
@@ -133,7 +137,7 @@ body{
 .SideBarh2 h2{
     cursor: pointer;
     z-index: 11;
-    padding: 1vw;
+    padding: 1.5vw 1vw .5vw 1vw;
     height: 3.5vw;
     margin-top: 1.2vw;
     color: gray;
@@ -185,7 +189,7 @@ body{
     transform: rotate(180deg);
 }
 .TriangleDown > img{
-    transform: rotate(180deg);
+    transform: rotate(180deg) !important;
 }
 .SideBarh2 h2:hover, .SideBarIMG:hover + h2{
     color: white !important;
@@ -215,10 +219,10 @@ body{
     margin-left: .5vw;
     transition: .5s;
     padding: .5vw;
-    z-index: -1;
-    opacity: 0;
     cursor: default;
+    opacity: 0;
     background-color: rgba(0, 0, 0, 0.7) !important;
+    z-index: -1;
 }
 #TabazatokDiv h2, #TestTablaDivek h2{
     font-size: 1.5vw;
@@ -243,16 +247,14 @@ body{
 }
 .TabazatokDivOpen{
     transition: .5s;
-    opacity: 1 !important;
-    z-index: 11 !important;
     margin-top: -1.7vw !important;
+    z-index: 13 !important;
     cursor: pointer;
 }
 .TabazatokTestDivOpen{
     transition: .5s;
-    opacity: 1 !important;
-    z-index: 11 !important;
     margin-top: -1.7vw !important;
+    z-index: 13 !important;
     cursor: pointer;
 }
 #TestKitoltes{
@@ -436,6 +438,15 @@ body{
     }
     .SideBarTriangle img{
         margin-top: -1vw;
+    }
+    .SideBarTriangle:hover{
+        background-color: rgb(44, 44, 44);
+    }
+    .SideBarTriangle:hover > img{
+        transform: rotate(0deg);
+    }
+    .SideBarTriangle:hover > img{
+    transform: rotate(180deg);
     }
     #TabazatokDiv, #TestTablaDivek{
         margin-top: -5.7vw;
