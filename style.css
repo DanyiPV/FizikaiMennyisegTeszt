@@ -133,7 +133,8 @@ body{
 .SideBarh2 h2{
     cursor: pointer;
     z-index: 11;
-    padding: 1.55vw;
+    padding: 1vw;
+    height: 3.5vw;
     margin-top: 1.2vw;
     color: gray;
     background-color: rgb(44, 44, 44);
@@ -228,7 +229,7 @@ body{
     transition: .5s;
     position: static;
     cursor: pointer;
-    padding: .5vw;
+    padding: .55vw;
     padding-left: 1vw;
 }
 #TabazatokDiv h2:hover, #TestTablaDivek h2:hover{
@@ -409,6 +410,7 @@ body{
     }
     .SideBarh2 h2{
         margin-top: 1.2vw;
+        height: 6.1vw;
         padding: 2.9vw;
     }
     .SideBarIMG{
