@@ -116,6 +116,7 @@ function TablazatokKiNyil(){
         document.getElementById('TabazatokDiv').classList.add('TabazatokDivOpen');
         document.getElementById('SideBarIMG1').classList.add('SharpEdgeBL');
         document.getElementById('TablazatokKiNyil').classList.add('SharpEdgeBR');
+        setTimeout(Opacity1,200,'TabazatokDiv', "t");
     }else if(TablazatokOpen == 1){
         TablazatokOpen = 0;
         document.getElementById('TablazatokKiNyil').classList.remove('TriangleDown');
@@ -123,6 +124,7 @@ function TablazatokKiNyil(){
         document.getElementById('TabazatokDiv').classList.remove('TabazatokDivOpen');
         document.getElementById('SideBarIMG1').classList.remove('SharpEdgeBL');
         document.getElementById('TablazatokKiNyil').classList.remove('SharpEdgeBR');
+        Opacity1('TabazatokDiv', "f");
     }
     if(TablazatokOpen == 0 && TestTablazatokOpen == 0){
         document.getElementById('SideBarDiv').style.overflowY = "hidden";
@@ -137,15 +139,26 @@ function TestTablaDivek(){
         document.getElementById('TestTablaDivek').classList.add('TabazatokTestDivOpen');
         document.getElementById('SideBarIMG2').classList.add('SharpEdgeBL');
         document.getElementById('TestTablazatokKiNyil').classList.add('SharpEdgeBR');
+        setTimeout(Opacity1,200,'TestTablaDivek', "t");
     }else if(TestTablazatokOpen == 1){
         TestTablazatokOpen = 0;
         document.getElementById('TestTablazatokKiNyil').classList.remove('TriangleDown');
         document.getElementById('TestTablaDivek').classList.remove('TabazatokTestDivOpen');
         document.getElementById('SideBarIMG2').classList.remove('SharpEdgeBL');
         document.getElementById('TestTablazatokKiNyil').classList.remove('SharpEdgeBR');
+        Opacity1('TestTablaDivek', "f");
     }
     if(TablazatokOpen == 0 && TestTablazatokOpen == 0){
         document.getElementById('SideBarDiv').style.overflowY = "hidden";
     }
 }
+
+function Opacity1(id, t){
+    if(t == "t"){
+        document.getElementById(id).style.opacity = '1';
+    }else{
+        document.getElementById(id).style.opacity = '0';
+    }
+}
+
 Fooldal();
