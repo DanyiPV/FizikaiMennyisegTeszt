@@ -3,6 +3,7 @@ var SideBarOpen = 0;
 var TablazatokOpen = 0;
 var TestTablazatokOpen = 0;
 var Timer = setInterval(Timer,1000);
+var SelectedCategory = undefined;
 function Fooldal(){
     AlapDiv.innerHTML="";
     document.getElementById('FoOldal').classList.add('h2Active');
@@ -148,4 +149,5 @@ function TestTablaDivek(){
         document.getElementById('SideBarDiv').style.overflowY = "hidden";
     }
 }
+
 Fooldal();
