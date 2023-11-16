@@ -26,30 +26,17 @@ function Fooldal(){
     TudnivalokDiv.appendChild(TudnivalokDBDiv);
     AlapDiv.appendChild(TudnivalokDiv);
 
-    let HaladoMozgas = document.createElement('div');
-    HaladoMozgas.classList.add('AlapKeretDiv');
-    HaladoMozgas.innerHTML="<p>Haladómozgással kapcsolatos</p>";
-    let AlaTablaDiv = document.createElement('div');
-    AlaTablaDiv.classList.add('AlaTablaKeret');
-    let NevDiv = document.createElement('div');
-    NevDiv.classList.add('NevDiv');
-    NevDiv.innerHTML ="<p>Neve</p>";
-    let JeleDiv = document.createElement('div');
-    JeleDiv.classList.add('JeleDiv');
-    JeleDiv.innerHTML ="<p>Jele</p>";
-    let DefDiv = document.createElement('div');
-    DefDiv.classList.add('DefDiv');
-    DefDiv.innerHTML ="<p>Definíciója</p>";
-    let MertekDiv = document.createElement('div');
-    MertekDiv.innerHTML ="<p>Mértékegysége</p>";
-    MertekDiv.classList.add('MertekDiv');
-    AlaTablaDiv.appendChild(NevDiv);
-    AlaTablaDiv.appendChild(JeleDiv);
-    AlaTablaDiv.appendChild(DefDiv);
-    AlaTablaDiv.appendChild(MertekDiv);
-    HaladoMozgas.appendChild(AlaTablaDiv);
-    AlapDiv.appendChild(HaladoMozgas);
+    AlapKiGen(AlapDiv,"Haladómozgással kapcsolatos",1);
+    SorKiGen(document.getElementById('AlapKeretDiv1'),4);
 
+    AlapKiGen(AlapDiv,"Rezgések és hullámok",2);
+    SorKiGen(document.getElementById('AlapKeretDiv2'),4);
+    
+    AlapKiGen(AlapDiv,"Hőtan",3);
+    SorKiGen(document.getElementById('AlapKeretDiv3'),4);
+
+    AlapKiGen(AlapDiv,"Elektromossággal kapcsolatos",4);
+    SorKiGen(document.getElementById('AlapKeretDiv4'),4);
 
     CloseSideBar();
 }
@@ -75,7 +62,6 @@ function ProbaTest(){
     AlapDiv.appendChild(FoTittle);
     CloseSideBar();
 }
-
 function SideBar(){
     if(SideBarOpen == 0){
         SideBarOpen=1;
@@ -97,6 +83,7 @@ function CloseSideBar(){
             TKS.classList.remove('TestDown');
             TD.classList.remove('TabazatokDivOpen');
             SIMG1.classList.remove('SharpEdgeBL');
+            Opacity1('TabazatokDiv', "f");
         }
         if(TestTablazatokOpen == 1){
             TestTablazatokOpen = 0;
@@ -104,6 +91,7 @@ function CloseSideBar(){
             TK1.classList.remove('SharpEdgeBR');
             TTD.classList.remove('TabazatokTestDivOpen');
             SIMG2.classList.remove('SharpEdgeBL');
+            Opacity1('TestTablaDivek', "f");
         }
         if(TablazatokOpen == 0 && TestTablazatokOpen == 0){
             SBD.style.overflowY = "hidden";
@@ -128,15 +116,15 @@ function TablazatokKiNyil(){
         TD.classList.add('TabazatokDivOpen');
         SIMG1.classList.add('SharpEdgeBL');
         TK.classList.add('SharpEdgeBR');
-        setTimeout(Opacity1,200,'TabazatokDiv', "t");
+        setTimeout(Opacity1,300,'TabazatokDiv', "t");
     }else if(TablazatokOpen == 1){
         TablazatokOpen = 0;
         TK.classList.remove('TriangleDown');
         TK.classList.remove('SharpEdgeBR');
-        TKS.classList.remove('TestDown');
         TD.classList.remove('TabazatokDivOpen');
         SIMG1.classList.remove('SharpEdgeBL');
         Opacity1('TabazatokDiv', "f");
+        setTimeout(Delay,300);
     }
     if(TablazatokOpen == 0 && TestTablazatokOpen == 0){
         SBD.style.overflowY = "hidden";
@@ -156,20 +144,79 @@ function TestTablaDivek(){
         TestTablazatokOpen = 0;
         TK1.classList.remove('TriangleDown');
         TK1.classList.remove('SharpEdgeBR');
-        TTD.classList.remove('TabazatokTestDivOpen');
         SIMG2.classList.remove('SharpEdgeBL');
         Opacity1('TestTablaDivek', "f");
+        TTD.classList.remove('TabazatokTestDivOpen');
     }
     if(TablazatokOpen == 0 && TestTablazatokOpen == 0){
         SBD.style.overflowY = "hidden";
     }
 }
-
 function Opacity1(id, t){
     if(t == "t"){
         document.getElementById(id).style.opacity = '1';
     }else{
         document.getElementById(id).style.opacity = '0';
+    }
+}
+function Delay(){
+    TKS.classList.remove('TestDown');
+}
+
+function AlapKiGen(Hova,neve,n){
+    let div = document.createElement('div');
+    div.classList.add('AlapKeretDiv');
+    div.id="AlapKeretDiv"+n;
+    div.innerHTML="<p>"+neve+"</p>";
+    let AlapTablaDiv = document.createElement('div');
+    AlapTablaDiv.classList.add('AlapTablaKeret');
+    let NevDiv = document.createElement('div');
+    NevDiv.classList.add('NevDiv');
+    NevDiv.innerHTML ="<p>Neve</p>";
+    let JeleDiv = document.createElement('div');
+    JeleDiv.classList.add('JeleDiv');
+    JeleDiv.innerHTML ="<p>Jele</p>";
+    let DefDiv = document.createElement('div');
+    DefDiv.classList.add('DefDiv');
+    DefDiv.innerHTML ="<p>Definíciója</p>";
+    let MertekDiv = document.createElement('div');
+    MertekDiv.innerHTML ="<p>Mértékegysége</p>";
+    MertekDiv.classList.add('MertekDiv');
+    AlapTablaDiv.appendChild(NevDiv);
+    AlapTablaDiv.appendChild(JeleDiv);
+    AlapTablaDiv.appendChild(DefDiv);
+    AlapTablaDiv.appendChild(MertekDiv);
+    div.appendChild(AlapTablaDiv);
+    Hova.appendChild(div);
+}
+function SorKiGen(Hova, n){
+    for (let i = 0; i < n; i++) {
+        let AlaTablaDiv = document.createElement('div');
+        AlaTablaDiv.classList.add('TablaSorok');
+        let NevDiv = document.createElement('div');
+        NevDiv.classList.add('NevDiv');
+        NevDiv.innerHTML ="<p>Neve</p>";
+        NevDiv.id = "Neve"+i;
+        let JeleDiv = document.createElement('div');
+        JeleDiv.classList.add('JeleDiv');
+        JeleDiv.innerHTML ="<p>Jele</p>";
+        JeleDiv.id = "Jele"+i;
+        let DefDiv = document.createElement('div');
+        DefDiv.classList.add('DefDiv');
+        DefDiv.innerHTML ="<p>Definíciója</p>";
+        DefDiv.id = "Def"+i;
+        let MertekDiv = document.createElement('div');
+        MertekDiv.innerHTML ="<p>Mértékegysége</p>";
+        MertekDiv.classList.add('MertekDiv');
+        MertekDiv.id = "Mertek"+i;
+        AlaTablaDiv.appendChild(NevDiv);
+        AlaTablaDiv.appendChild(JeleDiv);
+        AlaTablaDiv.appendChild(DefDiv);
+        AlaTablaDiv.appendChild(MertekDiv);
+        Hova.appendChild(AlaTablaDiv);
+        if(i == n-1){
+            AlaTablaDiv.classList.add("Lekerekit");
+        }
     }
 }
 
