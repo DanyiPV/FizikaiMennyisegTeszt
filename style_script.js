@@ -4,6 +4,8 @@ var TablazatokOpen = 0;
 var TestTablazatokOpen = 0;
 var Timer = setInterval(Timer,1000);
 var SelectedCategory = undefined;
+var Kategoriak = ["Haladómozgással kapcsolatos","Körmozgás/Forgómozgás kapcsolatos","Dinamika (erőtan)","Munka/Energiával kapcsolatos","Folyadékkal kapcsolatos","Rezgés/Hullámokkal kapcsolatos"];
+var KategoriakNum = [7,5,13,11,4,4];
 function Fooldal(){
     AlapDiv.innerHTML="";
     document.getElementById('FoOldal').classList.add('h2Active');
@@ -26,17 +28,10 @@ function Fooldal(){
     TudnivalokDiv.appendChild(TudnivalokDBDiv);
     AlapDiv.appendChild(TudnivalokDiv);
 
-    AlapKiGen(AlapDiv,"Haladómozgással kapcsolatos",1);
-    SorKiGen(document.getElementById('AlapKeretDiv1'),4);
-
-    AlapKiGen(AlapDiv,"Rezgések és hullámok",2);
-    SorKiGen(document.getElementById('AlapKeretDiv2'),4);
-    
-    AlapKiGen(AlapDiv,"Hőtan",3);
-    SorKiGen(document.getElementById('AlapKeretDiv3'),4);
-
-    AlapKiGen(AlapDiv,"Elektromossággal kapcsolatos",4);
-    SorKiGen(document.getElementById('AlapKeretDiv4'),4);
+    for (let i = 0; i < Kategoriak.length; i++) {
+        AlapKiGen(AlapDiv,Kategoriak[i],i);
+        SorKiGen(document.getElementById('AlapKeretDiv'+i),KategoriakNum[i]);
+    }
 
     CloseSideBar();
 }
@@ -221,3 +216,4 @@ function SorKiGen(Hova, n){
 }
 
 Fooldal();
+//AlapDiv.innerHTML += "<p style='color:white;'>`(radián)/sec^2`</p>";

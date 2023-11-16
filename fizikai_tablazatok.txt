@@ -1,0 +1,12 @@
+helyvektor;`vec x` (r vektor);irányított szakasz;méter (m);Haladómozgással
+elmozdulás;`Deltavec x` (delta er);`vec x`<sub>1</sub>-`vec x`<sub>2</sub>;méter (m);Haladómozgással
+idő;t;alapmennyiség;secundum (sec);Haladómozgássals
+eltelt idő;`Delta`t (delta té);t<sub>2</sub>-t<sub>1</sub>;secundum (sec);Haladómozgással
+sebesség;`vec v`;`(Deltavec r)/(Deltat)`;`(méter)/(sec)`;Haladómozgással
+sebességváltozás;`Deltavec v` (v vektor);`vec v`<sub>2</sub>-`vec v`<sub>1</sub>;`(méter)/(sec)`;Haladómozgással
+gyorsulás;a (a vektor);`(Deltavec v)/(Deltat)`;`m/s^2`;Haladómozgással
+forgásszög;`varphi` (fi);a síkszög ívmértéke;radián (rad);Körmozgás/Forgómozgás
+szögelfordulás;`Deltavarphi`;`varphi`<sub>2</sub>-`varphi`<sub>1</sub>; radián (rad);Körmozgás/Forgómozgás
+szögsebesség;`omega` (ómega);`(Deltavarphi)/(Deltat)`;`(radián)/sec`;Körmozgás/Forgómozgás
+a szögsebesség megváltozása;`Deltaomega`;`omega`<sub>2</sub>-`omega`<sub>1</sub>;`(radián)/sec`;Körmozgás/Forgómozgás
+szöggyorsulás;`beta` (béta);`(Deltavarphi)/(Deltat)`;`(radián)/sec^2`;Körmozgás/Forgómozgás
