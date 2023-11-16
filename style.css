@@ -294,6 +294,7 @@ body{
     width: 95%;
     margin: auto;
     margin-top: 1.5vw;
+    margin-bottom: 2vw;
     height: auto;
     border-radius: 2vw;
     background-color: rgb(40, 40, 44);
@@ -512,6 +513,9 @@ body{
         font-size: 4vw;
         text-align: center;
         width:100%;
+    }
+    .AlapKeretDiv{
+        margin-bottom: 4vw;
     }
     .TudnivalokDBDiv{
         margin-top: 8vw;
