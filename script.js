@@ -51,3 +51,23 @@ function foOldalTablaFeltolt(){
 }
 main();
 console.log(adatok);
+
+//Teszt oldal functionjai
+function katValaszt(elem){
+    if(elem.innerText == "Egyéni")
+    {
+    }
+    else{
+
+    }
+}
+function menuGen(){
+    let div = document.createElement("div");
+    div.className="csereld";
+    let AlapDiv = document.getElementById("AlapDiv");
+    
+}
+function tesztAdatGen(){
+    
+}
+//Teszt oldal functionjai

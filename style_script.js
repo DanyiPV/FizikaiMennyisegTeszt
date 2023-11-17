@@ -58,7 +58,9 @@ function ProbaTest(){
     FoTittle.innerHTML="<h2>Ez lesz a test oldal</h2>";
     AlapDiv.appendChild(FoTittle);
     CloseSideBar();
+    menuGen();
 }
+
 function SideBar(){
     if(SideBarOpen == 0){
         SideBarOpen=1;
