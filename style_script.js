@@ -9,7 +9,7 @@ var SideBarOpen = 0;
 var TablazatokOpen = 0;
 var TestTablazatokOpen = 0;
 var Timer = setInterval(Timer,1000);
-var SelectedCategory = "Tudnivalo";
+var SelectedCategory = undefined;
 var KategoriakMatrix = [["Haladómozgással kapcsolatos","Körmozgás/Forgómozgás kapcsolatos","Dinamika (erőtan)","Munka/Energiával kapcsolatos","Folyadékkal kapcsolatos","Rezgés/Hullámokkal kapcsolatos"],
 ["Második"],
 ["Harmadik"],
@@ -26,7 +26,7 @@ function Fooldal(){
     AlapDiv.appendChild(FoTittle);
     Silder(AlapDiv,FooldalSlider);
     AlapDiv.appendChild(MasodikAlapDiv);
-    CategoryLoad();
+    CategoryLoad("Fooldal");
 }
 
 var BG = document.getElementById('BlackBackground');
@@ -255,9 +255,9 @@ function Tudnivalok(){
 
 function CategoryLoad(category){
     if(category != SelectedCategory){
-        if(category != "" && category != undefined){
+        MasodikAlapDiv.innerHTML = "";
+        if(category != "" && category != undefined && category != "Fooldal"){
             SelectedCategory = category;
-            MasodikAlapDiv.innerHTML = "";
         }
         if(SelectedCategory == "Tudnivalo" || SelectedCategory == undefined){
             SelectedCategory = "Tudnivalo";
