@@ -271,4 +271,3 @@ function CategoryLoad(category){
 }
 
 Fooldal();
-AlapDiv.innerHTML += "<p style='color:white;'>`((X-X)^2+R^2)^½` (X<sub>L</sub>-X<sub>C</sub>)</p>";
