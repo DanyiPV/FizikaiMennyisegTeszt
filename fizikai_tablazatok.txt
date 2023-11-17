@@ -10,3 +10,26 @@ szögelfordulás;`Deltavarphi`;`varphi`<sub>2</sub>-`varphi`<sub>1</sub>; radiá
 szögsebesség;`omega` (ómega);`(Deltavarphi)/(Deltat)`;`(radián)/sec`;Körmozgás/Forgómozgás
 a szögsebesség megváltozása;`Deltaomega`;`omega`<sub>2</sub>-`omega`<sub>1</sub>;`(radián)/sec`;Körmozgás/Forgómozgás
 szöggyorsulás;`beta` (béta);`(Deltavarphi)/(Deltat)`;`(radián)/sec^2`;Körmozgás/Forgómozgás
+tömeg;m;alapmennyiség;kg;Dinamika
+impulzus (lendület); I, (p);m`*`v;kg`*m/s`;Dinamika
+lendületváltozás;`Delta`I;I<sub>2</sub>-I<sub>1</sub>;kg`*m/s`;Dinamika
+erő;F;`(DeltaI)/(Deltat)`;kg`*m/s^2`=Newton;Dinamika
+nehézségi gyorsulás;g;m`*`g;Newton (N);Dinamika;
+súrlódási/csúszási/tapadási együttható;`mu` (mű);értéke táblázatban adott;nincs;Dinamika
+súrlódási erő;F<sub>s</sub>;`mu*`F<sub>nyomó</sub>;Newton;Dinamika
+erőkar;k;A forgástengely távolsága az erő hatásvonalától;méter;Dinamika
+perdület;N;`Theta*omega`;`kg^2*m/s`;Dinamika
+perdület változás;`Delta`N;N<sub>2</sub>-N<sub>1</sub>;`kg^2*m/s`;Dinamika
+forgatónyomaték;M;`(DeltaN)/(Deltat)` - (`F*k`);Newton`*`méter (Nm);Dinamika
+tehetetlenségi nyomaték;`Theta`;képlete táblázatban;kg`*^2`,Dinamika
+az út;s;a pálya egy szakaszának az ívhossza;méter (m);Munka/Energiával
+az erő munkája;W;F`*`s - (`F*Deltar`);N`*`m=Joule(J);Munka/Energiával
+haladási energia;E<sub>h</sub>;`1/2*m*v^2`;N`*`m=Joule(J);Munka/Energiával
+forgási energia;E<sub>forg</sub>;`1/2*Theta*omega^2`;N`*`m=Joule(J);Munka/Energiával
+hosszúság;l;alapmennyiség;méter;Munka/Energiával
+hosszváltozás (megnyúlás);`Deltal` (delta el);l<sub>2</sub>-l<sub>1</sub>;méter;Munka/Energiával
+rugóenergia;E<sub>rugó</sub>;`1/2*D*(Deltal)^2`;N`*`m=Joule(J);Munka/Energiával
+magasság;h;a nullszinttől mért függőleges távolság;méter (m);Munka/Energiával
+helyzeti energia(gravitációs potenciális energia);E<sub>p</sub>mg`*`h;N`*`m=Joule(J);Munka/Energiával
+teljesítmény;P (nagy pé);W`/(Deltat)`;`J/sec`=Watt (W);Munka/Energiával
+hatásfok;`eta`;W(<sub>hasznos</sub>)`/`W(<sub>befektetett</sub>);nincs;Munka/Energiával

@@ -17,19 +17,7 @@ function Fooldal(){
     AlapDiv.appendChild(FoTittle);
      
     Silder(AlapDiv,["Tudnivalók","Haladómozgással kapcsolatos","Rezgések és hullámok","Hőtan","Elektromossággal kapcsolatos"]);
-
-    let TudnivalokDiv = document.createElement('div');
-    TudnivalokDiv.classList.add('AlapKeretDiv');
-    TudnivalokDiv.innerHTML="<p>Tudnivalók</p>";
-    let TudnivalokDBDiv = document.createElement('div');
-    TudnivalokDBDiv.classList.add('TudnivalokDBDiv');
-    TudnivalokDBDiv.innerHTML +="<h2>1 - Tudni való</h2>";
-    TudnivalokDBDiv.innerHTML +="<h2>2 - Tudni való</h2>";
-    TudnivalokDBDiv.innerHTML +="<h2>3 - Tudni való</h2>";
-    TudnivalokDBDiv.innerHTML +="<h2>4 - Tudni való</h2>";
-    TudnivalokDiv.appendChild(TudnivalokDBDiv);
-    AlapDiv.appendChild(TudnivalokDiv);
-
+    Tudnivalok();
     for (let i = 0; i < Kategoriak.length; i++) {
         AlapKiGen(AlapDiv,Kategoriak[i],i);
         SorKiGen(document.getElementById('AlapKeretDiv'+i),KategoriakNum[i]);
@@ -240,5 +228,19 @@ function SliderPick(id){
     document.getElementById("SliderDiv"+id).classList.add("ActiveSlider");
 }
 
+function Tudnivalok(){
+    let TudnivalokDiv = document.createElement('div');
+    TudnivalokDiv.classList.add('AlapKeretDiv');
+    TudnivalokDiv.innerHTML="<p>Tudnivalók</p>";
+    let TudnivalokDBDiv = document.createElement('div');
+    TudnivalokDBDiv.classList.add('TudnivalokDBDiv');
+    TudnivalokDBDiv.innerHTML +="<h2>1 - Tudni való</h2>";
+    TudnivalokDBDiv.innerHTML +="<h2>2 - Tudni való</h2>";
+    TudnivalokDBDiv.innerHTML +="<h2>3 - Tudni való</h2>";
+    TudnivalokDBDiv.innerHTML +="<h2>4 - Tudni való</h2>";
+    TudnivalokDiv.appendChild(TudnivalokDBDiv);
+    AlapDiv.appendChild(TudnivalokDiv);
+}
+
 Fooldal();
-//AlapDiv.innerHTML += "<p style='color:white;'>`(radián)/sec^2`</p>";
+//AlapDiv.innerHTML += "<p style='color:white;'>W(<sub>hasznos</sub>)`/`W(<sub>befektetett</sub>)</p>";
