@@ -294,7 +294,7 @@ body{
     margin: .5vw auto;
 }
 .SliderDiv p{   
-    font-size: 1.4vw !important;
+    font-size: 1.4vw;
     margin: 1vw .5vw;
 }
 .SliderDiv:hover{
@@ -538,16 +538,24 @@ body{
     .AlapDiv{
         margin: 14.5vw auto 0 auto;
     }
+    #MasodikAlapDiv{
+        margin-top: 2.5vw !important;
+    }
     .Slider{
         border-radius: 2vw;
+        margin-bottom: -12vw;
         width: 95%;
-        font-size: 2vw;
+        position: absolute;
+        margin-top: -150vw;
+        opacity: 0;
     }
     .SliderDiv{
-        margin: 1vw;
+        margin: 1vw auto;
     }
     .SliderDiv p{
-        margin: 2vw;
+        padding: 0;
+        text-align: center;
+        font-size: 3vw !important;
     }
     .SliderDiv:hover{
         background-color: grey;

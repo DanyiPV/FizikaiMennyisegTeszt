@@ -1,11 +1,20 @@
 var AlapDiv = document.getElementsByClassName('AlapDiv')[0];
+var MasodikAlapDiv = document.createElement('div');
+MasodikAlapDiv.classList.add('AlapDiv');
+MasodikAlapDiv.id ="MasodikAlapDiv";
+
+var FooldalSlider = ["Tudnivalók","Haladómozgással kapcsolatos","Rezgések és hullámok","Hőtan","Elektromossággal kapcsolatos"];
+let KategoriaSelector = ['Tudnivalo','Haladómozgással','Rezgések','Hőtan','Elektromossággal'];
 var SideBarOpen = 0;
 var TablazatokOpen = 0;
 var TestTablazatokOpen = 0;
 var Timer = setInterval(Timer,1000);
-var SelectedCategory = undefined;
-var Kategoriak = ["Haladómozgással kapcsolatos","Körmozgás/Forgómozgás kapcsolatos","Dinamika (erőtan)","Munka/Energiával kapcsolatos","Folyadékkal kapcsolatos","Rezgés/Hullámokkal kapcsolatos"];
-var KategoriakNum = [7,5,13,11,4,4];
+var SelectedCategory = "Tudnivalo";
+var KategoriakMatrix = [["Haladómozgással kapcsolatos","Körmozgás/Forgómozgás kapcsolatos","Dinamika (erőtan)","Munka/Energiával kapcsolatos","Folyadékkal kapcsolatos","Rezgés/Hullámokkal kapcsolatos"],
+["Második"],
+["Harmadik"],
+["Negyedik"]];
+var KategoriakNum = [[7,5,13,11,4,4],[],[],[]];
 function Fooldal(){
     AlapDiv.innerHTML="";
     document.getElementById('FoOldal').classList.add('h2Active');
@@ -15,15 +24,9 @@ function Fooldal(){
     FoTittle.id ="FoTittle";
     FoTittle.innerHTML="<h2>Próbáld ki, mit érsz a fizika ellen!</h2>";
     AlapDiv.appendChild(FoTittle);
-     
-    Silder(AlapDiv,["Tudnivalók","Haladómozgással kapcsolatos","Rezgések és hullámok","Hőtan","Elektromossággal kapcsolatos"]);
-    Tudnivalok();
-    for (let i = 0; i < Kategoriak.length; i++) {
-        AlapKiGen(AlapDiv,Kategoriak[i],i);
-        SorKiGen(document.getElementById('AlapKeretDiv'+i),KategoriakNum[i]);
-    }
-
-    CloseSideBar();
+    Silder(AlapDiv,FooldalSlider);
+    AlapDiv.appendChild(MasodikAlapDiv);
+    CategoryLoad();
 }
 
 var BG = document.getElementById('BlackBackground');
@@ -227,7 +230,13 @@ function SliderPick(id){
     if(a.length >0){
         a[0].classList.remove('ActiveSlider');
     }
+    if(id == -1){
+        id = KategoriaSelector.indexOf(SelectedCategory);
+    }
     document.getElementById("SliderDiv"+id).classList.add("ActiveSlider");
+    if(KategoriaSelector[id] != SelectedCategory && SelectedCategory != undefined){
+        CategoryLoad(KategoriaSelector[id]);
+    }
 }
 
 function Tudnivalok(){
@@ -236,12 +245,34 @@ function Tudnivalok(){
     TudnivalokDiv.innerHTML="<p>Tudnivalók</p>";
     let TudnivalokDBDiv = document.createElement('div');
     TudnivalokDBDiv.classList.add('TudnivalokDBDiv');
-    TudnivalokDBDiv.innerHTML +="<h2>1 - Tudni való</h2>";
-    TudnivalokDBDiv.innerHTML +="<h2>2 - Tudni való</h2>";
-    TudnivalokDBDiv.innerHTML +="<h2>3 - Tudni való</h2>";
-    TudnivalokDBDiv.innerHTML +="<h2>4 - Tudni való</h2>";
+    let TudniValo = ["Tudni való","Tudni való","Tudni való","Tudni való"];
+    for (let i = 0; i < TudniValo.length; i++) {
+        TudnivalokDBDiv.innerHTML +="<h2>"+(i+1)+" - "+TudniValo[i]+"</h2>";
+    }
     TudnivalokDiv.appendChild(TudnivalokDBDiv);
-    AlapDiv.appendChild(TudnivalokDiv);
+    MasodikAlapDiv.appendChild(TudnivalokDiv);
+}
+
+function CategoryLoad(category){
+    if(category != SelectedCategory){
+        if(category != "" && category != undefined){
+            SelectedCategory = category;
+            MasodikAlapDiv.innerHTML = "";
+        }
+        if(SelectedCategory == "Tudnivalo" || SelectedCategory == undefined){
+            SelectedCategory = "Tudnivalo";
+            SliderPick(0);
+            Tudnivalok();
+        }else{
+            SliderPick(KategoriaSelector.indexOf(SelectedCategory));
+            for (let i = 0; i < KategoriakMatrix[KategoriaSelector.indexOf(SelectedCategory)-1].length; i++) {
+                AlapKiGen(MasodikAlapDiv,KategoriakMatrix[KategoriaSelector.indexOf(SelectedCategory)-1][i],i);
+                SorKiGen(document.getElementById('AlapKeretDiv'+i),KategoriakNum[KategoriaSelector.indexOf(SelectedCategory)-1][i]);
+            }
+            foOldalTablaFeltolt(KategoriaSelector.indexOf(SelectedCategory)-1);
+        }
+    }
+    CloseSideBar();
 }
 
 Fooldal();

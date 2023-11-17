@@ -29,17 +29,13 @@ let adatok=[
         }
     ];
 //Ha van kategória változás, itt is és a style_script.js-ben is megkell változtatni
-var Kategoriak = ["Haladómozgással kapcsolatos","Körmozgás/Forgómozgás kapcsolatos","Dinamika (erőtan)","Munka/Energiával kapcsolatos","Folyadékkal kapcsolatos","Rezgés/Hullámokkal kapcsolatos"];
-function main(){
-    foOldalTablaFeltolt();
-}
-let tablaMenny = document.getElementsByClassName("AlapKeretDiv").length-1;
-function foOldalTablaFeltolt(){
+function foOldalTablaFeltolt(number){
+    let tablaMenny = document.getElementsByClassName("AlapKeretDiv").length-1;
     for(let i = 0; i<tablaMenny;i++)
     {
         let tabla = document.getElementById("AlapKeretDiv"+i);
         let sorok = tabla.getElementsByClassName("TablaSorok");
-        let katAdatok = adatok.filter((c)=>c.kat == Kategoriak[i]);
+        let katAdatok = adatok.filter((c)=>c.kat == KategoriakMatrix[number][i]);
         for(let j = 0; j<katAdatok.length;j++)
         {
             sorok[j].getElementsByClassName("NevDiv")[0].innerText = katAdatok[j].nev;
@@ -49,7 +45,6 @@ function foOldalTablaFeltolt(){
         }
     }
 }
-main();
 console.log(adatok);
 
 //Teszt oldal functionjai
@@ -64,7 +59,7 @@ function katValaszt(elem){
 function menuGen(){
     let div = document.createElement("div");
     div.className="csereld";
-    let AlapDiv = document.getElementById("AlapDiv");
+    let AlapDiv = document.getElementsByClassName("AlapDiv")[0];
     
 }
 function tesztAdatGen(){
