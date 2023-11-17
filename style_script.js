@@ -188,6 +188,7 @@ function SorKiGen(Hova, n){
     for (let i = 0; i < n; i++) {
         let AlaTablaDiv = document.createElement('div');
         AlaTablaDiv.classList.add('TablaSorok');
+        AlaTablaDiv.id = "TablaSorok"+i;
         let NevDiv = document.createElement('div');
         NevDiv.classList.add('NevDiv');
         NevDiv.innerHTML ="";
