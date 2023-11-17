@@ -271,10 +271,39 @@ body{
     border-bottom-right-radius: 0;
 }
 
+
 .AlapDiv{
     margin: 4.5vw auto 0 auto;
     width: auto;
     transition:  all .4s;
+}
+.Slider{
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    color: gray;
+    background-color: rgb(40, 40, 44);
+    border-radius: 2vw;
+    width:95.5%;
+}
+.SliderDiv{
+    border-radius: 1vw;
+    transition: .4s;
+    cursor: pointer;
+    text-align: center;
+    margin: .5vw auto;
+}
+.SliderDiv p{   
+    font-size: 1.4vw !important;
+    margin: 1vw .5vw;
+}
+.SliderDiv:hover{
+    background-color: grey;
+    color: white;
+}
+.ActiveSlider{
+    background-color: grey;
+    color: white;
 }
 #FoTittle{
     margin: auto;
@@ -508,6 +537,25 @@ body{
 
     .AlapDiv{
         margin: 14.5vw auto 0 auto;
+    }
+    .Slider{
+        border-radius: 2vw;
+        width: 95%;
+        font-size: 2vw;
+    }
+    .SliderDiv{
+        margin: 1vw;
+    }
+    .SliderDiv p{
+        margin: 2vw;
+    }
+    .SliderDiv:hover{
+        background-color: grey;
+        color: white;
+    }
+    .ActiveSlider{
+        background-color: grey;
+        color: white;
     }
     #FoTittle h2{
         font-size: 4vw;

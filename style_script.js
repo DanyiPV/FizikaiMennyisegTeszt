@@ -15,6 +15,8 @@ function Fooldal(){
     FoTittle.id ="FoTittle";
     FoTittle.innerHTML="<h2>Próbáld ki, mit érsz a fizika ellen!</h2>";
     AlapDiv.appendChild(FoTittle);
+     
+    Silder(AlapDiv,["Tudnivalók","Haladómozgással kapcsolatos","Rezgések és hullámok","Hőtan","Elektromossággal kapcsolatos"]);
 
     let TudnivalokDiv = document.createElement('div');
     TudnivalokDiv.classList.add('AlapKeretDiv');
@@ -214,6 +216,28 @@ function SorKiGen(Hova, n){
             AlaTablaDiv.classList.add("Lekerekit");
         }
     }
+}
+
+function Silder(Hova,array){
+    let div = document.createElement('div');
+    div.classList.add("Slider");
+    for (let i = 0; i < array.length; i++) {
+        let e = document.createElement('div');
+        e.classList.add("SliderDiv");
+        e.id = "SliderDiv"+i;
+        e.setAttribute('onclick','SliderPick('+i+')');
+        e.innerHTML = "<p>"+array[i]+"</p>";
+        div.appendChild(e);
+    }
+    Hova.appendChild(div);
+}
+
+function SliderPick(id){
+    let a = document.getElementsByClassName('ActiveSlider');
+    if(a.length >0){
+        a[0].classList.remove('ActiveSlider');
+    }
+    document.getElementById("SliderDiv"+id).classList.add("ActiveSlider");
 }
 
 Fooldal();
