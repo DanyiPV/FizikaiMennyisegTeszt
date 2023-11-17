@@ -1,35 +1,112 @@
-helyvektor;`vec x` (r vektor);irányított szakasz;méter (m);Haladómozgással
-elmozdulás;`Deltavec x` (delta er);`vec x`<sub>1</sub>-`vec x`<sub>2</sub>;méter (m);Haladómozgással
-idő;t;alapmennyiség;secundum (sec);Haladómozgássals
-eltelt idő;`Delta`t (delta té);t<sub>2</sub>-t<sub>1</sub>;secundum (sec);Haladómozgással
-sebesség;`vec v`;`(Deltavec r)/(Deltat)`;`(méter)/(sec)`;Haladómozgással
-sebességváltozás;`Deltavec v` (v vektor);`vec v`<sub>2</sub>-`vec v`<sub>1</sub>;`(méter)/(sec)`;Haladómozgással
-gyorsulás;a (a vektor);`(Deltavec v)/(Deltat)`;`m/s^2`;Haladómozgással
-forgásszög;`varphi` (fi);a síkszög ívmértéke;radián (rad);Körmozgás/Forgómozgás
-szögelfordulás;`Deltavarphi`;`varphi`<sub>2</sub>-`varphi`<sub>1</sub>; radián (rad);Körmozgás/Forgómozgás
-szögsebesség;`omega` (ómega);`(Deltavarphi)/(Deltat)`;`(radián)/sec`;Körmozgás/Forgómozgás
-a szögsebesség megváltozása;`Deltaomega`;`omega`<sub>2</sub>-`omega`<sub>1</sub>;`(radián)/sec`;Körmozgás/Forgómozgás
-szöggyorsulás;`beta` (béta);`(Deltavarphi)/(Deltat)`;`(radián)/sec^2`;Körmozgás/Forgómozgás
-tömeg;m;alapmennyiség;kg;Dinamika
-impulzus (lendület); I, (p);m`*`v;kg`*m/s`;Dinamika
-lendületváltozás;`Delta`I;I<sub>2</sub>-I<sub>1</sub>;kg`*m/s`;Dinamika
-erő;F;`(DeltaI)/(Deltat)`;kg`*m/s^2`=Newton;Dinamika
-nehézségi gyorsulás;g;m`*`g;Newton (N);Dinamika;
-súrlódási/csúszási/tapadási együttható;`mu` (mű);értéke táblázatban adott;nincs;Dinamika
-súrlódási erő;F<sub>s</sub>;`mu*`F<sub>nyomó</sub>;Newton;Dinamika
-erőkar;k;A forgástengely távolsága az erő hatásvonalától;méter;Dinamika
-perdület;N;`Theta*omega`;`kg^2*m/s`;Dinamika
-perdület változás;`Delta`N;N<sub>2</sub>-N<sub>1</sub>;`kg^2*m/s`;Dinamika
-forgatónyomaték;M;`(DeltaN)/(Deltat)` - (`F*k`);Newton`*`méter (Nm);Dinamika
-tehetetlenségi nyomaték;`Theta`;képlete táblázatban;kg`*^2`;Dinamika
-az út;s;a pálya egy szakaszának az ívhossza;méter (m);Munka/Energiával
-az erő munkája;W;F`*`s - (`F*Deltar`);N`*`m=Joule(J);Munka/Energiával
-haladási energia;E<sub>h</sub>;`1/2*m*v^2`;N`*`m=Joule(J);Munka/Energiával
-forgási energia;E<sub>forg</sub>;`1/2*Theta*omega^2`;N`*`m=Joule(J);Munka/Energiával
-hosszúság;l;alapmennyiség;méter;Munka/Energiával
-hosszváltozás (megnyúlás);`Deltal` (delta el);l<sub>2</sub>-l<sub>1</sub>;méter;Munka/Energiával
-rugóenergia;E<sub>rugó</sub>;`1/2*D*(Deltal)^2`;N`*`m=Joule(J);Munka/Energiával
-magasság;h;a nullszinttől mért függőleges távolság;méter (m);Munka/Energiával
-helyzeti energia(gravitációs potenciális energia);E<sub>p</sub>;mg`*`h;N`*`m=Joule(J);Munka/Energiával
-teljesítmény;P (nagy pé);`W/(Deltat)`;`J/sec`=Watt (W);Munka/Energiával
-hatásfok;`eta`;W(<sub>hasznos</sub>)`/`W(<sub>befektetett</sub>);nincs;Munka/Energiával
+Helyvektor;`vec x` (r vektor);irányított szakasz;méter (m);Haladómozgással
+Elmozdulás;`Deltavec x` (delta er);`vec x`<sub>1</sub>-`vec x`<sub>2</sub>;méter (m);Haladómozgással
+Idő;t;alapmennyiség;secundum (sec);Haladómozgássals
+Eltelt idő;`Delta`t (delta té);t<sub>2</sub>-t<sub>1</sub>;secundum (sec);Haladómozgással
+Sebesség;`vec v`;`(Deltavec r)/(Deltat)`;`(méter)/(sec)`;Haladómozgással
+Sebességváltozás;`Deltavec v` (v vektor);`vec v`<sub>2</sub>-`vec v`<sub>1</sub>;`(méter)/(sec)`;Haladómozgással
+Gyorsulás;a (a vektor);`(Deltavec v)/(Deltat)`;`m/s^2`;Haladómozgással
+Forgásszög;`varphi` (fi);a síkszög ívmértéke;radián (rad);Körmozgás/Forgómozgás
+Szögelfordulás;`Deltavarphi`;`varphi`<sub>2</sub>-`varphi`<sub>1</sub>; radián (rad);Körmozgás/Forgómozgás
+Szögsebesség;`omega` (ómega);`(Deltavarphi)/(Deltat)`;`(radián)/sec`;Körmozgás/Forgómozgás
+A szögsebesség megváltozása;`Deltaomega`;`omega`<sub>2</sub>-`omega`<sub>1</sub>;`(radián)/sec`;Körmozgás/Forgómozgás
+Szöggyorsulás;`beta` (béta);`(Deltavarphi)/(Deltat)`;`(radián)/sec^2`;Körmozgás/Forgómozgás
+Tömeg;m;alapmennyiség;kg;Dinamika
+Impulzus (lendület); I, (p);m`*`v;kg`*m/s`;Dinamika
+Lendületváltozás;`Delta`I;I<sub>2</sub>-I<sub>1</sub>;kg`*m/s`;Dinamika
+Erő;F;`(DeltaI)/(Deltat)`;kg`*m/s^2`=Newton;Dinamika
+Nehézségi gyorsulás;g;m`*`g;Newton (N);Dinamika;
+Súrlódási/csúszási/tapadási együttható;`mu` (mű);értéke táblázatban adott;nincs;Dinamika
+Súrlódási erő;F<sub>s</sub>;`mu*`F<sub>nyomó</sub>;Newton;Dinamika
+Erőkar;k;A forgástengely távolsága az erő hatásvonalától;méter;Dinamika
+Perdület;N;`Theta*omega`;`kg^2*m/s`;Dinamika
+Perdület változás;`Delta`N;N<sub>2</sub>-N<sub>1</sub>;`kg^2*m/s`;Dinamika
+Forgatónyomaték;M;`(DeltaN)/(Deltat)` - (`F*k`);Newton`*`méter (Nm);Dinamika
+Tehetetlenségi nyomaték;`Theta`;képlete táblázatban;kg`*^2`;Dinamika
+Az út;s;a pálya egy szakaszának az ívhossza;méter (m);Munka/Energiával
+Az erő munkája;W;F`*`s - (`F*Deltar`);N`*`m=Joule(J);Munka/Energiával
+Haladási energia;E<sub>h</sub>;`1/2*m*v^2`;N`*`m=Joule(J);Munka/Energiával
+Forgási energia;E<sub>forg</sub>;`1/2*Theta*omega^2`;N`*`m=Joule(J);Munka/Energiával
+Hosszúság;l;alapmennyiség;méter;Munka/Energiával
+Hosszváltozás (megnyúlás);`Deltal` (delta el);l<sub>2</sub>-l<sub>1</sub>;méter;Munka/Energiával
+Rugóenergia;E<sub>rugó</sub>;`1/2*D*(Deltal)^2`;N`*`m=Joule(J);Munka/Energiával
+Magasság;h;a nullszinttől mért függőleges távolság;méter (m);Munka/Energiával
+Helyzeti energia(gravitációs potenciális energia);E<sub>p</sub>;mg`*`h;N`*`m=Joule(J);Munka/Energiával
+Teljesítmény;P (nagy pé);`W/(Deltat)`;`J/sec`=Watt (W);Munka/Energiával
+Hatásfok;`eta`;W(<sub>hasznos</sub>)`/`W(<sub>befektetett</sub>);nincs;Munka/Energiával
+Felszín (terület);A;alakfüggő;`méter^2 (m^2)`;Folyadékokkal
+Térfogat;V;alakfüggő;`méter^3 (m^3)`;Folyadékokkal
+Sűrűség;`rho`;`m/v`;`kg/m^3`;Folyadékokkal
+Nyomás;p (kis pé);`F/A` nyomó erő/nyomott terület;`N/m^2`=pascal (Pa);Folyadékokkal
+Keringési idő (periódusidő);T;a visszatéréshez szükséges idő;szecundum (s);Rezgés/Hullámokkal
+Fordulatszám (frekvencia);f,`nu`;`1/T`;`1/sec`=Hertz (Hz);Rezgés/Hullámokkal
+Hullámhossz;`lambda` (lambda);az azonos fázisú szomszédok távolsága;méter (m);Rezgés/Hullámokkal
+Terjedési sebesség;c;a rezgésállapot haladási sebessége;`m/s`;Rezgés/Hullámokkal
+Pillanatnyi kitérés;x,y;Az egyensúlyi helyzettől mért előjeles távolság;méter;Rezgés/Hullámokkal
+Amplitúdó;A;Maximális kitérés;méter;Rezgés/Hullámokkal
+Körfrekvencia;`omega`;`(2pi)/T`;`rad/sec`;Rezgés/Hullámokkal
+Keringési / körül fordulási idő;T;Egy teljes keringéshez /körül forduláshozszükséges idő;szecundum;Rezgés/Hullámokkal
+Idő;t;alapmennyiség;szecundum;Rezgés/Hullámokkal
+Sebesség;v;`(Deltar)/(Deltat)`;`(méter)/(sec)`;Rezgés/Hullámokkal
+Gyorsulás;a;`(Deltav)/(Deltat)`;`(méter)/(sec)^2`;Rezgés/Hullámokkal
+Rezgésidő / Lengésidő;T;Egy teljes lengéshez/rezgéshez szükséges idő;szecundum;Rezgés/Hullámokkal
+Tömeg;m;alapmennyiség;kilogramm;Rezgés/Hullámokkal
+Rugóállandó;D;`F/(DeltaI)`;`(N)/(méter)`;Rezgés/Hullámokkal
+Hosszúság;I;alapmennyiség;méter;Rezgés/Hullámokkal
+Megnyúlás;`DeltaI`;I<sub>2</sub>-I<sub>1</sub>;méter;Rezgés/Hullámokkal
+Nehézségi gyorsulás;g;A szabadon eső test sebességének változási gyorsasága;`(méter)/sec^2`;Rezgés/Hullámokkal
+A tömegközépponti tengelyre vonatkoztatott tehetetlenségi nyomaték;`Theta`<sub>T</sub>;Képlete táblázatban;`kg^2*m/s`;Rezgés/Hullámokkal
+A tömegközéppont és a forgástengely távolsága;s;alapmennyiség;méter;Rezgés/Hullámokkal
+Frekvencia;f;`1/T`;`1/sec`;Rezgés/Hullámokkal
+Hullámhossz;`lambda`;A szomszédos, azonos fázisú helyek távolsága;méter;Rezgés/Hullámokkal
+A hullám pillanatnyi kitérése az x helyen, a t időpillanatban;y(x,t);A`*`sin[`omega*`(t - x/c)];méter;Rezgés/Hullámokkal
+Abszolút hőmérséklet;T;alapmennyiség;K (Kelvin);Hőtan
+Hőmérséklet;t;T-273;°C (Celsius fok);Hőtan
+hőmérsékletváltozás;`Deltat`,`DeltaT`;t<sub>2</sub>-t<sub>1</sub>`-=T<sub>2</sub>-T<sub>1</sub>;°C, K;Hőtan
+Hosszúság, megnyúlás;l,`Delta`l;alapmennyiség,i<sub>2</sub>-i<sub>1</sub>;m (méter);Hőtan
+Felszín, felszínváltozás;A,`Delta`A;alakfüggő,A<sub>2</sub>-A<sub>1</sub>;`m^2` (négyzetméter);Hőtan
+Térfogat, térfogatváltozás;V,`Delta`V;alakfüggő,V<sub>2</sub>-V<sub>1</sub>;`m^3` (köbméter);Hőtan
+Lineáris hőtágulási együttható;`alpha`;`(Deltal)/(l*Deltat)` (l<sub>0</sub>);`1/°C` vagy `1/K`;Hőtan
+Térfogati hőtágulási együttható;`beta`;`(DeltaV)/(V*Deltat)` (V<sub>0</sub>);`1/°C` vagy `1/K`;Hőtan
+Nyomás;p;`F/A`;Pa (Pascal)(Newton/négyzetméter);Hőtan
+Tömeg;m;alapmennyiség;kg (kilogramm);Hőtan
+Moláris tömeg;M;táblázati adat;´g/mol´ ´(gramm/mol)´;Hőtan
+Molekulák száma;N;-;-;Hőtan
+Anyagmennyiség (mólszám);n;`m/M`;mol;Hőtan
+Egyetemes gázállandó;R;8,31;`J/(mol·K)`;Hőtan
+Boltzmann-állandó;k;1,38`*`10<sup>-23</sup>;`J/K`;Hőtan
+Avogadro-állandó;N<sub>A</sub>;6`*`10<sup>23</sup>;`1/mol`;Hőtan
+A szabadsági fokok száma;f;az energiatárolás független lehetőségeinek a száma;-;Hőtan
+Az egy szabadságfokra jutó átlagos energia;`epsilon`<sub>1</sub>;½ k`*`T;J (Joule);Hőtan
+Egy molekula átlagos mechanikai energiája;`epsilon`;f `*` ½ k`*`T;J (Joule);Hőtan
+Belső energia;belső energia;E`;N`*`f `*` ½ k`*`T;J (Joule);Hőtan
+Hő (hőenergia);Q;a hőközlés mértéke;J (Joule);Hőtan
+Fajhő;c;`Q/(m*DeltaT)`;`J/(kg·K)`;Hőtan
+A fajhő állandó nyomáson;c<sub>p</sub>;`Q/(m*DeltaT)`;`J/(kg·K)`;Hőtan
+A fajhő állandó térfogaton;c<sub>v</sub>;`Q/(m*DeltaT)`;`J/(kg·K)`;Hőtan
+Hőkapacitás;C;m`*`c;`J/K`;Hőtan
+Olvadáshő, fagyáshő;L<sub>o</sub>;`Q/m`;`J/kg`;Hőtan
+Párolgáshő;L<sub>p</sub>;`Q/m`;`J/kg`;Hőtan
+Forráshő, lecsapódáshő ;L<sub>f</sub>;`Q/m`;`J/kg`;Hőtan
+A gáz által végzett tágulási munka;W;folyamatfüggő;J (joule);Hőtan
+Izobár folyamatnál;W;`p * DeltaV`;J (joule);Hőtan
+Izochor folyamatnál;W;0 Nulla;J (joule);Hőtan
+Izoterm folyamatnál;W;Fgvt.(140.o.);J (joule);Hőtan
+Adiabatikus folyamatnál;W;Fgvt.(140.o.);J (joule);Hőtan
+El. töltés;Q (nagy kú);A`*`s;Amper szekundum = Coulomb (C);Elektromossággal
+El. térerősség;´vec E´;(E vektor);`(vec F)/Q`;`N/C` (Newton/Coulomb);Elektromossággal
+El. fluxus;`psi` (nagy pszí);E`*`A;Volt `*` méter (V `*` m);Elektromossággal
+El. feszültség;U;`W/Q`;`J/C` = 𝑉𝑜𝑙𝑡 (𝑉);Elektromossággal
+El. kapacitás;C;`Q/U`;`C/V` = farád (F);Elektromossággal
+El. áramerősség;I (nagy i);`Q/(Deltat)`;`C/sec` =  Amper (A);Elektromossággal
+El. ellenállás;R;`U/I`;`V/A` = Ohm (`Omega`);Elektromossággal
+Fajlagos ellenállás;`ρ` (kis ró);`(R*A)/l`;Ohm `*` méter;Elektromossággal
+El. vezetőképesség;G;`1/R`;`1/(Ohm)`= 𝑠𝑖𝑒𝑚𝑒𝑛𝑠(𝑆);Elektromossággal
+Fajlagos vezetőképesség;`sigma` (kis szigma);`1/(rho)`;`(siemens)/(méter)`;Elektromossággal
+Mágn. indukció;`vec B`;`M/(I*A)`;`N/(Am)`=`(V*s)/m^2`=T(tesla);Mágnesességgel
+Mágn. indukciófluxus;`Phi` (nagy fí);B`*`A;V`*`s=Wb (weber);Mágnesességgel
+Mágn. nyomaték;m;I`*`A;A`*m^2`;Mágnesességgel
+Önindukciós együttható (induktivitás);L;képlete táblázatban;`(V*s)/A`=H(henry);Mágnesességgel
+Ohmikus ellenállás;R;`rho*l/A`;Ohm (`Omega`);Mágnesességgel
+Induktív ellenállás;X<sub>L</sub>;`omega*`L;Ohm (`Omega`);Mágnesességgel
+Kapacitív ellenállás;X<sub>C</sub>;`1/(omega*C)`;Ohm (`Omega`);Mágnesességgel
+Impedancia;Z;`((X-X)^2+R^2)^½` (X<sub>L</sub>-X<sub>C</sub>);Ohm (`Omega`);Mágnesességgel

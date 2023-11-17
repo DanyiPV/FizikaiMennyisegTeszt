@@ -10,11 +10,11 @@ var TablazatokOpen = 0;
 var TestTablazatokOpen = 0;
 var Timer = setInterval(Timer,1000);
 var SelectedCategory = undefined;
-var KategoriakMatrix = [["Haladómozgással kapcsolatos","Körmozgás/Forgómozgás kapcsolatos","Dinamika (erőtan)","Munka/Energiával kapcsolatos","Folyadékkal kapcsolatos","Rezgés/Hullámokkal kapcsolatos"],
-["Második"],
-["Harmadik"],
-["Negyedik"]];
-var KategoriakNum = [[7,5,13,11,4,4],[],[],[]];
+var KategoriakMatrix = [["Haladómozgással kapcsolatos","Körmozgás/Forgómozgás kapcsolatos","Dinamika (erőtan)","Munka/Energiával kapcsolatos","Folyadékkal kapcsolatos"],
+["Rezgés/Hullámokkal kapcsolatos"],
+["Hőtan"],
+["Elektromossággal kapcsolatos","Mágnesességgel kapcsolatos","Ellenállások fajtái"]];
+var KategoriakNum = [[7,5,13,11,4],[24],[33],[10,4,4]];
 function Fooldal(){
     AlapDiv.innerHTML="";
     document.getElementById('FoOldal').classList.add('h2Active');
@@ -271,4 +271,4 @@ function CategoryLoad(category){
 }
 
 Fooldal();
-//AlapDiv.innerHTML += "<p style='color:white;'></p>";
+AlapDiv.innerHTML += "<p style='color:white;'>`((X-X)^2+R^2)^½` (X<sub>L</sub>-X<sub>C</sub>)</p>";
