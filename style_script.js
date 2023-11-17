@@ -51,7 +51,6 @@ function ProbaTest(){
     CloseSideBar();
     menuGen();
 }
-
 function SideBar(){
     if(SideBarOpen == 0){
         SideBarOpen=1;
@@ -210,7 +209,6 @@ function SorKiGen(Hova, n){
         }
     }
 }
-
 function Silder(Hova,array){
     let div = document.createElement('div');
     div.classList.add("Slider");
@@ -224,7 +222,6 @@ function Silder(Hova,array){
     }
     Hova.appendChild(div);
 }
-
 function SliderPick(id){
     let a = document.getElementsByClassName('ActiveSlider');
     if(a.length >0){
@@ -238,7 +235,6 @@ function SliderPick(id){
         CategoryLoad(KategoriaSelector[id]);
     }
 }
-
 function Tudnivalok(){
     let TudnivalokDiv = document.createElement('div');
     TudnivalokDiv.classList.add('AlapKeretDiv');
@@ -252,7 +248,6 @@ function Tudnivalok(){
     TudnivalokDiv.appendChild(TudnivalokDBDiv);
     MasodikAlapDiv.appendChild(TudnivalokDiv);
 }
-
 function CategoryLoad(category){
     if(category != SelectedCategory){
         MasodikAlapDiv.innerHTML = "";
@@ -276,4 +271,4 @@ function CategoryLoad(category){
 }
 
 Fooldal();
-//AlapDiv.innerHTML += "<p style='color:white;'>W(<sub>hasznos</sub>)`/`W(<sub>befektetett</sub>)</p>";
+//AlapDiv.innerHTML += "<p style='color:white;'></p>";
