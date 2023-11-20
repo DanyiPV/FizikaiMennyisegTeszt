@@ -2,7 +2,6 @@ var request = new XMLHttpRequest();
 request.open("GET", "Server/adatok.json", false);
 request.send(null);
 var data = JSON.parse(request.responseText);
-console.log(data[0]);
 //Ha van kategória változás, itt is és a style_script.js-ben is megkell változtatni
 function foOldalTablaFeltolt(kat,n){
     let KatNevek = [];
@@ -15,15 +14,17 @@ function foOldalTablaFeltolt(kat,n){
         let tabla = document.getElementById("AlapKeretDiv"+i);
         let sorok = tabla.getElementsByClassName("TablaSorok");
         let katAdatok = data.filter(c=> c.kategoria == KatNevek[i]);
-        for(let j = 0; j<katAdatok.length;j++)
+        console.log(sorok,katAdatok);
+        for(let j = 0; j<sorok.length;j++)
         {
-            sorok[j].getElementsByClassName("NevDiv")[0].innerHTML = "<p>"+katAdatok[j].nev+"</p>";
-            sorok[j].getElementsByClassName("JeleDiv")[0].innerHTML = "<p>"+katAdatok[j].jel+"</p>";
-            sorok[j].getElementsByClassName("DefDiv")[0].innerHTML = "<p>"+katAdatok[j].def+"</p>";
-            sorok[j].getElementsByClassName("MertekDiv")[0].innerHTML = "<p>"+katAdatok[j].mert+"</p>";
+            sorok[j].getElementsByClassName("NevDiv")[0].innerHTML += "<p>"+katAdatok[j].nev+"</p>";
+            sorok[j].getElementsByClassName("JeleDiv")[0].innerHTML += "<p>"+katAdatok[j].jel+"</p>";
+            sorok[j].getElementsByClassName("DefDiv")[0].innerHTML += "<p>"+katAdatok[j].def+"</p>";
+            sorok[j].getElementsByClassName("MertekDiv")[0].innerHTML += "<p>"+katAdatok[j].mert+"</p>";
         }
     }
 }
+//document.getElementsByClassName("AlapDiv")[0].innerHTML += "<p>"+data[0].jel+"</p>";
 function menuGen(){
     let div = document.createElement("div");
     div.className="csereld";

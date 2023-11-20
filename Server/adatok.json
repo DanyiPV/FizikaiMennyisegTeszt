@@ -562,9 +562,9 @@
   {
     "nev": "Belső energia",
     "jel": "belső energia",
-    "def": "E`",
-    "mert": "N`*`f `*` ½ k`*`T",
-    "kategoria": "J (Joule)"
+    "def": "E`N`*`f `*` ½ k`*`T",
+    "mert": "J (Joule)",
+    "kategoria": "Hőtan"
   },
   {
     "nev": "Hő (hőenergia)",
@@ -760,27 +760,27 @@
     "jel": "R",
     "def": "`rho*l/A`",
     "mert": "Ohm (`Omega`)",
-    "kategoria": "Mágnesességgel"
+    "kategoria": "Ellenállások"
   },
   {
     "nev": "Induktív ellenállás",
     "jel": "X<sub>L</sub>",
     "def": "`omega*`L",
     "mert": "Ohm (`Omega`)",
-    "kategoria": "Mágnesességgel"
+    "kategoria": "Ellenállások"
   },
   {
     "nev": "Kapacitív ellenállás",
     "jel": "X<sub>C</sub>",
     "def": "`1/(omega*C)`",
     "mert": "Ohm (`Omega`)",
-    "kategoria": "Mágnesességgel"
+    "kategoria": "Ellenállások"
   },
   {
     "nev": "Impedancia",
     "jel": "Z",
     "def": "`((X-X)^2+R^2)^½` (X<sub>L</sub>-X<sub>C</sub>)",
     "mert": "Ohm (`Omega`)",
-    "kategoria": "Mágnesességgel"
+    "kategoria": "Ellenállások"
   }
 ]

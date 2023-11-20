@@ -14,7 +14,7 @@ Tömeg;m;alapmennyiség;kg;Dinamika
 Impulzus (lendület); I, (p);m`*`v;kg`*m/s`;Dinamika
 Lendületváltozás;`Delta`I;I<sub>2</sub>-I<sub>1</sub>;kg`*m/s`;Dinamika
 Erő;F;`(DeltaI)/(Deltat)`;kg`*m/s^2`=Newton;Dinamika
-Nehézségi gyorsulás;g;m`*`g;Newton (N);Dinamika;
+Nehézségi gyorsulás;g;m`*`g;Newton (N);Dinamika
 Súrlódási/csúszási/tapadási együttható;`mu` (mű);értéke táblázatban adott;nincs;Dinamika
 Súrlódási erő;F<sub>s</sub>;`mu*`F<sub>nyomó</sub>;Newton;Dinamika
 Erőkar;k;A forgástengely távolsága az erő hatásvonalától;méter;Dinamika
@@ -106,7 +106,7 @@ Mágn. indukció;`vec B`;`M/(I*A)`;`N/(Am)`=`(V*s)/m^2`=T(tesla);Mágnesességge
 Mágn. indukciófluxus;`Phi` (nagy fí);B`*`A;V`*`s=Wb (weber);Mágnesességgel
 Mágn. nyomaték;m;I`*`A;A`*m^2`;Mágnesességgel
 Önindukciós együttható (induktivitás);L;képlete táblázatban;`(V*s)/A`=H(henry);Mágnesességgel
-Ohmikus ellenállás;R;`rho*l/A`;Ohm (`Omega`);Mágnesességgel
-Induktív ellenállás;X<sub>L</sub>;`omega*`L;Ohm (`Omega`);Mágnesességgel
-Kapacitív ellenállás;X<sub>C</sub>;`1/(omega*C)`;Ohm (`Omega`);Mágnesességgel
-Impedancia;Z;`((X-X)^2+R^2)^½` (X<sub>L</sub>-X<sub>C</sub>);Ohm (`Omega`);Mágnesességgel
+Ohmikus ellenállás;R;`rho*l/A`;Ohm (`Omega`);Ellenállások
+Induktív ellenállás;X<sub>L</sub>;`omega*`L;Ohm (`Omega`);Ellenállások
+Kapacitív ellenállás;X<sub>C</sub>;`1/(omega*C)`;Ohm (`Omega`);Ellenállások
+Impedancia;Z;`((X-X)^2+R^2)^½` (X<sub>L</sub>-X<sub>C</sub>);Ohm (`Omega`);Ellenállások
