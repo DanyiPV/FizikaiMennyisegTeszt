@@ -1,6 +1,33 @@
-let adat = [];
-fetch('Server/adatok.json').then((response) => response.json()).then((json) => console.log(json));
-console.log(adat);
+let adatok=[
+        {
+            "nev":"Sebesség",
+            "jel":"S",
+            "def":"valami nagyon jó def Sebesség",
+            "mer":"Méter/Secundum",
+            "kat":"Haladómozgással kapcsolatos"
+        },
+        {
+            "nev":"Távolság",
+            "jel":"T",
+            "def":"valami nagyon jó def Távolság",
+            "mer":"Méter",
+            "kat":"Haladómozgással kapcsolatos"
+        },
+        {
+            "nev":"Teszt2",
+            "jel":"Teszt2",
+            "def":"Teszt2",
+            "mer":"Teszt2",
+            "kat":"Körmozgás/Forgómozgás kapcsolatos"
+        },
+        {
+            "nev":"Teszt3",
+            "jel":"Teszt3",
+            "def":"Teszt3",
+            "mer":"Teszt3",
+            "kat":"Körmozgás/Forgómozgás kapcsolatos"
+        }
+    ];
 //Ha van kategória változás, itt is és a style_script.js-ben is megkell változtatni
 function foOldalTablaFeltolt(number){
     let tablaMenny = document.getElementsByClassName("AlapKeretDiv").length-1;
@@ -18,10 +45,22 @@ function foOldalTablaFeltolt(number){
         }
     }
 }
+console.log(adatok);
+
+//Teszt oldal functionjai
+function katValaszt(elem){
+    if(elem.innerText == "Egyéni")
+    {
+    }
+    else{
+
+    }
+}
 function menuGen(){
     let div = document.createElement("div");
     div.className="csereld";
     let AlapDiv = document.getElementsByClassName("AlapDiv")[0];
+    
 }
 function tesztAdatGen(){
     
