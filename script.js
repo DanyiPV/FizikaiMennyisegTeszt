@@ -9,7 +9,7 @@ function foOldalTablaFeltolt(kat,n){
     kat.forEach(elem => {
         KatNevek.push(elem.split(' ')[0]);
     });
-    let tablaMenny = document.getElementsByClassName("AlapKeretDiv").length-1;
+    let tablaMenny = document.getElementsByClassName("AlapKeretDiv").length;
     for(let i = 0; i<tablaMenny;i++)
     {
         let tabla = document.getElementById("AlapKeretDiv"+i);
