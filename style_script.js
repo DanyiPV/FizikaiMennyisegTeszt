@@ -271,3 +271,4 @@ function CategoryLoad(category){
 }
 
 Fooldal();
+//AlapDiv.innerHTML += "<p>`vec x`</p>";

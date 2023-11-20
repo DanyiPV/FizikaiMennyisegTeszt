@@ -1,9 +1,10 @@
-var request = new XMLHttpRequest();
+var request = new XMLHttpRequest(); 
 request.open("GET", "Server/adatok.json", false);
 request.send(null);
 var data = JSON.parse(request.responseText);
+var AlapDiv = document.getElementsByClassName("AlapDiv")[0];
 //Ha van kategória változás, itt is és a style_script.js-ben is megkell változtatni
-function foOldalTablaFeltolt(kat,n){
+function foOldalTablaFeltolt(kat){
     let KatNevek = [];
     kat.forEach(elem => {
         KatNevek.push(elem.split(' ')[0]);
@@ -14,7 +15,6 @@ function foOldalTablaFeltolt(kat,n){
         let tabla = document.getElementById("AlapKeretDiv"+i);
         let sorok = tabla.getElementsByClassName("TablaSorok");
         let katAdatok = data.filter(c=> c.kategoria == KatNevek[i]);
-        console.log(sorok,katAdatok);
         for(let j = 0; j<sorok.length;j++)
         {
             sorok[j].getElementsByClassName("NevDiv")[0].innerHTML += "<p>"+katAdatok[j].nev+"</p>";
@@ -24,11 +24,9 @@ function foOldalTablaFeltolt(kat,n){
         }
     }
 }
-//document.getElementsByClassName("AlapDiv")[0].innerHTML += "<p>"+data[0].jel+"</p>";
 function menuGen(){
     let div = document.createElement("div");
     div.className="csereld";
-    let AlapDiv = document.getElementsByClassName("AlapDiv")[0];
 }
 function tesztAdatGen(){
     

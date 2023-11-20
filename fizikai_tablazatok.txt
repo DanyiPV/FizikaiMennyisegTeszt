@@ -1,5 +1,5 @@
-Helyvektor;`vec x` (r vektor);irányított szakasz;méter (m);Haladómozgással
-Elmozdulás;`Deltavec x` (delta er);`vec x`<sub>1</sub>-`vec x`<sub>2</sub>;méter (m);Haladómozgással
+Helyvektor;`vec r` (r vektor);irányított szakasz;méter (m);Haladómozgással
+Elmozdulás;`Deltavec r` (delta er);`vec x`<sub>1</sub>-`vec x`<sub>2</sub>;méter (m);Haladómozgással
 Idő;t;alapmennyiség;secundum (sec);Haladómozgással
 Eltelt idő;`Delta`t (delta té);t<sub>2</sub>-t<sub>1</sub>;secundum (sec);Haladómozgással
 Sebesség;`vec v`;`(Deltavec r)/(Deltat)`;`(méter)/(sec)`;Haladómozgással
