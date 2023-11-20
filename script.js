@@ -1,6 +1,8 @@
-let adat = [];
-fetch('Server/adatok.json').then((response) => response.json()).then((json) => console.log(json));
-console.log(adat);
+var request = new XMLHttpRequest();
+request.open("GET", "Server/adatok.json", false);
+request.send(null);
+var data = JSON.parse(request.responseText);
+console.log(data[0]);
 //Ha van kategória változás, itt is és a style_script.js-ben is megkell változtatni
 function foOldalTablaFeltolt(number){
     let tablaMenny = document.getElementsByClassName("AlapKeretDiv").length-1;
