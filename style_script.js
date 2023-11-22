@@ -264,7 +264,7 @@ function CategoryLoad(category){
                 AlapKiGen(MasodikAlapDiv,KategoriakMatrix[KategoriaSelector.indexOf(SelectedCategory)-1][i],i);
                 SorKiGen(document.getElementById('AlapKeretDiv'+i),KategoriakNum[KategoriaSelector.indexOf(SelectedCategory)-1][i]);
             }
-            foOldalTablaFeltolt(KategoriaSelector.indexOf(SelectedCategory)-1);
+            foOldalTablaFeltolt(KategoriakMatrix[KategoriaSelector.indexOf(SelectedCategory)-1],KategoriaSelector.indexOf(SelectedCategory)-1);
         }
     }
     CloseSideBar();
