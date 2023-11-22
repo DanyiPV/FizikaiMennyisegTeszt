@@ -15,7 +15,9 @@ Impulzus (lendület); I, (p);m`*`v;kg`*m/s`;Dinamika
 Lendületváltozás;`Delta`I;I<sub>2</sub>-I<sub>1</sub>;kg`*m/s`;Dinamika
 Erő;F;`(DeltaI)/(Deltat)`;kg`*m/s^2`=Newton;Dinamika
 Nehézségi gyorsulás;g;m`*`g;Newton (N);Dinamika
-Súrlódási/csúszási/tapadási együttható;`mu` (mű);értéke táblázatban adott;nincs;Dinamika
+Súrlódási együttható;`mu` (mű);értéke táblázatban adott;nincs;Dinamika
+Csúszási együttható;`mu` (mű);értéke táblázatban adott;nincs;Dinamika
+Tapadási együttható;`mu` (mű);értéke táblázatban adott;nincs;Dinamika
 Súrlódási erő;F<sub>s</sub>;`mu*`F<sub>nyomó</sub>;Newton;Dinamika
 Erőkar;k;A forgástengely távolsága az erő hatásvonalától;méter;Dinamika
 Perdület;N;`Theta*omega`;`kg^2*m/s`;Dinamika
@@ -37,18 +39,18 @@ Felszín (terület);A;alakfüggő;`méter^2 (m^2)`;Folyadékokkal
 Térfogat;V;alakfüggő;`méter^3 (m^3)`;Folyadékokkal
 Sűrűség;`rho`;`m/v`;`kg/m^3`;Folyadékokkal
 Nyomás;p (kis pé);`F/A` nyomó erő/nyomott terület;`N/m^2`=pascal (Pa);Folyadékokkal
-Keringési idő (periódusidő);T;a visszatéréshez szükséges idő;szecundum (s);Rezgés/Hullámokkal
+Keringési idő (periódusidő);T;a visszatéréshez szükséges idő;secundum (s);Rezgés/Hullámokkal
 Fordulatszám (frekvencia);f,`nu`;`1/T`;`1/sec`=Hertz (Hz);Rezgés/Hullámokkal
 Hullámhossz;`lambda` (lambda);az azonos fázisú szomszédok távolsága;méter (m);Rezgés/Hullámokkal
 Terjedési sebesség;c;a rezgésállapot haladási sebessége;`m/s`;Rezgés/Hullámokkal
 Pillanatnyi kitérés;x,y;Az egyensúlyi helyzettől mért előjeles távolság;méter;Rezgés/Hullámokkal
 Amplitúdó;A;Maximális kitérés;méter;Rezgés/Hullámokkal
-Körfrekvencia;`omega`;`(2pi)/T`;`rad/sec`;Rezgés/Hullámokkal
-Keringési / körül fordulási idő;T;Egy teljes keringéshez /körül forduláshozszükséges idő;szecundum;Rezgés/Hullámokkal
-Idő;t;alapmennyiség;szecundum;Rezgés/Hullámokkal
+Körfrekvencia;`omega`;`(2pi)/T`;`(rad)/(sec)`;Rezgés/Hullámokkal
+Keringési / körül fordulási idő;T;Egy teljes keringéshez /körül forduláshozszükséges idő;secundum;Rezgés/Hullámokkal
+Idő;t;alapmennyiség;secundum;Rezgés/Hullámokkal
 Sebesség;v;`(Deltar)/(Deltat)`;`(méter)/(sec)`;Rezgés/Hullámokkal
 Gyorsulás;a;`(Deltav)/(Deltat)`;`(méter)/(sec)^2`;Rezgés/Hullámokkal
-Rezgésidő / Lengésidő;T;Egy teljes lengéshez/rezgéshez szükséges idő;szecundum;Rezgés/Hullámokkal
+Rezgésidő / Lengésidő;T;Egy teljes lengéshez/rezgéshez szükséges idő;secundum;Rezgés/Hullámokkal
 Tömeg;m;alapmennyiség;kilogramm;Rezgés/Hullámokkal
 Rugóállandó;D;`F/(DeltaI)`;`(N)/(méter)`;Rezgés/Hullámokkal
 Hosszúság;I;alapmennyiség;méter;Rezgés/Hullámokkal
@@ -74,7 +76,7 @@ Molekulák száma;N;-;-;Hőtan
 Anyagmennyiség (mólszám);n;`m/M`;mol;Hőtan
 Egyetemes gázállandó;R;8,31;`J/(mol·K)`;Hőtan
 Boltzmann-állandó;k;1,38`*`10<sup>-23</sup>;`J/K`;Hőtan
-Avogadro-állandó;N<sub>A</sub>;6`*`10<sup>23</sup>;`1/mol`;Hőtan
+Avogadro-állandó;N<sub>A</sub>;6`*`10<sup>23</sup>;`1/(mol)`;Hőtan
 A szabadsági fokok száma;f;az energiatárolás független lehetőségeinek a száma;-;Hőtan
 Az egy szabadságfokra jutó átlagos energia;`epsilon`<sub>1</sub>;½ k`*`T;J (Joule);Hőtan
 Egy molekula átlagos mechanikai energiája;`epsilon`;f `*` ½ k`*`T;J (Joule);Hőtan
@@ -95,12 +97,12 @@ Adiabatikus folyamatnál;W;Fgvt.(140.o.);J (joule);Hőtan
 El. töltés;Q (nagy kú);A`*`s;Amper szekundum = Coulomb (C);Elektromossággal
 El. térerősség;´vec E´ (E vektor);`(vec F)/Q`;`N/C`=(Newton/Coulomb);Elektromossággal
 El. fluxus;`psi` (nagy pszí);E`*`A;Volt `*` méter (V `*` m);Elektromossággal
-El. feszültség;U;`W/Q`;`J/C` = 𝑉𝑜𝑙𝑡 (𝑉);Elektromossággal
+El. feszültség;U;`W/Q`;`J/C` = Volt (V);Elektromossággal
 El. kapacitás;C;`Q/U`;`C/V` = farád (F);Elektromossággal
 El. áramerősség;I (nagy i);`Q/(Deltat)`;`C/sec` =  Amper (A);Elektromossággal
 El. ellenállás;R;`U/I`;`V/A` = Ohm (`Omega`);Elektromossággal
 Fajlagos ellenállás;`ρ` (kis ró);`(R*A)/l`;Ohm `*` méter;Elektromossággal
-El. vezetőképesség;G;`1/R`;`1/(Ohm)`= 𝑠𝑖𝑒𝑚𝑒𝑛𝑠(𝑆);Elektromossággal
+El. vezetőképesség;G;`1/R`;`1/(Ohm)`= siemens(S);Elektromossággal
 Fajlagos vezetőképesség;`sigma` (kis szigma);`1/(rho)`;`(siemens)/(méter)`;Elektromossággal
 Mágn. indukció;`vec B`;`M/(I*A)`;`N/(Am)`=`(V*s)/m^2`=T(tesla);Mágnesességgel
 Mágn. indukciófluxus;`Phi` (nagy fí);B`*`A;V`*`s=Wb (weber);Mágnesességgel
