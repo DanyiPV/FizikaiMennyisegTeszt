@@ -10,11 +10,11 @@ var TablazatokOpen = 0;
 var TestTablazatokOpen = 0;
 var Timer = setInterval(Timer,1000);
 var SelectedCategory = undefined;
-var KategoriakMatrix = [["Haladómozgással kapcsolatos","Körmozgás/Forgómozgás kapcsolatos","Dinamika (erőtan)","Munka/Energiával kapcsolatos","Folyadékkal kapcsolatos"],
+var KategoriakMatrix = [["Haladómozgással kapcsolatos","Körmozgás/Forgómozgás kapcsolatos","Dinamika (erőtan)","Munka/Energiával kapcsolatos","Folyadékokkal kapcsolatos"],
 ["Rezgés/Hullámokkal kapcsolatos"],
 ["Hőtan"],
 ["Elektromossággal kapcsolatos","Mágnesességgel kapcsolatos","Ellenállások fajtái"]];
-var KategoriakNum = [[7,5,13,11,4],[24],[33],[10,4,4]];
+var KategoriakNum = [[7,5,12,11,4],[22],[33],[10,4,4]];
 function Fooldal(){
     AlapDiv.innerHTML="";
     document.getElementById('FoOldal').classList.add('h2Active');
@@ -264,10 +264,11 @@ function CategoryLoad(category){
                 AlapKiGen(MasodikAlapDiv,KategoriakMatrix[KategoriaSelector.indexOf(SelectedCategory)-1][i],i);
                 SorKiGen(document.getElementById('AlapKeretDiv'+i),KategoriakNum[KategoriaSelector.indexOf(SelectedCategory)-1][i]);
             }
-            foOldalTablaFeltolt(KategoriakMatrix[KategoriaSelector.indexOf(SelectedCategory)-1],KategoriaSelector.indexOf(SelectedCategory)-1);
+            foOldalTablaFeltolt(KategoriakMatrix[KategoriaSelector.indexOf(SelectedCategory)-1], KategoriaSelector.indexOf(SelectedCategory)-1);
         }
     }
     CloseSideBar();
 }
 
 Fooldal();
+//AlapDiv.innerHTML += "<p>`vec x`</p>";
