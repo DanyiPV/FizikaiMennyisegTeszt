@@ -602,7 +602,7 @@ body{
         margin-left: -.5vw !important;
     }
     .AlapKeretDiv p{
-        font-size: 2.5vw;
+        font-size: 2.8vw;
         display: flex;
         width: 50%;
         height: 6vw;
@@ -627,15 +627,15 @@ body{
         width: 100%;
     }
     .TablaSorok div p{
-        font-size: 2.2vw;
+        font-size: 2.8vw;
         display: flex;
         width: auto;
         height: 12vw;
-        margin: auto 1vw;
+        margin: auto .5vw;
         align-items:center;
         justify-content:center;
     }
-    .NevDiv, .DefDiv, .MertekDiv{
+    .NevDiv, .MertekDiv{
         width: 150% !important;
     }
 }
