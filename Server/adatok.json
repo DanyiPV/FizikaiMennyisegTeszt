@@ -1,14 +1,14 @@
 [
   {
     "nev": "Helyvektor",
-    "jel": "`vec x` (r vektor)",
+    "jel": "`vec r` (r vektor)",
     "def": "irányított szakasz",
     "mert": "méter (m)",
     "kategoria": "Haladómozgással"
   },
   {
     "nev": "Elmozdulás",
-    "jel": "`Deltavec x` (delta er)",
+    "jel": "`Deltavec r` (delta er)",
     "def": "`vec x`<sub>1</sub>-`vec x`<sub>2</sub>",
     "mert": "méter (m)",
     "kategoria": "Haladómozgással"
