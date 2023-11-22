@@ -14,7 +14,7 @@ var KategoriakMatrix = [["Haladómozgással kapcsolatos","Körmozgás/Forgómozg
 ["Rezgés/Hullámokkal kapcsolatos"],
 ["Hőtan"],
 ["Elektromossággal kapcsolatos","Mágnesességgel kapcsolatos","Ellenállások fajtái"]];
-var KategoriakNum = [[7,5,12,11,4],[22],[33],[10,4,4]];
+var KategoriakNum = [[7,5,14,11,4],[22],[33],[10,4,4]];
 function Fooldal(){
     AlapDiv.innerHTML="";
     document.getElementById('FoOldal').classList.add('h2Active');
@@ -271,4 +271,4 @@ function CategoryLoad(category){
 }
 
 Fooldal();
-//AlapDiv.innerHTML += "<p>`vec x`</p>";
+//AlapDiv.innerHTML += "<p>`vec r`</p>";

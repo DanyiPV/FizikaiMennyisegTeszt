@@ -17,10 +17,10 @@ function foOldalTablaFeltolt(kat){
         let katAdatok = data.filter(c=> c.kategoria == KatNevek[i]);
         for(let j = 0; j<sorok.length;j++)
         {
-            sorok[j].getElementsByClassName("NevDiv")[0].innerHTML += "<p>"+katAdatok[j].nev+"</p>";
-            sorok[j].getElementsByClassName("JeleDiv")[0].innerHTML += "<p>"+katAdatok[j].jel+"</p>";
-            sorok[j].getElementsByClassName("DefDiv")[0].innerHTML += "<p>"+katAdatok[j].def+"</p>";
-            sorok[j].getElementsByClassName("MertekDiv")[0].innerHTML += "<p>"+katAdatok[j].mert+"</p>";
+            sorok[j].getElementsByClassName("NevDiv")[0].innerHTML = "<p>"+katAdatok[j].nev+"</p>";
+            sorok[j].getElementsByClassName("JeleDiv")[0].innerHTML = "<p>"+katAdatok[j].jel+"</p>";
+            sorok[j].getElementsByClassName("DefDiv")[0].innerHTML = "<p>"+katAdatok[j].def+"</p>";
+            sorok[j].getElementsByClassName("MertekDiv")[0].innerHTML = "<p>"+katAdatok[j].mert+"</p>";
         }
         
     }
@@ -35,6 +35,7 @@ function katValaszt(elem){
     else{
 
     }
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
 }
 function menuGen(){
     let div = document.createElement("div");
