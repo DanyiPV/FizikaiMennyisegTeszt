@@ -271,4 +271,4 @@ function CategoryLoad(category){
 }
 
 Fooldal();
-//AlapDiv.innerHTML += "<p>`vec r`</p>";
+//AlapDiv.innerHTML += "<p>`vec E`</p>";

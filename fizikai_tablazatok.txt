@@ -23,7 +23,7 @@ Erőkar;k;A forgástengely távolsága az erő hatásvonalától;méter;Dinamika
 Perdület;N;`Theta*omega`;`kg^2*m/s`;Dinamika
 Perdület változás;`Delta`N;N<sub>2</sub>-N<sub>1</sub>;`kg^2*m/s`;Dinamika
 Forgatónyomaték;M;`(DeltaN)/(Deltat)` - (`F*k`);Newton`*`méter (Nm);Dinamika
-Tehetetlenségi nyomaték;`Theta`;képlete táblázatban;kg`*^2`;Dinamika
+Tehetetlenségi nyomaték;`Theta`;képlete táblázatban;kg`*m^2`;Dinamika
 Az út;s;a pálya egy szakaszának az ívhossza;méter (m);Munka/Energiával
 Az erő munkája;W;F`*`s - (`F*Deltar`);N`*`m=Joule(J);Munka/Energiával
 Haladási energia;E<sub>h</sub>;`1/2*m*v^2`;N`*`m=Joule(J);Munka/Energiával
@@ -34,7 +34,7 @@ Rugóenergia;E<sub>rugó</sub>;`1/2*D*(Deltal)^2`;N`*`m=Joule(J);Munka/Energiáv
 Magasság;h;a nullszinttől mért függőleges távolság;méter (m);Munka/Energiával
 Helyzeti energia(gravitációs potenciális energia);E<sub>p</sub>;mg`*`h;N`*`m=Joule(J);Munka/Energiával
 Teljesítmény;P (nagy pé);`W/(Deltat)`;`J/sec`=Watt (W);Munka/Energiával
-Hatásfok;`eta`;W(<sub>hasznos</sub>)`/`W(<sub>befektetett</sub>);nincs;Munka/Energiával
+Hatásfok;`eta`;W(<sub>h</sub>)`/`W(<sub>b</sub>);nincs;Munka/Energiával
 Felszín (terület);A;alakfüggő;`méter^2 (m^2)`;Folyadékokkal
 Térfogat;V;alakfüggő;`méter^3 (m^3)`;Folyadékokkal
 Sűrűség;`rho`;`m/v`;`kg/m^3`;Folyadékokkal
@@ -69,7 +69,7 @@ Felszín, felszínváltozás;A,`Delta`A;alakfüggő,A<sub>2</sub>-A<sub>1</sub>;
 Térfogat, térfogatváltozás;V,`Delta`V;alakfüggő,V<sub>2</sub>-V<sub>1</sub>;`m^3` (köbméter);Hőtan
 Lineáris hőtágulási együttható;`alpha`;`(Deltal)/(l*Deltat)` (l<sub>0</sub>);`1/°C` vagy `1/K`;Hőtan
 Térfogati hőtágulási együttható;`beta`;`(DeltaV)/(V*Deltat)` (V<sub>0</sub>);`1/°C` vagy `1/K`;Hőtan
-Nyomás;p;`F/A`;Pa (Pascal)(Newton/négyzetméter);Hőtan
+Nyomás;p;`F/A`;Pa (Pascal)(N/m`^2`);Hőtan
 Tömeg;m;alapmennyiség;kg (kilogramm);Hőtan
 Moláris tömeg;M;táblázati adat;´g/mol´ ´(gramm/mol)´;Hőtan
 Molekulák száma;N;-;-;Hőtan
@@ -95,7 +95,7 @@ Izochor folyamatnál;W;0 Nulla;J (joule);Hőtan
 Izoterm folyamatnál;W;Fgvt.(140.o.);J (joule);Hőtan
 Adiabatikus folyamatnál;W;Fgvt.(140.o.);J (joule);Hőtan
 El. töltés;Q (nagy kú);A`*`s;Amper szekundum = Coulomb (C);Elektromossággal
-El. térerősség;´vec E´ (E vektor);`(vec F)/Q`;`N/C`=(Newton/Coulomb);Elektromossággal
+El. térerősség;`vec E` (E vektor);`(vec F)/Q`;`N/C`=(Newton/Coulomb);Elektromossággal
 El. fluxus;`psi` (nagy pszí);E`*`A;Volt `*` méter (V `*` m);Elektromossággal
 El. feszültség;U;`W/Q`;`J/C` = Volt (V);Elektromossággal
 El. kapacitás;C;`Q/U`;`C/V` = farád (F);Elektromossággal

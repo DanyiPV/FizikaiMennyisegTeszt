@@ -602,10 +602,10 @@ body{
         margin-left: -.5vw !important;
     }
     .AlapKeretDiv p{
-        font-size: 2.8vw;
+        font-size: 3vw;
         display: flex;
-        width: 50%;
-        height: 6vw;
+        width: auto;
+        height: 7vw;
         margin: auto;
         align-items:center;
         justify-content:center;
@@ -618,7 +618,6 @@ body{
     }
     .AlapTablaKeret div, .TablaSorok div{
         border-left: 1px solid white;
-        font-size: 2.8vw;
     }
     .TablaSorok{
         margin: -1vw auto 1vw auto;
@@ -627,15 +626,26 @@ body{
         width: 100%;
     }
     .TablaSorok div p{
-        font-size: 2.8vw;
+        font-size: 2.35vw;
         display: flex;
         width: auto;
-        height: 12vw;
-        margin: auto .5vw;
+        height: 20vw;
+        margin: 0;
         align-items:center;
         justify-content:center;
+        text-align: center;
     }
-    .NevDiv, .MertekDiv{
-        width: 150% !important;
+    .NevDiv, .DefDiv, .MertekDiv, .JeleDiv{
+        width: 18% !important;
+        margin: 0;
+    }
+    .NevDiv{
+        width: 25% !important;
+    }
+    .DefDiv{
+        width: 32% !important;
+    }
+    .MertekDiv{
+        width: 25% !important;
     }
 }
