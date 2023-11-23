@@ -4,6 +4,7 @@ request.send(null);
 var data = JSON.parse(request.responseText);
 var AlapDiv = document.getElementsByClassName("AlapDiv")[0];
 //Ha van kategória változás, itt is és a style_script.js-ben is megkell változtatni
+//Fooldalhoz
 function foOldalTablaFeltolt(kat){
     let KatNevek = [];
     kat.forEach(elem => {
@@ -25,11 +26,17 @@ function foOldalTablaFeltolt(kat){
     }
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
 }
+
+//Testoldalhoz
+var MasodikAlapDiv2 = document.createElement('div');
+MasodikAlapDiv2.classList.add('AlapDiv');
+MasodikAlapDiv2.id ="MasodikAlapDiv2";
 var TestSelectedCategory = undefined;
 var ProbaTestSlider =["Haladómozgással kapcsolatos","Rezgések és hullámok","Hőtan","Elektromossággal kapcsolatos","Egyéni"];
 var TestKategoriaSelector = ['Haladómozgással','Rezgések','Hőtan','Elektromossággal','Egyéni'];
 function menuGen(){
     Silder(AlapDiv,ProbaTestSlider,1);
+    AlapDiv.appendChild(MasodikAlapDiv2);
     TestCategoryLoad('ProbaTest');
 }
 
@@ -39,7 +46,14 @@ function TestCategoryLoad(category){
         ProbaTest();
     }
     if(category != TestSelectedCategory){
-        MasodikAlapDiv.innerHTML = "";
+        MasodikAlapDiv2.innerHTML = "";
+        let div = document.createElement('div');
+        div.id = "KategoriaKivalasztDiv";
+        let KatSelectDiv = document.createElement('div');
+        KatSelectDiv.id ="KatSelectDiv";
+        KatSelectDiv.innerHTML="<p>Kategóra Kiválasztás</p>";
+        div.appendChild(KatSelectDiv);
+        MasodikAlapDiv2.appendChild(div);
         if(category != "" && category != undefined && category != 'ProbaTest'){
             TestSelectedCategory = category;
         }

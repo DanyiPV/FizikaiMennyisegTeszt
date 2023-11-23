@@ -432,6 +432,32 @@ background: white;
     border-bottom-left-radius: 1vw;
     border-bottom-right-radius: 1vw;
 }
+#KategoriaKivalasztDiv{
+    width: 93.5%;
+    margin: auto;
+    height: auto;
+    margin-top: -2vw;
+    background-color: rgb(40, 40, 40);
+    padding: 1vw;
+    border-radius: 4vw;
+    justify-content: space-around;
+}
+#KatSelectDiv{
+    cursor: pointer;
+    color: gray;
+    padding: .2vw 2vw;
+    width: fit-content;
+    text-align: center;
+    border-radius: 2vw;
+    transition: .4s;
+    font-size: 1vw;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+#KatSelectDiv:hover{
+    color: white;
+    background-color: rgb(20, 20, 20);
+}
 
 @media only screen and (max-width: 1000px) {
     html,body{

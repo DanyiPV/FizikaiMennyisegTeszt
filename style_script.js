@@ -51,6 +51,7 @@ function ProbaTest(){
     FoTittle.id ="FoTittle";
     FoTittle.innerHTML="<h2>Ez lesz a test oldal</h2>";
     AlapDiv.appendChild(FoTittle);
+    
     CloseSideBar();
     menuGen();
 }
