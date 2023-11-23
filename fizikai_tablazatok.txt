@@ -95,7 +95,7 @@ Izochor folyamatnál;W;0 Nulla;J (joule);Hőtan
 Izoterm folyamatnál;W;Fgvt.(140.o.);J (joule);Hőtan
 Adiabatikus folyamatnál;W;Fgvt.(140.o.);J (joule);Hőtan
 El. töltés;Q (nagy kú);A`*`s;Amper szekundum = Coulomb (C);Elektromossággal
-El. térerősség;`vec E` (E vektor);`(vec F)/Q`;`N/C`=(Newton/Coulomb);Elektromossággal
+El. térerősség;`vec E` (E vektor);`(vec F)/Q`;`N/C`;Elektromossággal
 El. fluxus;`psi` (nagy pszí);E`*`A;Volt `*` méter (V `*` m);Elektromossággal
 El. feszültség;U;`W/Q`;`J/C` = Volt (V);Elektromossággal
 El. kapacitás;C;`Q/U`;`C/V` = farád (F);Elektromossággal

@@ -25,11 +25,36 @@ function foOldalTablaFeltolt(kat){
     }
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
 }
+var TestSelectedCategory = undefined;
+var ProbaTestSlider =["Haladómozgással kapcsolatos","Rezgések és hullámok","Hőtan","Elektromossággal kapcsolatos","Egyéni"];
+var TestKategoriaSelector = ['Haladómozgással','Rezgések','Hőtan','Elektromossággal','Egyéni'];
 function menuGen(){
-    let div = document.createElement("div");
-    div.className="csereld";
+    Silder(AlapDiv,ProbaTestSlider,1);
+    TestCategoryLoad('ProbaTest');
 }
-function tesztAdatGen(){
-    
+
+
+function TestCategoryLoad(category){
+    if(MegjelenitettOldal != 1){
+        ProbaTest();
+    }
+    if(category != TestSelectedCategory){
+        MasodikAlapDiv.innerHTML = "";
+        if(category != "" && category != undefined && category != 'ProbaTest'){
+            TestSelectedCategory = category;
+        }
+        if(TestSelectedCategory == "Egyéni" || TestSelectedCategory == undefined){
+            TestSelectedCategory = "Egyéni";
+            SliderPick(4);
+            console.log('Ide jön az egyéni');
+        }else{
+            SliderPick(TestKategoriaSelector.indexOf(TestSelectedCategory),1);
+            //ide jön a sor ki generálás miután meg lett adva
+            /*for (let i = 0; i < KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)].length; i++) {
+                SorKiGen(document.getElementById('AlapKeretDiv'+i),KategoriakNum[TestKategoriaSelector.indexOf(TestSelectedCategory)][i]);
+            } */
+            foOldalTablaFeltolt(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)], TestKategoriaSelector.indexOf(TestSelectedCategory));
+        }
+    }
+    CloseSideBar();
 }
-//Teszt oldal functionjai
