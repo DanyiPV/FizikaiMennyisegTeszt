@@ -270,6 +270,24 @@ body{
 .SharpEdgeBR{
     border-bottom-right-radius: 0;
 }
+/* width */
+::-webkit-scrollbar {
+    width: .7vw;
+}
+/* Track */
+::-webkit-scrollbar-track {
+box-shadow: inset 0 0 5px grey; 
+border-radius: 10px;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: gray; 
+border-radius: 10px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: white; 
+}
 
 
 .AlapDiv{
@@ -413,6 +431,32 @@ body{
 .Lekerekit{
     border-bottom-left-radius: 1vw;
     border-bottom-right-radius: 1vw;
+}
+#KategoriaKivalasztDiv{
+    width: 93.5%;
+    margin: auto;
+    height: auto;
+    margin-top: -2vw;
+    background-color: rgb(40, 40, 40);
+    padding: 1vw;
+    border-radius: 4vw;
+    justify-content: space-around;
+}
+#KatSelectDiv{
+    cursor: pointer;
+    color: gray;
+    padding: .2vw 2vw;
+    width: fit-content;
+    text-align: center;
+    border-radius: 2vw;
+    transition: .4s;
+    font-size: 1vw;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+#KatSelectDiv:hover{
+    color: white;
+    background-color: rgb(20, 20, 20);
 }
 
 @media only screen and (max-width: 1000px) {
@@ -602,10 +646,10 @@ body{
         margin-left: -.5vw !important;
     }
     .AlapKeretDiv p{
-        font-size: 2.8vw;
+        font-size: 3vw;
         display: flex;
-        width: 50%;
-        height: 6vw;
+        width: auto;
+        height: 7vw;
         margin: auto;
         align-items:center;
         justify-content:center;
@@ -618,7 +662,6 @@ body{
     }
     .AlapTablaKeret div, .TablaSorok div{
         border-left: 1px solid white;
-        font-size: 2.8vw;
     }
     .TablaSorok{
         margin: -1vw auto 1vw auto;
@@ -627,15 +670,26 @@ body{
         width: 100%;
     }
     .TablaSorok div p{
-        font-size: 2.8vw;
+        font-size: 2.5vw;
         display: flex;
         width: auto;
-        height: 12vw;
-        margin: auto .5vw;
+        height: 20vw;
+        margin: 0;
         align-items:center;
         justify-content:center;
+        text-align: center;
     }
-    .NevDiv, .MertekDiv{
-        width: 150% !important;
+    .NevDiv, .DefDiv, .MertekDiv, .JeleDiv{
+        width: 18% !important;
+        margin: 0;
+    }
+    .NevDiv{
+        width: 25% !important;
+    }
+    .DefDiv{
+        width: 32% !important;
+    }
+    .MertekDiv{
+        width: 25% !important;
     }
 }

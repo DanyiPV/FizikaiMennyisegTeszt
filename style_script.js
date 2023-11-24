@@ -4,11 +4,12 @@ MasodikAlapDiv.classList.add('AlapDiv');
 MasodikAlapDiv.id ="MasodikAlapDiv";
 
 var FooldalSlider = ["Tudnivalók","Haladómozgással kapcsolatos","Rezgések és hullámok","Hőtan","Elektromossággal kapcsolatos"];
-let KategoriaSelector = ['Tudnivalo','Haladómozgással','Rezgések','Hőtan','Elektromossággal'];
+var KategoriaSelector = ['Tudnivalo','Haladómozgással','Rezgések','Hőtan','Elektromossággal'];
 var SideBarOpen = 0;
 var TablazatokOpen = 0;
 var TestTablazatokOpen = 0;
 var Timer = setInterval(Timer,1000);
+var MegjelenitettOldal = 0;
 var SelectedCategory = undefined;
 var KategoriakMatrix = [["Haladómozgással kapcsolatos","Körmozgás/Forgómozgás kapcsolatos","Dinamika (erőtan)","Munka/Energiával kapcsolatos","Folyadékokkal kapcsolatos"],
 ["Rezgés/Hullámokkal kapcsolatos"],
@@ -17,6 +18,7 @@ var KategoriakMatrix = [["Haladómozgással kapcsolatos","Körmozgás/Forgómozg
 var KategoriakNum = [[7,5,14,11,4],[22],[33],[10,4,4]];
 function Fooldal(){
     AlapDiv.innerHTML="";
+    MegjelenitettOldal =0;
     document.getElementById('FoOldal').classList.add('h2Active');
     document.getElementById('TestKitoltes').classList.remove('h2Active');
     document.getElementById('OldalName').innerHTML="<h2>Fizikai Mennyiségek</h2><p> - Főoldal</p>";
@@ -24,7 +26,7 @@ function Fooldal(){
     FoTittle.id ="FoTittle";
     FoTittle.innerHTML="<h2>Próbáld ki, mit érsz a fizika ellen!</h2>";
     AlapDiv.appendChild(FoTittle);
-    Silder(AlapDiv,FooldalSlider);
+    Silder(AlapDiv,FooldalSlider,0);
     AlapDiv.appendChild(MasodikAlapDiv);
     CategoryLoad("Fooldal");
 }
@@ -41,6 +43,7 @@ var SIMG2 = document.getElementById('SideBarIMG2');
 
 function ProbaTest(){
     AlapDiv.innerHTML="";
+    MegjelenitettOldal = 1;
     TKS.classList.add('h2Active');
     document.getElementById('FoOldal').classList.remove('h2Active');
     document.getElementById('OldalName').innerHTML="<h2>Fizikai Mennyiségek</h2><p> - Teszt kitöltés</p>";
@@ -48,12 +51,14 @@ function ProbaTest(){
     FoTittle.id ="FoTittle";
     FoTittle.innerHTML="<h2>Ez lesz a test oldal</h2>";
     AlapDiv.appendChild(FoTittle);
+    
     CloseSideBar();
     menuGen();
 }
 function SideBar(){
     if(SideBarOpen == 0){
         SideBarOpen=1;
+        document.body.style.overflow = "hidden";
         SBD.classList.add('SideBarDivOpen');
         BG.classList.add('BlackBackgroundActive');
         BG.setAttribute('onclick',"CloseSideBar()")
@@ -62,6 +67,7 @@ function SideBar(){
 function CloseSideBar(){
     if(SideBarOpen == 1){
         SideBarOpen = 0;
+        document.body.style.overflow = "auto";
         SBD.classList.remove('SideBarDivOpen');
         BG.classList.remove('BlackBackgroundActive');
         BG.removeAttribute('onclick',"CloseSideBar()")
@@ -209,20 +215,20 @@ function SorKiGen(Hova, n){
         }
     }
 }
-function Silder(Hova,array){
+function Silder(Hova,array,n){
     let div = document.createElement('div');
     div.classList.add("Slider");
     for (let i = 0; i < array.length; i++) {
         let e = document.createElement('div');
         e.classList.add("SliderDiv");
         e.id = "SliderDiv"+i;
-        e.setAttribute('onclick','SliderPick('+i+')');
+        e.setAttribute('onclick','SliderPick('+i+','+n+')');
         e.innerHTML = "<p>"+array[i]+"</p>";
         div.appendChild(e);
     }
     Hova.appendChild(div);
 }
-function SliderPick(id){
+function SliderPick(id,n){
     let a = document.getElementsByClassName('ActiveSlider');
     if(a.length >0){
         a[0].classList.remove('ActiveSlider');
@@ -231,8 +237,10 @@ function SliderPick(id){
         id = KategoriaSelector.indexOf(SelectedCategory);
     }
     document.getElementById("SliderDiv"+id).classList.add("ActiveSlider");
-    if(KategoriaSelector[id] != SelectedCategory && SelectedCategory != undefined){
+    if(n==0 && KategoriaSelector[id] != SelectedCategory && SelectedCategory != undefined){
         CategoryLoad(KategoriaSelector[id]);
+    }else if(n == 1 && TestKategoriaSelector[id] != TestSelectedCategory && TestSelectedCategory != undefined){
+        TestCategoryLoad(TestKategoriaSelector[id]);
     }
 }
 function Tudnivalok(){
@@ -249,6 +257,9 @@ function Tudnivalok(){
     MasodikAlapDiv.appendChild(TudnivalokDiv);
 }
 function CategoryLoad(category){
+    if(MegjelenitettOldal != 0){
+        Fooldal();
+    }
     if(category != SelectedCategory){
         MasodikAlapDiv.innerHTML = "";
         if(category != "" && category != undefined && category != "Fooldal"){
@@ -259,7 +270,7 @@ function CategoryLoad(category){
             SliderPick(0);
             Tudnivalok();
         }else{
-            SliderPick(KategoriaSelector.indexOf(SelectedCategory));
+            SliderPick(KategoriaSelector.indexOf(SelectedCategory),0);
             for (let i = 0; i < KategoriakMatrix[KategoriaSelector.indexOf(SelectedCategory)-1].length; i++) {
                 AlapKiGen(MasodikAlapDiv,KategoriakMatrix[KategoriaSelector.indexOf(SelectedCategory)-1][i],i);
                 SorKiGen(document.getElementById('AlapKeretDiv'+i),KategoriakNum[KategoriaSelector.indexOf(SelectedCategory)-1][i]);
@@ -271,4 +282,4 @@ function CategoryLoad(category){
 }
 
 Fooldal();
-//AlapDiv.innerHTML += "<p>`vec r`</p>";
+//AlapDiv.innerHTML += "<p>`vec E`</p>";
