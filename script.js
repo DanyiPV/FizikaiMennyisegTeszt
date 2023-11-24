@@ -82,4 +82,57 @@ function kever(list) {
     return l;
   }
 
-  
+var rosszak = [];
+var userLista = [];
+var tesztLista = [];
+function joEaSor(sor_be,sor_ref){
+    var akt_rossz = [];
+    if(sor_be.nev != sor_ref.nev)
+    {
+        akt_rossz.push(0);
+    }
+    else{
+        akt_rossz.push(-1);
+    }
+    if(sor_be.jel != sor_ref.jel)
+    {
+        akt_rossz.push(1);
+    }
+    else{
+        akt_rossz.push(-1);
+    }
+    if(sor_be.def != sor_ref.def)
+    {
+        akt_rossz.push(2);
+    }
+    else{
+        akt_rossz.push(-1);
+    }
+    if(sor_be.mert != sor_ref.mert)
+    {
+        akt_rossz.push(3);
+    }
+    else{
+        akt_rossz.push(-1);
+    }
+    rosszak.push(akt_rossz);
+}
+
+//vissza adja soronként hanyadik mező hibás
+//ciklus minden elemre meghívva külön külön és bele teszi sorban a rossz listába 
+//jó sornál [-1] kerül bele
+// [[0,2],[3],[1,3]...]
+
+function HosszSzam(lista){
+    var db;
+    for (let i = 0; i < lista.length; i++) {
+        if(lista[i,0] != -1)
+        {
+            db++;
+        }
+        
+    }
+    return db;
+}
+
+//kell egy function ami kitöröl a user lstából hogy tudjon tesztelni
