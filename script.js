@@ -22,18 +22,6 @@ function foOldalTablaFeltolt(kat){
             sorok[j].getElementsByClassName("DefDiv")[0].innerHTML = "<p>"+katAdatok[j].def+"</p>";
             sorok[j].getElementsByClassName("MertekDiv")[0].innerHTML = "<p>"+katAdatok[j].mert+"</p>";
         }
-        
-    }
-}
-
-
-//Teszt oldal functionjai
-function katValaszt(elem){
-    if(elem.innerText == "Egyéni")
-    {
-    }
-    else{
-
     }
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
 }
