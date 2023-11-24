@@ -72,3 +72,14 @@ function TestCategoryLoad(category){
     }
     CloseSideBar();
 }
+
+function kever(list) {
+    const l = [...list];
+    for (let i = l.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [l[i], l[j]] = [l[j], l[i]];
+    }  
+    return l;
+  }
+
+  
