@@ -211,4 +211,33 @@ function randomSzam(also,felso){
     return Math.floor(Math.random()*(felso-also+1)+also);
 }
 
-//százalé + osztály function
+//százalék + osztályzat function
+
+function osztalyozas(min,max){
+    var szazalek;
+    var jegy;
+    var eredmeny = [];
+
+    szazalek = Math.floor(min/max*100);
+
+    if(szazalek > 80){
+        jegy = 5;
+    }
+    else if(szazalek > 65 && szazalek < 80){
+        jegy = 4;
+    }
+    else if(szazalek > 50 && szazalek < 65){
+        jegy = 3;
+    }
+    else if(szazalek > 30 && szazalek < 50){
+        jegy = 2;
+    }
+    else if(szazalek > 0 && szazalek < 30){
+        jegy = 1;
+    }
+
+    eredmeny.push(szazalek);
+    eredmeny.push(jegy);
+    return eredmeny;
+    //[%,5]
+}
