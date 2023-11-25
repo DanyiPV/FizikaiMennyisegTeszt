@@ -138,4 +138,3 @@ function HosszSzam(lista){
     return db;
 }
 
-//kell egy function ami kitöröl a user lstából hogy tudjon tesztelni
