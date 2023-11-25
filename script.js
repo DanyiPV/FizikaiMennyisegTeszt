@@ -62,7 +62,18 @@ function TestCategoryLoad(category){
             let KatSelectDiv = document.createElement('div');
             KatSelectDiv.id ="KatSelectDiv";
             KatSelectDiv.innerHTML="<p>Kategóra Kiválasztás</p>";
+            KatSelectDiv.setAttribute('onclick',"TesztKiGen()");
             div.appendChild(KatSelectDiv);
+            let nudDiv = document.createElement("div");
+            nudDiv.id = "KategoriaNumericUpdownDiv";
+            let KatNumUD = document.createElement("input");
+            KatNumUD.type = "number";
+            KatNumUD.id = "KategoriaNumericUpdown";
+            KatNumUD.min = 1;
+            KatNumUD.max = KategoriakNum[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0];
+            KatNumUD.setAttribute('onchange',"nudValtozas("+KategoriakNum[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0]+")");
+            nudDiv.appendChild(KatNumUD);
+            div.appendChild(nudDiv);
             MasodikAlapDiv2.appendChild(div);
             AlapKiGen(MasodikAlapDiv2,KategoriakMatrix[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0],0);
             SorKiGen(document.getElementById('AlapKeretDiv'+0),KategoriakNum[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0]);
@@ -75,6 +86,13 @@ function TestCategoryLoad(category){
     }
     CloseSideBar();
 }
+
+function nudValtozas(maxval){
+    let nudval = parseInt(document.getElementById("KategoriaNumericUpdown").value);
+    if(nudval > maxval) document.getElementById("KategoriaNumericUpdown").value = maxval.toString();
+    if(nudval < 1) document.getElementById("KategoriaNumericUpdown").value = '1';
+}
+
 
 function kever(list) {
     const l = [...list];
@@ -138,3 +156,59 @@ function HosszSzam(lista){
     return db;
 }
 
+//Teszt kigenerálása
+
+function TesztKiGen(){
+    if(document.getElementById("KategoriaNumericUpdown").value != ''){
+        tesztListaFeltolt();
+        userListaKiszed();
+        console.log("tesztlista: ");
+        console.log(tesztLista);
+        console.log("userlista: ");
+        console.log(userLista);
+    }else{
+        console.log("Nincs megadva hány sor legyen kivéve!");
+    }
+}
+
+
+//teszt lista feltöltése a helyes adatokkal
+
+function tesztListaFeltolt(){
+    let adatLista = data.filter(c => c.kategoria == KategoriakMatrix[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0].split(' ')[0]);
+    for(let i = parseInt(document.getElementById("KategoriaNumericUpdown").value)-1;i>=0;i--){
+        let rnd = randomSzam(0,adatLista.length-1);
+        tesztLista.push(adatLista[rnd]);
+        adatLista.splice(rnd,1);
+    }
+    
+}
+
+//kell egy function ami kitöröl a user lstából hogy tudjon tesztelni
+
+function userListaKiszed(){
+    let szempontok = ['nev','jel','def','mert'];
+    for(let i = 0; i < tesztLista.length;i++){
+        let rnd = randomSzam(1,3);
+        let kivettHelyek = [];
+        let temp = {nev:"" ,jel:"" ,def:"" ,mert:""};
+        for(let j = 0;j < rnd;j++){
+            let rndHely = randomSzam(0,3);
+            while(kivettHelyek.includes(rndHely)){
+                rndHely = randomSzam(0,3);
+            }
+            temp[szempontok[rndHely]] = tesztLista[i][szempontok[rndHely]];
+            tesztLista[i][szempontok[rndHely]] = "";
+            kivettHelyek.push(rndHely);
+        }
+        userLista.push(temp);
+    }
+    
+}
+
+
+function randomSzam(also,felso){
+    return Math.floor(Math.random()*(felso-also+1)+also);
+}
+
+//százalé + osztály function
