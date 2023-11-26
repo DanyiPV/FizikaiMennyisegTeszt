@@ -4,8 +4,22 @@ request.send(null);
 var data = JSON.parse(request.responseText);
 var AlapDiv = document.getElementsByClassName("AlapDiv")[0];
 //Ha van kategória változás, itt is és a style_script.js-ben is megkell változtatni
+
+var rosszak = [];
+var userLista = [];
+var tesztLista = [];
+var kivettElemek = [];
+
+//Testoldalhoz
+var MasodikAlapDiv2 = document.createElement('div');
+MasodikAlapDiv2.classList.add('AlapDiv');
+MasodikAlapDiv2.id ="MasodikAlapDiv2";
+var TestSelectedCategory = undefined;
+var ProbaTestSlider =["Haladómozgással kapcsolatos","Rezgések és hullámok","Hőtan","Elektromossággal kapcsolatos","Egyéni"];
+var TestKategoriaSelector = ['Haladómozgással','Rezgések','Hőtan','Elektromossággal','Egyéni'];
+
 //Fooldalhoz
-function foOldalTablaFeltolt(kat){
+function foOldalTablaFeltolt(kat,katindex){
     let KatNevek = [];
     kat.forEach(elem => {
         KatNevek.push(elem.split(' ')[0]);
@@ -24,16 +38,24 @@ function foOldalTablaFeltolt(kat){
             sorok[j].getElementsByClassName("MertekDiv")[0].innerHTML = "<p>"+katAdatok[j].mert+"</p>";
         }
     }
-    MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);//Újra tölti az ascii mathat hogy működjön
 }
 
-//Testoldalhoz
-var MasodikAlapDiv2 = document.createElement('div');
-MasodikAlapDiv2.classList.add('AlapDiv');
-MasodikAlapDiv2.id ="MasodikAlapDiv2";
-var TestSelectedCategory = undefined;
-var ProbaTestSlider =["Haladómozgással kapcsolatos","Rezgések és hullámok","Hőtan","Elektromossággal kapcsolatos","Egyéni"];
-var TestKategoriaSelector = ['Haladómozgással','Rezgések','Hőtan','Elektromossággal','Egyéni'];
+function testOldalTablaFeltolt(){
+    let tabla = document.getElementById("AlapKeretDiv0");
+    console.log(TestSelectedCategory);
+    let sorok = tabla.getElementsByClassName("TablaSorok");
+    let katAdatok = userLista;
+    for(let j = 0; j<sorok.length;j++)
+    {
+        sorok[j].getElementsByClassName("NevDiv")[0].innerHTML = "<p>"+katAdatok[j].nev+"</p>";
+        sorok[j].getElementsByClassName("JeleDiv")[0].innerHTML = "<p>"+katAdatok[j].jel+"</p>";
+        sorok[j].getElementsByClassName("DefDiv")[0].innerHTML = "<p>"+katAdatok[j].def+"</p>";
+        sorok[j].getElementsByClassName("MertekDiv")[0].innerHTML = "<p>"+katAdatok[j].mert+"</p>";
+    }
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);//Újra tölti az ascii mathat hogy működjön
+}
+
 function menuGen(){
     Silder(AlapDiv,ProbaTestSlider,1);
     AlapDiv.appendChild(MasodikAlapDiv2);
@@ -72,16 +94,14 @@ function TestCategoryLoad(category){
             KatNumUD.min = 1;
             KatNumUD.max = KategoriakNum[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0];
             KatNumUD.setAttribute('onchange',"nudValtozas("+KategoriakNum[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0]+")");
+            let fodiv = document.createElement("div");
+            fodiv.id = "dragContainer";
             nudDiv.appendChild(KatNumUD);
             div.appendChild(nudDiv);
             MasodikAlapDiv2.appendChild(div);
             AlapKiGen(MasodikAlapDiv2,KategoriakMatrix[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0],0);
-            SorKiGen(document.getElementById('AlapKeretDiv'+0),KategoriakNum[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0]);
-            //ide jön a sor ki generálás miután meg lett adva
-            /*for (let i = 0; i < KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)].length; i++) {
-                SorKiGen(document.getElementById('AlapKeretDiv'+i),KategoriakNum[TestKategoriaSelector.indexOf(TestSelectedCategory)][i]);
-            } */
-            foOldalTablaFeltolt(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)], TestKategoriaSelector.indexOf(TestSelectedCategory));
+            MasodikAlapDiv2.appendChild(fodiv);
+            //SorKiGen(document.getElementById('AlapKeretDiv'+0),KategoriakNum[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0]);
         }
     }
     CloseSideBar();
@@ -103,9 +123,6 @@ function kever(list) {
     return l;
   }
 
-var rosszak = [];
-var userLista = [];
-var tesztLista = [];
 function joEaSor(sor_be,sor_ref){
     var akt_rossz = [];
     if(sor_be.nev != sor_ref.nev)
@@ -160,12 +177,20 @@ function HosszSzam(lista){
 
 function TesztKiGen(){
     if(document.getElementById("KategoriaNumericUpdown").value != ''){
+        rosszak = [];
+        userLista = [];
+        tesztLista = [];
+        gombDisable(true);
         tesztListaFeltolt();
         userListaKiszed();
         console.log("tesztlista: ");
         console.log(tesztLista);
         console.log("userlista: ");
         console.log(userLista);
+        SorKiGen(document.getElementById('AlapKeretDiv'+0),parseInt(document.getElementById("KategoriaNumericUpdown").value))
+        testOldalTablaFeltolt();
+        dragContainerGEN();
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
     }else{
         console.log("Nincs megadva hány sor legyen kivéve!");
     }
@@ -198,12 +223,18 @@ function userListaKiszed(){
                 rndHely = randomSzam(0,3);
             }
             temp[szempontok[rndHely]] = tesztLista[i][szempontok[rndHely]];
-            tesztLista[i][szempontok[rndHely]] = "";
+            //tesztLista[i][szempontok[rndHely]] = ""; //Az adatoknak ott kell lenniük különben nem tudjuk össze hasonlítani (persze majd valahogy titkosítani kell)
             kivettHelyek.push(rndHely);
         }
+        for(let j = 0;j < 4;j++){
+            if(!kivettHelyek.includes(j)){
+                kivettElemek.push(tesztLista[i][szempontok[j]]);
+            }
+        }
+        //console.log(kivettHelyek,kivettElemek);
         userLista.push(temp);
     }
-    
+    kever(userLista);
 }
 
 
@@ -240,4 +271,30 @@ function osztalyozas(min,max){
     eredmeny.push(jegy);
     return eredmeny;
     //[%,5]
+}
+
+//gombok ki/be kapcs meg bármi más kerüljön ide amit ki kell kapcsolni a teszt erejéig
+function gombDisable(state){
+    if(state){
+        document.getElementById("KatSelectDiv").setAttribute("onclick","");
+        Array.prototype.slice.call(document.getElementsByClassName("SliderDiv")).map((c)=>c.setAttribute("onclick",""));
+    }else
+    {
+        document.getElementById("KatSelectDiv").setAttribute("onclick","TesztKiGen()");
+        let sliderLista = document.getElementsByClassName("SliderDiv");
+        for(let i= 0; i<sliderLista.length;i++){
+            sliderLista[i].setAttribute("SliderPick("+i+",1)");//Ez még nem bizt hogy jó
+        }
+    }
+}
+
+//drag and droppos cuccok
+function dragContainerGEN(){
+    let dragCont = document.getElementById("dragContainer");
+    dragCont.innerHTML="";
+    for(let i = 0;i<kivettElemek.length;i++){
+        let elem = document.createElement("div");
+        elem.innerHTML = kivettElemek[i];
+        dragCont.appendChild(elem);
+    }
 }
