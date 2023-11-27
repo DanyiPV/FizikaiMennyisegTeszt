@@ -720,3 +720,9 @@ background: white;
         width: 25% !important;
     }
 }
+
+.huzhato{
+    position: absolute;
+    background-color: #f1f1f1;
+    padding: 10px;
+}
