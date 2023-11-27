@@ -441,6 +441,7 @@ background: white;
     padding: 1vw;
     border-radius: 4vw;
     justify-content: space-around;
+    display: flex;
 }
 #KatSelectDiv{
     cursor: pointer;
@@ -457,6 +458,32 @@ background: white;
 #KatSelectDiv:hover{
     color: white;
     background-color: rgb(20, 20, 20);
+}
+
+#KategoriaNumericUpdown{
+    padding: .4vw 1vw;
+    width: 1.5vw;
+    border: 0;
+    text-align: center;
+    border-radius: .2vw;
+    margin-top: .7vw;
+    transition: .7s;
+    background-color: rgb(180, 180, 180);
+}
+
+#KategoriaNumericUpdown:focus { 
+    background-color: rgb(180, 180, 180);
+    border-radius: 1vw;
+}
+
+#KategoriaNumericUpdown[type="number"] {
+    -webkit-appearance: textfield;
+       -moz-appearance: textfield;
+            appearance: textfield;
+}
+#KategoriaNumericUpdown[type=number]::-webkit-inner-spin-button, 
+#KategoriaNumericUpdown[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
 }
 
 @media only screen and (max-width: 1000px) {
