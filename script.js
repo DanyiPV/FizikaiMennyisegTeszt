@@ -122,13 +122,14 @@ function nudValtozas(maxval){
 }
 
 
-function kever(list) {
-    const l = [...list];
-    for (let i = l.length - 1; i > 0; i--) {
+function Listakeveres() {
+    userLista = [...userLista];
+    tesztLista = [...tesztLista];
+    for (let i = userLista.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [l[i], l[j]] = [l[j], l[i]];
+      [userLista[i], userLista[j]] = [userLista[j], userLista[i]];
+      [tesztLista[i], tesztLista[j]] = [tesztLista[j], tesztLista[i]];
     }  
-    return l;
   }
 
 function joEaSor(sor_be,sor_ref){
@@ -238,7 +239,9 @@ function tesztListaFeltolt(){
     let adatLista = data.filter(c => c.kategoria == KategoriakMatrix[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0].split(' ')[0]);
     for(let i = parseInt(document.getElementById("KategoriaNumericUpdown").value)-1;i>=0;i--){
         let rnd = randomSzam(0,adatLista.length-1);
-        tesztLista.push(adatLista[rnd]);
+        let temp = adatLista[rnd];
+        delete temp.kategoria;
+        tesztLista.push(temp);
         adatLista.splice(rnd,1);
     }
     
@@ -258,18 +261,12 @@ function userListaKiszed(){
                 rndHely = randomSzam(0,3);
             }
             temp[szempontok[rndHely]] = tesztLista[i][szempontok[rndHely]];
-            //tesztLista[i][szempontok[rndHely]] = ""; //Az adatoknak ott kell lenniük különben nem tudjuk össze hasonlítani (persze majd valahogy titkosítani kell)
+            tesztLista[i][szempontok[rndHely]] = "";
             kivettHelyek.push(rndHely);
         }
-        for(let j = 0;j < 4;j++){
-            if(!kivettHelyek.includes(j)){
-                kivettElemek.push(tesztLista[i][szempontok[j]]);
-            }
-        }
-        //console.log(kivettHelyek,kivettElemek);
         userLista.push(temp);
     }
-    kever(userLista);
+    Listakeveres(userLista,tesztLista);
 }
 
 
@@ -282,7 +279,7 @@ function randomSzam(also,felso){
 function osztalyozas(min,max){
     var szazalek;
     var jegy;
-    var eredmeny = [];
+    
 
     szazalek = Math.floor(min/max*100);
 
@@ -302,9 +299,7 @@ function osztalyozas(min,max){
         jegy = 1;
     }
 
-    eredmeny.push(szazalek);
-    eredmeny.push(jegy);
-    return eredmeny;
+    return [szazalek,jegy];
     //[%,5]
 }
 
