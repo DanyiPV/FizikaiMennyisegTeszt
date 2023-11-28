@@ -52,6 +52,11 @@ function testOldalTablaFeltolt(){
         sorok[j].getElementsByClassName("JeleDiv")[0].innerHTML = "<p>"+katAdatok[j].jel+"</p>";
         sorok[j].getElementsByClassName("DefDiv")[0].innerHTML = "<p>"+katAdatok[j].def+"</p>";
         sorok[j].getElementsByClassName("MertekDiv")[0].innerHTML = "<p>"+katAdatok[j].mert+"</p>";
+
+        sorok[j].getElementsByClassName("NevDiv")[0].setAttribute("onmouseup","egerElenged(event)");
+        sorok[j].getElementsByClassName("JeleDiv")[0].setAttribute("onmouseup","egerElenged(event)");
+        sorok[j].getElementsByClassName("DefDiv")[0].setAttribute("onmouseup","egerElenged(event)");
+        sorok[j].getElementsByClassName("MertekDiv")[0].setAttribute("onmouseup","egerElenged(event)");
     }
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);//Újra tölti az ascii mathat hogy működjön
 }
@@ -295,6 +300,85 @@ function dragContainerGEN(){
     for(let i = 0;i<kivettElemek.length;i++){
         let elem = document.createElement("div");
         elem.innerHTML = kivettElemek[i];
+        //elem.draggable = true;
+        //elem.ondragstart = "drag(event)"
+        //elem.classList.add("huzhato");
+        dragElement(elem);
         dragCont.appendChild(elem);
     }
+}
+
+/*function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("id", ev.target.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("adat");
+    ev.target.appendChild(document.getElementById(data));
+}*/
+var huzottElem = undefined;
+
+function egerElenged(ev){
+    ev.preventDefault();
+    if(huzottElem&&ev.target.innerHTML.length<8){
+        ev.target.innerHTML = "<p>"+huzottElem.innerHTML+"</p>";
+        huzottElem.onmousedown="";
+    }
+}
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id)) {
+    // if present, the header is where you move the DIV from:
+    document.getElementById(elmnt.id).onmousedown = dragMouseDown;
+  } else {
+    // otherwise, move the DIV from anywhere inside the DIV:
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    huzottElem = elmnt;
+    elmnt.classList.add("huzhato");
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    //console.log("Tuntet: ");
+    //console.log(elmnt.classList)
+    elmnt.classList.remove("huzhato");
+    //console.log(elmnt.classList);
+    
+
+    // stop moving when mouse button is released:
+    document.onmouseup = null;
+    document.onmousemove = null;
+    elmnt.style.removeProperty("top");
+    elmnt.style.removeProperty("left");
+    huzottElem = undefined;
+  }
 }
