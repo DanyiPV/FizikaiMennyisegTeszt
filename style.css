@@ -465,15 +465,17 @@ background: white;
     width: 1.5vw;
     border: 0;
     text-align: center;
+    border-style: none;
     border-radius: .2vw;
-    margin-top: .7vw;
-    transition: .7s;
+    margin-top: 1vw;
+    transition: .3s;
     background-color: rgb(180, 180, 180);
 }
 
 #KategoriaNumericUpdown:focus { 
     background-color: rgb(180, 180, 180);
-    border-radius: 1vw;
+    border-radius: .5vw;
+    outline: none;
 }
 
 #KategoriaNumericUpdown[type="number"] {
