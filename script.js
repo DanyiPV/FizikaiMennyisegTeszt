@@ -77,8 +77,6 @@ function menuGen(){
     AlapDiv.appendChild(MasodikAlapDiv2);
     TestCategoryLoad('ProbaTest');
 }
-
-
 function TestCategoryLoad(category){
     if(MegjelenitettOldal != 1){
         ProbaTest();
@@ -103,7 +101,7 @@ function TestCategoryLoad(category){
             let KatSelectDiv = document.createElement('div');
             KatSelectDiv.id ="KatSelectDiv";
             KatSelectDiv.innerHTML="<p>Kategóra Kiválasztás</p>";
-            KatSelectDiv.setAttribute('onclick',"TesztKiGen()");
+            KatSelectDiv.setAttribute('onclick',"DropDownKinyit()");
             FoKatSelectorDiv.appendChild(KatSelectDiv);
             let nudDiv = document.createElement("div");
             nudDiv.id = "KategoriaNumericUpdownDiv";
@@ -113,13 +111,15 @@ function TestCategoryLoad(category){
             KatNumUD.min = 1;
             KatNumUD.max = KategoriakNum[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0];
             KatNumUD.setAttribute('onchange',"nudValtozas("+KategoriakNum[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0]+")");
-            let fodiv = document.createElement("div");
-            fodiv.id = "dragContainer";
             nudDiv.appendChild(KatNumUD);
             div.appendChild(nudDiv);
+            let SubmitButton = document.createElement('input');
+            SubmitButton.type="button";
+            SubmitButton.value = "Indítás";
+            SubmitButton.id = "SubmitInditas";
+            SubmitButton.setAttribute('onclick','TesztKiGen()')
+            div.appendChild(SubmitButton);
             MasodikAlapDiv2.appendChild(div);
-            AlapKiGen(MasodikAlapDiv2,KategoriakMatrix[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0],0);
-            MasodikAlapDiv2.appendChild(fodiv);
             //SorKiGen(document.getElementById('AlapKeretDiv'+0),KategoriakNum[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0]);
         }
     }
@@ -131,8 +131,6 @@ function nudValtozas(maxval){
     if(nudval > maxval) document.getElementById("KategoriaNumericUpdown").value = maxval.toString();
     if(nudval < 1) document.getElementById("KategoriaNumericUpdown").value = '1';
 }
-
-
 function kever(list) {
     const l = [...list];
     for (let i = l.length - 1; i > 0; i--) {
@@ -140,8 +138,7 @@ function kever(list) {
       [l[i], l[j]] = [l[j], l[i]];
     }  
     return l;
-  }
-
+}
 function joEaSor(sor_be,sor_ref){
     var akt_rossz = [];
     if(sor_be.nev != sor_ref.nev)
@@ -191,14 +188,19 @@ function HosszSzam(lista){
     }
     return db;
 }
-
 //Teszt kigenerálása
-
 function TesztKiGen(){
-    if(document.getElementById("KategoriaNumericUpdown").value != ''){
-        document.getElementById('KatSelectDiv').classList.add('KatSelectDivEdge');
-        KatSelectorsKigen();
-        DropDownKinyit();
+    if(document.getElementById("KategoriaNumericUpdown").value != '' && KivalasztottKatok.length>=1){
+        if(DropDownEnable == 1){
+            DropDownEnable = 0;
+            document.getElementById('KatSelectDiv').classList.remove('KatSelectDivEdge');
+            document.getElementById('KatDropDownDiv').classList.remove('DropDownKinyil');
+        }
+        let div = document.getElementById('KategoriaKivalasztDiv');
+        let fodiv = document.createElement("div");
+        fodiv.id = "dragContainer";
+        AlapKiGen(MasodikAlapDiv2,KategoriakMatrix[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][0],0);
+        MasodikAlapDiv2.appendChild(fodiv);
         rosszak = [];
         userLista = [];
         tesztLista = [];
@@ -227,6 +229,8 @@ function KatSelectorsKigen(){
         for(let i = 0; i < KategoriakMatrix[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])].length;i++){
             let bdiv = document.createElement('div');
             bdiv.classList.add("BelsoSelectorDiv");
+            bdiv.id = KategoriakMatrix[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][i];
+            bdiv.setAttribute('onclick','KatKivalaszt(this)');
             bdiv.innerHTML = "<p>"+KategoriakMatrix[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][i]+"</p>";
             div.appendChild(bdiv);
         }
@@ -234,12 +238,27 @@ function KatSelectorsKigen(){
     }
 }
 
+var KivalasztottKatok = [];
+function KatKivalaszt(div){
+    if(!KivalasztottKatok.includes(div.id)){
+        KivalasztottKatok.push(div.id);
+        div.classList.add('KivalasztottKat');
+    }else{
+        KivalasztottKatok.splice(KivalasztottKatok.indexOf(div.id),1);
+        div.classList.remove('KivalasztottKat');
+    }
+}
+
 function DropDownKinyit(){
+    KatSelectorsKigen();
     if(DropDownEnable == 0){
         DropDownEnable = 1;
-        document.getElementById('KatDropDownDiv').classList.add('DropDownKinyil')
+        document.getElementById('KatSelectDiv').classList.add('KatSelectDivEdge');
+        document.getElementById('KatDropDownDiv').classList.add('DropDownKinyil');
     }else{
         DropDownEnable = 0;
+        document.getElementById('KatSelectDiv').classList.remove('KatSelectDivEdge');
+        document.getElementById('KatDropDownDiv').classList.remove('DropDownKinyil');
     }
 }
 
