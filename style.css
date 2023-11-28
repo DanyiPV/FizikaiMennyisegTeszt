@@ -443,11 +443,14 @@ background: white;
     justify-content: space-around;
     display: flex;
 }
+#FoKatSelectorDiv{
+    width: 25vw;
+}
 #KatSelectDiv{
     cursor: pointer;
     color: gray;
-    padding: .2vw 2vw;
-    width: fit-content;
+    padding: .2vw;
+    width: 100%;
     text-align: center;
     border-radius: 2vw;
     transition: .4s;
@@ -455,6 +458,43 @@ background: white;
     letter-spacing: 0.1em;
     text-transform: uppercase;
 }
+.KatSelectDivEdge{
+    border-radius: 1vw 1vw 0 0 !important;
+    background-color: rgb(20, 20, 20) !important;
+}
+
+.KatDropDownDiv{
+    position: absolute;
+    background-color: rgb(20, 20, 20);
+    height: auto;
+    width: 25.4vw;
+    z-index: -1;
+    opacity: 0;
+    font-size: 1vw;
+    border-bottom-left-radius: 1vw;
+    border-bottom-right-radius: 1vw;
+}
+
+.DropDownKinyil{
+    
+}
+
+.BelsoSelectorDiv{
+    margin: .7vw auto;
+    padding: 1px 3vw;
+    width: 18vw;
+    border-radius: .4vw;
+    cursor: pointer;
+    color: gray;
+    text-align: center;
+    transition: .4s;
+}
+
+.BelsoSelectorDiv:hover{
+    color: white;
+    background-color: rgb(100, 100, 100);
+}
+
 #KatSelectDiv:hover{
     color: white;
     background-color: rgb(20, 20, 20);
@@ -486,6 +526,13 @@ background: white;
 #KategoriaNumericUpdown[type=number]::-webkit-inner-spin-button, 
 #KategoriaNumericUpdown[type=number]::-webkit-outer-spin-button { 
     -webkit-appearance: none;
+}
+
+.huzhato{
+    position: absolute;
+    background-color: transparent;
+    padding: 10px;
+    color: white;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -721,10 +768,4 @@ background: white;
     .MertekDiv{
         width: 25% !important;
     }
-}
-
-.huzhato{
-    position: absolute;
-    background-color: #f1f1f1;
-    padding: 10px;
 }

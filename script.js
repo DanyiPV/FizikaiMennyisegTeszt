@@ -86,11 +86,14 @@ function TestCategoryLoad(category){
             SliderPick(TestKategoriaSelector.indexOf(TestSelectedCategory),1);
             let div = document.createElement('div');
             div.id = "KategoriaKivalasztDiv";
+            let FoKatSelectorDiv = document.createElement('div');
+            FoKatSelectorDiv.id = "FoKatSelectorDiv";
+            div.appendChild(FoKatSelectorDiv);
             let KatSelectDiv = document.createElement('div');
             KatSelectDiv.id ="KatSelectDiv";
             KatSelectDiv.innerHTML="<p>Kategóra Kiválasztás</p>";
             KatSelectDiv.setAttribute('onclick',"TesztKiGen()");
-            div.appendChild(KatSelectDiv);
+            FoKatSelectorDiv.appendChild(KatSelectDiv);
             let nudDiv = document.createElement("div");
             nudDiv.id = "KategoriaNumericUpdownDiv";
             let KatNumUD = document.createElement("input");
@@ -182,6 +185,9 @@ function HosszSzam(lista){
 
 function TesztKiGen(){
     if(document.getElementById("KategoriaNumericUpdown").value != ''){
+        document.getElementById('KatSelectDiv').classList.add('KatSelectDivEdge');
+        KatSelectorsKigen();
+        DropDownKinyit();
         rosszak = [];
         userLista = [];
         tesztLista = [];
@@ -201,6 +207,30 @@ function TesztKiGen(){
     }
 }
 
+var DropDownEnable = 0;
+function KatSelectorsKigen(){
+    if(document.getElementById('KatDropDownDiv') == undefined){
+        let div = document.createElement('div');
+        div.classList.add('KatDropDownDiv');
+        div.id = "KatDropDownDiv";
+        for(let i = 0; i < KategoriakMatrix[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])].length;i++){
+            let bdiv = document.createElement('div');
+            bdiv.classList.add("BelsoSelectorDiv");
+            bdiv.innerHTML = "<p>"+KategoriakMatrix[KategoriakMatrix.indexOf(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)])][i]+"</p>";
+            div.appendChild(bdiv);
+        }
+        document.getElementById('FoKatSelectorDiv').appendChild(div);
+    }
+}
+
+function DropDownKinyit(){
+    if(DropDownEnable == 0){
+        DropDownEnable = 1;
+        document.getElementById('KatDropDownDiv').classList.add('DropDownKinyil')
+    }else{
+        DropDownEnable = 0;
+    }
+}
 
 //teszt lista feltöltése a helyes adatokkal
 
