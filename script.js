@@ -48,15 +48,26 @@ function testOldalTablaFeltolt(){
     let katAdatok = userLista;
     for(let j = 0; j<sorok.length;j++)
     {
+
         sorok[j].getElementsByClassName("NevDiv")[0].innerHTML = "<p>"+katAdatok[j].nev+"</p>";
         sorok[j].getElementsByClassName("JeleDiv")[0].innerHTML = "<p>"+katAdatok[j].jel+"</p>";
         sorok[j].getElementsByClassName("DefDiv")[0].innerHTML = "<p>"+katAdatok[j].def+"</p>";
         sorok[j].getElementsByClassName("MertekDiv")[0].innerHTML = "<p>"+katAdatok[j].mert+"</p>";
 
-        sorok[j].getElementsByClassName("NevDiv")[0].setAttribute("onmouseup","egerElenged(event)");
-        sorok[j].getElementsByClassName("JeleDiv")[0].setAttribute("onmouseup","egerElenged(event)");
-        sorok[j].getElementsByClassName("DefDiv")[0].setAttribute("onmouseup","egerElenged(event)");
-        sorok[j].getElementsByClassName("MertekDiv")[0].setAttribute("onmouseup","egerElenged(event)");
+        sorok[j].getElementsByClassName("NevDiv")[0].dataset.fajta ="nev";
+        sorok[j].getElementsByClassName("JeleDiv")[0].dataset.fajta ="jel";
+        sorok[j].getElementsByClassName("DefDiv")[0].dataset.fajta ="def";
+        sorok[j].getElementsByClassName("MertekDiv")[0].dataset.fajta ="mert";
+
+        sorok[j].getElementsByClassName("NevDiv")[0].dataset.sor =j;
+        sorok[j].getElementsByClassName("JeleDiv")[0].dataset.sor =j;
+        sorok[j].getElementsByClassName("DefDiv")[0].dataset.sor =j;
+        sorok[j].getElementsByClassName("MertekDiv")[0].dataset.sor =j;
+
+        sorok[j].getElementsByClassName("NevDiv")[0].setAttribute("onmouseup","egerElenged(this)");
+        sorok[j].getElementsByClassName("JeleDiv")[0].setAttribute("onmouseup","egerElenged(this)");
+        sorok[j].getElementsByClassName("DefDiv")[0].setAttribute("onmouseup","egerElenged(this)");
+        sorok[j].getElementsByClassName("MertekDiv")[0].setAttribute("onmouseup","egerElenged(this)");
     }
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);//Újra tölti az ascii mathat hogy működjön
 }
@@ -280,7 +291,7 @@ function tesztListaFeltolt(){
 }
 
 //kell egy function ami kitöröl a user lstából hogy tudjon tesztelni
-
+let szempontok = ['nev','jel','def','mert'];
 function userListaKiszed(){
     let szempontok = ['nev','jel','def','mert'];
     for(let i = 0; i < tesztLista.length;i++){
@@ -359,7 +370,8 @@ function dragContainerGEN(){
         elem.innerHTML = kivettElemek[i];
         //elem.draggable = true;
         //elem.ondragstart = "drag(event)"
-        //elem.classList.add("huzhato");
+        elem.classList.add("huzhato_dis");
+        elem.dataset.adat=kivettElemek[i];
         dragElement(elem);
         dragCont.appendChild(elem);
     }
@@ -379,11 +391,14 @@ function drop(ev) {
     ev.target.appendChild(document.getElementById(data));
 }*/
 var huzottElem = undefined;
+var huzottAdat = undefined;
 
 function egerElenged(ev){
-    ev.preventDefault();
-    if(huzottElem&&ev.target.innerHTML.length<8){
-        ev.target.innerHTML = "<p>"+huzottElem.innerHTML+"</p>";
+    console.log("elenged");
+    if(huzottElem&&userLista[ev.dataset.sor][ev.dataset.fajta]==""){
+        console.log("huzott be");
+        ev.innerHTML = "<p>"+huzottElem.innerHTML+"</p>";
+        userLista[ev.dataset.sor][ev.dataset.fajta]=huzottAdat;
         huzottElem.onmousedown="";
     }
 }
@@ -400,12 +415,13 @@ function dragElement(elmnt) {
 
   function dragMouseDown(e) {
     huzottElem = elmnt;
+    huzottAdat = elmnt.dataset.adat;
     elmnt.classList.add("huzhato");
     e = e || window.event;
     e.preventDefault();
     // get the mouse cursor position at startup:
-    pos3 = e.clientX;
-    pos4 = e.clientY;
+    pos3 = e.clientX+40;
+    pos4 = e.clientY+40;
     document.onmouseup = closeDragElement;
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
@@ -437,5 +453,6 @@ function dragElement(elmnt) {
     elmnt.style.removeProperty("top");
     elmnt.style.removeProperty("left");
     huzottElem = undefined;
+    huzottAdat = undefined;
   }
 }

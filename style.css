@@ -555,9 +555,14 @@ background: white;
 
 .huzhato{
     position: absolute;
+}
+.huzhato_dis{
     background-color: transparent;
     padding: 10px;
     color: white;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 
 @media only screen and (max-width: 1000px) {
