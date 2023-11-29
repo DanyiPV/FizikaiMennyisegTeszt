@@ -52,7 +52,6 @@ function testOldalTablaFeltolt(){
         sorok[j].getElementsByClassName("JeleDiv")[0].innerHTML = "<p>"+katAdatok[j].jel+"</p>";
         sorok[j].getElementsByClassName("DefDiv")[0].innerHTML = "<p>"+katAdatok[j].def+"</p>";
         sorok[j].getElementsByClassName("MertekDiv")[0].innerHTML = "<p>"+katAdatok[j].mert+"</p>";
-
         sorok[j].getElementsByClassName("NevDiv")[0].setAttribute("onmouseup","egerElenged(event)");
         sorok[j].getElementsByClassName("JeleDiv")[0].setAttribute("onmouseup","egerElenged(event)");
         sorok[j].getElementsByClassName("DefDiv")[0].setAttribute("onmouseup","egerElenged(event)");
@@ -286,16 +285,16 @@ function osztalyozas(min,max){
 
     szazalek = Math.floor(min/max*100);
 
-    if(szazalek > 80){
+    if(szazalek > 90){
         jegy = 5;
     }
-    else if(szazalek > 65 && szazalek < 80){
+    else if(szazalek > 75 && szazalek < 89){
         jegy = 4;
     }
-    else if(szazalek > 50 && szazalek < 65){
+    else if(szazalek > 50 && szazalek < 74){
         jegy = 3;
     }
-    else if(szazalek > 30 && szazalek < 50){
+    else if(szazalek > 30 && szazalek < 49){
         jegy = 2;
     }
     else if(szazalek > 0 && szazalek < 30){
