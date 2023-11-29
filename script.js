@@ -93,6 +93,7 @@ function TestCategoryLoad(category){
             SliderPick(4);
             console.log('Ide jön az egyéni');
         }else{
+            KivalasztottKatok = new Array();
             SliderPick(TestKategoriaSelector.indexOf(TestSelectedCategory),1);
             let div = document.createElement('div');
             div.id = "KategoriaKivalasztDiv";
@@ -127,17 +128,23 @@ function TestCategoryLoad(category){
 
 function nudValtozas(){
     if(KivalasztottKatok.length != 0){
-        //let nudval = parseInt(document.getElementById("KategoriaNumericUpdown").value);
-        document.getElementById("KategoriaNumericUpdown").min= '1';
         let db = 0
-        //KivalasztottKatok.forEach(c => db += KategoriakNum[KategoriakMatrix[KategoriakMatrix.indexOf(TestSelectedCategory)].indexOf(c)]);
-        console.log(KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)].indexOf(KivalasztottKatok[0]));
-        /*if(nudval > maxval) document.getElementById("KategoriaNumericUpdown").value = maxval.toString();
-        if(nudval < 1) document.getElementById("KategoriaNumericUpdown").value = '1';*/
+        for (let i = 0; i < KivalasztottKatok.length; i++) {
+            db+=KategoriakNum[TestKategoriaSelector.indexOf(TestSelectedCategory)][KategoriakMatrix[TestKategoriaSelector.indexOf(TestSelectedCategory)].indexOf(KivalasztottKatok[i])];
+        }
+        if(db < parseInt(document.getElementById("KategoriaNumericUpdown").value)){
+            document.getElementById("KategoriaNumericUpdown").value = db.toString();
+        }
+        if(document.getElementById("KategoriaNumericUpdown").value[0] == "0"){
+            document.getElementById("KategoriaNumericUpdown").value= '1';
+        }
+        document.getElementById("KategoriaNumericUpdown").max = db.toString();
+        document.getElementById("KategoriaNumericUpdown").min= '1';
+    }else{
+        document.getElementById("KategoriaNumericUpdown").max = '0';
+        document.getElementById("KategoriaNumericUpdown").min= '0';
     }
 }
-
-
 function Listakeveres() {
     userLista = [...userLista];
     tesztLista = [...tesztLista];
@@ -251,13 +258,12 @@ var KivalasztottKatok = [];
 function KatKivalaszt(div){
     if(!KivalasztottKatok.includes(div.id)){
         KivalasztottKatok.push(div.id);
-        nudValtozas();
         div.classList.add('KivalasztottKat');
     }else{
         KivalasztottKatok.splice(KivalasztottKatok.indexOf(div.id),1);
-        nudValtozas();
         div.classList.remove('KivalasztottKat');
     }
+    nudValtozas();
 }
 
 function DropDownKinyit(){
@@ -278,9 +284,10 @@ function DropDownKinyit(){
 function tesztListaFeltolt(){
     let adatLista = new Array();
     for (let i = 0; i < KivalasztottKatok.length; i++){
-        data.filter(c => c.kategoria == KivalasztottKatok[i]).forEach(c=>adatLista.push(c));
+        data.filter(c => c.kategoria == KivalasztottKatok[i].split(' ')[0]).forEach(c=>adatLista.push(c));
     }
     console.log(adatLista);
+    console.log(parseInt(document.getElementById("KategoriaNumericUpdown").value));
     for(let i = parseInt(document.getElementById("KategoriaNumericUpdown").value)-1;i>=0;i--){
         let rnd = randomSzam(0,adatLista.length-1);
         let temp = adatLista[rnd];
