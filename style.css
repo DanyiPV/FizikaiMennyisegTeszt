@@ -397,8 +397,9 @@ nav{
     border-radius: .8vw;
     background-color: rgb(56, 56, 56);
     justify-content: space-between;
-    padding: .5vw 4vw;
+    padding: 1vw 4vw;
     transition: .4s;
+    font-size: 1.5vw;
 }
 .FeluletNavGombok{
     color: gray;
@@ -407,25 +408,44 @@ nav{
     cursor: pointer;
     transition: .4s;
 }
-.FeluletNavGombok:hover{
+.FeluletNavGombok:hover,.NavBarGombok:hover{
     background-color: rgba(30, 30, 30, 0.7);
     color: white;
 }
-.NavBarKinyit{
+.NavBarKinyit, .LenyiloDivKinyit{
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
 }
-#LenyiloDiv{
+.LenyiloDivClass{
     border-radius: .8vw;
-    height: 20vw;
+    height: max-content;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     background-color: rgb(56, 56, 56);
     opacity: 0;
     animation-name: OpacityAnim;
-    animation-duration: .8s !important;
+    animation-timing-function: ease-in-out;
+    animation-duration: .5s !important;
     animation-fill-mode: forwards !important;
-    
+    border-top: 1px solid white;
+}
+.NavBarGombSor{
+    display: flex;
+    padding: 1vw;
+    justify-content: space-around;
+}
+.NavBarGombok{
+    margin: .5vw 0;
+    padding: 0 2vw;
+    border-radius: .8vw;
+    color: gray;
+    cursor: pointer;
+    transition: .4s;
+    font-size: 1vw;
+}
+.NavBarGombok p{
+    margin: 1vw 1vw;
+    text-align: center;
 }
 /*Login Body*/
 /*Login Sidebar*/

@@ -387,33 +387,37 @@ function DolgozatKiadasFelulet(){
 }
 
 function NavBarKinyit(igaze){
-    igaze==false?document.getElementById("FeluletNavBar").classList.add("NavBarKinyit"):document.getElementById("FeluletNavBar").classList.remove("NavBarKinyit");
+    igaze!=undefined?igaze==false?document.getElementById("FeluletNavBar").classList.add("NavBarKinyit"):document.getElementById("FeluletNavBar").classList.remove("NavBarKinyit"):"";
 }
 
 function Lenyil(Kat){
     NavBarKinyit(document.getElementById("FeluletNavBar").classList.contains("NavBarKinyit"));
     UsersBetoltese();
+    if(document.getElementById("LenyiloDiv2").classList.contains("LenyiloDivKinyit") == true){
+        document.getElementById("FeluletDiv").removeChild(document.getElementById("LenyiloDiv2"));
+        LenyiloDivKinyit(true);
+    }
     if(document.getElementById("FeluletNavBar").classList.contains("NavBarKinyit") == true){
         let LenyiloDiv = document.createElement("div");
         LenyiloDiv.id = "LenyiloDiv";
+        LenyiloDiv.classList.add("LenyiloDivClass");
         document.getElementById("FeluletDiv").appendChild(LenyiloDiv);
         var osztalyok = Users.filter(c => c.osztaly != "A" && c.osztaly != "T");
         if(Kat == "Osztaly"){
-            let db = osztalyok.length/6;
+            let db = Math.floor(osztalyok.length/6);
             let index = 0;
-            if(db >= 1){
-                for (let i = 0; i < db; i++) {
-                    let sor = document.createElement("div");
-                    sor.classList.add("NavBarGombSor");
-                    for (let j = 0; j < db; j++) {
-                        let gomb = document.createElement("div");
-                        gomb.innerHTML = "<p>"+osztalyok[index++].osztaly+"</p>";
-                        gomb.classList.add("NavBarGombok");
-                        sor.appendChild(gomb);
-                    }
-                    LenyiloDiv.appendChild(sor);
+            for (let i = 0; i < db; i++) {
+                let sor = document.createElement("div");
+                sor.classList.add("NavBarGombSor");
+                for (let j = 0; j < db; j++) {
+                    let gomb = document.createElement("div");
+                    gomb.innerHTML = "<p>"+osztalyok[index++].osztaly+"</p>";
+                    gomb.classList.add("NavBarGombok");
+                    sor.appendChild(gomb);
                 }
-            }else{
+                LenyiloDiv.appendChild(sor);
+            }
+            if(index != osztalyok.length){
                 let sor = document.createElement("div");
                 sor.classList.add("NavBarGombSor");
                 let maradek = osztalyok.length - db;
@@ -426,11 +430,73 @@ function Lenyil(Kat){
                 LenyiloDiv.appendChild(sor);
             }
         }else if(Kat == "Kategoria"){
-            
+            let sor = document.createElement("div");
+            sor.classList.add("NavBarGombSor");
+            for (let i = 0; i < TeljesKategoriak.length; i++) {
+                let gomb = document.createElement("div");
+                gomb.innerHTML = "<p>"+TeljesKategoriak[i]+"</p>";
+                gomb.classList.add("NavBarGombok");
+                gomb.setAttribute("onclick","DogaKatKivalaszt('"+TeljesKategoriak[i]+"')");
+                sor.appendChild(gomb);
+            }
+            let gomb = document.createElement("div");
+            gomb.innerHTML = "<p>Egyéni</p>";
+            gomb.classList.add("NavBarGombok");
+            gomb.setAttribute("onclick","DogaKatKivalaszt('Egyéni')");
+            sor.appendChild(gomb);
+            LenyiloDiv.appendChild(sor);
         }else{
             
         }
     }else{document.getElementById("FeluletDiv").removeChild(document.getElementById("LenyiloDiv"));}
+}
+
+function LenyiloDivKinyit(igaze){
+    igaze!=undefined?igaze==false?document.getElementById("LenyiloDiv").classList.add("LenyiloDivKinyit"):document.getElementById("LenyiloDiv").classList.remove("LenyiloDivKinyit"):"";
+}
+
+function DogaKatKivalaszt(kat){
+    LenyiloDivKinyit(document.getElementById("LenyiloDiv2").classList.contains("LenyiloDivKinyit"));
+    if( document.getElementById("LenyiloDiv2").classList.contains("LenyiloDivKinyit") == true){
+        let LenyiloDiv = document.createElement("div");
+        LenyiloDiv.id = "LenyiloDiv2";
+        LenyiloDiv.classList.add("LenyiloDivClass");
+        document.getElementById("FeluletDiv").appendChild(LenyiloDiv);
+        if(kat == "Egyéni"){
+            let TeljesArray = new Array();
+            for (let i = 0; i < Kategoriak.length; i++) {
+                for (let j = 0; j < Kategoriak[i].length; j++) {
+                    TeljesArray.push(Kategoriak[i][j]);
+                }
+            }
+            let index = 0;
+            let db = Math.floor(TeljesArray.length / 5);
+            for (let i = 0; i < db; i++) {
+                let sor = document.createElement("div");
+                sor.classList.add("NavBarGombSor");
+                for (let j = 0; j < 5; j++) {
+                    let gomb = document.createElement("div");
+                    gomb.innerHTML = "<p>"+TeljesArray[index++]+"</p>";
+                    gomb.classList.add("NavBarGombok");
+                    sor.appendChild(gomb);
+                }
+                LenyiloDiv.appendChild(sor);
+            }
+            if(index != TeljesArray.length){
+                let sor = document.createElement("div");
+                sor.classList.add("NavBarGombSor");
+                let maradek = TeljesArray.length - db;
+                console.log(TeljesArray.length, maradek, db);
+                for (let i = 0; i < maradek; i++) {
+                    let gomb = document.createElement("div");
+                    gomb.innerHTML = "<p>"+TeljesArray[index++]+"</p>";
+                    gomb.classList.add("NavBarGombok");
+                    sor.appendChild(gomb);
+                }
+                LenyiloDiv.appendChild(sor);
+            }
+        }
+    }else{document.getElementById("FeluletDiv").removeChild(document.getElementById("LenyiloDiv2"));}
 }
 
 function KatKigyujt(){
