@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
+    <title>Fizikai Mennyiségek Test - CKIK</title>
+</head>
+<body>
+    <nav>
+        <div id="SignIn" onclick="LoginSideBar()"><img src="ph/singin.png" alt="singin.png"></div>
+        <div id="OldalName">Fő Oldal</div>
+        <div id="Sidebar" onclick="SideBar()"><img src="ph/menu.png" alt="menu.png"></div>
+    </nav>
+    <div id="SideBarDiv" class="SideBarDiv">
+        <div class="SideBarHeader">
+            <div id="Time"></div>
+            <div id="CloseButton" onclick="SideBar()"><img src="ph/close.png" alt="close.png"></div>
+        </div>
+        <div class="SideBarBody">
+            <div id="FoOldalTabla" class="SidaBarGomb" onclick="FoOldalLoad()">
+                <div id="HomeDivIMG" class="IMGDiv"><img src="ph/home.png" alt="home.png"></div>
+                <div class="pDiv"><p>Fő oldal</p></div>
+            </div>
+            <div id="Tabla" class="Tabla">
+                
+            </div>
+            <div id="TestOldalTabla" class="SidaBarGomb" onclick="TestOldalLoad()">
+                <div id="TestDivIMG" class="IMGDiv"><img src="ph/test.png" alt="test.png" style="left: 1.5vw;"></div>
+                <div class="pDiv"><p>Teszt oldal</p></div>
+            </div>
+            <div id="TestTabla" class="Tabla">
+
+            </div>
+        </div>
+    </div>
+    <div id="LoginSideBar" class="LogIn">
+        <div class="LoginHeader">
+            <div id="LoginCloseButton" onclick="LoginClose()"><img src="ph/close.png" alt="close.png"></div>
+            <div id="Udvozlet"><p>Üdvözlet</p></div>
+        </div>
+        <div class="LoginBody">
+            <div id="UserPhoto"><img src="ph/singin.png" alt="singin.png"></div>
+            <div id="UserSettings">
+                <p id="UserName"></p>
+                <div id="SettingsDiv"><img src="ph/settings.png" alt="settings.png"></div>
+                <div id="KijelentkezesDiv" onclick="LogOut()"><img src="ph/logout.png" alt="logout.png"></div>
+            </div>
+            <div id="Eredmenyek">
+                <div id="DogaEredmenyek">
+                    <p>Dolgozat eredmények: </p>
+                    <div>
+                        
+                    </div>
+                </div>
+                <div id="TesztEredmenyek">
+                    <p>Teszt eredmények: </p>
+                    <div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="SliderDiv"></div>
+    <div id="AlapDiv"></div>
+    <div id="BlackBackground"></div>
+</body>
+<script src="adatbazis.js"></script>
+</html>
