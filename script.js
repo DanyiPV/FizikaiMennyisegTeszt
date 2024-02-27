@@ -393,7 +393,7 @@ function NavBarKinyit(igaze){
 function Lenyil(Kat){
     NavBarKinyit(document.getElementById("FeluletNavBar").classList.contains("NavBarKinyit"));
     UsersBetoltese();
-    if(document.getElementById("LenyiloDiv2").classList.contains("LenyiloDivKinyit") == true){
+    if(document.getElementById("LenyiloDiv2") != undefined){
         document.getElementById("FeluletDiv").removeChild(document.getElementById("LenyiloDiv2"));
         LenyiloDivKinyit(true);
     }
@@ -452,12 +452,12 @@ function Lenyil(Kat){
 }
 
 function LenyiloDivKinyit(igaze){
-    igaze!=undefined?igaze==false?document.getElementById("LenyiloDiv").classList.add("LenyiloDivKinyit"):document.getElementById("LenyiloDiv").classList.remove("LenyiloDivKinyit"):"";
+    igaze==false?document.getElementById("LenyiloDiv").classList.add("LenyiloDivKinyit"):document.getElementById("LenyiloDiv").classList.remove("LenyiloDivKinyit");
 }
 
 function DogaKatKivalaszt(kat){
-    LenyiloDivKinyit(document.getElementById("LenyiloDiv2").classList.contains("LenyiloDivKinyit"));
-    if( document.getElementById("LenyiloDiv2").classList.contains("LenyiloDivKinyit") == true){
+    LenyiloDivKinyit(document.getElementById("LenyiloDiv").classList.contains("LenyiloDivKinyit"));
+    if(document.getElementById("LenyiloDiv2")==undefined && document.getElementById("LenyiloDiv").classList.contains("LenyiloDivKinyit") == true){
         let LenyiloDiv = document.createElement("div");
         LenyiloDiv.id = "LenyiloDiv2";
         LenyiloDiv.classList.add("LenyiloDivClass");
@@ -496,7 +496,7 @@ function DogaKatKivalaszt(kat){
                 LenyiloDiv.appendChild(sor);
             }
         }
-    }else{document.getElementById("FeluletDiv").removeChild(document.getElementById("LenyiloDiv2"));}
+    }else{document.getElementById("LenyiloDiv2")!=undefined?document.getElementById("FeluletDiv").removeChild(document.getElementById("LenyiloDiv2")):"";}
 }
 
 function KatKigyujt(){
