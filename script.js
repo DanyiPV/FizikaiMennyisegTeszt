@@ -30,6 +30,10 @@ function ValueCheck(index){
   }
 }
 
+function ElfelejtettJelszo(){
+    FaultDivOpen("A jelszó megváltoztatásához keresse meg a rendszergazdát!");
+}
+
 function WarningsRemove(){
   let ClassLists = ["WarningColor","WarningBorderColor"];
   for (let i = 0; i < ClassLists.length; i++) {

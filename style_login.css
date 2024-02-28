@@ -426,10 +426,24 @@ select {
     border: 0;
     cursor: pointer;
     transition: all ease-in-out .4s;
-    margin-top: 4vw;
+    margin-top: 3vw;
 }
 .LogInButton button:hover{
     letter-spacing: .14em;
+}
+#ElfelejtettJelszo{
+    position: relative;
+    width: max-content;
+    top: 1.2vw;
+    margin: .2vw 0;
+    color: white;
+}
+#ElfelejtettJelszo p{
+    position: relative;
+    right: -12.8vw;
+    font-size: 1.3vw;
+    margin: 0;
+    cursor: pointer;
 }
 
 @keyframes ContainerLoad {
@@ -469,7 +483,7 @@ select {
     }
     .UnderLine{
         width: 30vw;
-        top: 6.5vw;
+        top: 7.2vw;
         left: 11.5vw;
     }
     .UnderLineChange{
@@ -478,7 +492,7 @@ select {
     #LoginTab{
         left: 4vw;
         height: 15vw;
-        top: -26.5vw;
+        top: -31vw;
     }
     .LogSideSwitch{
         left: -80vw !important;
@@ -535,7 +549,11 @@ select {
     }
     .UsernameDiv, .PasswordDiv{
         padding: 1vw 1.5vw;
+        margin-top: -1.8vw;
         width: 63vw;
+    }
+    .UsernameDiv{
+        margin-top: .8vw !important;
     }
     .UsernameDiv label,.PasswordDiv label{
         font-size: 3vw;
@@ -547,8 +565,8 @@ select {
     }
     .RadioButtons{
         font-size: 3vw;
-        margin-bottom: -1vw;
-        margin-top: 3vw;
+        margin-bottom: -2vw;
+        margin-top: 2vw;
     }
     #TanarKod{
         width: 85%;
@@ -605,6 +623,14 @@ select {
     .LogInButton button:hover{
         filter: grayscale(0);
         letter-spacing: .1em;
+    }
+    #ElfelejtettJelszo{
+        top: 2vw;
+        margin: 1vw 0;
+    }
+    #ElfelejtettJelszo p{
+        right: -33.5vw;
+        font-size: 3vw;
     }
 }
 /*Telefon*/
