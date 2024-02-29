@@ -28,6 +28,12 @@ function ValueCheck(index){
     LabelFeltol(index);
     document.getElementById("QuestionDiv").classList.add("QuestionMarkHide");
   }
+  index==5?PWErosseg():"";
+}
+
+//kis/nagy betű, szimbolum, számok  
+function PWErosseg(){
+
 }
 
 function ElfelejtettJelszo(){
@@ -151,9 +157,9 @@ function Regisztralas(){
   if(MindenKitoltve()){
     let d = new Date();
     let datum = {year: d.getFullYear(),month:((Number(d.getMonth())+1)<10?"0"+(Number(d.getMonth())+1):(Number(d.getMonth())+1)),day: (d.getUTCDate()<10?"0"+d.getUTCDate():d.getUTCDate()),hour:(d.getHours()<10?"0"+d.getHours():d.getHours()),minute: (d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes())};
-    let Modositva = datum.year+"."+datum.month+"."+datum.day+"-"+datum.hour+":"+datum.minute+"("+datum.year+"."+datum.month+"."+datum.day+"-"+datum.hour+":"+datum.minute+")";
+    let Modositva = datum.year+"-"+datum.month+"-"+datum.day+"-"+datum.hour+":"+datum.minute;
     let osztaly = document.getElementById("DiakEvfolyam").value+"/"+document.getElementById("DiakOsztaly").value;
-    User = {email: document.getElementById("Input4").value,nev:document.getElementById("Input3").value,jelszo: document.getElementById("Input5").value,osztaly: document.getElementById("DiakRadioButton").checked?osztaly:"T",modositva: Modositva};
+    User = {email: document.getElementById("Input4").value,nev:document.getElementById("Input3").value,jelszo: document.getElementById("Input5").value,osztaly: document.getElementById("DiakRadioButton").checked?osztaly:"T",letrehozva: Modositva};
     UsersFeltolt(User);
   }
 }
@@ -182,9 +188,15 @@ function MindenKitoltve(){
     document.getElementById("label3").classList.add("WarningColor");
     document.getElementById("Input3").classList.add("WarningBorderColor");
   }
-  if(document.getElementById("Input4").value == "" || document.getElementById("Input4").value.split('@') == undefined || document.getElementById("Input4").value.split('@')[0] == "" || document.getElementById("Input4").value.split('@')[1] != "ckik.hu" || EmailCheck(document.getElementById("Input4").value) == false){
+  if(document.getElementById("Input4").value == "" || document.getElementById("Input4").value.split('@') == undefined || document.getElementById("Input4").value.split('@')[0] == "" || document.getElementById("Input4").value.split('@')[1] != "ckik.hu"){
     Igaze = false;
-    FaultDivOpen("Az eamilt rosszúl írta be vagy már regisztálva van!");
+    FaultDivOpen("Az eamilt rosszúl írta be!");
+    document.getElementById("label4").classList.add("WarningColor");
+    document.getElementById("Input4").classList.add("WarningBorderColor");
+  }
+  if(EmailCheck(document.getElementById("Input4").value) == false){
+    Igaze = false;
+    FaultDivOpen("Az eamil már regisztálva van!");
     document.getElementById("label4").classList.add("WarningColor");
     document.getElementById("Input4").classList.add("WarningBorderColor");
   }
@@ -219,7 +231,6 @@ function MindenKitoltve(){
   }
   return Igaze;
 }
-
 function EmailCheck(email){
   UsersBetoltese();
   return Users.find(c=>c.email==email)==undefined?true:false;

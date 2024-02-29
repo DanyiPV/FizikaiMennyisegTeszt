@@ -18,7 +18,7 @@ const AdatbazisEleres = ()=>{
 AdatbazisEleres();
 
 function AdatokBetoltes(){
-    const data = { lekerdezes: "select * from sorok s"};
+    const data = { lekerdezes: "select * from tablak"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
         headers: {
@@ -67,7 +67,7 @@ function UsersBetoltese(){
 }
 
 function UsersFeltolt(User){
-    const data =  { lekerdezes: "insert into users values('"+User.email+"','"+User.nev+"','"+User.osztaly+"','"+User.jelszo+"','"+User.modositva+"')"};
+    const data =  { lekerdezes: "insert into users values(null,'"+User.email+"','"+User.nev+"','"+User.osztaly+"','"+User.jelszo+"','"+User.letrehozva+"',null)"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
         headers: {

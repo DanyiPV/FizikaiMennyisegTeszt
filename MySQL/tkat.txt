@@ -1,0 +1,4 @@
+1;Haladómozgással kapcsolatos
+2;Rezgések és hullámok
+3;Hőtan
+4;lektromossággal kapcsolatos
