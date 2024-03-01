@@ -445,6 +445,32 @@ select {
     margin: 0;
     cursor: pointer;
 }
+.PWErosseg{
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: -.5vw;
+}
+.PWErosseg div{
+    border: 1px solid white;
+    width: 12%;
+    height: .3vw;
+    border-radius: 4vw;
+    transition: .4s;
+}
+.PWErossegAktivRossz{
+    border: 1px solid red !important;
+    background-color: red;
+}
+.PWErossegAktivKozepes{
+    border: 1px solid orange !important;
+    background-color: orange;
+}
+.PWErossegAktivJo{
+    border: 1px solid lime !important;
+    background-color: lime;
+}
 
 @keyframes ContainerLoad {
     0% {

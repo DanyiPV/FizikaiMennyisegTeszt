@@ -23,17 +23,53 @@ function FeltolasCheck(index){
 }
 
 function ValueCheck(index){
-  FeltolasCheck(index);
-  if(document.getElementById("Input"+index).value != "" || document.activeElement.id == "Input"+index){
-    LabelFeltol(index);
-    document.getElementById("QuestionDiv").classList.add("QuestionMarkHide");
-  }
-  index==5?PWErosseg():"";
+    index==5||index==3?PWErosseg(document.getElementById("Input5").value):"";
+    FeltolasCheck(index);
+    if(document.getElementById("Input"+index).value != "" || document.activeElement.id == "Input"+index){
+        LabelFeltol(index);
+        document.getElementById("QuestionDiv").classList.add("QuestionMarkHide");
+    }
 }
 
 //kis/nagy betű, szimbolum, számok  
-function PWErosseg(){
-
+function PWErosseg(pw){
+    for (let i = 0; i < 6; i++) {
+        document.getElementById("PWErossegDiv").children[i].classList.remove("PWErossegAktivJo");
+        document.getElementById("PWErossegDiv").children[i].classList.remove("PWErossegAktivKozepes");
+        document.getElementById("PWErossegDiv").children[i].classList.remove("PWErossegAktivRossz");
+    }
+    if(document.getElementById("Input5").value!=""){
+        let db = 0;
+        if(/[a-z]/.test(pw)){
+            db++;
+        }
+        if(/[A-Z]/.test(pw)){
+            db++;
+        }
+        if(pw.length > 12){
+            db++;
+        }
+        if(document.getElementById("Input3").value != ""){
+            let fn = document.getElementById("Input3").value.toLowerCase().split(' ');
+            let i = 0;
+            while(i < fn.length && pw.toLowerCase().includes(fn[i])){
+                console.log(pw.toLowerCase().includes(fn[i]), fn[i]);
+                i++;
+            }
+            if(i == fn.length-1){
+                db++;
+            }
+        }
+        if(/[0-9]/.test(pw)){
+            db++;
+        }
+        if(/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(pw)){
+            db++;
+        }
+        for (let i = 0; i < db; i++) {
+            document.getElementById("PWErossegDiv").children[i].classList.add(db>2?(db>4?"PWErossegAktivJo":"PWErossegAktivKozepes"):"PWErossegAktivRossz");
+        }
+    }
 }
 
 function ElfelejtettJelszo(){
