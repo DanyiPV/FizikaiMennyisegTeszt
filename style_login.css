@@ -454,8 +454,8 @@ select {
 }
 .PWErosseg div{
     border: 1px solid white;
-    width: 12%;
-    height: .3vw;
+    width: 14%;
+    height: .6vw;
     border-radius: 4vw;
     transition: .4s;
 }
