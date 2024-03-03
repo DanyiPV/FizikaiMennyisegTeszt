@@ -49,16 +49,13 @@ function PWErosseg(pw){
         if(pw.length > 12){
             db++;
         }
-        if(document.getElementById("Input3").value != ""){
-            let fn = document.getElementById("Input3").value.toLowerCase().split(' ');
-            let i = 0;
-            while(i < fn.length && pw.toLowerCase().includes(fn[i])){
-                console.log(pw.toLowerCase().includes(fn[i]), fn[i]);
-                i++;
-            }
-            if(i == fn.length-1){
-                db++;
-            }
+        let fn = document.getElementById("Input3").value.toLowerCase().split(' ');
+        let i = 0;
+        while(i < fn.length && pw.toLowerCase().includes(fn[i])){
+            i++;
+        }
+        if(i == fn.length-1 || document.getElementById("Input3").value == ""){
+            db++;
         }
         if(/[0-9]/.test(pw)){
             db++;
@@ -155,7 +152,7 @@ function Bejelentkezes(){
   if(document.getElementById("Input1").value != "" && document.getElementById("Input2").value != ""){
     AnswearDivClose();
     User = Users.find(c=>c.email == document.getElementById("Input1").value);
-    if(User != undefined && User.jelszo == document.getElementById("Input2").value){
+    if(User != undefined && User.jelszo == hash(document.getElementById("Input2").value)){
         let User_serialized = JSON.stringify(User);
         localStorage.setItem("user",User_serialized);
         window.open("index.html","_self");
@@ -164,7 +161,7 @@ function Bejelentkezes(){
         document.getElementById("label1").classList.add("WarningColor");
         document.getElementById("Input1").classList.add("WarningBorderColor");
         FaultDivOpen("Hibásan írta be az email címet!");
-      }else if(User.jelszo != document.getElementById("Input2").value){
+      }else if(User.jelszo != hash(document.getElementById("Input2").value)){
         document.getElementById("label2").classList.add("WarningColor");
         document.getElementById("Input2").classList.add("WarningBorderColor");
         FaultDivOpen("Hibásan írta be a jelszót!");
@@ -192,12 +189,20 @@ function Bejelentkezes(){
 function Regisztralas(){
   if(MindenKitoltve()){
     let d = new Date();
+    let pw = hash(document.getElementById("Input5").value);
     let datum = {year: d.getFullYear(),month:((Number(d.getMonth())+1)<10?"0"+(Number(d.getMonth())+1):(Number(d.getMonth())+1)),day: (d.getUTCDate()<10?"0"+d.getUTCDate():d.getUTCDate()),hour:(d.getHours()<10?"0"+d.getHours():d.getHours()),minute: (d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes())};
     let Modositva = datum.year+"-"+datum.month+"-"+datum.day+"-"+datum.hour+":"+datum.minute;
     let osztaly = document.getElementById("DiakEvfolyam").value+"/"+document.getElementById("DiakOsztaly").value;
-    User = {email: document.getElementById("Input4").value,nev:document.getElementById("Input3").value,jelszo: document.getElementById("Input5").value,osztaly: document.getElementById("DiakRadioButton").checked?osztaly:"T",letrehozva: Modositva};
+    User = {email: document.getElementById("Input4").value,nev:document.getElementById("Input3").value,jelszo: pw,osztaly: document.getElementById("DiakRadioButton").checked?osztaly:"T",letrehozva: Modositva};
     UsersFeltolt(User);
   }
+}
+
+function hash(pw) {
+    var hashObj = new jsSHA("SHA-512", "TEXT", {numRounds: 1});
+    hashObj.update(pw);
+    var hash = hashObj.getHash("HEX");
+    return hash
 }
 
 function UserCheck(response){
@@ -259,6 +264,18 @@ function MindenKitoltve(){
       szoveg = "A jelszavak nem egyeznek!";
     }
     FaultDivOpen(szoveg);
+  }
+  if(document.getElementById("Input5").value.length < 8){
+    Igaze = false;
+    document.getElementById("label5").classList.add("WarningColor");
+    document.getElementById("Input5").classList.add("WarningBorderColor");
+    FaultDivOpen("A jelszó túl rövid!");
+  }
+  if(document.getElementById("Input6").value.length < 8){
+    Igaze = false;
+    document.getElementById("label6").classList.add("WarningColor");
+    document.getElementById("Input6").classList.add("WarningBorderColor");
+    FaultDivOpen("A jelszó túl rövid!");
   }
   if(document.getElementById("TanarRadioButton").checked == true && !KodCheck(document.getElementById("TanarKodCheck"))){
     Igaze = false;
@@ -550,25 +567,6 @@ function DogaKatKivalaszt(kat){
     }else{document.getElementById("LenyiloDiv2")!=undefined?document.getElementById("FeluletDiv").removeChild(document.getElementById("LenyiloDiv2")):"";}
 }
 
-function KatKigyujt(){
-    for (let i = 0; i < adatok.length; i++) {
-        if(!TeljesKategoriak.includes(adatok[i].teljes_kategoria)){
-            TeljesKategoriak.push(adatok[i].teljes_kategoria);
-        }
-    }
-    for (let i = 0; i < TeljesKategoriak.length; i++){
-        let lista = adatok.filter(c=>c.teljes_kategoria == TeljesKategoriak[i]);
-        let KategoriaLista = new Array();
-        for (let j = 0; j < lista.length; j++) {
-            if(!KategoriaLista.includes(lista[j].kategoria_id)){
-                KategoriaLista.push(lista[j].kategoria_id);
-            }
-        }
-        Kategoriak.push(KategoriaLista);
-    }
-    KatGombKiGen();
-}
-
 function SelectorSlider(index){
     let Slider = document.createElement("div");
     Slider.classList.add("Slider");
@@ -686,19 +684,14 @@ function Tudnivalok(id){
 
 function Feltolt(id){
     let KatLista = new Array();
-    let TeljesLista = adatok.filter(c=>c.teljes_kategoria == id);
-    for (let i = 0; i < TeljesLista.length; i++) {
-        if(!KatLista.includes(TeljesLista[i].kategoria_id)){
-            KatLista.push(TeljesLista[i].kategoria_id);
-        }
-    }
+    Kategoriak[TeljesKategoriak.indexOf(id)].forEach(c=>KatLista.push(c.nev));
     for (let i = 0; i < KatLista.length; i++) {
         TablaCreate(KatLista[i]);
         TablaFeltolt(KatLista[i],KatLista[i]);
         SorokSorBetolt(KatLista[i],["Neve","Jele","Definíciója","Mértékegyése"],true);
     }
     for (let i = 0; i < KatLista.length; i++) {
-        let adat = TeljesLista.filter(c=>c.kategoria_id == KatLista[i]);
+        let adat = adatok.filter(c=>c.alkat_id == (i+1));
         adat.forEach(elem => {
             SorokSorBetolt(KatLista[i],[elem.nev,elem.jel,elem.def,elem.mert],false);
         });
@@ -794,7 +787,7 @@ function KategoriakValasztasBetolt(Array){
     ValasztDiv.id = "ValasztDiv";
     for(let i = 0; i < Array.length; i++){
         let div = document.createElement("div");
-        div.innerHTML = "<p>"+Array[i]+"</p>";
+        div.innerHTML = "<p>"+Array[i].nev+"</p>";
         div.setAttribute("onclick","KategoriaKivalaszt(this)");
         ValasztDiv.appendChild(div);
     }
@@ -811,12 +804,18 @@ function KategoriaKivalaszt(div){
 function NumericMaxChange(){
     if(KivalasztottKategoriak.length!=0){
         let Max = 0;
-        for (let i = 0; i < KivalasztottKategoriak.length; i++) {
-            Max += adatok.filter(c=>c.kategoria_id==KivalasztottKategoriak[i]).length;
+        for (let i = 0; i < Kategoriak.length; i++) {
+            for (let j = 0; j < Kategoriak[i].length; j++) {
+                if(KivalasztottKategoriak.includes(Kategoriak[i][j].nev)){
+                    Max += adatok.filter(c=>c.alkat_id == Kategoriak[i][j].id).length;
+                }
+            }
         }
+        document.getElementById("SorokNumeric").min = "5";
         document.getElementById("SorokNumeric").max = Max;
     }else{
-        document.getElementById("SorokNumeric").max = "1";
+        document.getElementById("SorokNumeric").max = "5";
+        document.getElementById("SorokNumeric").min = "5";
     }
 }
 
@@ -833,10 +832,11 @@ function TesztInditas(){
     if(KivalasztottKategoriak.length!=0 && document.getElementById("SorokNumeric").value > 0 && (document.getElementById("KonnyuNehezseg").checked == true || document.getElementById("KozepesNehezseg").checked == true || document.getElementById("NehezNehezseg").checked == true) && document.getElementById("SorokValaszt").firstChild.dataset.disable == undefined || document.getElementById("SorokValaszt").firstChild.dataset.disable == false){
         KevertLista = new Array();
         let ValaszthatoListak = [];
-        for (let i = 0; i < KivalasztottKategoriak.length; i++) {
-            let lista = adatok.filter(c=>c.kategoria_id==KivalasztottKategoriak[i]);
-            for (let j = 0; j < lista.length; j++) {
-                ValaszthatoListak.push(lista[j]);
+        for (let i = 0; i < Kategoriak.length; i++) {
+            for (let j = 0; j < Kategoriak[i].length; j++) {
+                if(KivalasztottKategoriak.includes(Kategoriak[i][j].nev)){
+                    adatok.filter(c=>c.alkat_id == Kategoriak[i][j].id).forEach(c=>ValaszthatoListak.push(c));
+                }
             }
         }
         ListaKeveres(ValaszthatoListak);
@@ -1236,12 +1236,25 @@ function SliderAnimRemove(){
     document.getElementById("Slider").classList.remove("SliderSlideAnim");
 }
 
+function TeljesKat(res){
+    TeljesKategoriak = new Array();
+    res.forEach(c=>TeljesKategoriak.push(c.nev));
+}
+
+function AlKat(res){
+    for (let i = 0; i < res.slice(-1)[0].tkat_id; i++) {
+        Kategoriak.push(res.filter(c=>c.tkat_id == (i+1)));
+    }
+    KatGombKiGen();
+    SelectorSlider(0);
+    document.getElementById("Slider").classList.add("SliderSlideAnim");
+    setTimeout(SliderAnimRemove,1000);
+}
+
 function AlapokBetolt(){
     if(document.getElementById("AlapDiv") != undefined){
-        KatKigyujt();
-        SelectorSlider(0);
-        document.getElementById("Slider").classList.add("SliderSlideAnim");
-        setTimeout(SliderAnimRemove,1000);
+        TeljesKategoriakBetolt();
+        AlkattokBetolt();
         Tudnivalok(SajatKategoria[0].plus);
         document.getElementsByClassName("Keret")[0].classList.add("TablaOpacityStartAnim");
         document.getElementsByClassName("NameDiv")[0].classList.add("TablaOpacityStartAnim");

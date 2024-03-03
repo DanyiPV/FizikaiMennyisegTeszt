@@ -247,7 +247,7 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `nev` varchar(36) NOT NULL,
   `osztaly` varchar(4) NOT NULL,
-  `jelszo` varchar(20) NOT NULL,
+  `jelszo` varchar(255) NOT NULL,
   `letrehozva` date NOT NULL,
   `modositva` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

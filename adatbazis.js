@@ -66,6 +66,52 @@ function UsersBetoltese(){
     });
 }
 
+function TeljesKategoriakBetolt(){
+    const data = { lekerdezes: "select * from tkat"};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        if (!response.ok) {console.log("Nem jó válasz érekezett az adatbázisból");}
+        return response.json();
+    })
+    .then(function (response) {
+        if (response.Error) {
+            console.log(response.Error);
+        } else {
+            TeljesKat(response);
+            return response;
+        }
+    });
+}
+
+function AlkattokBetolt(){
+    const data = { lekerdezes: "select * from alkat"};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        if (!response.ok) {console.log("Nem jó válasz érekezett az adatbázisból");}
+        return response.json();
+    })
+    .then(function (response) {
+        if (response.Error) {
+            console.log(response.Error);
+        } else {
+            AlKat(response);
+            return response;
+        }
+    });
+}
+
 function UsersFeltolt(User){
     const data =  { lekerdezes: "insert into users values(null,'"+User.email+"','"+User.nev+"','"+User.osztaly+"','"+User.jelszo+"','"+User.letrehozva+"',null)"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
