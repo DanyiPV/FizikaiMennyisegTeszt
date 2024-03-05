@@ -389,7 +389,7 @@ function LoginClose(){
 function LoginGen(){
     User = Users.find(c=>c.email == User.email);
     document.getElementById("UserName").innerText = User.nev;
-    EredmenyLekeres(User.email);
+    EredmenyLekeres(User.id);
     if(User.osztaly != "T" && User.osztaly != "A"){
         document.getElementById("DogaEredmenyek").children[1].classList.add("TesztEredmenyError");
         document.getElementById("DogaEredmenyek").children[1].innerHTML = "<p>A felhasználó még nem írt Dolgozatot!</p>";
@@ -421,7 +421,7 @@ function EredmenyekKiGen(Eredmeny){
         document.getElementById("TesztEredmenyek").children[1].innerHTML = "<p>A felhasználó még nem írt Tesztet!</p>";
     }else if(document.getElementById("TesztEredmenyek").children[1].children.length != Eredmeny.length || Eredmeny.length > 0 && document.getElementById("TesztEredmenyek").children[1].innerHTML == "<p>A felhasználó még nem írt Tesztet!</p>"){
         document.getElementById("DogaEredmenyek").children[1].classList.contains("TesztEredmenyError")?document.getElementById("DogaEredmenyek").children[1].classList.remove("TesztEredmenyError"):"";
-        Eredmeny.forEach(c=> document.getElementById("TesztEredmenyek").children[1].innerHTML += "<div class='TesztKiirasok'><p>| Teszt befejezve: "+c.Datum+"<br>| Értékeles: "+c.MPont+"/"+c.Epont+" - "+Math.round(c.Epont/c.MPont*100)+"% <br>| Nehézség: "+c.Nehezseg+" <br> "+c.Kategoria+"</p></div>");
+        Eredmeny.forEach(c=> document.getElementById("TesztEredmenyek").children[1].innerHTML += "<div class='TesztKiirasok'><p>| Teszt befejezve: "+c.datum.split('T')[0]+" "+c.datum.split('T')[1].split('.')[0]+"<br>| Értékeles: "+c.MPont+"/"+c.Epont+" - "+Math.round(c.Epont/c.MPont*100)+"% <br>| Nehézség: "+(c.dif==0?"Könnyű":c.dif==1?"Közepes":"Nehéz")+" <br> "+c.katok+"</p></div>");
     }
 }
 
@@ -936,8 +936,7 @@ function UjTesztInditas(uj){
 
 function TesztFeltolt(MPontSzam,EPontSzam,Nehezseg){
     let d = new Date();
-    let datum = {year: d.getFullYear(),month:((Number(d.getMonth())+1)<10?"0"+(Number(d.getMonth())+1):(Number(d.getMonth())+1)),day: (d.getUTCDate()<10?"0"+d.getUTCDate():d.getUTCDate()),hour:(d.getHours()<10?"0"+d.getHours():d.getHours()),minute: (d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes())};
-    let Adatok = {email: User.email,mpont: MPontSzam,epont: EPontSzam,kateg: KivalasztottKategoriak, datum: datum.year+"."+datum.month+"."+datum.day+"-"+datum.hour+":"+datum.minute,nehezseg: Nehezseg};
+    let Adatok = {id: User.id,mpont: MPontSzam,epont: EPontSzam,kateg: KivalasztottKategoriak,nehezseg: (Nehezseg=="Könnyű"?0:Nehezseg=="Közepes"?1:2),fajta: "Teszt"};
     EredmenyFeltolt(Adatok);
 }
 

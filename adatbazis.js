@@ -128,8 +128,8 @@ function UsersFeltolt(User){
     });
 }
 
-function EredmenyLekeres(email){
-    const data = { lekerdezes: "select * from eredmenyek where email = '"+email+"'"};
+function EredmenyLekeres(id){
+    const data = { lekerdezes: "select * from eredmenyek where user_id = '"+id+"'"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
         headers: {
@@ -148,7 +148,7 @@ function EredmenyLekeres(email){
 }
 
 function EredmenyFeltolt(adat){
-    const data =  { lekerdezes: "insert into eredmenyek values(null,'"+adat.email+"','"+adat.mpont+"','"+adat.epont+"','"+adat.datum+"','"+adat.kateg+"','"+adat.nehezseg+"')"};
+    const data =  { lekerdezes: "insert into eredmenyek values(null,'"+adat.id+"','"+adat.mpont+"','"+adat.epont+"',null,'"+adat.kateg+"',"+adat.nehezseg+",'"+adat.fajta+"')"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
         headers: {
