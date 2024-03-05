@@ -138,6 +138,7 @@ function TanarCheck(){
   }else{
     document.getElementById("TanarKod").style.opacity="0";
     document.getElementById("OsztalySelect").style.opacity="1";
+    document.getElementById("TanarKod").style.zIndex = "1";
   }
 }
 
@@ -213,7 +214,9 @@ function UserCheck(response){
     AdatokBetoltes();
     document.getElementById("Input3").value = "";
     document.getElementById("Input4").value = "";
+    document.getElementById("Input5").value = "";
     document.getElementById("Input6").value = "";
+    document.getElementById("TanarKodCheck").value = "";
     document.getElementById("DiakEvfolyam").value = "9";
     document.getElementById("DiakOsztaly").value = "A";
     LogRegSwitch("B");
@@ -530,39 +533,42 @@ function DogaKatKivalaszt(kat){
         LenyiloDiv.id = "LenyiloDiv2";
         LenyiloDiv.classList.add("LenyiloDivClass");
         document.getElementById("FeluletDiv").appendChild(LenyiloDiv);
+        let TeljesArray = new Array();
         if(kat == "Egyéni"){
-            let TeljesArray = new Array();
             for (let i = 0; i < Kategoriak.length; i++) {
                 for (let j = 0; j < Kategoriak[i].length; j++) {
-                    TeljesArray.push(Kategoriak[i][j]);
+                    TeljesArray.push(Kategoriak[i][j].nev);
                 }
             }
-            let index = 0;
-            let db = Math.floor(TeljesArray.length / 5);
-            for (let i = 0; i < db; i++) {
-                let sor = document.createElement("div");
-                sor.classList.add("NavBarGombSor");
-                for (let j = 0; j < 5; j++) {
-                    let gomb = document.createElement("div");
-                    gomb.innerHTML = "<p>"+TeljesArray[index++]+"</p>";
-                    gomb.classList.add("NavBarGombok");
-                    sor.appendChild(gomb);
-                }
-                LenyiloDiv.appendChild(sor);
+        }
+        else{
+            let lista = Kategoriak[TeljesKategoriak.indexOf(kat)];
+            lista.forEach(c=>TeljesArray.push(c.nev));
+        }
+        let index = 0;
+        let db = Math.floor(TeljesArray.length / 4);
+        for (let i = 0; i < db; i++) {
+            let sor = document.createElement("div");
+            sor.classList.add("NavBarGombSor");
+            for (let j = 0; j < 4; j++) {
+                let gomb = document.createElement("div");
+                gomb.innerHTML = "<p>"+TeljesArray[index++]+"</p>";
+                gomb.classList.add("NavBarGombok");
+                sor.appendChild(gomb);
             }
-            if(index != TeljesArray.length){
-                let sor = document.createElement("div");
-                sor.classList.add("NavBarGombSor");
-                let maradek = TeljesArray.length - db;
-                console.log(TeljesArray.length, maradek, db);
-                for (let i = 0; i < maradek; i++) {
-                    let gomb = document.createElement("div");
-                    gomb.innerHTML = "<p>"+TeljesArray[index++]+"</p>";
-                    gomb.classList.add("NavBarGombok");
-                    sor.appendChild(gomb);
-                }
-                LenyiloDiv.appendChild(sor);
+            LenyiloDiv.appendChild(sor);
+        }
+        if(TeljesArray.length - index > 0){
+            let sor = document.createElement("div");
+            sor.classList.add("NavBarGombSor");
+            let maradek = TeljesArray.length - index;
+            for (let i = 0; i < maradek; i++) {
+                let gomb = document.createElement("div");
+                gomb.innerHTML = "<p>"+TeljesArray[index++]+"</p>";
+                gomb.classList.add("NavBarGombok");
+                sor.appendChild(gomb);
             }
+            LenyiloDiv.appendChild(sor);
         }
     }else{document.getElementById("LenyiloDiv2")!=undefined?document.getElementById("FeluletDiv").removeChild(document.getElementById("LenyiloDiv2")):"";}
 }

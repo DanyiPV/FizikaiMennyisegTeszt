@@ -382,6 +382,7 @@ nav{
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+/*Doga kiíratás*/
 #FeluletDiv{
     background-color: rgba(30, 30, 30, 0.7);
     width: 97%;
@@ -435,7 +436,8 @@ nav{
     justify-content: space-around;
 }
 .NavBarGombok{
-    margin: .5vw 0;
+    margin: .5vw .5vw;
+    width: 20%;
     padding: 0 2vw;
     border-radius: .8vw;
     color: gray;
@@ -444,10 +446,14 @@ nav{
     font-size: 1vw;
 }
 .NavBarGombok p{
-    margin: 1vw 1vw;
+    margin: 0;
+    padding: 1.5vw 0;
     text-align: center;
 }
+/*Doga kiíratás*/
+
 /*Login Body*/
+
 /*Login Sidebar*/
 
 /*scroll*/
