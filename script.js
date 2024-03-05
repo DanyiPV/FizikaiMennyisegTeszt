@@ -517,7 +517,17 @@ function Lenyil(Kat){
             sor.appendChild(gomb);
             LenyiloDiv.appendChild(sor);
         }else{
-            
+            let sor = document.createElement("div");
+            sor.classList.add("NavBarGombSor");
+            let Nehezsegek = [{dif:"Könnyű",on:'Kön'},{dif:"Közepes",on:'Köz'},{dif:"Nehéz",on:'N'}];
+            for (let i = 0; i < 3; i++) {
+                let gomb = document.createElement("div");
+                gomb.innerHTML = "<p>"+Nehezsegek[i].dif+"</p>";
+                gomb.classList.add("NavBarGombok");
+                gomb.setAttribute("onclick","DogaNehezsegValasztas('"+Nehezsegek[i].on+"')");
+                sor.appendChild(gomb);
+            }   
+            LenyiloDiv.appendChild(sor);
         }
     }else{document.getElementById("FeluletDiv").removeChild(document.getElementById("LenyiloDiv"));}
 }

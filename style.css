@@ -437,13 +437,13 @@ nav{
 }
 .NavBarGombok{
     margin: .5vw .5vw;
-    width: 20%;
+    width: max-content;
     padding: 0 2vw;
     border-radius: .8vw;
     color: gray;
     cursor: pointer;
     transition: .4s;
-    font-size: 1vw;
+    font-size: 1.5vw;
 }
 .NavBarGombok p{
     margin: 0;
