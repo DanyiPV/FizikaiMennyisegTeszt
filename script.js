@@ -13,19 +13,21 @@ function LabelFeltol(index){
 }
 
 function FeltolasCheck(index){
-  if(document.getElementById("Input"+index).value == "" && document.activeElement.id != "Input"+index){
-    document.getElementById("label"+index).classList.remove("LabelFeltol");
-    document.getElementById("QuestionDiv").classList.remove("QuestionMarkHide");
-  }if(document.activeElement.id == "Input"+index){
-    setTimeout(FeltolasCheck,2500,index);
-    document.getElementById("QuestionDiv").classList.add("QuestionMarkHide");
-  }
+    if(document.getElementById("Input"+index) != null){
+        if(document.getElementById("Input"+index).value == "" && document.activeElement.id != "Input"+index){
+          document.getElementById("label"+index).classList.remove("LabelFeltol");
+          document.getElementById("QuestionDiv").classList.remove("QuestionMarkHide");
+        }if(document.activeElement.id == "Input"+index){
+          setTimeout(FeltolasCheck,2500,index);
+          document.getElementById("QuestionDiv").classList.add("QuestionMarkHide");
+        }
+    }
 }
 
 function ValueCheck(index){
     index==5||index==3?PWErosseg(document.getElementById("Input5").value):"";
     FeltolasCheck(index);
-    if(document.getElementById("Input"+index).value != "" || document.activeElement.id == "Input"+index){
+    if(document.getElementById("Input"+index) != null && document.getElementById("Input"+index).value != "" || document.activeElement.id == "Input"+index){
         LabelFeltol(index);
         document.getElementById("QuestionDiv").classList.add("QuestionMarkHide");
     }
@@ -304,7 +306,7 @@ function FaultDivClose(){
   document.getElementById("FaultDiv").classList.remove("FaultDivOpen");
 }
 
-UsersBetoltese();
+UsersBetoltese();ValueCheck(1);ValueCheck(2);
 // ---- Login oldal --------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1077,12 +1079,19 @@ function drop(ev,div) {
     let SorDiv = Array.from(document.getElementsByClassName("TablaSor")).indexOf(div.parentNode)-1;
     let KapottErtekek = [KevertLista[SorDiv].nev,KevertLista[SorDiv].jel,KevertLista[SorDiv].def,KevertLista[SorDiv].mert];
     let index = Array.from(Array.from(document.getElementsByClassName("TablaSor")).find(c=>c==div.parentNode).children).indexOf(div);
-    ClassList=="KivettDivek"?document.getElementById("KivettErtekDiv").removeChild(document.getElementsByClassName("KivettDivek")[DivIndex]):DivValtoztatas(document.getElementsByClassName("TablaSor")[Number(Indexek[0])+1].children[Indexek[1]]);
-    if(div.children[0] != undefined && div.children[0].classList.contains("BetettErtek")){
-        DivIndex==-1?TablaErtekekCsere(div,SorDiv,index,Indexek,ev.dataTransfer.getData("text")):"";
+    if(ClassList == "KivettDivek" && div.firstChild != undefined && div.firstChild.classList != undefined && div.firstChild.classList.contains("BetettErtek")){
+        document.getElementById("KivettErtekDiv").innerHTML += "<div class='KivettDivek' draggable='true' ondragstart='drag(event)' data-indexek='"+Indexek[0]+","+Indexek[1]+"'>"+div.firstChild.innerHTML+"</div>";
+        div.innerHTML = "<div class='BetettErtek' draggable='true' ondragstart='drag(event)' data-indexek='"+SorDiv+","+index+"'>"+ev.dataTransfer.getData("text")+"</div>";
+        document.getElementById("KivettErtekDiv").removeChild(document.getElementsByClassName("KivettDivek")[DivIndex]);
     }
     else{
-        div.innerHTML = "<div class='BetettErtek' draggable='true' ondragstart='drag(event)' data-indexek='"+SorDiv+","+index+"'>"+ev.dataTransfer.getData("text")+"</div>";
+        ClassList=="KivettDivek"?document.getElementById("KivettErtekDiv").removeChild(document.getElementsByClassName("KivettDivek")[DivIndex]):DivValtoztatas(document.getElementsByClassName("TablaSor")[Number(Indexek[0])+1].children[Indexek[1]]);
+        if(div.children[0] != undefined && div.children[0].classList.contains("BetettErtek")){
+            DivIndex==-1?TablaErtekekCsere(div,SorDiv,index,Indexek,ev.dataTransfer.getData("text")):"";
+        }
+        else{
+            div.innerHTML = "<div class='BetettErtek' draggable='true' ondragstart='drag(event)' data-indexek='"+SorDiv+","+index+"'>"+ev.dataTransfer.getData("text")+"</div>";
+        }
     }
     if(ExpErtekek[Indexek[1]] == KapottErtekek[index]){
         BetettErtekek.push(ev);

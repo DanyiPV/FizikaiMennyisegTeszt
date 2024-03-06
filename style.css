@@ -1188,46 +1188,128 @@ background: white;
     .ValasztoDiv{
         height: 12vw;
         top: 17vw;
-        left: 3vw;
+        width: 95%;
+        left: -3.5vw;
+        margin: 0 5vw;
+        height: auto;
         padding: .5vw 1vw;
+        display: flex;
+        flex-direction: column;
+
     }
     .ValasztoDivSlideUp{
-        top: 17vw;
+        top: -60vw;
     }
     .KategoriakGomb,.InditasGomb{
         padding: .5vw 1.5vw;
+        margin: auto;
+        font-size: 3.5vw;
+    }
+    .KategoriakGomb{
+        top: 42vw;
+    }
+    .InditasGomb{
+        margin-top: 3vw;
+        top: -30vw;
     }
     .KategoriakGomb:hover,.InditasGomb:hover{
-        background-color: rgb(60, 60, 60);
+        background-color: transparent;
     }
     #SorokValaszt{
-        top: 32%;
         font-size: 3vw;
+        width: max-content;
+        margin: auto;
     }
     #SorokValaszt label{
         font-size: 3vw;
+        width: 100%;
     }
     #SorokValaszt input{
-        top: 0vw;
+        top: -.2vw;
         height: 4vw;
-        width: 7vw;
-        font-size: 2.5vw;
+        width: 12vw;
+        font-size: 3vw;
+        margin-left: 4vw;
+    }
+    #NehezsegValasztoDiv{
+        width: 20vw;
+        top: 1vw;
+    }
+    .NehezsegDivek{
+        margin: 1vw;
+    }
+    .NehezsegDivek label{
+        font-size: 3vw !important;
     }
 
     .KategoriaValasztDiv{
+        width: 95%;
         z-index: -1;
-        left: 3vw;
+        left: 1.5vw;
         top: 10vw;
         padding: .5vw 1vw;
-        font-size: 2.2vw;
+        font-size: 3vw;
     }
     .ValasztDivOpen{
-        top: 29.5vw;
+        top: 65vw;
         opacity: 1;
         z-index: 5;
     }
     /*Teszt Választó*/
 
+    /*Kivett értékek*/
+    #KivettErtekDiv{
+        bottom: 1vw;
+        margin: auto;
+        left: 50%;
+        width: fit-content;
+        max-width: 95%;
+        height: auto;
+        min-width: 95%;
+        padding-top: 2vw;
+    }
+    #KivettErtekDiv::-webkit-scrollbar {
+        width: .2vw;
+        height: 1.5vw;
+    }
+    /* Track */
+    #KivettErtekDiv::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px transparent;
+    }
+    /* Handle */
+    #KivettErtekDiv::-webkit-scrollbar-thumb {
+        background: gray;
+        border-radius: 10px;
+    }
+    /* Handle on hover */
+    #KivettErtekDiv::-webkit-scrollbar-thumb:hover {
+        background: rgb(140, 140, 140);
+    }
+    .KivettDivek{
+        text-align: center;
+        color: white;
+        font-size: 3.5vw;
+        height: max-content;
+        margin: .5vw 1vw;
+        position: relative;
+        top: 0vw;
+        padding: .3vw 1vw;
+        border-radius: .4vw;
+        transition: .3s;
+        cursor: pointer;
+        display: flex;
+    }
+    .KivettDivek p{
+        margin: 0 .5vw;
+        width: max-content;
+        text-align: center;
+        line-height: 3vw;
+    }
+    .KivettDivek:hover,.BetettErtek > p:hover{
+        background-color: transparent;
+    }
+    /*Kivett értékek*/
+    
     /*Tábla*/
     .Keret{
         width: 92%;

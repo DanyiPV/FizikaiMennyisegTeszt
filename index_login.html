@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style_login.css">
     <script defer src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.0.2/sha.js"></script>
+    <script src="DragDropTouch.js"></script>
     <title>Bejelentkezés - CKIK</title>
 </head>
 <body>
@@ -36,11 +37,15 @@
                 </div>
                 <div class="UsernameDiv">
                     <label for="Input1" id="label1" onclick="LabelFeltol(1)" onchange="ValueCheck(1)" onfocus="ValueCheck(1)" onblur="ValueCheck(1)">Email</label>
-                    <input type="text" name="Input1" id="Input1" onclick="LabelFeltol(1)" onchange="ValueCheck(1)"onfocus="ValueCheck(1)" onblur="ValueCheck(1)">
+                    <form autocomplete="off" action="">
+                        <input autocomplete="false" type="text" name="Input1" id="Input1" onclick="LabelFeltol(1)" onchange="ValueCheck(1)" onfocus="ValueCheck(1)" onblur="ValueCheck(1)">
+                    </form>
                 </div>
                 <div class="PasswordDiv">
                     <label for="Input2" id="label2" onclick="LabelFeltol(2)" onchange="ValueCheck(2)" onfocus="ValueCheck(2)" onblur="ValueCheck(2)">Jelszó</label>
-                    <input type="password" name="Input2" id="Input2" onclick="LabelFeltol(2)" onchange="ValueCheck(2)" onfocus="ValueCheck(2)" onblur="ValueCheck(2)" maxlength="20">
+                    <form autocomplete="off" action="">
+                        <input autocomplete="false" type="password" name="Input2" id="Input2" onclick="LabelFeltol(2)" onchange="ValueCheck(2)" onfocus="ValueCheck(2)" onblur="ValueCheck(2)" maxlength="20">
+                    </form>
                 </div>
                 <div class="PasswordShowDiv">
                     <label for="PasswordShow1" onchange="PasswordShow('Login')">Jelszó megjelenítése</label>
