@@ -521,17 +521,21 @@ function Lenyil(Kat){
         }else{
             let sor = document.createElement("div");
             sor.classList.add("NavBarGombSor");
-            let Nehezsegek = [{dif:"Könnyű",on:'Kön'},{dif:"Közepes",on:'Köz'},{dif:"Nehéz",on:'N'}];
+            let Nehezsegek = ["Könnyű","Közepes","Nehéz"];
             for (let i = 0; i < 3; i++) {
                 let gomb = document.createElement("div");
-                gomb.innerHTML = "<p>"+Nehezsegek[i].dif+"</p>";
+                gomb.innerHTML = "<p>"+Nehezsegek[i]+"</p>";
                 gomb.classList.add("NavBarGombok");
-                gomb.setAttribute("onclick","DogaNehezsegValasztas('"+Nehezsegek[i].on+"')");
+                gomb.setAttribute("onclick","DogaNehezsegValasztas(this)");
                 sor.appendChild(gomb);
             }   
             LenyiloDiv.appendChild(sor);
         }
     }else{document.getElementById("FeluletDiv").removeChild(document.getElementById("LenyiloDiv"));}
+}
+
+function DogaNehezsegValasztas(gomb){
+    
 }
 
 function LenyiloDivKinyit(igaze){
