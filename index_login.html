@@ -35,20 +35,22 @@
                     <img src="ph/question.png" alt="question_mark.png" id="QuestionMark" onclick="QuestionMark('Jelentkezzen be az email címével, ha nincs, regisztráljon egyet!')">
                 </div>
                 <div class="UsernameDiv">
-                    <label for="Input1" id="label1" onclick="LabelFeltol(1)" onchange="ValueCheck(1)" onfocus="ValueCheck(1)" onblur="ValueCheck(1)">Email</label>
                     <form autocomplete="off" action="">
+                        <label for="Input1" id="label1" onclick="LabelFeltol(1)" onchange="ValueCheck(1)" onfocus="ValueCheck(1)" onblur="ValueCheck(1)">Email</label>
                         <input autocomplete="false" type="text" name="Input1" id="Input1" onclick="LabelFeltol(1)" onchange="ValueCheck(1)" onfocus="ValueCheck(1)" onblur="ValueCheck(1)">
                     </form>
                 </div>
                 <div class="PasswordDiv">
-                    <label for="Input2" id="label2" onclick="LabelFeltol(2)" onchange="ValueCheck(2)" onfocus="ValueCheck(2)" onblur="ValueCheck(2)">Jelszó</label>
                     <form autocomplete="off" action="">
+                        <label for="Input2" id="label2" onclick="LabelFeltol(2)" onchange="ValueCheck(2)" onfocus="ValueCheck(2)" onblur="ValueCheck(2)">Jelszó</label>
                         <input autocomplete="false" type="password" name="Input2" id="Input2" onclick="LabelFeltol(2)" onchange="ValueCheck(2)" onfocus="ValueCheck(2)" onblur="ValueCheck(2)" maxlength="20">
                     </form>
                 </div>
                 <div class="PasswordShowDiv">
-                    <label for="PasswordShow1" onchange="PasswordShow('Login')">Jelszó megjelenítése</label>
-                    <input type="checkbox" name="PasswordShow1" id="PasswordShow1" onchange="PasswordShow('Login')">
+                    <form>
+                        <label for="PasswordShow1" onchange="PasswordShow('Login')">Jelszó megjelenítése</label>
+                        <input type="checkbox" name="PasswordShow1" id="PasswordShow1" onchange="PasswordShow('Login')">
+                    </form>
                 </div>
                 <div id="ElfelejtettJelszo">
                     <p onclick="ElfelejtettJelszo()">Elfelejtette a jelszavát?</p>
@@ -59,12 +61,42 @@
             </div>
             <div id="RegisterTab">
                 <div class="UsernameDiv">
-                    <label for="Input3" id="label3" onclick="LabelFeltol(3)" onchange="ValueCheck(3)" onfocus="ValueCheck(3)" onblur="ValueCheck(3)">Felhasználónév</label>
-                    <input type="text" name="Input3" id="Input3" onclick="LabelFeltol(3)" onchange="ValueCheck(3)" onfocus="ValueCheck(3)" onblur="ValueCheck(3)">
+                    <form autocomplete="off" action="">
+                        <label for="Input3" id="label3" onclick="LabelFeltol(3)" onchange="ValueCheck(3)" onfocus="ValueCheck(3)" onblur="ValueCheck(3)">Felhasználónév</label>
+                        <input type="text" name="Input3" id="Input3" onclick="LabelFeltol(3)" onchange="ValueCheck(3)" onfocus="ValueCheck(3)" onblur="ValueCheck(3)">
+                    </form>
                 </div>
                 <div class="UsernameDiv">
-                    <label for="Input4" id="label4" onclick="LabelFeltol(4)" onchange="ValueCheck(4)" onfocus="ValueCheck(4)" onblur="ValueCheck(4)">Email</label>
-                    <input type="text" name="Input4" id="Input4" onclick="LabelFeltol(4)" onchange="ValueCheck(4)" onfocus="ValueCheck(4)" onblur="ValueCheck(4)">
+                    <form autocomplete="off" action="">
+                        <label for="Input4" id="label4" onclick="LabelFeltol(4)" onchange="ValueCheck(4)" onfocus="ValueCheck(4)" onblur="ValueCheck(4)">Email</label>
+                        <input type="text" name="Input4" id="Input4" onclick="LabelFeltol(4)" onchange="ValueCheck(4)" onfocus="ValueCheck(4)" onblur="ValueCheck(4)">
+                    </form>
+                </div>
+                <div class="PasswordDiv">
+                    <form autocomplete="off" action="">
+                        <label for="Input5" id="label5" onclick="LabelFeltol(5)" onchange="ValueCheck(5)" onfocus="ValueCheck(5)" onblur="ValueCheck(5)">Jelszó</label>
+                        <input type="password" name="Input5" id="Input5" onclick="LabelFeltol(5)" onchange="ValueCheck(5)" onfocus="ValueCheck(5)" onblur="ValueCheck(5)" maxlength="20">
+                    </form>
+                </div>
+                <div class="PWErosseg" id="PWErossegDiv">
+                    <div id="PWErosseg1"></div>
+                    <div id="PWErosseg2"></div>
+                    <div id="PWErosseg3"></div>
+                    <div id="PWErosseg4"></div>
+                    <div id="PWErosseg5"></div>
+                    <div id="PWErosseg6"></div>
+                </div>
+                <div class="PasswordDiv">
+                    <form autocomplete="off" action="">
+                        <label for="Input6" id="label6" onclick="LabelFeltol(6)" onchange="ValueCheck(6)" onfocus="ValueCheck(6)" onblur="ValueCheck(6)">Jelszó megerősítés</label>
+                        <input type="password" name="Input6" id="Input6" onclick="LabelFeltol(6)" onchange="ValueCheck(6)" onfocus="ValueCheck(6)" onblur="ValueCheck(6)" maxlength="20">
+                    </form>
+                </div>
+                <div class="PasswordShowDiv">
+                    <form autocomplete="off" action="">
+                        <label for="PasswordShow2" onchange="PasswordShow('Reg')">Jelszó megjelenítése</label>
+                        <input type="checkbox" name="PasswordShow2" id="PasswordShow2" onchange="PasswordShow('Reg')">
+                    </form>
                 </div>
                 <div class="RadioButtons">
                     <div id="DiakDiv">
@@ -100,26 +132,6 @@
                             <option value="K">K</option>
                         </select>
                     </div>
-                </div>
-                <div class="PasswordDiv">
-                    <label for="Input5" id="label5" onclick="LabelFeltol(5)" onchange="ValueCheck(5)" onfocus="ValueCheck(5)" onblur="ValueCheck(5)">Jelszó</label>
-                    <input type="password" name="Input5" id="Input5" onclick="LabelFeltol(5)" onchange="ValueCheck(5)" onfocus="ValueCheck(5)" onblur="ValueCheck(5)" maxlength="20">
-                </div>
-                <div class="PWErosseg" id="PWErossegDiv">
-                    <div id="PWErosseg1"></div>
-                    <div id="PWErosseg2"></div>
-                    <div id="PWErosseg3"></div>
-                    <div id="PWErosseg4"></div>
-                    <div id="PWErosseg5"></div>
-                    <div id="PWErosseg6"></div>
-                </div>
-                <div class="PasswordDiv">
-                    <label for="Input6" id="label6" onclick="LabelFeltol(6)" onchange="ValueCheck(6)" onfocus="ValueCheck(6)" onblur="ValueCheck(6)">Jelszó megerősítés</label>
-                    <input type="password" name="Input6" id="Input6" onclick="LabelFeltol(6)" onchange="ValueCheck(6)" onfocus="ValueCheck(6)" onblur="ValueCheck(6)" maxlength="20">
-                </div>
-                <div class="PasswordShowDiv">
-                    <label for="PasswordShow2" onchange="PasswordShow('Reg')">Jelszó megjelenítése</label>
-                    <input type="checkbox" name="PasswordShow2" id="PasswordShow2" onchange="PasswordShow('Reg')">
                 </div>
                 <div class="LogInButton">
                     <button onclick="Regisztralas()">Regisztrálás</button>
