@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Feb 29. 10:43
+-- Létrehozás ideje: 2024. Már 05. 10:59
 -- Kiszolgáló verziója: 10.4.20-MariaDB
 -- PHP verzió: 8.0.9
 
@@ -43,7 +43,7 @@ INSERT INTO `alkat` (`id`, `tkat_id`, `nev`) VALUES
 (3, 1, 'Dinamika (erőtan)'),
 (4, 1, 'Munka/Energiával kapcsolatos'),
 (5, 1, 'Folyadékokkal kapcsolatos'),
-(6, 3, 'Rezgés/Hullámokkal kapcsolatos'),
+(6, 2, 'Rezgés/Hullámokkal kapcsolatos'),
 (7, 3, 'Hőtan'),
 (8, 4, 'Elektromossággal kapcsolatos'),
 (9, 4, 'Mágnesességgel kapcsolatos'),
@@ -257,7 +257,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `nev`, `osztaly`, `jelszo`, `letrehozva`, `modositva`) VALUES
-(1, 'admin', 'admin', 'A', 'admin', '2024-02-29', '2024-02-29 09:35:40');
+(1, 'admin', 'admin', 'A', 'admin', '2024-02-29', '2024-02-29 08:35:40'),
+(2, 'szab.eman@ckik.hu', 'Szabó Emánuel', 'T', '3233971a59d7704e5fed8c9af5ca6934221c189a1e716dff1d850dddd8b97cf64f20c92b848133072bc8af19e224715bc094f4369014a16c608f98f37ba8489c', '2024-03-05', '2024-03-05 09:58:14'),
+(3, 'pintea.roland@ckik.hu', 'Pintea Dániel', '12/C', '8567e08f59f544199c9bfe735aa534a301f5a5228d7a2b73036478e21b5de735c45eb92bac773ebcbf0c3fbf0cd9ebb688b02553938fb14f93bbce3b6d11fceb', '2024-03-05', '2024-03-05 09:59:13');
 
 --
 -- Indexek a kiírt táblákhoz

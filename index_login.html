@@ -6,123 +6,129 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style_login.css">
     <script defer src="script.js"></script>
+    <script defer src="adatbazis.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.0.2/sha.js"></script>
     <title>Bejelentkezés - CKIK</title>
 </head>
 <body>
-    <div class="AnswearDiv" id="AnswearDiv">
-        <div class="AnsQuestionMark">
-            <img src="ph/question.png" alt="question_mark.png">
+    <div class="FaultDiv" id="FaultDiv"></div>
+    <div class="container" id="container">
+        <div class="SelectLine">
+            <p onclick="SwitchTab('B')">login</p>
+            <p onclick="SwitchTab('R')">sign in</p>
         </div>
-        <p id="QuestionAnsP"></p>
-    </div>
-    <div class="FaultDiv" id="FaultDiv">
-
-    </div>
-    <div class="Container HeightChange" id="Container">
-        <div class="LogRegistDiv">
-            <div class="LogInDiv">
-                <button onclick="LogRegSwitch('B')">Bejelentkezés</button>
-            </div>
-            <div class="RegistDiv">
-                <button onclick="LogRegSwitch('R')">Regisztrálás</button>
-            </div>
-            <div class="UnderLine" id="UnderLine"></div>
-        </div>
-        <div class="Tabs">
-            <div id="LoginTab">
-                <div class="QuestionDiv" id="QuestionDiv">
-                    <img src="ph/question.png" alt="question_mark.png" id="QuestionMark" onclick="QuestionMark('Jelentkezzen be az email címével, ha nincs, regisztráljon egyet!')">
+        <div class="Underline" id="Underline"></div>
+        <div class="Tab" id="Tab">
+            <div class="SwitchTab" id="LogTab">
+                <div class="InputTabs">
+                    <form>
+                        <label for="input1" id="label1">email</label>
+                        <input type="text" name="input1" id="input1" class="LogTabIndex" onclick="WarningColorRemove(1)">
+                    </form>
                 </div>
-                <div class="UsernameDiv">
-                    <label for="Input1" id="label1" onclick="LabelFeltol(1)" onchange="ValueCheck(1)" onfocus="ValueCheck(1)" onblur="ValueCheck(1)">Email</label>
-                    <input type="text" name="Input1" id="Input1" onclick="LabelFeltol(1)" onchange="ValueCheck(1)"onfocus="ValueCheck(1)" onblur="ValueCheck(1)">
+                <div class="InputTabs">
+                    <form>
+                        <label for="input2" id="label2">password</label>
+                        <input type="password" name="input2" id="input2" maxlength="20" class="LogTabIndex" onclick="WarningColorRemove(2)">
+                    </form>
                 </div>
-                <div class="PasswordDiv">
-                    <label for="Input2" id="label2" onclick="LabelFeltol(2)" onchange="ValueCheck(2)" onfocus="ValueCheck(2)" onblur="ValueCheck(2)">Jelszó</label>
-                    <input type="password" name="Input2" id="Input2" onclick="LabelFeltol(2)" onchange="ValueCheck(2)" onfocus="ValueCheck(2)" onblur="ValueCheck(2)" maxlength="20">
+                <div class="Checkbox">
+                    <form>
+                        <label for="Checkbox1">show password</label>
+                        <input type="checkbox" name="Checkbox1" id="Checkbox1" onchange="PWShow(1)">
+                    </form>
                 </div>
-                <div class="PasswordShowDiv">
-                    <label for="PasswordShow1" onchange="PasswordShow('Login')">Jelszó megjelenítése</label>
-                    <input type="checkbox" name="PasswordShow1" id="PasswordShow1" onchange="PasswordShow('Login')">
+                <div class="Button" onclick="Login()">
+                    <p tabindex="-1">login</p>
                 </div>
-                <div id="ElfelejtettJelszo">
-                    <p onclick="ElfelejtettJelszo()">Elfelejtette a jelszavát?</p>
-                </div>
-                <div class="LogInButton">
-                    <button onclick="Bejelentkezes()">Bejelentkezés</button>
+                <div class="ForgetPW">
+                    <p tabindex="-1" onclick="ElfelejtettJelszo()">forget password?</p>
                 </div>
             </div>
-            <div id="RegisterTab">
-                <div class="UsernameDiv">
-                    <label for="Input3" id="label3" onclick="LabelFeltol(3)" onchange="ValueCheck(3)" onfocus="ValueCheck(3)" onblur="ValueCheck(3)">Felhasználónév</label>
-                    <input type="text" name="Input3" id="Input3" onclick="LabelFeltol(3)" onchange="ValueCheck(3)" onfocus="ValueCheck(3)" onblur="ValueCheck(3)">
+            <div class="SwitchTab TabIndex" id="RegTab">
+                <div class="InputTabs">
+                    <form>
+                        <label for="input3" id="label3">username</label>
+                        <input type="text" name="input3" id="input3" class="RegTabIndex" tabindex="-1" onclick="WarningColorRemove(3)">
+                    </form>
                 </div>
-                <div class="UsernameDiv">
-                    <label for="Input4" id="label4" onclick="LabelFeltol(4)" onchange="ValueCheck(4)" onfocus="ValueCheck(4)" onblur="ValueCheck(4)">Email</label>
-                    <input type="text" name="Input4" id="Input4" onclick="LabelFeltol(4)" onchange="ValueCheck(4)" onfocus="ValueCheck(4)" onblur="ValueCheck(4)">
+                <div class="InputTabs">
+                    <form>
+                        <label for="input4" id="label4">email</label>
+                        <input type="text" name="input4" id="input4" class="RegTabIndex" tabindex="-1" onclick="WarningColorRemove(4)">
+                    </form>
                 </div>
-                <div class="RadioButtons">
-                    <div id="DiakDiv">
-                        <label for="DiakRadioButton">Diák</label>
-                        <input type="radio" name="RadioButton" id="DiakRadioButton" onchange="TanarCheck()" checked tabindex="-1">
+                <div class="InputTabs">
+                    <form>
+                        <label for="input5" id="label5">password</label>
+                        <input type="password" name="input5" id="input5" class="RegTabIndex" tabindex="-1" maxlength="20" onchange="PasswordStrongCheck()" onclick="WarningColorRemove(5)">
+                    </form>
+                </div>
+                <div class="StrongPWDiv" id="StrongPWDiv">
+                    <div class="StrongPW"></div>
+                    <div class="StrongPW"></div>
+                    <div class="StrongPW"></div>
+                    <div class="StrongPW"></div>
+                    <div class="StrongPW"></div>
+                    <div class="StrongPW"></div>
+                </div>
+                <div class="InputTabs">
+                    <form>
+                        <label for="input6" id="label6">confirm password</label>
+                        <input type="password" name="input6" id="input6" class="RegTabIndex" tabindex="-1" maxlength="20" onclick="WarningColorRemove(6)">
+                    </form>
+                </div>
+                <div class="OsztalySelector">
+                    <p onclick="SwitchOsztaly('S')" tabindex="-1">student</p>
+                    <p onclick="SwitchOsztaly('T')" tabindex="-1">teacher</p>
+                </div>
+                <div class="OsztalyUnderline" id="OsztalyUnderline" tabindex="-1"></div>
+                <div class="OsztalyContainer" id="OsztalyContainer">
+                    <div class="OsztalySelect" id="OsztalySelect">
+                        <div class="SDiv" id="SDiv">
+                            <div class="Details" onclick="DetailsOpen(1)">
+                                <div class="DetailsIMG" id="DetailsHeader1">
+                                    <img src="ph/ad.png" alt="">
+                                </div>
+                            </div>
+                            <div class="DetailsDiv" id="DetailsDiv1">
+                                <p onclick="CGPick(this,'PickedClass')">9</p>
+                                <p onclick="CGPick(this,'PickedClass')">10</p>
+                                <p onclick="CGPick(this,'PickedClass')">11</p>
+                                <p onclick="CGPick(this,'PickedClass')">12</p>
+                                <p onclick="CGPick(this,'PickedClass')">13</p>
+                            </div>
+                            <div class="Details" onclick="DetailsOpen(2)">
+                                <div class="DetailsIMG" id="DetailsHeader2">
+                                    <img src="ph/ad.png" alt="">
+                                </div>
+                            </div>
+                            <div class="DetailsDiv" id="DetailsDiv2">
+                                <p onclick="CGPick(this,'PickedGrade')">A</p>
+                                <p onclick="CGPick(this,'PickedGrade')">B</p>
+                                <p onclick="CGPick(this,'PickedGrade')">C</p>
+                                <p onclick="CGPick(this,'PickedGrade')">K</p>
+                            </div>
+                        </div>
+                        <div class="TkodDiv">
+                            <form>
+                                <label for="TKod" id="TKodLabel">confirm code</label>
+                                <input type="text" name="TKod" id="TKod" tabindex="-1" onclick="WarningColoRemoveT()">
+                            </form>
+                        </div>
                     </div>
-                    <div id="TanarDiv">
-                        <label for="TanarRadioButton">Tanár</label>
-                        <input type="radio" name="RadioButton" id="TanarRadioButton" onchange="TanarCheck()" tabindex="-1">
-                    </div>
                 </div>
-                <div id="TanarKod">
-                    <label for="TanarKodCheck" id="TanarKodCheckLabel">Megerősítő kód:</label>
-                    <input type="text" name="TanarKodCheck" id="TanarKodCheck" maxlength="8">
+                <div class="Checkbox">
+                    <form>
+                        <label for="Checkbox2">show password</label>
+                        <input type="checkbox" name="Checkbox2" id="Checkbox2" onchange="PWShow(2)">
+                    </form>
                 </div>
-                <div id="OsztalySelect">
-                    <div id="Evfolyam">
-                        <label for="DiakEvfolyam" id="EvfolyamKivalaszt" tabindex="-1">Évfolyam: </label>
-                        <select name="DiakEvfolyam" id="DiakEvfolyam" tabindex="-1">
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                        </select>
-                    </div>
-                    <div id="Osztaly">
-                        <label for="DiakOsztaly" id="OsztalyKivalaszt" tabindex="-1">Osztály: </label>
-                        <select name="DiakOsztaly" id="DiakOsztaly" tabindex="-1">
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                            <option value="K">K</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="PasswordDiv">
-                    <label for="Input5" id="label5" onclick="LabelFeltol(5)" onchange="ValueCheck(5)" onfocus="ValueCheck(5)" onblur="ValueCheck(5)">Jelszó</label>
-                    <input type="password" name="Input5" id="Input5" onclick="LabelFeltol(5)" onchange="ValueCheck(5)" onfocus="ValueCheck(5)" onblur="ValueCheck(5)" maxlength="20">
-                </div>
-                <div class="PWErosseg" id="PWErossegDiv">
-                    <div id="PWErosseg1"></div>
-                    <div id="PWErosseg2"></div>
-                    <div id="PWErosseg3"></div>
-                    <div id="PWErosseg4"></div>
-                    <div id="PWErosseg5"></div>
-                    <div id="PWErosseg6"></div>
-                </div>
-                <div class="PasswordDiv">
-                    <label for="Input6" id="label6" onclick="LabelFeltol(6)" onchange="ValueCheck(6)" onfocus="ValueCheck(6)" onblur="ValueCheck(6)">Jelszó megerősítés</label>
-                    <input type="password" name="Input6" id="Input6" onclick="LabelFeltol(6)" onchange="ValueCheck(6)" onfocus="ValueCheck(6)" onblur="ValueCheck(6)" maxlength="20">
-                </div>
-                <div class="PasswordShowDiv">
-                    <label for="PasswordShow2" onchange="PasswordShow('Reg')">Jelszó megjelenítése</label>
-                    <input type="checkbox" name="PasswordShow2" id="PasswordShow2" onchange="PasswordShow('Reg')">
-                </div>
-                <div class="LogInButton">
-                    <button onclick="Regisztralas()">Regisztrálás</button>
+                <div class="Button" onclick="Register()">
+                    <p tabindex="-1">register</p>
                 </div>
             </div>
         </div>
     </div>
 </body>
-<script src="adatbazis.js"></script>
 </html>

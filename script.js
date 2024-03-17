@@ -3,42 +3,87 @@ var Users;
 var User;
 var MegerositoKod = "88888888";
 
-function LabelFeltol(index){
-  WarningsRemove();
-  if(!document.getElementById("label"+index).classList.contains("LabelFeltol") && document.getElementById("Input"+index).value == "" || document.activeElement.id == "Input"+index){
-    document.getElementById("label"+index).classList.add("LabelFeltol");
-    document.getElementById("QuestionDiv").classList.add("QuestionMarkHide");
-    setTimeout(FeltolasCheck,2500,index);
-  }
-}
-
-function FeltolasCheck(index){
-  if(document.getElementById("Input"+index).value == "" && document.activeElement.id != "Input"+index){
-    document.getElementById("label"+index).classList.remove("LabelFeltol");
-    document.getElementById("QuestionDiv").classList.remove("QuestionMarkHide");
-  }if(document.activeElement.id == "Input"+index){
-    setTimeout(FeltolasCheck,2500,index);
-    document.getElementById("QuestionDiv").classList.add("QuestionMarkHide");
-  }
-}
-
-function ValueCheck(index){
-    index==5||index==3?PWErosseg(document.getElementById("Input5").value):"";
-    FeltolasCheck(index);
-    if(document.getElementById("Input"+index).value != "" || document.activeElement.id == "Input"+index){
-        LabelFeltol(index);
-        document.getElementById("QuestionDiv").classList.add("QuestionMarkHide");
+function SwitchTab(value){
+    FaultDivClose();
+    document.getElementsByClassName("WarningColor").length>0?document.getElementsByClassName("WarningColor")[0].classList.remove("WarningColor"):"";
+    value=='B'?document.getElementById("Tab").classList.remove("TabSwitch"):document.getElementById("Tab").classList.add("TabSwitch");
+    value=='B'?document.getElementById("Underline").classList.remove("UnderlineSwitch"):document.getElementById("Underline").classList.add("UnderlineSwitch");
+    value=='B'?document.getElementById("container").classList.remove("ContainerHeight"):document.getElementById("container").classList.add("ContainerHeight");
+    value=='B'?document.getElementsByClassName("PickedClass").length>0?document.getElementsByClassName("PickedClass")[0].classList.remove("PickedClass"):"":"";
+    value=='B'?document.getElementsByClassName("PickedGrade").length>0?document.getElementsByClassName("PickedGrade")[0].classList.remove("PickedGrade"):"":"";
+    document.getElementById("container").classList.remove("ContainerPlusHeight");
+    let LogTab = document.getElementsByClassName("LogTabIndex");
+    let RegTab = document.getElementsByClassName("RegTabIndex");
+    for (let i = 0; i < LogTab.length; i++) {
+        if(value == "B"){
+            LogTab[i].tabIndex = 0;
+        }else{
+            LogTab[i].tabIndex = -1;
+        }
+    }
+    for (let i = 0; i < RegTab.length; i++) {
+        if(value == "B"){
+            RegTab[i].tabIndex = -1;
+        }else{
+            RegTab[i].tabIndex = 0;
+        }
     }
 }
 
-//kis/nagy betű, szimbolum, számok  
-function PWErosseg(pw){
+function SwitchOsztaly(value){
+    value=='S'?document.getElementById("OsztalyUnderline").classList.remove("OsztalyUnderlineSwitch"):document.getElementById("OsztalyUnderline").classList.add("OsztalyUnderlineSwitch");
+    value=='S'?document.getElementById("OsztalySelect").classList.remove("OsztalySelectSwitch"):document.getElementById("OsztalySelect").classList.add("OsztalySelectSwitch");
+    value=='S'?document.getElementById("OsztalyContainer").classList.remove("OsztalyContainerHeight"):document.getElementById("OsztalyContainer").classList.add("OsztalyContainerHeight");
+    if(document.getElementsByClassName("DetailsOpen").length > 0){
+        for (let i = 1; i < 3; i++) {
+            document.getElementById("DetailsDiv"+i).style.setProperty("opacity","0","important");
+            document.getElementById("DetailsHeader"+i).classList.remove("DetailsOpen");
+            DetailsDivRemove(i);
+        }
+    }
+    document.getElementsByClassName("PickedClass").length>0?document.getElementsByClassName("PickedClass")[0].classList.remove("PickedClass"):"";
+    document.getElementsByClassName("PickedGrade").length>0?document.getElementsByClassName("PickedGrade")[0].classList.remove("PickedGrade"):"";
+    if(value == "S"){
+        document.getElementById("TKod").tabIndex = "-1";
+        document.getElementById("SDiv").children[0].tabIndex = "0";
+        document.getElementById("SDiv").children[1].tabIndex = "0";
+    }else{
+        document.getElementById("TKod").tabIndex = "0";
+        document.getElementById("SDiv").children[0].tabIndex = "-1";
+        document.getElementById("SDiv").children[1].tabIndex = "-1";
+    }
+}
+
+function DetailsOpen(id){
+    document.getElementById("DetailsHeader1").classList.remove("WarningDetails");
+    document.getElementById("DetailsHeader1").children[0].src = "ph/ad.png";
+    if(!document.getElementById("DetailsHeader"+id).classList.contains("DetailsOpen")){
+        document.getElementById("DetailsHeader"+id).classList.add("DetailsOpen");
+        document.getElementById("DetailsDiv"+id).classList.add("DetailsDivOpen");
+        document.getElementById("OsztalyContainer").classList.add("OsztalyContainerHeight");
+    }else{
+        if(document.getElementsByClassName("DetailsOpen").length < 2){
+            document.getElementById("OsztalyContainer").classList.remove("OsztalyContainerHeight");
+        }
+        document.getElementById("DetailsDiv"+id).style.setProperty("opacity","0","important");
+        document.getElementById("DetailsHeader"+id).classList.remove("DetailsOpen");
+        setTimeout(DetailsDivRemove,400,id);
+    }
+}
+
+function DetailsDivRemove(id){
+    document.getElementById("DetailsDiv"+id).classList.remove("DetailsDivOpen");
+    document.getElementById("DetailsDiv"+id).style.removeProperty("opacity");
+}
+
+function PasswordStrongCheck(){
+    let pw = document.getElementById("input5").value;
     for (let i = 0; i < 6; i++) {
-        document.getElementById("PWErossegDiv").children[i].classList.remove("PWErossegAktivJo");
-        document.getElementById("PWErossegDiv").children[i].classList.remove("PWErossegAktivKozepes");
-        document.getElementById("PWErossegDiv").children[i].classList.remove("PWErossegAktivRossz");
+        document.getElementById("StrongPWDiv").children[i].classList.remove("PWStrong1");
+        document.getElementById("StrongPWDiv").children[i].classList.remove("PWStrong2");
+        document.getElementById("StrongPWDiv").children[i].classList.remove("PWStrong3");
     }
-    if(document.getElementById("Input5").value!=""){
+    if(document.getElementById("input5").value!=""){
         let db = 0;
         if(/[a-z]/.test(pw)){
             db++;
@@ -49,12 +94,12 @@ function PWErosseg(pw){
         if(pw.length > 12){
             db++;
         }
-        let fn = document.getElementById("Input3").value.toLowerCase().split(' ');
+        let fn = document.getElementById("input3").value.toLowerCase().split(' ');
         let i = 0;
         while(i < fn.length && pw.toLowerCase().includes(fn[i])){
             i++;
         }
-        if(i == fn.length-1 || document.getElementById("Input3").value == ""){
+        if(i == fn.length-1 || document.getElementById("input3").value == ""){
             db++;
         }
         if(/[0-9]/.test(pw)){
@@ -64,8 +109,25 @@ function PWErosseg(pw){
             db++;
         }
         for (let i = 0; i < db; i++) {
-            document.getElementById("PWErossegDiv").children[i].classList.add(db>2?(db>4?"PWErossegAktivJo":"PWErossegAktivKozepes"):"PWErossegAktivRossz");
+            document.getElementById("StrongPWDiv").children[i].classList.add(db>2?(db>4?"PWStrong1":"PWStrong2"):"PWStrong3");
         }
+    }
+}
+
+function PWShow(id){
+    if(id==1){
+        document.getElementById("input2").type == "password"?document.getElementById("input2").type="text":document.getElementById("input2").type="password";
+    }else{
+        document.getElementById("input5").type == "password"?document.getElementById("input5").type="text":document.getElementById("input5").type="password";
+        document.getElementById("input6").type == "password"?document.getElementById("input6").type="text":document.getElementById("input6").type="password";
+    }
+}
+
+function CGPick(p,Class){
+    if(document.getElementsByClassName(Class).length == 0){p.classList.add(Class);}
+    else if(document.getElementsByClassName(Class)[0]!=p){
+        document.getElementsByClassName(Class)[0].classList.remove(Class);
+        p.classList.add(Class);
     }
 }
 
@@ -73,129 +135,140 @@ function ElfelejtettJelszo(){
     FaultDivOpen("A jelszó megváltoztatásához keresse meg a rendszergazdát!");
 }
 
-function WarningsRemove(){
-  let ClassLists = ["WarningColor","WarningBorderColor"];
-  for (let i = 0; i < ClassLists.length; i++) {
-    let Warnings = document.getElementsByClassName(ClassLists[i]);
-    if(Warnings.length>0){
-      while(Warnings.length != 0){
-        Warnings[0].classList.remove(ClassLists[i]);
-      }
+function FaultDivOpen(text){
+    document.getElementById("FaultDiv").innerHTML = "<p>"+text+"</p>";
+    document.getElementById("FaultDiv").classList.add("FaultDivOpen");
+    setTimeout(FaultDivClose,5000);
+}
+
+function FaultDivClose(){
+    document.getElementById("FaultDiv").classList.remove("FaultDivOpen");
+}
+
+function Login(){
+    UsersBetoltese();
+    Users==undefined?setTimeout(UsersCheck,200):LogCheckFunction();
+}
+
+function UsersCheck(){
+    Users==undefined?setTimeout(UsersCheck,200):LogCheckFunction();
+}
+
+function LogCheckFunction(){ //pintea.roland@ckik.hu , PinteaViktoria2024
+    let igaze = true;
+    if(document.getElementById("input1").value == ""){
+        igaze = false;
+        FaultDivOpen("A bejelentkezéshez írja be az e-mail címét!");
+        WarningColorAdd(1);
     }
-  }
-}
-
-function PasswordShow(Side){
-  if(Side == "Login"){
-    if(document.getElementById('PasswordShow1').checked == true){
-      document.getElementById("Input2").type = "text";
-    }else{
-      document.getElementById("Input2").type = "password";
+    else if(document.getElementById("input1").value.split("@")[1] != "ckik.hu"){
+        igaze = false;
+        FaultDivOpen("Hibásan írta be az e-mail címet!");
+        WarningColorAdd(1);
     }
-  }else{
-    if(document.getElementById('PasswordShow2').checked == true){
-      document.getElementById("Input5").type = "text";
-      document.getElementById("Input6").type = "text";
-    }else{
-      document.getElementById("Input5").type = "password";
-      document.getElementById("Input6").type = "password";
+    else if(!EmailCheck(1)){
+        igaze = false;
+        FaultDivOpen("Az e-mail nem szerepel a nyílvántartásban!");
+        WarningColorAdd(1);
     }
-  }
-}
-
-function QuestionMark(text){
-  if(!document.getElementById('AnswearDiv').classList.contains("AnswearDivOpen")){
-    document.getElementById('AnswearDiv').classList.add("AnswearDivOpen");
-    document.getElementById("QuestionAnsP").innerText = text;
-    setTimeout(AnswearDivClose,5000);
-  }
-}
-
-function AnswearDivClose(){
-  document.getElementById('AnswearDiv').classList.remove("AnswearDivOpen");
-}
-
-function LogRegSwitch(side){
-  if(side == "B"){
-    document.getElementById("UnderLine").classList.remove("UnderLineChange");
-    document.getElementById('LoginTab').classList.remove("LogSideSwitch");
-    document.getElementById("RegisterTab").classList.remove("RegSideSwitch");
-    document.getElementById('Container').classList.add("HeightChange");
-  }else if(side == "R"){
-    AnswearDivClose();
-    document.getElementById("UnderLine").classList.add("UnderLineChange");
-    document.getElementById('LoginTab').classList.add("LogSideSwitch");
-    document.getElementById("RegisterTab").classList.add("RegSideSwitch");
-    document.getElementById('Container').classList.remove("HeightChange");
-  }
-}
-
-function TanarCheck(){
-  if(document.getElementById("TanarRadioButton").checked){
-    document.getElementById("TanarKod").style.opacity="1";
-    document.getElementById("TanarKod").style.zIndex = "13";
-    document.getElementById("OsztalySelect").style.opacity="0";
-  }else{
-    document.getElementById("TanarKod").style.opacity="0";
-    document.getElementById("OsztalySelect").style.opacity="1";
-  }
-}
-
-function KodCheck(div){
-  if(div.value == MegerositoKod){
-    return true;
-  }
-  return false;
-}
-
-function Bejelentkezes(){
-  if(document.getElementById("Input1").value != "" && document.getElementById("Input2").value != ""){
-    AnswearDivClose();
-    User = Users.find(c=>c.email == document.getElementById("Input1").value);
-    if(User != undefined && User.jelszo == hash(document.getElementById("Input2").value)){
-        let User_serialized = JSON.stringify(User);
-        localStorage.setItem("user",User_serialized);
-        window.open("index.html","_self");
-    }else{
-      if(User == undefined){
-        document.getElementById("label1").classList.add("WarningColor");
-        document.getElementById("Input1").classList.add("WarningBorderColor");
-        FaultDivOpen("Hibásan írta be az email címet!");
-      }else if(User.jelszo != hash(document.getElementById("Input2").value)){
-        document.getElementById("label2").classList.add("WarningColor");
-        document.getElementById("Input2").classList.add("WarningBorderColor");
-        FaultDivOpen("Hibásan írta be a jelszót!");
-      }
+    else if(document.getElementById("input2").value == ""){
+        igaze = false;
+        FaultDivOpen("A bejelentkezéshez írja be az e-mailhez tartozó jelszót!");
+        WarningColorAdd(2);
     }
-  }else if(document.getElementById("Input1").value == "" && document.getElementById("Input2").value == ""){
-    AnswearDivClose();
-    document.getElementById("label1").classList.add("WarningColor");
-    document.getElementById("label2").classList.add("WarningColor");
-    document.getElementById("Input1").classList.add("WarningBorderColor");
-    document.getElementById("Input2").classList.add("WarningBorderColor");
-    QuestionMark("Írjon be egy eamil címet és egy jelszót!");
-  }
-  else if(document.getElementById("Input1").value == ""){
-    document.getElementById("label1").classList.add("WarningColor");
-    document.getElementById("Input1").classList.add("WarningBorderColor");
-    FaultDivOpen("Írjon be egy email címet!");
-  }else if(document.getElementById("Input2").value == ""){
-    document.getElementById("label2").classList.add("WarningColor");
-    document.getElementById("Input2").classList.add("WarningBorderColor");
-    FaultDivOpen("Írjon be egy jelszót!");
-  }
+    else if(!JelszoCheck(1,2)){
+        igaze = false;
+        FaultDivOpen("A jelszó hibásan lett beírva!");
+        WarningColorAdd(2);
+    }
+    if(igaze == true){
+        console.log("A fehlhasználót be lehet jeletnkeztetni");
+    }
 }
 
-function Regisztralas(){
-  if(MindenKitoltve()){
-    let d = new Date();
-    let pw = hash(document.getElementById("Input5").value);
-    let datum = {year: d.getFullYear(),month:((Number(d.getMonth())+1)<10?"0"+(Number(d.getMonth())+1):(Number(d.getMonth())+1)),day: (d.getUTCDate()<10?"0"+d.getUTCDate():d.getUTCDate()),hour:(d.getHours()<10?"0"+d.getHours():d.getHours()),minute: (d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes())};
-    let Modositva = datum.year+"-"+datum.month+"-"+datum.day+"-"+datum.hour+":"+datum.minute;
-    let osztaly = document.getElementById("DiakEvfolyam").value+"/"+document.getElementById("DiakOsztaly").value;
-    User = {email: document.getElementById("Input4").value,nev:document.getElementById("Input3").value,jelszo: pw,osztaly: document.getElementById("DiakRadioButton").checked?osztaly:"T",letrehozva: Modositva};
-    UsersFeltolt(User);
-  }
+function Register(){
+    UsersBetoltese();
+    Users==undefined?setTimeout(UsersCheck1,200):RegCheckFunction();
+}
+
+function UsersCheck1(){
+    Users==undefined?setTimeout(UsersCheck1,200):RegCheckFunction();
+}
+
+function RegCheckFunction(){ //Szelid Márk , mark.szelid@ckik.hu , Mikulas123
+    let igaze = true;
+    if(document.getElementById("input3").value == ""){
+        igaze = false;
+        FaultDivOpen("A regisztráláshoz írjon be egy felhasználó nevet!");
+        WarningColorAdd(3);
+    }
+    else if(document.getElementById("input4").value == ""){
+        igaze = false;
+        FaultDivOpen("A regisztráláshoz írjon be egy e-mail címet!");
+        WarningColorAdd(4);
+    }
+    else if(document.getElementById("input4").value.split("@")[1] != "ckik.hu"){
+        igaze = false;
+        FaultDivOpen("Hibásan írta be az e-mail címet!");
+        WarningColorAdd(4);
+    }
+    else if(EmailCheck(4)){
+        igaze = false;
+        FaultDivOpen("Az e-mail már szerepel a nyílvántartásban!");
+        WarningColorAdd(4);
+    }
+    else if(document.getElementById("input5").value == ""){
+        igaze = false;
+        FaultDivOpen("Az e-mail cím regisztálásához adjon meg egy jelszót!");
+        WarningColorAdd(5);
+    }
+    else if(document.getElementById("input6").value == ""){
+        igaze = false;
+        FaultDivOpen("Adja meg a jelszavát újra!");
+        WarningColorAdd(6);
+    }
+    else if(document.getElementById("input6").value != document.getElementById("input5").value){
+        igaze = false;
+        FaultDivOpen("A két megadott jelszó nem egyezik!");
+        WarningColorAdd(6);
+    }
+    if(igaze == true && document.getElementsByClassName("OsztalyUnderlineSwitch").length == 0){
+        if(document.getElementsByClassName("PickedClass").length != 1){
+            igaze = false;
+            document.getElementById("DetailsHeader1").classList.add("WarningDetails");
+            document.getElementById("DetailsHeader1").children[0].src = "ph/ad_red.png";
+        }
+        else if(document.getElementsByClassName("PickedGrade").length != 1){
+            igaze = false;
+            document.getElementById("DetailsHeader2").classList.add("WarningDetails");
+            document.getElementById("DetailsHeader2").children[0].src = "ph/ad_red.png";
+        }
+    }else if(igaze == true && document.getElementsByClassName("OsztalyUnderlineSwitch").length == 1){
+        igaze = false;
+        document.getElementById("TKod").value != MegerositoKod?document.getElementById("TKodLabel").classList.add("WarningColor"):"";
+    }
+    if(igaze == true){
+        console.log("A fehlhasználót lehet regisztrálni");
+    }
+}
+
+function WarningColorAdd(id){
+    document.getElementById("label"+id).classList.add("WarningColor");
+}
+function WarningColorRemove(id){
+    document.getElementById("label"+id).classList.remove("WarningColor");
+    FaultDivClose();
+}
+function WarningColoRemoveT(){
+    document.getElementById("TKodLabel").classList.remove("WarningColor")
+}
+
+function EmailCheck(id){
+    return Users.filter(c=>c.email == document.getElementById("input"+id).value).length>0?true:false;
+}
+
+function JelszoCheck(id1,id2){
+    return Users.filter(c=>c.email == document.getElementById("input"+id1).value)[0].jelszo==hash(document.getElementById("input"+id2).value)?true:false;
 }
 
 function hash(pw) {
@@ -205,103 +278,8 @@ function hash(pw) {
     return hash
 }
 
-function UserCheck(response){
-  if(response.statusText != "OK"){
-    console.log("Valami nem sikerült az adat felvitelben!");
-  }
-  else if(response.statusText == "OK"){
-    AdatokBetoltes();
-    document.getElementById("Input3").value = "";
-    document.getElementById("Input4").value = "";
-    document.getElementById("Input6").value = "";
-    document.getElementById("DiakEvfolyam").value = "9";
-    document.getElementById("DiakOsztaly").value = "A";
-    LogRegSwitch("B");
-  }
-}
 
-function MindenKitoltve(){
-  FaultDivClose();
-  let Igaze = true;
-  if(document.getElementById("Input3").value == ""){
-    Igaze = false;
-    FaultDivOpen("Nem írt be felhasználó nevet!");
-    document.getElementById("label3").classList.add("WarningColor");
-    document.getElementById("Input3").classList.add("WarningBorderColor");
-  }
-  if(document.getElementById("Input4").value == "" || document.getElementById("Input4").value.split('@') == undefined || document.getElementById("Input4").value.split('@')[0] == "" || document.getElementById("Input4").value.split('@')[1] != "ckik.hu"){
-    Igaze = false;
-    FaultDivOpen("Az eamilt rosszúl írta be!");
-    document.getElementById("label4").classList.add("WarningColor");
-    document.getElementById("Input4").classList.add("WarningBorderColor");
-  }
-  if(EmailCheck(document.getElementById("Input4").value) == false){
-    Igaze = false;
-    FaultDivOpen("Az eamil már regisztálva van!");
-    document.getElementById("label4").classList.add("WarningColor");
-    document.getElementById("Input4").classList.add("WarningBorderColor");
-  }
-  if(document.getElementById("Input5").value == "" || document.getElementById("Input5").value != document.getElementById("Input6").value){
-    Igaze = false;
-    let szoveg = "Nem írt be jelszót!";
-    document.getElementById("label5").classList.add("WarningColor");
-    document.getElementById("Input5").classList.add("WarningBorderColor");
-    if(document.getElementById("Input5").value == document.getElementById("Input6").value){
-      document.getElementById("label6").classList.add("WarningColor");
-      document.getElementById("Input6").classList.add("WarningBorderColor");
-      szoveg = "A jelszavak nem egyeznek!";
-    }
-    FaultDivOpen(szoveg);
-  }
-  if(document.getElementById("Input6").value == "" || document.getElementById("Input5").value != document.getElementById("Input6").value){
-    Igaze = false;
-    let szoveg = "Nem írt be jelszót!";
-    document.getElementById("label6").classList.add("WarningColor");
-    document.getElementById("Input6").classList.add("WarningBorderColor");
-    if(document.getElementById("Input5").value == document.getElementById("Input6").value){
-      document.getElementById("label5").classList.add("WarningColor");
-      document.getElementById("Input5").classList.add("WarningBorderColor");
-      szoveg = "A jelszavak nem egyeznek!";
-    }
-    FaultDivOpen(szoveg);
-  }
-  if(document.getElementById("Input5").value.length < 8){
-    Igaze = false;
-    document.getElementById("label5").classList.add("WarningColor");
-    document.getElementById("Input5").classList.add("WarningBorderColor");
-    FaultDivOpen("A jelszó túl rövid!");
-  }
-  if(document.getElementById("Input6").value.length < 8){
-    Igaze = false;
-    document.getElementById("label6").classList.add("WarningColor");
-    document.getElementById("Input6").classList.add("WarningBorderColor");
-    FaultDivOpen("A jelszó túl rövid!");
-  }
-  if(document.getElementById("TanarRadioButton").checked == true && !KodCheck(document.getElementById("TanarKodCheck"))){
-    Igaze = false;
-    FaultDivOpen("Nem jó kódott adott meg!");
-    document.getElementById("TanarKodCheckLabel").classList.add("WarningColor");
-  }
-  return Igaze;
-}
-function EmailCheck(email){
-  UsersBetoltese();
-  return Users.find(c=>c.email==email)==undefined?true:false;
-}
-
-function FaultDivOpen(fault){
-  if(!document.getElementById("FaultDiv").classList.contains("FaultDivOpen")){
-    document.getElementById("FaultDiv").classList.add("FaultDivOpen");
-    document.getElementById("FaultDiv").innerHTML ="<p>"+fault+"</p>";
-    setTimeout(FaultDivClose,5000);
-  }
-}
-
-function FaultDivClose(){
-  document.getElementById("FaultDiv").classList.remove("FaultDivOpen");
-}
-
-UsersBetoltese();
+//UsersBetoltese();
 // ---- Login oldal --------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -386,7 +364,7 @@ function LoginClose(){
 function LoginGen(){
     User = Users.find(c=>c.email == User.email);
     document.getElementById("UserName").innerText = User.nev;
-    EredmenyLekeres(User.email);
+    EredmenyLekeres(User.id);
     if(User.osztaly != "T" && User.osztaly != "A"){
         document.getElementById("DogaEredmenyek").children[1].classList.add("TesztEredmenyError");
         document.getElementById("DogaEredmenyek").children[1].innerHTML = "<p>A felhasználó még nem írt Dolgozatot!</p>";
@@ -418,7 +396,7 @@ function EredmenyekKiGen(Eredmeny){
         document.getElementById("TesztEredmenyek").children[1].innerHTML = "<p>A felhasználó még nem írt Tesztet!</p>";
     }else if(document.getElementById("TesztEredmenyek").children[1].children.length != Eredmeny.length || Eredmeny.length > 0 && document.getElementById("TesztEredmenyek").children[1].innerHTML == "<p>A felhasználó még nem írt Tesztet!</p>"){
         document.getElementById("DogaEredmenyek").children[1].classList.contains("TesztEredmenyError")?document.getElementById("DogaEredmenyek").children[1].classList.remove("TesztEredmenyError"):"";
-        Eredmeny.forEach(c=> document.getElementById("TesztEredmenyek").children[1].innerHTML += "<div class='TesztKiirasok'><p>| Teszt befejezve: "+c.Datum+"<br>| Értékeles: "+c.MPont+"/"+c.Epont+" - "+Math.round(c.Epont/c.MPont*100)+"% <br>| Nehézség: "+c.Nehezseg+" <br> "+c.Kategoria+"</p></div>");
+        Eredmeny.forEach(c=> document.getElementById("TesztEredmenyek").children[1].innerHTML += "<div class='TesztKiirasok'><p>| Teszt befejezve: "+c.datum.split('T')[0]+" "+c.datum.split('T')[1].split('.')[0]+"<br>| Értékeles: "+c.MPont+"/"+c.Epont+" - "+Math.round(c.Epont/c.MPont*100)+"% <br>| Nehézség: "+(c.dif==0?"Könnyű":c.dif==1?"Közepes":"Nehéz")+" <br> "+c.katok+"</p></div>");
     }
 }
 
@@ -514,9 +492,23 @@ function Lenyil(Kat){
             sor.appendChild(gomb);
             LenyiloDiv.appendChild(sor);
         }else{
-            
+            let sor = document.createElement("div");
+            sor.classList.add("NavBarGombSor");
+            let Nehezsegek = ["Könnyű","Közepes","Nehéz"];
+            for (let i = 0; i < 3; i++) {
+                let gomb = document.createElement("div");
+                gomb.innerHTML = "<p>"+Nehezsegek[i]+"</p>";
+                gomb.classList.add("NavBarGombok");
+                gomb.setAttribute("onclick","DogaNehezsegValasztas(this)");
+                sor.appendChild(gomb);
+            }   
+            LenyiloDiv.appendChild(sor);
         }
     }else{document.getElementById("FeluletDiv").removeChild(document.getElementById("LenyiloDiv"));}
+}
+
+function DogaNehezsegValasztas(gomb){
+    
 }
 
 function LenyiloDivKinyit(igaze){
@@ -530,39 +522,42 @@ function DogaKatKivalaszt(kat){
         LenyiloDiv.id = "LenyiloDiv2";
         LenyiloDiv.classList.add("LenyiloDivClass");
         document.getElementById("FeluletDiv").appendChild(LenyiloDiv);
+        let TeljesArray = new Array();
         if(kat == "Egyéni"){
-            let TeljesArray = new Array();
             for (let i = 0; i < Kategoriak.length; i++) {
                 for (let j = 0; j < Kategoriak[i].length; j++) {
-                    TeljesArray.push(Kategoriak[i][j]);
+                    TeljesArray.push(Kategoriak[i][j].nev);
                 }
             }
-            let index = 0;
-            let db = Math.floor(TeljesArray.length / 5);
-            for (let i = 0; i < db; i++) {
-                let sor = document.createElement("div");
-                sor.classList.add("NavBarGombSor");
-                for (let j = 0; j < 5; j++) {
-                    let gomb = document.createElement("div");
-                    gomb.innerHTML = "<p>"+TeljesArray[index++]+"</p>";
-                    gomb.classList.add("NavBarGombok");
-                    sor.appendChild(gomb);
-                }
-                LenyiloDiv.appendChild(sor);
+        }
+        else{
+            let lista = Kategoriak[TeljesKategoriak.indexOf(kat)];
+            lista.forEach(c=>TeljesArray.push(c.nev));
+        }
+        let index = 0;
+        let db = Math.floor(TeljesArray.length / 4);
+        for (let i = 0; i < db; i++) {
+            let sor = document.createElement("div");
+            sor.classList.add("NavBarGombSor");
+            for (let j = 0; j < 4; j++) {
+                let gomb = document.createElement("div");
+                gomb.innerHTML = "<p>"+TeljesArray[index++]+"</p>";
+                gomb.classList.add("NavBarGombok");
+                sor.appendChild(gomb);
             }
-            if(index != TeljesArray.length){
-                let sor = document.createElement("div");
-                sor.classList.add("NavBarGombSor");
-                let maradek = TeljesArray.length - db;
-                console.log(TeljesArray.length, maradek, db);
-                for (let i = 0; i < maradek; i++) {
-                    let gomb = document.createElement("div");
-                    gomb.innerHTML = "<p>"+TeljesArray[index++]+"</p>";
-                    gomb.classList.add("NavBarGombok");
-                    sor.appendChild(gomb);
-                }
-                LenyiloDiv.appendChild(sor);
+            LenyiloDiv.appendChild(sor);
+        }
+        if(TeljesArray.length - index > 0){
+            let sor = document.createElement("div");
+            sor.classList.add("NavBarGombSor");
+            let maradek = TeljesArray.length - index;
+            for (let i = 0; i < maradek; i++) {
+                let gomb = document.createElement("div");
+                gomb.innerHTML = "<p>"+TeljesArray[index++]+"</p>";
+                gomb.classList.add("NavBarGombok");
+                sor.appendChild(gomb);
             }
+            LenyiloDiv.appendChild(sor);
         }
     }else{document.getElementById("LenyiloDiv2")!=undefined?document.getElementById("FeluletDiv").removeChild(document.getElementById("LenyiloDiv2")):"";}
 }
@@ -920,8 +915,7 @@ function UjTesztInditas(uj){
 
 function TesztFeltolt(MPontSzam,EPontSzam,Nehezseg){
     let d = new Date();
-    let datum = {year: d.getFullYear(),month:((Number(d.getMonth())+1)<10?"0"+(Number(d.getMonth())+1):(Number(d.getMonth())+1)),day: (d.getUTCDate()<10?"0"+d.getUTCDate():d.getUTCDate()),hour:(d.getHours()<10?"0"+d.getHours():d.getHours()),minute: (d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes())};
-    let Adatok = {email: User.email,mpont: MPontSzam,epont: EPontSzam,kateg: KivalasztottKategoriak, datum: datum.year+"."+datum.month+"."+datum.day+"-"+datum.hour+":"+datum.minute,nehezseg: Nehezseg};
+    let Adatok = {id: User.id,mpont: MPontSzam,epont: EPontSzam,kateg: KivalasztottKategoriak,nehezseg: (Nehezseg=="Könnyű"?0:Nehezseg=="Közepes"?1:2),fajta: "Teszt"};
     EredmenyFeltolt(Adatok);
 }
 
@@ -1062,12 +1056,19 @@ function drop(ev,div) {
     let SorDiv = Array.from(document.getElementsByClassName("TablaSor")).indexOf(div.parentNode)-1;
     let KapottErtekek = [KevertLista[SorDiv].nev,KevertLista[SorDiv].jel,KevertLista[SorDiv].def,KevertLista[SorDiv].mert];
     let index = Array.from(Array.from(document.getElementsByClassName("TablaSor")).find(c=>c==div.parentNode).children).indexOf(div);
-    ClassList=="KivettDivek"?document.getElementById("KivettErtekDiv").removeChild(document.getElementsByClassName("KivettDivek")[DivIndex]):DivValtoztatas(document.getElementsByClassName("TablaSor")[Number(Indexek[0])+1].children[Indexek[1]]);
-    if(div.children[0] != undefined && div.children[0].classList.contains("BetettErtek")){
-        DivIndex==-1?TablaErtekekCsere(div,SorDiv,index,Indexek,ev.dataTransfer.getData("text")):"";
+    if(ClassList == "KivettDivek" && div.firstChild != undefined && div.firstChild.classList != undefined && div.firstChild.classList.contains("BetettErtek")){
+        document.getElementById("KivettErtekDiv").innerHTML += "<div class='KivettDivek' draggable='true' ondragstart='drag(event)' data-indexek='"+Indexek[0]+","+Indexek[1]+"'>"+div.firstChild.innerHTML+"</div>";
+        div.innerHTML = "<div class='BetettErtek' draggable='true' ondragstart='drag(event)' data-indexek='"+SorDiv+","+index+"'>"+ev.dataTransfer.getData("text")+"</div>";
+        document.getElementById("KivettErtekDiv").removeChild(document.getElementsByClassName("KivettDivek")[DivIndex]);
     }
     else{
-        div.innerHTML = "<div class='BetettErtek' draggable='true' ondragstart='drag(event)' data-indexek='"+SorDiv+","+index+"'>"+ev.dataTransfer.getData("text")+"</div>";
+        ClassList=="KivettDivek"?document.getElementById("KivettErtekDiv").removeChild(document.getElementsByClassName("KivettDivek")[DivIndex]):DivValtoztatas(document.getElementsByClassName("TablaSor")[Number(Indexek[0])+1].children[Indexek[1]]);
+        if(div.children[0] != undefined && div.children[0].classList.contains("BetettErtek")){
+            DivIndex==-1?TablaErtekekCsere(div,SorDiv,index,Indexek,ev.dataTransfer.getData("text")):"";
+        }
+        else{
+            div.innerHTML = "<div class='BetettErtek' draggable='true' ondragstart='drag(event)' data-indexek='"+SorDiv+","+index+"'>"+ev.dataTransfer.getData("text")+"</div>";
+        }
     }
     if(ExpErtekek[Indexek[1]] == KapottErtekek[index]){
         BetettErtekek.push(ev);
@@ -1261,4 +1262,4 @@ function AlapokBetolt(){
         SelectedCategory = SajatKategoria[0].plus;
         User = JSON.parse(localStorage.getItem("user"));
     }
-}AdatokBetoltes();
+}//AdatokBetoltes();
