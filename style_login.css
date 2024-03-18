@@ -46,7 +46,7 @@ html, body{
     border: .1vw solid rgba(245, 245, 245, 0.8);
     width: 30vw;
     border-radius: .3vw;
-    transition: .5s;
+    transition: .5s !important;
     backdrop-filter: blur(5px);
     background-color: rgba(0, 0, 0, 0.4);
     padding: .5vw;
@@ -488,9 +488,12 @@ html, body{
 }
 
 @media only screen and (max-width: 1000px){
-    body{
-        position:relative;
-        overflow-x: hidden !important;
+    html {
+        height: 100%;
+        overflow: hidden;
+    }
+    body {
+        -webkit-overflow-scrolling: touch;
     }
     .FaultDiv{
         max-width: 15%;
@@ -622,6 +625,10 @@ html, body{
         width: 6vw;
     }
 
+    .OsztalySelect{
+        height: 15vw;
+        width: 200%;
+    }
     .OsztalySelector{
         font-size: 2vw;
     }
@@ -640,14 +647,14 @@ html, body{
         margin-bottom: 2vw;
     }
     .OsztalyContainerHeight{
-        max-height: 8vw !important;
+        max-height: 12vw !important;
     }
     .OsztalySelectSwitch{
         left: -113% !important;
     }
     
     .SDiv{
-        max-height: 6vw;
+        max-height: inherit;
         gap: 12vw;
     }
     .Details{
@@ -683,7 +690,7 @@ html, body{
         left: -5%;
     }
     .DetailsDivOpen{
-        top: 50% !important;
+        top: 7.5vw !important;
     }
     #DetailsDiv1{
         left: 0%;
@@ -714,14 +721,10 @@ html, body{
         font-size: 2.2vw;
     }
     .TkodDiv form label{
-        position: relative;
         left: 3.5vw;
-        text-transform: uppercase;
-        transition: .3s;
     }
     .TkodDiv form input{
         width: 20vw;
-        border-radius: 4vw;
         padding: 1vw 2vw;
         margin-top: .5vw;
         font-size: 2.2vw;
