@@ -315,7 +315,7 @@ html, body{
 
 .OsztalySelector{
     width: 100%;
-    color: white;
+    color: var(--text_color);
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -485,4 +485,245 @@ html, body{
     font-size: 1vw;
     transition: .3s;
     text-align: center;
+}
+
+@media only screen and (max-width: 1000px){
+    body{
+        position:relative;
+        overflow-x: hidden !important;
+    }
+    .FaultDiv{
+        max-width: 15%;
+        height: max-content;
+        border: .1vw solid rgba(245, 245, 245, 0.8);
+        color: var(--text_color);
+        padding: 1vw 2vw;
+        border-radius: .6vw;
+        backdrop-filter: blur(5px);
+        background-color: rgba(0, 0, 0, 0.4);
+        text-align: center;
+        justify-content: center;
+        top: 50%;
+        right: -20%;
+        transition: .3s;
+        opacity: 0;
+        font-size: 1vw;
+    }
+    .FaultDivOpen{
+        right: 1.5% !important;
+        opacity: 1 !important;
+        transition: .3s;
+    }
+
+    .container{
+        width: 80vw;
+        gap: 4vw;
+        max-height: 72vw;
+    }
+    .ContainerHeight{
+        max-height: 250vw !important;
+    }
+    
+    .SelectLine{
+        gap: 10vw;
+    }
+    .SelectLine p{
+        padding: 1vw 3vw;
+        text-transform: uppercase;
+        letter-spacing: .1vw;
+        font-size: 5vw;
+    }
+    .Underline{
+        width: 25%;
+        left: 12.2vw;
+        margin-top: -5vw;
+        margin-bottom: 1vw;
+    }
+    .UnderlineSwitch{
+        width: 28% !important;
+        left: 44.8vw !important;
+    }
+    .Tab{
+        padding: 1vw;
+        left: 15%;
+    }
+    .TabSwitch{
+        left: -117% !important;
+    }
+    
+    #LogTab,#RegTab{
+        row-gap: 3vw;
+    }
+    #RegTab{
+        row-gap: 2.5vw;
+    }
+    #LogTab{
+        margin-top: -25vw;
+    }
+    
+    .SwitchTab{
+        position: relative;
+        width: 55vw;
+        height: max-content;
+    }
+    
+    .InputTabs form label{
+        text-transform: uppercase;
+        position: relative;
+        left: 1.5vw;
+        font-size: 3vw;
+    }
+    
+    .InputTabs form input{
+        padding: 1vw 2vw;
+        font-size: 3vw;
+        margin-top: .5vw;
+    }
+    
+    .Checkbox{
+        left: 8vw;
+        margin-top: 2vw;
+    }
+    .Checkbox form{
+        display: flex;
+        flex-direction: row;
+        gap: 1.5vw;
+        color: var(--text_color);
+        text-transform: uppercase;
+        font-size: 3vw;
+    }
+    .Checkbox form input{
+        position: relative;
+        top: -.5vw;
+    }
+    .Checkbox form label{
+        cursor: pointer;
+    }
+    [type=checkbox] {
+        width: 3vw;
+        height: 3vw;
+    }
+    .Button{
+        padding: 1vw auto;
+        font-size: 3vw;
+    }
+    
+    .ForgetPW{
+        height: 15vw;
+        text-transform: uppercase;
+        font-size: 2vw;
+    }
+    .ForgetPW p{
+        cursor: pointer;
+    }
+
+    .StrongPW{
+        height: 2vw;
+        width: 6vw;
+    }
+
+    .OsztalySelector{
+        font-size: 2vw;
+    }
+    .OsztalyUnderline{
+        width: 22%;
+        margin-top: -4vw;
+        left: 7.5vw;
+    }
+    .OsztalyUnderlineSwitch{
+        left: 35.2vw !important;
+    }
+    
+    
+    .OsztalyContainer{
+        max-height: 4vw;
+        margin-bottom: 2vw;
+    }
+    .OsztalyContainerHeight{
+        max-height: 8vw !important;
+    }
+    .OsztalySelectSwitch{
+        left: -113% !important;
+    }
+    
+    .SDiv{
+        max-height: 6vw;
+        gap: 12vw;
+    }
+    .Details{
+        width: 25%;
+        left: -15%;
+        font-size: 2.2vw;
+        height: max-content;
+        padding: 1vw 0;
+    }
+    .Details:hover{
+        background-color: transparent;
+    }
+    .DetailsIMG{
+        left: -3vw;
+        top: 0vw;
+        width: 20%;
+    }
+    #DetailsHeader1::after, #DetailsHeader2::after{
+        position: relative;
+        top: .5vw;
+        left: .8vw;
+    }
+    #DetailsHeader1::after{
+        content: "class";
+    }
+    #DetailsHeader2::after{
+        content: "grade";
+    }
+
+    .DetailsDiv{
+        font-size: 3vw;
+        width: 35%;
+        left: -5%;
+    }
+    .DetailsDivOpen{
+        top: 50% !important;
+    }
+    #DetailsDiv1{
+        left: 0%;
+    }
+    #DetailsDiv2{
+        left: 38%;
+    }
+    .DetailsDiv p{
+        padding: .5vw;
+        border-radius: .8vw;
+    }
+    .DetailsDiv p:hover{
+        background-color: transparent;
+    }
+    .PickedClass,.PickedGrade{
+        background-color: var(--btn_hover);
+        color: rgb(0, 225, 255);
+    }
+    .WarningDetails{
+        color: red !important;
+    }
+    
+    
+    .TkodDiv{
+        margin: 1vw 0;
+    }
+    .TkodDiv form{
+        font-size: 2.2vw;
+    }
+    .TkodDiv form label{
+        position: relative;
+        left: 3.5vw;
+        text-transform: uppercase;
+        transition: .3s;
+    }
+    .TkodDiv form input{
+        width: 20vw;
+        border-radius: 4vw;
+        padding: 1vw 2vw;
+        margin-top: .5vw;
+        font-size: 2.2vw;
+    }
 }

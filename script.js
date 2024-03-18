@@ -182,7 +182,9 @@ function LogCheckFunction(){ //pintea.roland@ckik.hu , PinteaViktoria2024
         WarningColorAdd(2);
     }
     if(igaze == true){
+        console.log(Users.filter(c=>c.email == document.getElementById("input1").value)[0]);
         localStorage.setItem("User",Users.filter(c=>c.email == document.getElementById("input1").value)[0]);
+        window.open("index.html","_self");
     }
 }
 
@@ -251,9 +253,19 @@ function RegCheckFunction(){ //Szelid Márk , mark.szelid@ckik.hu , Mikulas123
     if(igaze == true){
         let d = new Date();
         UsersFeltolt({email:document.getElementById("input4").value,nev:document.getElementById("input3").value,osztaly:document.getElementsByClassName("PickedClass").length>0?document.getElementsByClassName("PickedClass")[0].innerText+"/"+document.getElementsByClassName("PickedGrade")[0].innerText:"T",jelszo:hash(document.getElementById("input5").value),letrehozva: d.getFullYear()+"-"+((d.getMonth()+1)<10?"0"+(d.getMonth()+1):(d.getMonth()+1))+"-"+d.getDate()});
+        BackToDefault();
     }
 }
 
+function BackToDefault(){
+    for (let i = 0; i < 4; i++) {
+        document.getElementById("input"+(3+i)).value = "";
+    }
+    document.getElementById("Checkbox2").checked = false;
+    SwitchOsztaly("S");
+    SwitchTab("B");
+    PasswordStrongCheck();
+}
 function WarningColorAdd(id){
     document.getElementById("label"+id).classList.add("WarningColor");
 }
@@ -1262,6 +1274,6 @@ function AlapokBetolt(){
         document.getElementsByClassName("Keret")[0].classList.add("TablaOpacityStartAnim");
         document.getElementsByClassName("NameDiv")[0].classList.add("TablaOpacityStartAnim");
         SelectedCategory = SajatKategoria[0].plus;
-        User = JSON.parse(localStorage.getItem("user"));
+        User = JSON.parse(localStorage.getItem("User"));
     }
 }//AdatokBetoltes();
