@@ -43,7 +43,7 @@ function AdatokBetoltes(){
     });
 }
 
-function UsersBetoltese(load){
+function UsersBetoltese(){
     const data = { lekerdezes: "select * from users u"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
@@ -63,6 +63,21 @@ function UsersBetoltese(load){
             Users = response;
             return response;
         }
+    });
+}
+
+function UsersFeltolt(User){
+    const data =  { lekerdezes: "insert into users values(null,'"+User.email+"','"+User.nev+"','"+User.osztaly+"','"+User.jelszo+"','"+User.letrehozva+"',null)"};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        UsersBetoltese();
+        return response;
     });
 }
 
@@ -109,22 +124,6 @@ function AlkattokBetolt(){
             AlKat(response);
             return response;
         }
-    });
-}
-
-function UsersFeltolt(User){
-    const data =  { lekerdezes: "insert into users values(null,'"+User.email+"','"+User.nev+"','"+User.osztaly+"','"+User.jelszo+"','"+User.letrehozva+"',null)"};
-    fetch("http://127.0.0.1:3000/lekerdezes", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-        },
-        body: JSON.stringify(data)
-    })
-    .then(function (response) {
-        UsersBetoltese();
-        UserCheck(response);
-        return response;
     });
 }
 

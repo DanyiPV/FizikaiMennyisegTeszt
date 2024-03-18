@@ -182,7 +182,7 @@ function LogCheckFunction(){ //pintea.roland@ckik.hu , PinteaViktoria2024
         WarningColorAdd(2);
     }
     if(igaze == true){
-        console.log("A fehlhasználót be lehet jeletnkeztetni");
+        localStorage.setItem("User",Users.filter(c=>c.email == document.getElementById("input1").value)[0]);
     }
 }
 
@@ -243,12 +243,14 @@ function RegCheckFunction(){ //Szelid Márk , mark.szelid@ckik.hu , Mikulas123
             document.getElementById("DetailsHeader2").classList.add("WarningDetails");
             document.getElementById("DetailsHeader2").children[0].src = "ph/ad_red.png";
         }
-    }else if(igaze == true && document.getElementsByClassName("OsztalyUnderlineSwitch").length == 1){
+    }else if(igaze == true && document.getElementsByClassName("OsztalyUnderlineSwitch").length == 1 && document.getElementById("TKod").value != MegerositoKod){
         igaze = false;
         document.getElementById("TKod").value != MegerositoKod?document.getElementById("TKodLabel").classList.add("WarningColor"):"";
+        FaultDivOpen("A megerősító kód nem egyezik!");
     }
     if(igaze == true){
-        console.log("A fehlhasználót lehet regisztrálni");
+        let d = new Date();
+        UsersFeltolt({email:document.getElementById("input4").value,nev:document.getElementById("input3").value,osztaly:document.getElementsByClassName("PickedClass").length>0?document.getElementsByClassName("PickedClass")[0].innerText+"/"+document.getElementsByClassName("PickedGrade")[0].innerText:"T",jelszo:hash(document.getElementById("input5").value),letrehozva: d.getFullYear()+"-"+((d.getMonth()+1)<10?"0"+(d.getMonth()+1):(d.getMonth()+1))+"-"+d.getDate()});
     }
 }
 

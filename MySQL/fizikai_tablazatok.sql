@@ -234,7 +234,7 @@ INSERT INTO `tkat` (`id`, `nev`) VALUES
 (1, 'Haladómozgással kapcsolatos'),
 (2, 'Rezgések és hullámok'),
 (3, 'Hőtan'),
-(4, 'lektromossággal kapcsolatos');
+(4, 'Elektromossággal kapcsolatos');
 
 -- --------------------------------------------------------
 
