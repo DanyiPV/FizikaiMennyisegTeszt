@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Már 05. 10:59
--- Kiszolgáló verziója: 10.4.20-MariaDB
--- PHP verzió: 8.0.9
+-- Host: 127.0.0.1
+-- Generation Time: Mar 19, 2024 at 08:59 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,23 +18,23 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `fizikai_tablazatok`
+-- Database: `fizikai_tablazatok`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `alkat`
+-- Table structure for table `alkat`
 --
 
 CREATE TABLE `alkat` (
   `id` int(11) NOT NULL,
   `tkat_id` int(11) NOT NULL,
   `nev` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `alkat`
+-- Dumping data for table `alkat`
 --
 
 INSERT INTO `alkat` (`id`, `tkat_id`, `nev`) VALUES
@@ -52,21 +52,20 @@ INSERT INTO `alkat` (`id`, `tkat_id`, `nev`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `dolgozatok`
+-- Table structure for table `dolgozatok`
 --
 
 CREATE TABLE `dolgozatok` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `ido` int(11) NOT NULL,
-  `kezdet` date NOT NULL,
-  `tablak` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `kezdet` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `eredmenyek`
+-- Table structure for table `eredmenyek`
 --
 
 CREATE TABLE `eredmenyek` (
@@ -78,12 +77,12 @@ CREATE TABLE `eredmenyek` (
   `katok` varchar(255) NOT NULL,
   `dif` int(11) NOT NULL,
   `fajta` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `tablak`
+-- Table structure for table `tablak`
 --
 
 CREATE TABLE `tablak` (
@@ -93,10 +92,10 @@ CREATE TABLE `tablak` (
   `def` varchar(255) NOT NULL,
   `mert` varchar(255) NOT NULL,
   `alkat_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `tablak`
+-- Dumping data for table `tablak`
 --
 
 INSERT INTO `tablak` (`id`, `nev`, `jel`, `def`, `mert`, `alkat_id`) VALUES
@@ -218,28 +217,41 @@ INSERT INTO `tablak` (`id`, `nev`, `jel`, `def`, `mert`, `alkat_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `tkat`
+-- Table structure for table `tablakapocs`
+--
+
+CREATE TABLE `tablakapocs` (
+  `id` int(11) NOT NULL,
+  `tablaid` int(11) NOT NULL,
+  `sor` varchar(255) NOT NULL,
+  `dolgozatid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tkat`
 --
 
 CREATE TABLE `tkat` (
   `id` int(11) NOT NULL,
   `nev` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `tkat`
+-- Dumping data for table `tkat`
 --
 
 INSERT INTO `tkat` (`id`, `nev`) VALUES
 (1, 'Haladómozgással kapcsolatos'),
 (2, 'Rezgések és hullámok'),
 (3, 'Hőtan'),
-(4, 'Elektromossággal kapcsolatos');
+(4, 'lektromossággal kapcsolatos');
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -250,10 +262,10 @@ CREATE TABLE `users` (
   `jelszo` varchar(255) NOT NULL,
   `letrehozva` date NOT NULL,
   `modositva` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `email`, `nev`, `osztaly`, `jelszo`, `letrehozva`, `modositva`) VALUES
@@ -262,116 +274,137 @@ INSERT INTO `users` (`id`, `email`, `nev`, `osztaly`, `jelszo`, `letrehozva`, `m
 (3, 'pintea.roland@ckik.hu', 'Pintea Dániel', '12/C', '8567e08f59f544199c9bfe735aa534a301f5a5228d7a2b73036478e21b5de735c45eb92bac773ebcbf0c3fbf0cd9ebb688b02553938fb14f93bbce3b6d11fceb', '2024-03-05', '2024-03-05 09:59:13');
 
 --
--- Indexek a kiírt táblákhoz
+-- Indexes for dumped tables
 --
 
 --
--- A tábla indexei `alkat`
+-- Indexes for table `alkat`
 --
 ALTER TABLE `alkat`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tkat_id` (`tkat_id`);
 
 --
--- A tábla indexei `dolgozatok`
+-- Indexes for table `dolgozatok`
 --
 ALTER TABLE `dolgozatok`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
 --
--- A tábla indexei `eredmenyek`
+-- Indexes for table `eredmenyek`
 --
 ALTER TABLE `eredmenyek`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
 --
--- A tábla indexei `tablak`
+-- Indexes for table `tablak`
 --
 ALTER TABLE `tablak`
   ADD PRIMARY KEY (`id`),
   ADD KEY `alkat_id` (`alkat_id`);
 
 --
--- A tábla indexei `tkat`
+-- Indexes for table `tablakapocs`
+--
+ALTER TABLE `tablakapocs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tablaid` (`tablaid`),
+  ADD KEY `dolgozatid` (`dolgozatid`);
+
+--
+-- Indexes for table `tkat`
 --
 ALTER TABLE `tkat`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- A kiírt táblák AUTO_INCREMENT értéke
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT a táblához `alkat`
+-- AUTO_INCREMENT for table `alkat`
 --
 ALTER TABLE `alkat`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT a táblához `dolgozatok`
+-- AUTO_INCREMENT for table `dolgozatok`
 --
 ALTER TABLE `dolgozatok`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `eredmenyek`
+-- AUTO_INCREMENT for table `eredmenyek`
 --
 ALTER TABLE `eredmenyek`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `tablak`
+-- AUTO_INCREMENT for table `tablak`
 --
 ALTER TABLE `tablak`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
 
 --
--- AUTO_INCREMENT a táblához `tkat`
+-- AUTO_INCREMENT for table `tablakapocs`
+--
+ALTER TABLE `tablakapocs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tkat`
 --
 ALTER TABLE `tkat`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT a táblához `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(55) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Megkötések a kiírt táblákhoz
+-- Constraints for dumped tables
 --
 
 --
--- Megkötések a táblához `alkat`
+-- Constraints for table `alkat`
 --
 ALTER TABLE `alkat`
   ADD CONSTRAINT `alkat_ibfk_1` FOREIGN KEY (`tkat_id`) REFERENCES `tkat` (`id`);
 
 --
--- Megkötések a táblához `dolgozatok`
+-- Constraints for table `dolgozatok`
 --
 ALTER TABLE `dolgozatok`
   ADD CONSTRAINT `dolgozatok_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Megkötések a táblához `eredmenyek`
+-- Constraints for table `eredmenyek`
 --
 ALTER TABLE `eredmenyek`
   ADD CONSTRAINT `eredmenyek_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Megkötések a táblához `tablak`
+-- Constraints for table `tablak`
 --
 ALTER TABLE `tablak`
   ADD CONSTRAINT `tablak_ibfk_1` FOREIGN KEY (`alkat_id`) REFERENCES `alkat` (`id`);
+
+--
+-- Constraints for table `tablakapocs`
+--
+ALTER TABLE `tablakapocs`
+  ADD CONSTRAINT `tablakapocs_ibfk_1` FOREIGN KEY (`tablaid`) REFERENCES `tablak` (`id`),
+  ADD CONSTRAINT `tablakapocs_ibfk_2` FOREIGN KEY (`dolgozatid`) REFERENCES `dolgozatok` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

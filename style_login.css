@@ -165,7 +165,7 @@ html, body{
     outline: none;
 }
 .WarningColor, .WarningColor + input{
-    color: red !important;
+    color: orangered !important;
 }
 
 .Checkbox{
@@ -496,7 +496,7 @@ html, body{
         -webkit-overflow-scrolling: touch;
     }
     .FaultDiv{
-        max-width: 15%;
+        max-width: 35%;
         height: max-content;
         border: .1vw solid rgba(245, 245, 245, 0.8);
         color: var(--text_color);
@@ -506,14 +506,16 @@ html, body{
         background-color: rgba(0, 0, 0, 0.4);
         text-align: center;
         justify-content: center;
-        top: 50%;
-        right: -20%;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%,0);
         transition: .3s;
         opacity: 0;
-        font-size: 1vw;
+        font-size: 2.2vw;
+        z-index: 5;
     }
     .FaultDivOpen{
-        right: 1.5% !important;
+        top: 10% !important;
         opacity: 1 !important;
         transition: .3s;
     }
