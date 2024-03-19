@@ -166,11 +166,6 @@ function LogCheckFunction(){ //pintea.roland@ckik.hu , PinteaViktoria2024
         FaultDivOpen("Hibásan írta be az e-mail címet!");
         WarningColorAdd(1);
     }
-    else if(!EmailCheck(1)){
-        igaze = false;
-        FaultDivOpen("Az e-mail nem szerepel a nyílvántartásban!");
-        WarningColorAdd(1);
-    }
     else if(document.getElementById("input2").value == ""){
         igaze = false;
         FaultDivOpen("A bejelentkezéshez írja be az e-mailhez tartozó jelszót!");
@@ -180,6 +175,7 @@ function LogCheckFunction(){ //pintea.roland@ckik.hu , PinteaViktoria2024
         igaze = false;
         FaultDivOpen("A jelszó hibásan lett beírva!");
         WarningColorAdd(2);
+        console.log(JelszoCheck(1,2));
     }
     if(igaze == true){
         console.log(Users.filter(c=>c.email == document.getElementById("input1").value)[0]);
