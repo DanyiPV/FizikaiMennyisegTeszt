@@ -1,3 +1,3 @@
 function SideBarOpen(){
-    document.getElementById("Page").classList.contains("PageOpen")?document.getElementById("Page").classList.remove("PageOpen"):document.getElementById("Page").classList.add("PageOpen");
+    document.getElementById("SideBarNav").classList.contains("SideBarNavOpen")?document.getElementById("SideBarNav").classList.remove("SideBarNavOpen"):document.getElementById("SideBarNav").classList.add("SideBarNavOpen");
 }
