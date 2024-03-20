@@ -1,6 +1,6 @@
 body{
     background-color: rgb(80, 80, 80);
-    font-family:Arial, Helvetica, sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     overflow-x: hidden !important;
     position: relative;
     margin: 0;
@@ -20,61 +20,120 @@ html,body{
     --text_color: whitesmoke;
 }
 
+.BlackBG{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+    opacity: 0;
+    transition: .3s;
+}
+.BlackBGOn{
+    opacity: 1;
+    z-index: 2;
+}
+
 nav{
     display: flex;
     justify-content: space-between;
-    padding: .5vw 0vw;
     background-color: transparent;
     justify-items: center;
-}
-
-.SignIn, .SideBar{
-    width: 3vw;
-    height: 3vw;
-    padding: .5vw;
+    position: relative;
+    padding-top: .5vw;
     transition: .3s;
-    cursor: pointer;
-    display: flex;
-}
-.SideBar{
-    border-radius: .6vw;
-}
-.SignIn{
-    margin-left: .5vw;
-    border-bottom-right-radius: 4vw;
-    border-top-right-radius: 4vw;
-    background-color: var(--modal_bc);
-}
-.SignInIMG{
-    border-radius: 4vw;
-    transition: .3s;
-}
-.SignIn:hover, .SideBar:hover{
-    background-color: var(--button_hover);
 }
 .OldalName{
     color: var(--text_color);
     font-size: 2vw;
     text-transform: uppercase;
     letter-spacing: .05em;
+    background-color: var(--modal_bc);
+    position: relative;
+    border-bottom-left-radius: 2vw;
+    border-bottom-right-radius: 2vw;
+    height: max-content;
+    padding: .5vw 1vw 1vw 1vw;
+    opacity: 0;
+    animation-name: PageNameLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+    animation-delay: .5s;
 }
 .OldalName p{
     margin: 0;
+}
+
+.SignIn, .SideBar{
+    width: 3vw;
+    height: 3vw;
+    padding: .5vw;
+    transition: .3s all ease-in-out;
+    cursor: pointer;
+    display: flex;
+    z-index: 1;
     position: relative;
-    top: 50%;
-    transform: translate(0,-50%);
+}
+.SignIn{
+    border-bottom-right-radius: 4vw;
+    border-top-right-radius: 4vw;
+    background-color: var(--modal_bc);
+    left: 0;
+}
+.SignInAnim{
+    animation-name: SignInLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+}
+.SignInDivOpen{
+    left: 30vw;
+    z-index: 3;
+}
+.SignInIMG{
+    border-radius: 4vw;
+    padding: .3vw;
+    transition: .3s;
+}
+.SignIn:hover > .SignInIMG,.SignInIMG:hover, .SideBar:hover{
+    background-color: var(--button_hover);
 }
 .SignInIMG img, .SideBar img{
     width: 100%;
+}
+.SignInNav{
+    position: fixed;
+    background-color: var(--modal_bc);
+    color: white;
+    width: 30vw;
+    height: 100%;
+    top: 0;
+    left: -30vw;
+    transition: .3s all ease-in-out;
+    z-index: 11;
+}
+.SignInOpen{
+    left: 0;
+    z-index: 3;
+}
+
+.SideBar{
+    margin-right: .5vw;
+    border-radius: .6vw;
+    animation-name: SideBarLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
 }
 .SideBar img{
     position: relative;
     top: .4vw;
 }
-
 .SideBarNav{
     position: fixed;
-    background-color: rgb(90,90,90);
+    background-image: url("ph/navbar_bg.jpg");
+    background-position: 0vw -13vw;
+    background-size: cover;
     color: white;
     width: 30vw;
     height: 100%;
@@ -89,7 +148,8 @@ nav{
 .SideBarHead{
     width: 100%;
     height: 5vw;
-    background-color: var(--modal_bc);
+    background-color: transparent;
+    backdrop-filter: blur(10px);
     border-bottom: .1vw solid white;
     display: flex;
     justify-content: space-between;
@@ -116,4 +176,17 @@ nav{
     margin: 0;
     cursor: default;
     margin-left: .5vw;
+}
+
+@keyframes PageNameLoad{
+    from {top: -20vw;opacity: 0;}
+    to {top: -.5vw;opacity: 1;}
+}
+@keyframes SignInLoad{
+    from {left: -20vw;}
+    to {left: 0vw;}
+}
+@keyframes SideBarLoad{
+    from {right: -20vw;}
+    to {right: 0vw;}
 }
