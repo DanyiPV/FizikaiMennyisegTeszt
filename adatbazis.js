@@ -37,7 +37,6 @@ function AdatokBetoltes(){
             console.log(response.Error);
         } else {
             adatok = response;
-            AlapokBetolt();
             return response;
         }
     });
@@ -77,6 +76,44 @@ function UsersFeltolt(User){
     })
     .then(function (response) {
         UsersBetoltese();
+        return response;
+    });
+}
+
+function UserLeker(email){
+    const data =  { lekerdezes: "select * from users where email = '"+email+"'"};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        if (!response.ok) {console.log("Nem jó válasz érekezett az adatbázisból");}
+        return response.json();
+    })
+    .then(function (response) {
+        if (response.Error) {
+            console.log(response.Error);
+        } else {
+            user = response[0];
+            return response;
+        }
+    });
+}
+
+
+function UserDataChange(set,where){
+    const data =  { lekerdezes: "update users set "+set+" where "+where+""};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
         return response;
     });
 }

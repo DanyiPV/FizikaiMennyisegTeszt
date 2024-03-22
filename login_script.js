@@ -178,8 +178,7 @@ function LogCheckFunction(){ //pintea.roland@ckik.hu , PinteaViktoria2024
         console.log(JelszoCheck(1,2));
     }
     if(igaze == true){
-        console.log(Users.filter(c=>c.email == document.getElementById("input1").value)[0]);
-        localStorage.setItem("User",Users.filter(c=>c.email == document.getElementById("input1").value)[0]);
+        localStorage.setItem("User",JSON.stringify(Users.filter(c=>c.email == document.getElementById("input1").value)[0]));
         window.open("index.html","_self");
     }
 }

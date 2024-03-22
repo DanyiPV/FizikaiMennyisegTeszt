@@ -13,8 +13,8 @@
 <body>
     <nav>
         <div class="SignIn SignInAnim" id="SignIn" onclick="SignInOpen()">
-            <div class="SignInIMG">
-                <img src="ph/singin.png" alt="singin.png">
+            <div class="SignInIMG" id="SignInIMG">
+                <img src="ph/user_white.png" alt="user_white.png">
             </div>
         </div>
         <div class="OldalName" id="OldalName">
@@ -37,35 +37,42 @@
     <div class="SignInNav" id="SignInNav">
         <div class="SignInHead" id="SignInHead">
             <p>Üdvözöllek!</p>
-            <p id="UserNameP">UserName</p>
+            <p id="UserNameP"></p>
         </div>
         <div class="SignInBody" id="SignInBody">
             <div class="SignInBodyButton" id="SettingsDiv">
                 <div class="SignInBodyButtonImg" id="SettingsDivIMG">
-                    <img src="ph/settings.png" alt="">
+                    <img src="ph/settings_white.png" alt="">
                 </div>
                 <p>Settings</p>
             </div>
-            <div class="SignInBodyButton" id="LogoutDiv">
-                <div class="SignInBodyButtonImg" id="LogoutDivIMG">
-                    <img src="ph/logout.png" alt="">
+            <div class="SignInBodyButton OnlyTeacher" id="ExamDiv">
+                <div class="SignInBodyButtonImg" id="ExamDivIMG">
+                    <img src="ph/plus_white.png" alt="">
                 </div>
-                <p>Logout</p>
-            </div>
-            <div class="SignInBodyButton" id="DrkModeDiv">
-                <div class="SignInBodyButtonImg" id="DrkModeDivIMG">
-                    <img src="ph/drk_mode.png" alt="">
-                </div>
-                <p>white mode</p>
+                <p>exam publish</p>
             </div>
             <div class="SignInBodyButton" id="TestResultsDiv">
                 <div class="SignInBodyButtonImg" id="TestResultsDivIMG">
-                    <img src="ph/notepa_white.png" alt="">
+                    <img src="ph/notepad_white.png" alt="">
                 </div>
                 <p>test results</p>
+            </div>
+            <div class="SignInBodyButton" id="DrkModeDiv" onclick="DrkModeSwitch('change')">
+                <div class="SignInBodyButtonImg" id="DrkModeDivIMG">
+                    <img src="ph/mode_white.png" alt="">
+                </div>
+                <p>white mode</p>
+            </div>
+            <div class="SignInBodyButton" id="LogoutDiv" onclick="LogOut()">
+                <div class="SignInBodyButtonImg" id="LogoutDivIMG">
+                    <img src="ph/logout_white.png" alt="">
+                </div>
+                <p>Logout</p>
             </div>
         </div>
     </div>
     <div class="BlackBG" id="BlackBG"></div>
 </body>
+<script src="adatbazis.js"></script>
 </html>

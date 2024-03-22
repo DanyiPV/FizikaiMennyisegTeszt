@@ -9,16 +9,17 @@ body{
     background-attachment: fixed;
     background-position: center;
     background-size: cover;
+    transition: .3s;
 }
 html,body{
     scroll-behavior: smooth;
 }
 
 :root{
-    --button_hover: rgba(170, 170, 170, 0.4);
-    --modal_bc: rgba(30, 30, 30, .9);
-    --text_color: whitesmoke;
-    --modal_border: whitesmoke;
+    --button_hover: rgba(170, 170, 170, 0.4);/*rgba(170, 170, 170, 0.4)*/
+    --modal_bc: rgba(30, 30, 30, .9);/*rgba(30, 30, 30, .9)*/
+    --text_color: whitesmoke; /*whitesmoke*/
+    --modal_border: whitesmoke; /*whitesmoke*/
 }
 
 .BlackBG{
@@ -71,7 +72,7 @@ nav{
     width: 3vw;
     height: 3vw;
     padding: .5vw;
-    transition: .3s all ease-in-out;
+    transition: .3s;
     cursor: pointer;
     display: flex;
     z-index: 1;
@@ -90,7 +91,7 @@ nav{
     animation-fill-mode: forwards;
 }
 .SignInDivOpen{
-    left: 30vw;
+    left: 25vw;
     z-index: 3;
     border-bottom: .1vw solid var(--modal_border);
 }
@@ -102,18 +103,24 @@ nav{
 .SignIn:hover > .SignInIMG,.SignInIMG:hover, .SideBar:hover{
     background-color: var(--button_hover);
 }
-.SignInIMG img, .SideBar img{
+.SideBar img{
     width: 100%;
+}
+.SignInIMG img{
+    width: 70%;
+    position: relative;
+    left: .4vw;
+    top: .2vw;
 }
 .SignInNav{
     position: fixed;
     background-color: var(--modal_bc);
     color: var(--text_color);
-    width: 30vw;
+    width: 25vw;
     height: 100%;
     top: 0;
     left: -30vw;
-    transition: .3s all ease-in-out;
+    transition: .3s !important;
     z-index: 11;
 }
 .SignInOpen{
@@ -133,6 +140,7 @@ nav{
 }
 .SignInHead p{
     margin: 0;
+    text-align: center;
 }
 .SignInBody{
     width: auto;
@@ -140,11 +148,12 @@ nav{
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 .SignInBodyButton{
     width: 4vw;
     height: max-content;
-    margin: 1.5vw;
+    margin: .5vw;
     padding: 1vw;
     transition: .5s;
     cursor: pointer;
@@ -154,19 +163,20 @@ nav{
 .SignInBodyButton p{
     position: absolute;
     opacity: 0;
-    z-index: -1 !important;
+    z-index: -1;
     transition: .5s;
-    left: 12vw;
+    left: 10vw;
     font-size: 1.2vw;
     text-transform: uppercase;
     letter-spacing: .1vw;
 }
 .SignInBodyButton:hover{
     width: 12vw !important;
+    z-index: 1;
 }
 .SignInBodyButton:hover > p{
     z-index: 1;
-    left: 15vw;
+    left: 12vw;
     opacity: 1;
 }
 .SignInBodyButtonImg{
@@ -175,6 +185,24 @@ nav{
 }
 .SignInBodyButtonImg img{
     width: 100%;
+    position: relative;
+}
+#SettingsDivIMG img{
+    left: .3vw;
+}
+#TestResultsDivIMG img{
+    width: 80%;
+    left: .3vw;
+}
+#LogoutDivIMG img{
+    left: -.2vw;
+}
+.OnlyTeacher{
+    position: absolute;
+    left: -30vw;
+    visibility: hidden;
+    z-index: -1;
+    transition: .3s;
 }
 
 .SideBar{
