@@ -11,10 +11,14 @@ function SideBarClose(){
 }
 
 function SignInOpen(){
-    document.getElementById("SignInNav").classList.add("SignInOpen");
-    document.getElementById("SignIn").classList.add("SignInDivOpen");
-    document.getElementById("BlackBG").classList.add("BlackBGOn");
-    document.getElementById("BlackBG").setAttribute("onclick","SignInClose()");
+    if(!document.getElementById("SignInNav").classList.contains("SignInOpen")){
+        document.getElementById("SignInNav").classList.add("SignInOpen");
+        document.getElementById("SignIn").classList.add("SignInDivOpen");
+        document.getElementById("BlackBG").classList.add("BlackBGOn");
+        document.getElementById("BlackBG").setAttribute("onclick","SignInOpen()");
+    }else{
+        SignInClose();
+    }
 }
 
 function SignInClose(){
