@@ -146,12 +146,7 @@ function FaultDivClose(){
 }
 
 function Login(){
-    UsersBetoltese();
-    Users==undefined?setTimeout(UsersCheck,200):LogCheckFunction();
-}
-
-function UsersCheck(){
-    Users==undefined?setTimeout(UsersCheck,200):LogCheckFunction();
+    UsersBetoltese(0,0);
 }
 
 function LogCheckFunction(){ //pintea.roland@ckik.hu , PinteaViktoria2024
@@ -178,18 +173,13 @@ function LogCheckFunction(){ //pintea.roland@ckik.hu , PinteaViktoria2024
         console.log(JelszoCheck(1,2));
     }
     if(igaze == true){
-        localStorage.setItem("User",JSON.stringify(Users.filter(c=>c.email == document.getElementById("input1").value)[0]));
+        localStorage.setItem("User",Users.indexOf(Users.filter(c=>c.email == document.getElementById("input1").value)[0]));
         window.open("index.html","_self");
     }
 }
 
 function Register(){
-    UsersBetoltese();
-    Users==undefined?setTimeout(UsersCheck1,200):RegCheckFunction();
-}
-
-function UsersCheck1(){
-    Users==undefined?setTimeout(UsersCheck1,200):RegCheckFunction();
+    UsersBetoltese(0,1);
 }
 
 function RegCheckFunction(){ //Szelid Márk , mark.szelid@ckik.hu , Mikulas123

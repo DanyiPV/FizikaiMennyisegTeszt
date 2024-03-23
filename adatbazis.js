@@ -42,7 +42,7 @@ function AdatokBetoltes(){
     });
 }
 
-function UsersBetoltese(){
+function UsersBetoltese(id,id2){
     const data = { lekerdezes: "select * from users u"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
@@ -59,10 +59,21 @@ function UsersBetoltese(){
         if (response.Error) {
             console.log(response.Error);
         } else {
-            Users = response;
+            id==0?Users = response:Tusers = response;
+            MegHivasok(id2);
             return response;
         }
     });
+}
+
+function MegHivasok(id){
+    if(id == 0){
+        LogCheckFunction()
+    }else if(id == 1){
+        RegCheckFunction();
+    }else if(id == 2){
+        AlapBeallitasok();
+    }
 }
 
 function UsersFeltolt(User){

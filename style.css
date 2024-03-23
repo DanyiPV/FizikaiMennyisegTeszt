@@ -18,6 +18,7 @@ html,body{
 :root{
     --button_hover: rgba(170, 170, 170, 0.4);/*rgba(170, 170, 170, 0.4)*/
     --modal_bc: rgba(30, 30, 30, .9);/*rgba(30, 30, 30, .9)*/
+    --body_bc: rgba(30, 30, 30, 1);/*rgba(30, 30, 30, .9)*/
     --text_color: whitesmoke; /*whitesmoke*/
     --modal_border: whitesmoke; /*whitesmoke*/
 }
@@ -63,6 +64,7 @@ nav{
     animation-duration: .8s;
     animation-fill-mode: forwards;
     animation-delay: .5s;
+    cursor: default;
 }
 .OldalName p{
     margin: 0;
@@ -135,7 +137,7 @@ nav{
     justify-content: space-between;
     color: var(--text_color);
     align-items: center;
-    padding: 0 1vw;
+    padding: 0 .5vw;
     font-size: 1.4vw;
 }
 .SignInHead p{
@@ -196,13 +198,6 @@ nav{
 }
 #LogoutDivIMG img{
     left: -.2vw;
-}
-.OnlyTeacher{
-    position: absolute;
-    left: -30vw;
-    visibility: hidden;
-    z-index: -1;
-    transition: .3s;
 }
 
 .SideBar{
@@ -276,4 +271,108 @@ nav{
 @keyframes SideBarLoad{
     from {right: -20vw;}
     to {right: 0vw;}
+}
+
+.MainBody{
+    background-color: var(--body_bc);
+    position: relative;
+    margin: auto;
+    width: 89%;
+    border-radius: .6vw;
+    padding: 1vw;
+    height: max-content;
+    margin-top: 1.2vw;
+    display: flex;
+    flex-direction: column;
+    gap: 2vw;
+}
+
+.ProfilPicDiv{
+    height: 16vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: .3s;
+    border-bottom: .1vw solid var(--modal_border);
+    width: 30%;
+    margin: auto;
+}
+.ProfilPicDivIMG{
+    width: 12vw;
+    height: 12vw;
+    padding: 1vw;
+    border: .1vw solid var(--modal_border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10vw;
+    cursor: pointer;
+    overflow: hidden;
+    background-size: cover;
+    position: relative;
+    z-index: 2;
+    background-color: var(--body_bc);
+}
+.ProfilPicDiv p{
+    color: var(--text_color);
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+    position: absolute;
+    top: 6.5vw;
+    font-size: .5vw;
+    transition: .4s;
+    z-index: 1;
+    opacity: 0;
+    cursor: default;
+}
+.ProfilPicDivIMG:hover + p{
+    top: 14.5vw;
+    font-size: 1vw;
+    opacity: 1;
+}
+.SettingsDiv{
+    width: 30%;
+    position: relative;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    border-radius: .6vw;
+    transition: .3s;
+    padding: .5vw;
+    justify-content: center;
+}
+.SettingsDiv p{
+    margin: auto;
+    color: var(--text_color);
+    position: absolute;
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+    z-index: -1;
+    left: 10vw;
+    transition: .3s;
+    font-size: .8vw;
+}
+.SettingsDivIMG{
+    width: 3vw;
+    height: 3vw;
+    position: relative;
+    transition: .3s;
+    left: 0;
+    position: relative;
+    z-index: 2;
+}
+.SettingsDivIMG img{
+    width: 100%;
+}
+.SettingsDiv:hover{
+    background-color: var(--button_hover);
+}
+.SettingsDiv:hover .SettingsDivIMG{
+    left: -6vw;
+}
+.SettingsDiv:hover > p{
+    left: 11vw;
+    z-index: 1;
 }
