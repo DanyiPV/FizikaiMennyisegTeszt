@@ -301,7 +301,7 @@ nav{
     width: 12vw;
     height: 12vw;
     padding: 1vw;
-    border: .1vw solid var(--modal_border);
+    border: .2vw solid var(--modal_border);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -312,6 +312,10 @@ nav{
     position: relative;
     z-index: 2;
     background-color: var(--body_bc);
+    transition: .3s;
+}
+.ProfilPicDivIMGOn{
+    border: .2vw solid red;
 }
 .ProfilPicDiv p{
     color: var(--text_color);

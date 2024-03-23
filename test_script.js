@@ -63,7 +63,7 @@ function DrkModeSwitch(value){
     color==1?document.getElementById("LogoutDivIMG").children[0].src = "ph/logout_dark.png":document.getElementById("LogoutDivIMG").children[0].src = "ph/logout_white.png";
     color==1?document.getElementById("SignInIMG").children[0].src = "ph/user_dark.png":document.getElementById("SignInIMG").children[0].src = "ph/user_white.png";
     Tuser.osztaly == "T" || Tuser.osztaly == "A"?color==1?document.getElementById("ExamDivIMG").children[0].src = "ph/plus_dark.png":document.getElementById("ExamDivIMG").children[0].src = "ph/plus_white.png":"";
-    SettingsCheck();
+    document.getElementById("ProfilPicDiv") != undefined?SettingsCheck():"";
 }
 
 function Settings(){
@@ -89,6 +89,13 @@ function Settings(){
     document.getElementById("PrivateChangeDiv").appendChild(DivCreate("SettingsDivIMG","PrivateChangeDivIMG"));
     document.getElementById("PrivateChangeDivIMG").appendChild(ImgCreate(Tuser.drkmode==1?"ph/private_dark.png":"ph/private_white.png"));
     document.getElementById("PrivateChangeDiv").innerHTML += "<p>change profile visibility</p>";
+    document.getElementById("PrivateChangeDiv").setAttribute("onclick","PrivateModOn('change')");
+}
+
+function PrivateModOn(value){
+    if(value == "change"){
+        document.getElementById("ProfilPicDivIMG").classList.contains("ProfilPicDivIMGOn")?document.getElementById("ProfilPicDivIMG").classList.remove("ProfilPicDivIMGOn"):document.getElementById("ProfilPicDivIMG").classList.add("ProfilPicDivIMGOn");
+    }
 }
 
 function SettingsCheck(){
