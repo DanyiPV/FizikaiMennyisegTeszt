@@ -1,5 +1,5 @@
 var Tuser;
-var Tusers;
+var usersetting;
 
 function SideBarOpen(){
     document.getElementById("SideBarNav").classList.add("SideBarNavOpen");
@@ -41,16 +41,15 @@ function LogOut(){
 }
 
 function DrkModeSwitch(value){
-    //root change, save on database
     var color = undefined;
     if(value == "load"){
-        color = Tuser.drkmode;
+        color = usersetting.drkmode;
     }
     else if(value == "change"){
-        Tuser.drkmode==0?color=1:color=0;
-        Tuser.drkmode = color;
+        usersetting.drkmode==0?color=1:color=0;
+        usersetting.drkmode = color;
     }
-    value == "change"?UserDataChange("drkmode = "+Tuser.drkmode+"","email = '"+Tuser.email+"'"):"";
+    value == "change"?UserSettingsChange("drkmode = "+usersetting.drkmode+"","userid = '"+Tuser.id+"'"):"";
     getComputedStyle(document.querySelector(':root'));
     color==1?document.querySelector(':root').style.setProperty('--button_hover',"rgba( 0, 0, 0, .5)"):document.querySelector(':root').style.setProperty('--button_hover',"rgba(170, 170, 170, .4)");
     color==1?document.querySelector(':root').style.setProperty('--text_color',"black"):document.querySelector(':root').style.setProperty('--text_color',"whitesmoke");
@@ -72,40 +71,48 @@ function Settings(){
     document.getElementById("OldalName").innerText = "Settings";
     document.getElementById("MainBody").appendChild(DivCreate("ProfilPicDiv","ProfilPicDiv"));
     document.getElementById("ProfilPicDiv").appendChild(DivCreate("ProfilPicDivIMG","ProfilPicDivIMG"));
-    document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+(Tuser.drkmode==1?"ph/user_dark.png":"ph/user_white.png")+")";
+    document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+(usersetting.drkmode==1?"ph/user_dark.png":"ph/user_white.png")+")";
     document.getElementById("ProfilPicDiv").innerHTML += "<p>Change profile picture</p>";
+    PrivateModOn("load");
 
     document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","UNChangeDiv"));
     document.getElementById("UNChangeDiv").appendChild(DivCreate("SettingsDivIMG","UNChangeDivIMG"));
-    document.getElementById("UNChangeDivIMG").appendChild(ImgCreate(Tuser.drkmode==1?"ph/idcard_dark.png":"ph/idcard_white.png"));
+    document.getElementById("UNChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/idcard_dark.png":"ph/idcard_white.png"));
     document.getElementById("UNChangeDiv").innerHTML += "<p>change username</p>";
 
     document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","PWChangeDiv"));
     document.getElementById("PWChangeDiv").appendChild(DivCreate("SettingsDivIMG","PWChangeDivIMG"));
-    document.getElementById("PWChangeDivIMG").appendChild(ImgCreate(Tuser.drkmode==1?"ph/password_dark.png":"ph/password_white.png"));
+    document.getElementById("PWChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/password_dark.png":"ph/password_white.png"));
     document.getElementById("PWChangeDiv").innerHTML += "<p>change password</p>";
 
     document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","PrivateChangeDiv"));
     document.getElementById("PrivateChangeDiv").appendChild(DivCreate("SettingsDivIMG","PrivateChangeDivIMG"));
-    document.getElementById("PrivateChangeDivIMG").appendChild(ImgCreate(Tuser.drkmode==1?"ph/private_dark.png":"ph/private_white.png"));
+    document.getElementById("PrivateChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/private_dark.png":"ph/private_white.png"));
     document.getElementById("PrivateChangeDiv").innerHTML += "<p>change profile visibility</p>";
     document.getElementById("PrivateChangeDiv").setAttribute("onclick","PrivateModOn('change')");
 }
 
 function PrivateModOn(value){
-    if(value == "change"){
-        document.getElementById("ProfilPicDivIMG").classList.contains("ProfilPicDivIMGOn")?document.getElementById("ProfilPicDivIMG").classList.remove("ProfilPicDivIMGOn"):document.getElementById("ProfilPicDivIMG").classList.add("ProfilPicDivIMGOn");
+    let private = undefined;
+    if(value == "load"){
+        private = usersetting.private;
     }
+    else if(value == "change"){
+        usersetting.private==0?private=1:private=0;
+        usersetting.private = private;
+    }
+    value == "change"?UserSettingsChange("private = "+usersetting.private+"","userid = '"+Tuser.id+"'"):"";
+    private==0?document.getElementById("ProfilPicDivIMG").classList.remove("ProfilPicDivIMGOn"):document.getElementById("ProfilPicDivIMG").classList.add("ProfilPicDivIMGOn");
 }
 
 function SettingsCheck(){
-    document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+(Tuser.drkmode==1?"ph/user_dark.png":"ph/user_white.png")+")";
+    document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+(usersetting.drkmode==1?"ph/user_dark.png":"ph/user_white.png")+")";
     document.getElementById("UNChangeDivIMG").removeChild(document.getElementById("UNChangeDivIMG").firstChild);
-    document.getElementById("UNChangeDivIMG").appendChild(ImgCreate(Tuser.drkmode==1?"ph/idcard_dark.png":"ph/idcard_white.png"));
+    document.getElementById("UNChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/idcard_dark.png":"ph/idcard_white.png"));
     document.getElementById("PWChangeDivIMG").removeChild(document.getElementById("PWChangeDivIMG").firstChild);
-    document.getElementById("PWChangeDivIMG").appendChild(ImgCreate(Tuser.drkmode==1?"ph/password_dark.png":"ph/password_white.png"));
+    document.getElementById("PWChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/password_dark.png":"ph/password_white.png"));
     document.getElementById("PrivateChangeDivIMG").removeChild(document.getElementById("PrivateChangeDivIMG").firstChild);
-    document.getElementById("PrivateChangeDivIMG").appendChild(ImgCreate(Tuser.drkmode==1?"ph/private_dark.png":"ph/private_white.png"));
+    document.getElementById("PrivateChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/private_dark.png":"ph/private_white.png"));
 }
 
 function DivCreate(Class,id){
@@ -122,10 +129,8 @@ function ImgCreate(path){
 }
 
 function AlapBeallitasok(){
-    Tuser = Tusers[Number(Tuser)];
     Tuser.osztaly == "T" || Tuser.osztaly == "A"?TeacherView():"";
     document.getElementById("UserNameP").innerText = Tuser.nev;
-    DrkModeSwitch("load");
 }
 function TeacherView(){
     document.getElementById("ExamDiv").classList.add("SignInBodyButton");
@@ -138,7 +143,8 @@ function Alapok(){
         if(Tuser == null || Tuser == "-1" || Tuser == -1){
             LogOut();
         }else{
-            UsersBetoltese(1,2);
+            UserSettings(Tuser);
+            UserBetoltese("",Tuser,2,0);
         }
     }
 }

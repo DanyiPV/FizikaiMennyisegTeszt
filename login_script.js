@@ -1,5 +1,4 @@
 // ---- Login oldal
-var Users;
 var User;
 var MegerositoKod = "88888888";
 
@@ -146,10 +145,10 @@ function FaultDivClose(){
 }
 
 function Login(){
-    UsersBetoltese(0,0);
+    UserBetoltese(document.getElementById("input1").value,0,0,1);
 }
 
-function LogCheckFunction(){ //pintea.roland@ckik.hu , PinteaViktoria2024
+function LogCheckFunction(){
     let igaze = true;
     if(document.getElementById("input1").value == ""){
         igaze = false;
@@ -166,23 +165,22 @@ function LogCheckFunction(){ //pintea.roland@ckik.hu , PinteaViktoria2024
         FaultDivOpen("A bejelentkezéshez írja be az e-mailhez tartozó jelszót!");
         WarningColorAdd(2);
     }
-    else if(!JelszoCheck(1,2)){
+    else if(!JelszoCheck(2)){
         igaze = false;
         FaultDivOpen("A jelszó hibásan lett beírva!");
         WarningColorAdd(2);
-        console.log(JelszoCheck(1,2));
     }
     if(igaze == true){
-        localStorage.setItem("User",Users.indexOf(Users.filter(c=>c.email == document.getElementById("input1").value)[0]));
+        localStorage.setItem("User",User.id);
         window.open("index.html","_self");
     }
 }
 
 function Register(){
-    UsersBetoltese(0,1);
+    UserBetoltese(document.getElementById("input4").value,0,1,1);
 }
 
-function RegCheckFunction(){ //Szelid Márk , mark.szelid@ckik.hu , Mikulas123
+function RegCheckFunction(email){
     let igaze = true;
     if(document.getElementById("input3").value == ""){
         igaze = false;
@@ -199,7 +197,7 @@ function RegCheckFunction(){ //Szelid Márk , mark.szelid@ckik.hu , Mikulas123
         FaultDivOpen("Hibásan írta be az e-mail címet!");
         WarningColorAdd(4);
     }
-    else if(EmailCheck(4)){
+    else if(email == document.getElementById("input4").value){
         igaze = false;
         FaultDivOpen("Az e-mail már szerepel a nyílvántartásban!");
         WarningColorAdd(4);
@@ -262,12 +260,8 @@ function WarningColoRemoveT(){
     document.getElementById("TKodLabel").classList.remove("WarningColor")
 }
 
-function EmailCheck(id){
-    return Users.filter(c=>c.email == document.getElementById("input"+id).value).length>0?true:false;
-}
-
-function JelszoCheck(id1,id2){
-    return Users.filter(c=>c.email == document.getElementById("input"+id1).value)[0].jelszo==hash(document.getElementById("input"+id2).value)?true:false;
+function JelszoCheck(id){
+    return User.jelszo==hash(document.getElementById("input"+id).value);
 }
 
 function hash(pw) {

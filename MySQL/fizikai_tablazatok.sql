@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2024 at 12:02 AM
+-- Generation Time: Mar 24, 2024 at 10:40 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -261,18 +261,39 @@ CREATE TABLE `users` (
   `osztaly` varchar(4) NOT NULL,
   `jelszo` varchar(255) NOT NULL,
   `letrehozva` date NOT NULL,
-  `modositva` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `drkmode` int(11) NOT NULL
+  `modositva` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `nev`, `osztaly`, `jelszo`, `letrehozva`, `modositva`, `drkmode`) VALUES
-(1, 'admin', 'admin', 'A', 'admin', '2024-02-29', '2024-02-29 08:35:40', 0),
-(2, 'szab.eman@ckik.hu', 'Szabó Emánuel', 'T', '3233971a59d7704e5fed8c9af5ca6934221c189a1e716dff1d850dddd8b97cf64f20c92b848133072bc8af19e224715bc094f4369014a16c608f98f37ba8489c', '2024-03-05', '2024-03-05 09:58:14', 0),
-(3, 'pintea.roland@ckik.hu', 'Pintea Dániel', '12/C', '8567e08f59f544199c9bfe735aa534a301f5a5228d7a2b73036478e21b5de735c45eb92bac773ebcbf0c3fbf0cd9ebb688b02553938fb14f93bbce3b6d11fceb', '2024-03-05', '2024-03-05 09:59:13', 0);
+INSERT INTO `users` (`id`, `email`, `nev`, `osztaly`, `jelszo`, `letrehozva`, `modositva`) VALUES
+(1, 'admin', 'admin', 'A', 'admin', '2024-02-29', '2024-02-29 08:35:40'),
+(2, 'szab.eman@ckik.hu', 'Szabó Emánuel', 'T', '3233971a59d7704e5fed8c9af5ca6934221c189a1e716dff1d850dddd8b97cf64f20c92b848133072bc8af19e224715bc094f4369014a16c608f98f37ba8489c', '2024-03-05', '2024-03-05 09:58:14'),
+(3, 'pintea.roland@ckik.hu', 'Pintea Dániel', '12/C', '8567e08f59f544199c9bfe735aa534a301f5a5228d7a2b73036478e21b5de735c45eb92bac773ebcbf0c3fbf0cd9ebb688b02553938fb14f93bbce3b6d11fceb', '2024-03-05', '2024-03-05 09:59:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `usersetting`
+--
+
+CREATE TABLE `usersetting` (
+  `id` int(11) NOT NULL,
+  `userid` int(11) NOT NULL DEFAULT 0,
+  `drkmode` int(11) NOT NULL DEFAULT 0,
+  `private` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `usersetting`
+--
+
+INSERT INTO `usersetting` (`id`, `userid`, `drkmode`, `private`) VALUES
+(1, 1, 0, 0),
+(2, 2, 0, 0),
+(3, 3, 0, 0);
 
 --
 -- Indexes for dumped tables
@@ -327,6 +348,13 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `usersetting`
+--
+ALTER TABLE `usersetting`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userid` (`userid`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -373,6 +401,12 @@ ALTER TABLE `users`
   MODIFY `id` int(55) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `usersetting`
+--
+ALTER TABLE `usersetting`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -406,6 +440,12 @@ ALTER TABLE `tablak`
 ALTER TABLE `tablakapocs`
   ADD CONSTRAINT `tablakapocs_ibfk_1` FOREIGN KEY (`tablaid`) REFERENCES `tablak` (`id`),
   ADD CONSTRAINT `tablakapocs_ibfk_2` FOREIGN KEY (`dolgozatid`) REFERENCES `dolgozatok` (`id`);
+
+--
+-- Constraints for table `usersetting`
+--
+ALTER TABLE `usersetting`
+  ADD CONSTRAINT `usersetting_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
