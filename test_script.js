@@ -84,12 +84,36 @@ function Settings(){
     document.getElementById("PWChangeDiv").appendChild(DivCreate("SettingsDivIMG","PWChangeDivIMG"));
     document.getElementById("PWChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/password_dark.png":"ph/password_white.png"));
     document.getElementById("PWChangeDiv").innerHTML += "<p>change password</p>";
+    document.getElementById("PWChangeDiv").setAttribute("onclick","PWChange()");
 
     document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","PrivateChangeDiv"));
     document.getElementById("PrivateChangeDiv").appendChild(DivCreate("SettingsDivIMG","PrivateChangeDivIMG"));
     document.getElementById("PrivateChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/private_dark.png":"ph/private_white.png"));
     document.getElementById("PrivateChangeDiv").innerHTML += "<p>change profile visibility</p>";
     document.getElementById("PrivateChangeDiv").setAttribute("onclick","PrivateModOn('change')");
+}
+
+function PWChange(){
+    if(document.getElementById("EgyDivMindFelett").classList.contains("EgyDivMindFelettOpen")){
+        EgyMindFelettClose();
+    }
+    else{
+        document.getElementById("EgyDivMindFelett").classList.add("EgyDivMindFelettOpen");
+        document.getElementById("EgyDivMindFelett").classList.add("PWChange");
+        document.getElementById("BlackBG").classList.add("BlackBGOn");
+        document.getElementById("BlackBG").setAttribute("onclick","EgyMindFelettClose()");
+        document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("password","current","Current password");
+        document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("password","new","New password");
+        document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("password","newconfirm","new password confirm");
+        document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("checkbox","showpw","show password");
+    }
+}
+
+function EgyMindFelettClose(){
+    document.getElementById("EgyDivMindFelett").classList = "";
+    document.getElementById("EgyDivMindFelett").innerHTML = "";
+    document.getElementById("BlackBG").classList.remove("BlackBGOn");
+    document.getElementById("BlackBG").removeAttribute("onclick");
 }
 
 function PrivateModOn(value){
@@ -128,13 +152,17 @@ function ImgCreate(path){
     return img;
 }
 
+function InputCreate(type,id,nev){
+    return "<form><label id='label"+id+"' for='input"+id+"'>"+nev+"</label><input type='"+type+"' name='input"+id+"' id='input"+id+"'/></form>";
+}
+
 function AlapBeallitasok(){
     Tuser.osztaly == "T" || Tuser.osztaly == "A"?TeacherView():"";
     document.getElementById("UserNameP").innerText = Tuser.nev;
 }
 function TeacherView(){
     document.getElementById("ExamDiv").classList.add("SignInBodyButton");
-    document.getElementById("ExamDiv").innerHTML = "<div class='SignInBodyButtonImg' id='ExamDivIMG'><img src='ph/plus_white.png' alt=''></div><p>exam publish</p>"
+    document.getElementById("ExamDiv").innerHTML = "<div class='SignInBodyButtonImg' id='ExamDivIMG'><img src='ph/plus_white.png' alt=''></div><p>exam publish</p>";
 }
 
 function Alapok(){
