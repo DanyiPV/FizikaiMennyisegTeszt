@@ -49,6 +49,7 @@ function DrkModeSwitch(value){
         usersetting.drkmode==0?color=1:color=0;
         usersetting.drkmode = color;
     }
+    document.getElementById("DrkModeDiv").children[1].innerText = color==1?"dark mode":"white mode";
     value == "change"?UserSettingsChange("drkmode = "+usersetting.drkmode+"","userid = '"+Tuser.id+"'"):"";
     getComputedStyle(document.querySelector(':root'));
     color==1?document.querySelector(':root').style.setProperty('--button_hover',"rgba( 0, 0, 0, .5)"):document.querySelector(':root').style.setProperty('--button_hover',"rgba(170, 170, 170, .4)");
