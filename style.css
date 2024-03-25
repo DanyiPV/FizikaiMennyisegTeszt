@@ -316,6 +316,10 @@ nav{
     background-color: var(--body_bc);
     transition: .3s;
 }
+.ProfilPicDivIMG input{
+    width: 100%;
+    height: 100%;
+}
 .ProfilPicDivIMGOn{
     border: .2vw solid red;
 }
@@ -336,6 +340,7 @@ nav{
     font-size: 1vw;
     opacity: 1;
 }
+
 .SettingsDiv{
     width: 30%;
     position: relative;

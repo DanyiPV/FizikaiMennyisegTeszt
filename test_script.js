@@ -74,8 +74,11 @@ function Settings(){
     document.getElementById("OldalName").innerText = "Settings";
     document.getElementById("MainBody").appendChild(DivCreate("ProfilPicDiv","ProfilPicDiv"));
     document.getElementById("ProfilPicDiv").appendChild(DivCreate("ProfilPicDivIMG","ProfilPicDivIMG"));
-    document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+(usersetting.drkmode==1?"ph/user_dark.png":"ph/user_white.png")+")";
+    var avt = undefined;
+
+    document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+(avt != null?avt:usersetting.drkmode==1?"ph/user_dark.png":"ph/user_white.png")+")";
     document.getElementById("ProfilPicDiv").innerHTML += "<p>Change profile picture</p>";
+    document.getElementById("ProfilPicDiv").setAttribute("onclick","importIMG()");
     PrivateModOn("load");
 
     document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","UNChangeDiv"));
@@ -247,6 +250,30 @@ function ImgCreate(path){
 function InputCreate(type,id,nev){
     return "<form><label id='label"+id+"' for='input"+id+"'>"+nev+"</label><input type='"+type+"' name='input"+id+"' id='input"+id+"'/></form>";
 }
+
+function importIMG() {
+    let input = document.createElement('input');
+    input.type = 'file';
+    var file;
+    var reader = new FileReader();
+    input.onchange = _ => {
+        file = Array.from(input.files)[0];
+        reader.addEventListener(
+          "load",
+          () => {
+
+            //UserSettingsChange("avatar = '"+result+"'","userid = "+Tuser.id+"");
+            document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+reader.result+")";
+          },
+          false,
+        );
+      
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+    };
+    input.click();
+}  
 
 function hash(pw) {
     var hashObj = new jsSHA("SHA-512", "TEXT", {numRounds: 1});
