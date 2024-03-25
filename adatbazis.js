@@ -90,6 +90,23 @@ function UsersFeltolt(User){
         return response;
     });
 }
+function UsersAdatFeltolt(set,where){
+    const data =  { lekerdezes: "update users set "+set+" where "+where+""};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        if(set.split('=')[0] == "jelszo "){
+            FaultDivOpen("A jelszava sikeresen megváltozott!");
+            EgyMindFelettClose();
+        }
+        return response;
+    });
+}
 
 function UserSettings(id){
     const data = { lekerdezes: "select * from usersetting where userid = "+id+""};

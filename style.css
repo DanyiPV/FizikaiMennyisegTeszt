@@ -20,7 +20,9 @@ html,body{
     --body_bc: rgba(30, 30, 30, 1);/*rgba(30, 30, 30, .9)*/
     --text_color: whitesmoke; /*whitesmoke*/
     --modal_border: whitesmoke; /*whitesmoke*/
-    --mindefelett_bc: rgba(80, 80, 80, 1);
+    --input_bc: rgba(70, 70, 70, 1);/*70, 70, 70, 1*/
+    --checkbox_bc: rgba(70, 70, 70, 1);/*70, 70, 70, 1*/
+    --warning_c: orangered;/*orangered*/
 }
 
 .BlackBG{
@@ -389,7 +391,7 @@ nav{
     z-index: -1;
     opacity: 0;
     transition: .8s;
-    background-color: var(--mindefelett_bc);
+    background-color: var(--body_bc);
 }
 
 .EgyDivMindFelettOpen{
@@ -397,39 +399,95 @@ nav{
     z-index: 3 !important;
     opacity: 1 !important;
 }
-.PWChange{
+.PWChange,.UNChange{
     display: flex;
     flex-direction: column;
-    gap: 2vw;
+    gap: 1vw;
     color: var(--text_color);
     padding: 1.5vw 1vw;
     border-radius: .4vw;
 }
-.PWChange form{
+.PWChange form, .UNChange form{
     display: flex;
     justify-content: space-between;
-    gap: 1vw;
+    gap: 2vw;
     font-size: 1vw;
 }
-.PWChange form label{
+.PWChange form label, .UNChange form label{
     text-transform: uppercase;
 }
-.PWChange form input[type=input]{
-    background-color: var(--modal_bc);
+.PWChange form input[type=password], .PWChange form input[type=text], .UNChange form input[type=password], .UNChange form input[type=text]{
+    background-color: var(--input_bc);
     outline: none;
     border: none;
     color: var(--text_color);
     padding: .5vw;
     border-radius: .8vw;
+    position: relative;
+    top: -.5vw;
+}
+.UserNameMess{
+    margin: auto;
+    font-size: 1vw;
+    max-width: 20vw;
+    text-align: justify;
 }
 #labelshowpw{
+    cursor: pointer;
     position: relative;
-    left: 12vw;
+    left: 13vw;
 }
-#labelshowpw, .PWChange form input[type=checkbox]{
-    margin-top: -1vw;
+.PWChange form input[type=checkbox], .UNChange form input[type=checkbox]{
+    position: relative;
+    top: -.2vw;
+}
+.PWchangeSubmit, .UNchangeSubmit{
+    margin: auto;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    transition: .3s;
+    border-radius: .4vw;
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+    font-size: 1vw;
+}
+.PWchangeSubmit:hover, .UNchangeSubmit:hover{
+    background-color: var(--button_hover);
 }
 
+.WarningColor, .WarningColor + input{
+    color: orangered !important;
+}
+
+.FaultDiv{
+    position: absolute;
+    max-width: 15%;
+    height: max-content;
+    border: .1vw solid rgba(245, 245, 245, 0.8);
+    color: var(--text_color);
+    padding: 1vw 2vw;
+    border-radius: .6vw;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.4);
+    text-align: center;
+    justify-content: center;
+    top: 50%;
+    right: -20%;
+    transition: .3s;
+    z-index: -1;
+    opacity: 0;
+    font-size: 1vw;
+}
+.FaultDivOpen{
+    right: 1.5% !important;
+    opacity: 1 !important;
+    z-index: 3;
+    transition: .3s;
+}
+.FaultDiv p{
+    margin: 0;
+}
 
 input:focus{outline: none;}
 /*Checkbox style*/
@@ -445,7 +503,7 @@ input:focus{outline: none;}
     outline: 0;
     flex-grow: 0;
     border-radius: 50%;
-    background-color: #FFFFFF;
+    background-color: var(--checkbox_bc);
     transition: background 300ms;
     cursor: pointer;
 }
