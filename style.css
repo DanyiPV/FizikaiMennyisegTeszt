@@ -2,7 +2,6 @@ body{
     background-color: rgb(80, 80, 80);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     overflow-x: hidden !important;
-    position: relative;
     margin: 0;
     background-image: url("ph/test_bg.jpg");
     background-repeat: no-repeat;
@@ -21,6 +20,9 @@ html,body{
     --body_bc: rgba(30, 30, 30, 1);/*rgba(30, 30, 30, .9)*/
     --text_color: whitesmoke; /*whitesmoke*/
     --modal_border: whitesmoke; /*whitesmoke*/
+    --input_bc: rgba(70, 70, 70, 1);/*70, 70, 70, 1*/
+    --checkbox_bc: rgba(70, 70, 70, 1);/*70, 70, 70, 1*/
+    --warning_c: orangered;/*orangered*/
 }
 
 .BlackBG{
@@ -380,3 +382,173 @@ nav{
     left: 11vw;
     z-index: 1;
 }
+
+#EgyDivMindFelett{
+    position: absolute;
+    top: -5%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: -1;
+    opacity: 0;
+    transition: .8s;
+    background-color: var(--body_bc);
+}
+
+.EgyDivMindFelettOpen{
+    top: 50% !important;
+    z-index: 3 !important;
+    opacity: 1 !important;
+}
+.PWChange,.UNChange{
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+    color: var(--text_color);
+    padding: 1.5vw 1vw;
+    border-radius: .4vw;
+}
+.PWChange form, .UNChange form{
+    display: flex;
+    justify-content: space-between;
+    gap: 2vw;
+    font-size: 1vw;
+}
+.PWChange form label, .UNChange form label{
+    text-transform: uppercase;
+}
+.PWChange form input[type=password], .PWChange form input[type=text], .UNChange form input[type=password], .UNChange form input[type=text]{
+    background-color: var(--input_bc);
+    outline: none;
+    border: none;
+    color: var(--text_color);
+    padding: .5vw;
+    border-radius: .8vw;
+    position: relative;
+    top: -.5vw;
+}
+.UserNameMess{
+    margin: auto;
+    font-size: 1vw;
+    max-width: 20vw;
+    text-align: justify;
+}
+#labelshowpw{
+    cursor: pointer;
+    position: relative;
+    left: 13vw;
+}
+.PWChange form input[type=checkbox], .UNChange form input[type=checkbox]{
+    position: relative;
+    top: -.2vw;
+}
+.PWchangeSubmit, .UNchangeSubmit{
+    margin: auto;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    transition: .3s;
+    border-radius: .4vw;
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+    font-size: 1vw;
+}
+.PWchangeSubmit:hover, .UNchangeSubmit:hover{
+    background-color: var(--button_hover);
+}
+
+.WarningColor, .WarningColor + input{
+    color: orangered !important;
+}
+
+.FaultDiv{
+    position: absolute;
+    max-width: 15%;
+    height: max-content;
+    border: .1vw solid rgba(245, 245, 245, 0.8);
+    color: var(--text_color);
+    padding: 1vw 2vw;
+    border-radius: .6vw;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.4);
+    text-align: center;
+    justify-content: center;
+    top: 50%;
+    right: -20%;
+    transition: .3s;
+    z-index: -1;
+    opacity: 0;
+    font-size: 1vw;
+}
+.FaultDivOpen{
+    right: 1.5% !important;
+    opacity: 1 !important;
+    z-index: 3;
+    transition: .3s;
+}
+.FaultDiv p{
+    margin: 0;
+}
+
+input:focus{outline: none;}
+/*Checkbox style*/
+/* Basic styling */
+[type=checkbox] {
+    width: 1vw;
+    height: 1vw;
+    color: dodgerblue;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    background: none;
+    border: 0;
+    outline: 0;
+    flex-grow: 0;
+    border-radius: 50%;
+    background-color: var(--checkbox_bc);
+    transition: background 300ms;
+    cursor: pointer;
+}
+/* Pseudo element for check styling */
+[type=checkbox]::before {
+    content: "";
+    color: transparent;
+    display: block;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    border: 0;
+    background-color: transparent;
+    background-size: contain;
+    box-shadow: inset 0 0 0 1px #CCD3D8;
+}
+/* Checked */
+[type=checkbox]:checked {
+    background-color: currentcolor;
+}
+[type=checkbox]:checked::before {
+    box-shadow: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cpath d='M15.88 8.29L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z' fill='%23fff'/%3E %3C/svg%3E");
+}
+/* Disabled */
+[type=checkbox]:disabled {
+    background-color: #CCD3D8;
+    opacity: 0.84;
+    cursor: not-allowed;
+}
+/* IE */
+[type=checkbox]::-ms-check {
+    content: "";
+    color: transparent;
+    display: block;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    border: 0;
+    background-color: transparent;
+    background-size: contain;
+    box-shadow: inset 0 0 0 1px #CCD3D8;
+}
+[type=checkbox]:checked::-ms-check {
+    box-shadow: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cpath d='M15.88 8.29L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z' fill='%23fff'/%3E %3C/svg%3E");
+}
+/*Checkbox style*/
