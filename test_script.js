@@ -74,9 +74,9 @@ function Settings(){
     document.getElementById("OldalName").innerText = "Settings";
     document.getElementById("MainBody").appendChild(DivCreate("ProfilPicDiv","ProfilPicDiv"));
     document.getElementById("ProfilPicDiv").appendChild(DivCreate("ProfilPicDivIMG","ProfilPicDivIMG"));
-    var avt = undefined;
+    UserAvatarLeker(Tuser.id);
 
-    document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+(avt != null?avt:usersetting.drkmode==1?"ph/user_dark.png":"ph/user_white.png")+")";
+    //document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+(avt != undefined?avt:usersetting.drkmode==1?"ph/user_dark.png":"ph/user_white.png")+")";
     document.getElementById("ProfilPicDiv").innerHTML += "<p>Change profile picture</p>";
     document.getElementById("ProfilPicDiv").setAttribute("onclick","importIMG()");
     PrivateModOn("load");
@@ -98,6 +98,11 @@ function Settings(){
     document.getElementById("PrivateChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/private_dark.png":"ph/private_white.png"));
     document.getElementById("PrivateChangeDiv").innerHTML += "<p>change profile visibility</p>";
     document.getElementById("PrivateChangeDiv").setAttribute("onclick","PrivateModOn('change')");
+}
+
+function AvatarBeallit(response){
+    console.log(response);
+    document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+(response != undefined?"data:image/jpeg;base64,"+response:usersetting.drkmode==1?"ph/user_dark.png":"ph/user_white.png")+")";
 }
 
 function UNChange(){
@@ -258,11 +263,16 @@ function importIMG() {
     var reader = new FileReader();
     input.onchange = _ => {
         file = Array.from(input.files)[0];
+        console.log(file);
         reader.addEventListener(
           "load",
           () => {
-
-            //UserSettingsChange("avatar = '"+result+"'","userid = "+Tuser.id+"");
+            fetch(reader.result)
+            .then((res) => res.blob())
+            .then((myBlob) => {
+                console.log(myBlob);
+                //UserSettingsChange("avatar = '"+myBlob+"'","userid = "+Tuser.id+"");
+            })
             document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+reader.result+")";
           },
           false,

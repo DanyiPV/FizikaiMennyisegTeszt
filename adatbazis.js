@@ -157,6 +157,29 @@ function UserSettingsChange(set,where){
         return response;
     });
 }
+function UserAvatarLeker(userid){ //https://www.techieclues.com/blogs/converting-blob-to-base64-in-mysql
+    const data =  { lekerdezes: "SELECT BLOB_TO_BASE64(usersetting.avatar) AS base64_data FROM usersetting WHERE userid = "+userid+";"};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        if (!response.ok) {console.log("Nem jó válasz érekezett az adatbázisból");}
+        return response.json();
+    })
+    .then(function (response) {
+        if (response.Error) {
+            conso
+            console.log(response.Error);
+        } else {
+            AvatarBeallit(response[0].base64_data);
+            return response;
+        }
+    });
+}
 
 function UsersLastId(){
     const data = { lekerdezes: "select users.id from users ORDER BY id DESC limit 1"};
