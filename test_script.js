@@ -305,7 +305,6 @@ function FooldalBetoltese(value){
     }
 }
 
-
 function NavSelectorCreate(value){
     document.body.appendChild(DivCreate("NavSelectorFoDiv","NavSelectorFoDiv"));
     document.getElementById("NavSelectorFoDiv").appendChild(DivCreate("NavSelectorDiv","NavSelectorFirst"));
@@ -334,7 +333,7 @@ function CategoryLoad(div){
             document.getElementById(Alkat[i].nev+"NevDiv").innerHTML ="<p>"+Alkat[i].nev+"</p>";
             document.getElementById(Alkat[i].nev+"Div").appendChild(DivCreate("TablaNevekKiiras",Alkat[i].nev+"Kiiras"));
             let tabla = Tablak.filter(c=>c.alkat_id == Alkat[i].id);
-            TablaSorokCreate(Alkat[i].nev+"Kiiras","Név","Jel","Definíció","Mértékegység");
+            TablaSorokCreate(Alkat[i].nev+"Kiiras","Név","Jele","Definíció","Mértékegység");
             for (let j = 0; j < tabla.length; j++) {
                 TablaSorokCreate(Alkat[i].nev+"Kiiras",tabla[j].nev,tabla[j].jel,tabla[j].def,tabla[j].mert);
             }

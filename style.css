@@ -367,10 +367,19 @@ nav{
     display: flex;
     flex-direction: column;
     gap: 2vw;
+    opacity: 0;
+    animation-name: OpacityLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
 }
 .TablaNevekKiiras{
     padding: .5vw;
     font-size: 1.2vw;
+    opacity: 0;
+    animation-name: OpacityLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+    animation-delay: .5s;
 }
 .TablaBelsoErtekek:first-child div:first-child{
     border-top-left-radius: .6vw;
@@ -395,7 +404,13 @@ nav{
 .TablaBelsoErtekek:last-child{
     border-bottom: .1vw solid var(--modal_border);
 }
+.TablaBelsoErtekek:first-child{
+    font-size: 1.6vw;
+    letter-spacing: .1vw;
+    text-transform: uppercase;
+}
 .TablaBelsoErtekek div{
+    position: relative;
     display: flex;
     justify-content: center;
     vertical-align: middle;
@@ -406,6 +421,11 @@ nav{
 }
 .TablaBelsoErtekek div p{
     margin: 0;
+    opacity: 0;
+    animation-name: OpacityLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+    animation-delay: .8s;
 }
 
 .TablaDivek{
@@ -417,6 +437,11 @@ nav{
     align-items: center;
     font-size: 1vw;
     gap: .8vw;
+    opacity: 0;
+    animation-name: OpacityLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+    animation-delay: .5s;
 }
 .TablaNevDivek{
     background-color: var(--tablanev_bc);
@@ -433,6 +458,11 @@ nav{
     font-size: 1.2vw;
     text-transform: uppercase;
     letter-spacing: .1vw;
+    opacity: 0;
+    animation-name: OpacityLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+    animation-delay: .8s;
 }
 .TudnivaloKiiras,.TablaNevekKiiras{
     width: 100%;
@@ -443,6 +473,16 @@ nav{
 .TudnivaloKiiras p{
     margin: 0;
     padding: 1vw;
+    opacity: 0;
+    animation-name: OpacityLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+    animation-delay: .8s;
+}
+
+@keyframes OpacityLoad{
+    from {opacity: 0;}
+    to {opacity: 1;}
 }
 
 .ProfilPicDiv{
@@ -454,6 +494,11 @@ nav{
     border-bottom: .1vw solid var(--modal_border);
     width: 30%;
     margin: auto;
+    opacity: 0;
+    animation-name: OpacityLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+    animation-delay: .5s;
 }
 .ProfilPicDivIMG{
     width: 12vw;
@@ -471,6 +516,11 @@ nav{
     z-index: 2;
     background-color: var(--body_bc);
     transition: .3s;
+    opacity: 0;
+    animation-name: OpacityLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+    animation-delay: .5s;
 }
 .ProfilPicDivIMG input{
     width: 100%;
@@ -520,6 +570,7 @@ nav{
     left: 10vw;
     transition: .3s;
     font-size: .8vw;
+    opacity: 0;
 }
 .SettingsDivIMG{
     width: 3vw;
@@ -529,6 +580,11 @@ nav{
     left: 0;
     position: relative;
     z-index: 2;
+    opacity: 0;
+    animation-name: OpacityLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+    animation-delay: .5s;
 }
 .SettingsDivIMG img{
     width: 100%;
@@ -542,6 +598,7 @@ nav{
 .SettingsDiv:hover > p{
     left: 11vw;
     z-index: 1;
+    opacity: 1;
 }
 
 #EgyDivMindFelett{
