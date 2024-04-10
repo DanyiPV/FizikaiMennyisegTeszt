@@ -1,0 +1,734 @@
+body{
+    background-image: url("ph/background.avif");
+    font-family: Arial, Helvetica, sans-serif;
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+}
+html, body{
+    height: 100%;
+}
+
+:root{
+    --btn_hover: rgba(150, 150, 150, 0.3);
+    --input_bc: rgba(51, 48, 59, 0.8);
+    --text_color: whitesmoke;
+}
+
+.FaultDiv{
+    position: absolute;
+    max-width: 15%;
+    height: max-content;
+    border: .1vw solid rgba(245, 245, 245, 0.8);
+    color: var(--text_color);
+    padding: 1vw 2vw;
+    border-radius: .6vw;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.4);
+    text-align: center;
+    justify-content: center;
+    top: 50%;
+    right: -20%;
+    transition: .3s;
+    opacity: 0;
+    font-size: 1vw;
+}
+.FaultDivOpen{
+    right: 1.5% !important;
+    opacity: 1 !important;
+    transition: .3s;
+}
+.FaultDiv p{
+    margin: 0;
+}
+
+.container{
+    border: .1vw solid rgba(245, 245, 245, 0.8);
+    width: 30vw;
+    border-radius: .3vw;
+    transition: .5s !important;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: .5vw;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+    max-height: 30vw;
+}
+.ContainerHeight{
+    max-height: 43vw !important;
+}
+
+.SelectLine{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 3vw;
+    transition: .3s;
+    position: relative;
+}
+.SelectLine p{
+    margin: 0;
+    padding: .5vw 3vw;
+    border-radius: .6vw;
+    transition: .3s;
+    color: var(--text_color);
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+    font-size: 1.2vw;
+    cursor: pointer;
+}
+.Underline{
+    width: 20%;
+    position: relative;
+    left: 4.8vw;
+    margin-top: -1.2vw;
+    margin-bottom: .5vw;
+    transition: .3s;
+    border: .1vw solid white;
+    border-radius: 1vw;
+}
+.UnderlineSwitch{
+    width: 21.5% !important;
+    left: 18.3vw !important;
+}
+
+.Tab{
+    position: relative;
+    min-height: max-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5vw;
+    gap: 15vw;
+    width: 200%;
+    left: 11%;
+    transition: .3s;
+}
+.TabSwitch{
+    left: -115% !important;
+}
+
+#LogTab,#RegTab{
+    display: flex;
+    flex-direction: column;
+    row-gap: 2vw;
+}
+#RegTab{
+    row-gap: 1.2vw;
+}
+#LogTab{
+    margin-top: -10vw;
+}
+.TabIndex{
+    outline: 0;
+}
+
+.SwitchTab{
+    position: relative;
+    width: 30vw;
+    height: max-content;
+}
+.InputTabs form{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: auto;
+    color: var(--text_color);
+}
+
+.InputTabs form label{
+    text-transform: uppercase;
+    position: relative;
+    left: .8vw;
+    font-size: 1vw;
+    transition: .3s;
+}
+
+.InputTabs form input{
+    border: none;
+    outline: none;
+    border-radius: 4vw;
+    background-color: var(--input_bc);
+    padding: .5vw 1vw;
+    color: var(--text_color);
+    font-size: 1vw;
+    margin-top: .2vw;
+    transition: .3s;
+}
+.InputTabs form input:focus{
+    outline: none;
+}
+.WarningColor, .WarningColor + input{
+    color: orangered !important;
+}
+
+.Checkbox{
+    position: relative;
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    left: 4.5vw;
+}
+.Checkbox form{
+    display: flex;
+    flex-direction: row;
+    gap: .5vw;
+    color: var(--text_color);
+    text-transform: uppercase;
+    font-size: 1vw;
+}
+.Checkbox form input{
+    position: relative;
+    top: -.2vw;
+}
+.Checkbox form label{
+    cursor: pointer;
+}
+
+/*Checkbox style*/
+/* Basic styling */
+[type=checkbox] {
+    width: 1vw;
+    height: 1vw;
+    color: dodgerblue;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    background: none;
+    border: 0;
+    outline: 0;
+    flex-grow: 0;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    transition: background 300ms;
+    cursor: pointer;
+}
+/* Pseudo element for check styling */
+[type=checkbox]::before {
+    content: "";
+    color: transparent;
+    display: block;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    border: 0;
+    background-color: transparent;
+    background-size: contain;
+    box-shadow: inset 0 0 0 1px #CCD3D8;
+}
+/* Checked */
+[type=checkbox]:checked {
+    background-color: currentcolor;
+}
+[type=checkbox]:checked::before {
+    box-shadow: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cpath d='M15.88 8.29L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z' fill='%23fff'/%3E %3C/svg%3E");
+}
+/* Disabled */
+[type=checkbox]:disabled {
+    background-color: #CCD3D8;
+    opacity: 0.84;
+    cursor: not-allowed;
+}
+/* IE */
+[type=checkbox]::-ms-check {
+    content: "";
+    color: transparent;
+    display: block;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    border: 0;
+    background-color: transparent;
+    background-size: contain;
+    box-shadow: inset 0 0 0 1px #CCD3D8;
+}
+[type=checkbox]:checked::-ms-check {
+    box-shadow: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cpath d='M15.88 8.29L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z' fill='%23fff'/%3E %3C/svg%3E");
+}
+/*Checkbox style*/
+
+.Button{
+    width: 90%;
+    margin: auto;
+    text-align: center;
+    color: var(--text_color);
+    text-transform: uppercase;
+    padding: .5vw auto;
+    border-radius: .6vw;
+    transition: .3s;
+    cursor: pointer;
+    font-size: 1vw;
+}
+.Button:hover{
+    background-color: var(--btn_hover);
+}
+
+.ForgetPW{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--text_color);
+    width: 100%;
+    border-top: .1vw solid white;
+    height: 5vw;
+    text-transform: uppercase;
+    font-size: .8vw;
+}
+.ForgetPW p{
+    cursor: pointer;
+}
+
+.StrongPWDiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 95%;
+    margin: auto;
+}
+.StrongPW{
+    border: .1vw solid white;
+    height: .8vw;
+    width: 2.5vw;
+    border-radius: 4vw;
+    transition: .3s;
+}
+.PWStrong3{
+    background-color: rgba(255, 0, 0, 0.6);
+}
+.PWStrong2{
+    background-color: rgba(255, 166, 0, 0.6);
+}
+.PWStrong1{
+    background-color: rgba(0, 255, 0, 0.6);
+}
+
+.OsztalySelector{
+    width: 100%;
+    color: var(--text_color);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-transform: uppercase;
+    font-size: .9vw;
+}
+.OsztalySelector p{
+    cursor: pointer;
+}
+.OsztalyUnderline{
+    width: 25%;
+    border-top: .1vw solid white;
+    margin-top: -1.7vw;
+    position: relative;
+    left: 2.75vw;
+    transition: .3s;
+}
+.OsztalyUnderlineSwitch{
+    left: 14vw !important;
+}
+
+
+.OsztalyContainer{
+    width: 100%;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+    transition: .3s;
+    max-height: 2vw;
+    margin-bottom: 1vw;
+}
+.OsztalyContainerHeight{
+    max-height: 6vw !important;
+}
+.OsztalySelect{
+    width: max-content;
+    color: var(--text_color);
+    position: relative;
+    height: max-content;
+    display: flex;
+    justify-content: space-between;
+    width: 200%;
+    transition: .3s;
+    left: 0;
+}
+.OsztalySelectSwitch{
+    left: -111% !important;
+}
+
+.SDiv{
+    position: relative;
+    width: 90%;
+    height: 2vw;
+    display: flex;
+    justify-content: center;
+    gap: 4vw;
+}
+.Details{
+    width: 25%;
+    position: relative;
+    left: -14%;
+    cursor: pointer;
+    transition: .4s;
+    border-radius: .8vw;
+    font-size: 1vw;
+}
+.Details:hover{
+    background-color: var(--btn_hover);
+}
+.DetailsIMG{
+    margin: auto;
+    position: relative;
+    left: -1.5vw;
+    top: .3vw;
+    width: 20%;
+    height: max-content;
+    display: flex;
+}
+#DetailsHeader1::after, #DetailsHeader2::after{
+    position: relative;
+    top: .2vw;
+    left: .2vw;
+    transition: .3s;
+}
+#DetailsHeader1::after{
+    content: "class";
+}
+#DetailsHeader2::after{
+    content: "grade";
+    position: relative;
+}
+.DetailsIMG img{
+    width: 100%;
+    transform: rotate(180deg);
+    transition: .3s;
+}
+.DetailsOpen img{
+    transform: rotate(0deg) !important;
+}
+
+.DetailsDiv{
+    font-size: 1vw;
+    position: absolute;
+    display: flex;
+    width: 35%;
+    justify-content: space-evenly;
+    left: -5%;
+    opacity: 0;
+    transition: .3s;
+    z-index: -1;
+}
+.DetailsDivOpen{
+    top: 150% !important;
+    opacity: 1 !important;
+    z-index: 1;
+}
+#DetailsDiv1{
+    left: 0%;
+}
+#DetailsDiv2{
+    left: 38%;
+}
+.DetailsDiv p{
+    padding: .5vw;
+    transition: .3s;
+    border-radius: .8vw;
+    cursor: pointer;
+    margin: 0;
+}
+.DetailsDiv p:hover{
+    background-color: var(--btn_hover);
+}
+.PickedClass,.PickedGrade{
+    background-color: var(--btn_hover);
+    color: rgb(0, 225, 255);
+}
+.WarningDetails{
+    color: red !important;
+}
+
+
+.TkodDiv{
+    position: relative;
+    margin: 1vw 0;
+}
+.TkodDiv form{
+    position: relative;
+    font-size: 1vw;
+}
+.TkodDiv form label{
+    position: relative;
+    left: 2vw;
+    text-transform: uppercase;
+    transition: .3s;
+}
+.TkodDiv form input{
+    width: 10vw;
+    outline: none;
+    border: none;
+    border: none;
+    outline: none;
+    border-radius: 4vw;
+    background-color: var(--input_bc);
+    padding: .5vw 1vw;
+    color: var(--text_color);
+    margin-top: .2vw;
+    font-size: 1vw;
+    transition: .3s;
+    text-align: center;
+}
+
+@media only screen and (max-width: 1000px){
+    html {
+        height: 100%;
+        overflow: hidden;
+    }
+    body {
+        -webkit-overflow-scrolling: touch;
+    }
+    .FaultDiv{
+        max-width: 35%;
+        height: max-content;
+        border: .1vw solid rgba(245, 245, 245, 0.8);
+        color: var(--text_color);
+        padding: 1vw 2vw;
+        border-radius: .6vw;
+        backdrop-filter: blur(5px);
+        background-color: rgba(0, 0, 0, 0.4);
+        text-align: center;
+        justify-content: center;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%,0);
+        transition: .3s;
+        opacity: 0;
+        font-size: 2.2vw;
+        z-index: 5;
+    }
+    .FaultDivOpen{
+        top: 10% !important;
+        opacity: 1 !important;
+        transition: .3s;
+    }
+
+    .container{
+        width: 80vw;
+        gap: 4vw;
+        max-height: 72vw;
+    }
+    .ContainerHeight{
+        max-height: 250vw !important;
+    }
+    
+    .SelectLine{
+        gap: 10vw;
+    }
+    .SelectLine p{
+        padding: 1vw 3vw;
+        text-transform: uppercase;
+        letter-spacing: .1vw;
+        font-size: 5vw;
+    }
+    .Underline{
+        width: 25%;
+        left: 12.2vw;
+        margin-top: -5vw;
+        margin-bottom: 1vw;
+    }
+    .UnderlineSwitch{
+        width: 28% !important;
+        left: 44.8vw !important;
+    }
+    .Tab{
+        padding: 1vw;
+        left: 15%;
+    }
+    .TabSwitch{
+        left: -117% !important;
+    }
+    
+    #LogTab,#RegTab{
+        row-gap: 3vw;
+    }
+    #RegTab{
+        row-gap: 2.5vw;
+    }
+    #LogTab{
+        margin-top: -25vw;
+    }
+    
+    .SwitchTab{
+        position: relative;
+        width: 55vw;
+        height: max-content;
+    }
+    
+    .InputTabs form label{
+        text-transform: uppercase;
+        position: relative;
+        left: 1.5vw;
+        font-size: 3vw;
+    }
+    
+    .InputTabs form input{
+        padding: 1vw 2vw;
+        font-size: 3vw;
+        margin-top: .5vw;
+    }
+    
+    .Checkbox{
+        left: 8vw;
+        margin-top: 2vw;
+    }
+    .Checkbox form{
+        display: flex;
+        flex-direction: row;
+        gap: 1.5vw;
+        color: var(--text_color);
+        text-transform: uppercase;
+        font-size: 3vw;
+    }
+    .Checkbox form input{
+        position: relative;
+        top: -.5vw;
+    }
+    .Checkbox form label{
+        cursor: pointer;
+    }
+    [type=checkbox] {
+        width: 3vw;
+        height: 3vw;
+    }
+    .Button{
+        padding: 1vw auto;
+        font-size: 3vw;
+    }
+    
+    .ForgetPW{
+        height: 15vw;
+        text-transform: uppercase;
+        font-size: 2vw;
+    }
+    .ForgetPW p{
+        cursor: pointer;
+    }
+
+    .StrongPW{
+        height: 2vw;
+        width: 6vw;
+    }
+
+    .OsztalySelect{
+        height: 15vw;
+        width: 200%;
+    }
+    .OsztalySelector{
+        font-size: 2vw;
+    }
+    .OsztalyUnderline{
+        width: 22%;
+        margin-top: -4vw;
+        left: 7.5vw;
+    }
+    .OsztalyUnderlineSwitch{
+        left: 35.2vw !important;
+    }
+    
+    
+    .OsztalyContainer{
+        max-height: 4vw;
+        margin-bottom: 2vw;
+    }
+    .OsztalyContainerHeight{
+        max-height: 12vw !important;
+    }
+    .OsztalySelectSwitch{
+        left: -113% !important;
+    }
+    
+    .SDiv{
+        max-height: inherit;
+        gap: 12vw;
+    }
+    .Details{
+        width: 25%;
+        left: -15%;
+        font-size: 2.2vw;
+        height: max-content;
+        padding: 1vw 0;
+    }
+    .Details:hover{
+        background-color: transparent;
+    }
+    .DetailsIMG{
+        left: -3vw;
+        top: 0vw;
+        width: 20%;
+    }
+    #DetailsHeader1::after, #DetailsHeader2::after{
+        position: relative;
+        top: .5vw;
+        left: .8vw;
+    }
+    #DetailsHeader1::after{
+        content: "class";
+    }
+    #DetailsHeader2::after{
+        content: "grade";
+    }
+
+    .DetailsDiv{
+        font-size: 3vw;
+        width: 35%;
+        left: -5%;
+    }
+    .DetailsDivOpen{
+        top: 7.5vw !important;
+    }
+    #DetailsDiv1{
+        left: 0%;
+    }
+    #DetailsDiv2{
+        left: 38%;
+    }
+    .DetailsDiv p{
+        padding: .5vw;
+        border-radius: .8vw;
+    }
+    .DetailsDiv p:hover{
+        background-color: transparent;
+    }
+    .PickedClass,.PickedGrade{
+        background-color: var(--btn_hover);
+        color: rgb(0, 225, 255);
+    }
+    .WarningDetails{
+        color: red !important;
+    }
+    
+    
+    .TkodDiv{
+        margin: 1vw 0;
+    }
+    .TkodDiv form{
+        font-size: 2.2vw;
+    }
+    .TkodDiv form label{
+        left: 3.5vw;
+    }
+    .TkodDiv form input{
+        width: 20vw;
+        padding: 1vw 2vw;
+        margin-top: .5vw;
+        font-size: 2.2vw;
+    }
+}

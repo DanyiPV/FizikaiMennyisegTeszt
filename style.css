@@ -1,0 +1,767 @@
+body{
+    background-color: rgb(80, 80, 80);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    overflow-x: hidden !important;
+    margin: 0;
+    background-image: url("ph/test_bg.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    transition: .3s;
+}
+html,body{
+    scroll-behavior: smooth;
+}
+
+:root{
+    --button_hover: rgba(170, 170, 170, 0.4);/*rgba(170, 170, 170, 0.4)*/
+    --modal_bc: rgba(30, 30, 30, .9);/*rgba(30, 30, 30, .9)*/
+    --body_bc: rgba(30, 30, 30, 1);/*rgba(30, 30, 30, .9)*/
+    --text_color: whitesmoke; /*whitesmoke*/
+    --modal_border: whitesmoke; /*whitesmoke*/
+    --input_bc: rgba(70, 70, 70, 1);/*70, 70, 70, 1*/
+    --checkbox_bc: rgba(70, 70, 70, 1);/*70, 70, 70, 1*/
+    --warning_c: orangered;/*orangered*/
+    --tablanev_bc: rgba(100,100,100);
+    --tabla_bc: rgba(80,80,80);
+}
+
+.BlackBG{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+    opacity: 0;
+    transition: .3s;
+}
+.BlackBGOn{
+    opacity: 1;
+    z-index: 2;
+}
+
+nav{
+    display: flex;
+    justify-content: space-between;
+    background-color: transparent;
+    justify-items: center;
+    position: relative;
+    padding-top: .5vw;
+    transition: .3s;
+}
+.OldalName{
+    color: var(--text_color);
+    font-size: 2vw;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    background-color: var(--modal_bc);
+    position: relative;
+    border-bottom-left-radius: 2vw;
+    border-bottom-right-radius: 2vw;
+    height: max-content;
+    padding: .5vw 1vw 1vw 1vw;
+    opacity: 0;
+    animation-name: PageNameLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+    animation-delay: .5s;
+    cursor: default;
+}
+.OldalName p{
+    margin: 0;
+}
+
+.SignIn, .SideBar{
+    width: 3vw;
+    height: 3vw;
+    padding: .5vw;
+    transition: .3s;
+    cursor: pointer;
+    display: flex;
+    z-index: 1;
+    position: relative;
+}
+.SignIn{
+    border-bottom-right-radius: 4vw;
+    border-top-right-radius: 4vw;
+    background-color: var(--modal_bc);
+    left: 0;
+    border: 0;
+}
+.SignInAnim{
+    animation-name: SignInLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+}
+.SignInDivOpen{
+    left: 25vw;
+    z-index: 3;
+    border-bottom: .1vw solid var(--modal_border);
+}
+.SignInIMG{
+    border-radius: 4vw;
+    padding: .3vw;
+    transition: .3s;
+}
+.SignIn:hover > .SignInIMG,.SignInIMG:hover, .SideBar:hover{
+    background-color: var(--button_hover);
+}
+.SideBar img{
+    width: 100%;
+}
+.SignInIMG img{
+    width: 70%;
+    position: relative;
+    left: .4vw;
+    top: .2vw;
+}
+.SignInNav{
+    position: fixed;
+    background-color: var(--modal_bc);
+    color: var(--text_color);
+    width: 25vw;
+    height: 100%;
+    top: 0;
+    left: -30vw;
+    transition: .3s !important;
+    z-index: 11;
+}
+.SignInOpen{
+    left: 0;
+    z-index: 3;
+}
+.SignInHead{
+    width: auto;
+    height: 4.5vw;
+    border-bottom: .1vw solid var(--modal_border);
+    display: flex;
+    justify-content: space-between;
+    color: var(--text_color);
+    align-items: center;
+    padding: 0 .5vw;
+    font-size: 1.4vw;
+}
+.SignInHead p{
+    margin: 0;
+    text-align: center;
+}
+.SignInBody{
+    width: auto;
+    padding: 1vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.SignInBodyButton{
+    width: 4vw;
+    height: max-content;
+    margin: .5vw;
+    padding: 1vw;
+    transition: .5s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.SignInBodyButton p{
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+    transition: .5s;
+    left: 10vw;
+    font-size: 1.2vw;
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+}
+.SignInBodyButton:hover{
+    width: 12vw !important;
+    z-index: 1;
+}
+.SignInBodyButton:hover > p{
+    z-index: 1;
+    left: 12vw;
+    opacity: 1;
+}
+.SignInBodyButtonImg{
+    width: 4vw;
+    height: 4vw;
+}
+.SignInBodyButtonImg img{
+    width: 100%;
+    position: relative;
+}
+#SettingsDivIMG img{
+    left: .3vw;
+}
+#TestResultsDivIMG img{
+    width: 80%;
+    left: .3vw;
+}
+#LogoutDivIMG img{
+    left: -.2vw;
+}
+
+.SideBar{
+    margin-right: .5vw;
+    border-radius: .6vw;
+    animation-name: SideBarLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+}
+.SideBar img{
+    position: relative;
+    top: .4vw;
+}
+.SideBarNav{
+    position: fixed;
+    background-color: var(--modal_bc);
+    background-position: 0vw -13vw;
+    background-size: cover;
+    color: var(--text_color);
+    width: 30vw;
+    height: 100%;
+    top: 0;
+    right: -32vw;
+    transition: .4s all;
+    z-index: 11;
+}
+.SideBarNavOpen{
+    right: 0 !important;
+}
+.SideBarHead{
+    width: 100%;
+    height: 5vw;
+    background-color: transparent;
+    backdrop-filter: blur(10px);
+    border-bottom: .1vw solid var(--modal_border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2vw;
+}
+.SBCloseIMG{
+    width: 3vw;
+    height: 3vw;
+    padding: .5vw;
+    transition: .4s;
+    cursor: pointer;
+    border-radius: 2vw;
+    margin-right: .5vw;
+}
+.SBCloseIMG:hover{
+    background-color: var(--button_hover);
+}
+.SBCloseIMG img{
+    width: 100%;
+    position: relative;
+}
+.SideBarHead p{
+    margin: 0;
+    cursor: default;
+    margin-left: .5vw;
+    font-size: 2.2vw;
+}
+.SideBarBody{
+    position: relative;
+    height: max-content;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.NavGombok{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    align-items: center;
+    justify-content: center;
+    margin: 1vw .5vw;
+}
+.NavGombok:first-child{
+    border-bottom: .1vw solid var(--modal_border);
+    margin-bottom: -.3vw;
+    display: flex;
+}
+.NavGomb{
+    width: 100%;
+    text-align: center;
+    padding: .8vw 0vw;
+    border-radius: 2vw;
+    cursor: pointer;
+    transition: .3s;
+    margin: .2vw 0vw;
+}
+.NavGomb:hover{
+    background-color: var(--button_hover);
+}
+.NavGomb:first-of-type p{
+    font-size: 2vw;
+}
+.NavGomb:first-child{
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    position: relative;
+    justify-content: center;
+    transition: .3s;
+}
+.NavGomb:first-child img{
+    width: 3vw;
+    height: 3vw;
+    position: relative;
+    left: 0;
+    transition: .3s;
+}
+.NavGomb:first-child p{
+    position: absolute;
+    transition: .4s;
+    left: 6vw;
+    opacity: 0;
+    z-index: -1;
+    margin-top: .25vw;
+}
+.NavGomb:first-child:hover img{
+    left: -5vw;
+}
+.NavGomb:first-child:hover p{
+    left: 9.5vw;
+    z-index: 1;
+    opacity: 1;
+}
+.NavGomb:last-child{
+    margin-bottom: 1vw;
+}
+.NavGomb p{
+    margin: 0;
+    font-size: 1vw;
+    text-transform: uppercase;
+}
+
+@keyframes PageNameLoad{
+    from {top: -20vw;opacity: 0;}
+    to {top: -.5vw;opacity: 1;}
+}
+@keyframes SignInLoad{
+    from {left: -20vw;}
+    to {left: 0vw;}
+}
+@keyframes SideBarLoad{
+    from {right: -20vw;}
+    to {right: 0vw;}
+}
+
+.MainBody{
+    background-color: var(--body_bc);
+    position: relative;
+    margin: auto;
+    width: 89%;
+    border-radius: .6vw;
+    padding: 1vw;
+    height: max-content;
+    margin-top: 1.2vw;
+    display: flex;
+    flex-direction: column;
+    gap: 2vw;
+}
+.TablaNevekKiiras{
+    padding: .5vw;
+    font-size: 1.2vw;
+}
+.TablaBelsoErtekek:first-child div:first-child{
+    border-top-left-radius: .6vw;
+}
+.TablaBelsoErtekek:first-child div:last-child{
+    border-top-right-radius: .6vw;
+}
+.TablaBelsoErtekek:last-child div:first-child{
+    border-bottom-left-radius: .6vw;
+}
+.TablaBelsoErtekek:last-child div:last-child{
+    border-bottom-right-radius: .6vw;
+}
+.TablaBelsoErtekek{
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+}
+.TablaBelsoErtekek div:first-child{
+    border-left: .1vw solid var(--modal_border);
+}
+.TablaBelsoErtekek:last-child{
+    border-bottom: .1vw solid var(--modal_border);
+}
+.TablaBelsoErtekek div{
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    border-top: .1vw solid var(--modal_border);
+    border-right: .1vw solid var(--modal_border);
+    width: 25%;
+    padding: 1.5vw;
+}
+.TablaBelsoErtekek div p{
+    margin: 0;
+}
+
+.TablaDivek{
+    color: var(--text_color);
+    display: flex;
+    flex-direction: column;
+    vertical-align: middle;
+    justify-content: center;
+    align-items: center;
+    font-size: 1vw;
+    gap: .8vw;
+}
+.TablaNevDivek{
+    background-color: var(--tablanev_bc);
+    width: max-content;
+    padding: 1.5vw;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    border-radius: .6vw;
+}
+.TablaNevDivek p{
+    margin: 0;
+    font-size: 1.2vw;
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+}
+.TudnivaloKiiras,.TablaNevekKiiras{
+    width: 100%;
+    background-color: var(--tabla_bc);
+    text-align: center;
+    border-radius: .6vw;
+}
+.TudnivaloKiiras p{
+    margin: 0;
+    padding: 1vw;
+}
+
+.ProfilPicDiv{
+    height: 16vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: .3s;
+    border-bottom: .1vw solid var(--modal_border);
+    width: 30%;
+    margin: auto;
+}
+.ProfilPicDivIMG{
+    width: 12vw;
+    height: 12vw;
+    padding: 1vw;
+    border: .2vw solid var(--modal_border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10vw;
+    cursor: pointer;
+    overflow: hidden;
+    background-size: cover;
+    position: relative;
+    z-index: 2;
+    background-color: var(--body_bc);
+    transition: .3s;
+}
+.ProfilPicDivIMG input{
+    width: 100%;
+    height: 100%;
+}
+.ProfilPicDivIMGOn{
+    border: .2vw solid red;
+}
+.ProfilPicDiv p{
+    color: var(--text_color);
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+    position: absolute;
+    top: 6.5vw;
+    font-size: .5vw;
+    transition: .4s;
+    z-index: 1;
+    opacity: 0;
+    cursor: default;
+}
+.ProfilPicDivIMG:hover + p{
+    top: 14.5vw;
+    font-size: 1vw;
+    opacity: 1;
+}
+
+.SettingsDiv{
+    width: 30%;
+    position: relative;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    border-radius: .6vw;
+    transition: .3s;
+    padding: .5vw;
+    justify-content: center;
+}
+.SettingsDiv p{
+    margin: auto;
+    color: var(--text_color);
+    position: absolute;
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+    z-index: -1;
+    left: 10vw;
+    transition: .3s;
+    font-size: .8vw;
+}
+.SettingsDivIMG{
+    width: 3vw;
+    height: 3vw;
+    position: relative;
+    transition: .3s;
+    left: 0;
+    position: relative;
+    z-index: 2;
+}
+.SettingsDivIMG img{
+    width: 100%;
+}
+.SettingsDiv:hover{
+    background-color: var(--button_hover);
+}
+.SettingsDiv:hover .SettingsDivIMG{
+    left: -6vw;
+}
+.SettingsDiv:hover > p{
+    left: 11vw;
+    z-index: 1;
+}
+
+#EgyDivMindFelett{
+    position: absolute;
+    top: -5%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: -1;
+    opacity: 0;
+    transition: .8s;
+    background-color: var(--body_bc);
+}
+
+.EgyDivMindFelettOpen{
+    top: 50% !important;
+    z-index: 3 !important;
+    opacity: 1 !important;
+}
+.PWChange,.UNChange{
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+    color: var(--text_color);
+    padding: 1.5vw 1vw;
+    border-radius: .4vw;
+}
+.PWChange form, .UNChange form{
+    display: flex;
+    justify-content: space-between;
+    gap: 2vw;
+    font-size: 1vw;
+}
+.PWChange form label, .UNChange form label{
+    text-transform: uppercase;
+}
+.PWChange form input[type=password], .PWChange form input[type=text], .UNChange form input[type=password], .UNChange form input[type=text]{
+    background-color: var(--input_bc);
+    outline: none;
+    border: none;
+    color: var(--text_color);
+    padding: .5vw;
+    border-radius: .8vw;
+    position: relative;
+    top: -.5vw;
+}
+.UserNameMess{
+    margin: auto;
+    font-size: 1vw;
+    max-width: 20vw;
+    text-align: justify;
+}
+#labelshowpw{
+    cursor: pointer;
+    position: relative;
+    left: 13vw;
+}
+.PWChange form input[type=checkbox], .UNChange form input[type=checkbox]{
+    position: relative;
+    top: -.2vw;
+}
+.PWchangeSubmit, .UNchangeSubmit{
+    margin: auto;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    transition: .3s;
+    border-radius: .4vw;
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+    font-size: 1vw;
+}
+.PWchangeSubmit:hover, .UNchangeSubmit:hover{
+    background-color: var(--button_hover);
+}
+
+.WarningColor, .WarningColor + input{
+    color: orangered !important;
+}
+
+.FaultDiv{
+    position: absolute;
+    max-width: 15%;
+    height: max-content;
+    border: .1vw solid rgba(245, 245, 245, 0.8);
+    color: var(--text_color);
+    padding: 1vw 2vw;
+    border-radius: .6vw;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.4);
+    text-align: center;
+    justify-content: center;
+    top: 50%;
+    right: -20%;
+    transition: .3s;
+    z-index: -1;
+    opacity: 0;
+    font-size: 1vw;
+}
+.FaultDivOpen{
+    right: 1.5% !important;
+    opacity: 1 !important;
+    z-index: 3;
+    transition: .3s;
+}
+.FaultDiv p{
+    margin: 0;
+}
+
+.NavSelectorFoDiv{
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    width: max-content;
+    position: absolute;
+    top: 0;
+    right: 18vw;
+    color: var(--text_color);
+    background-color: var(--modal_bc);
+    padding: 0 .5vw .5vw .5vw;
+    border-radius: .6vw;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    gap: .5vw;
+    transition: .3s;
+    animation-name: NavSelectorLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+    animation-delay: .5s;
+    opacity: 0;
+}
+.NavSelectorDiv{
+    text-align: center;
+    font-size: 1.4vw;
+    display: flex;
+    flex-direction: column;
+    padding: .7vw;
+    transition: .3s;
+    cursor: pointer;
+    border-radius: .6vw;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.NavSelectorDiv:hover{
+    background-color: var(--tablanev_bc);
+}
+.NavSelectorDiv p{
+    margin: 0;
+}
+.NavSelectorDiv img{
+    width: 100%;
+    width: 1.8vw;
+    height: 1.8vw;
+}
+
+@keyframes NavSelectorLoad{
+    from {top: -20vw;opacity: 0;}
+    to {top: 0vw;opacity: 1;}
+}
+
+
+input:focus{outline: none;}
+/*Checkbox style*/
+/* Basic styling */
+[type=checkbox] {
+    width: 1vw;
+    height: 1vw;
+    color: dodgerblue;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    background: none;
+    border: 0;
+    outline: 0;
+    flex-grow: 0;
+    border-radius: 50%;
+    background-color: var(--checkbox_bc);
+    transition: background 300ms;
+    cursor: pointer;
+}
+/* Pseudo element for check styling */
+[type=checkbox]::before {
+    content: "";
+    color: transparent;
+    display: block;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    border: 0;
+    background-color: transparent;
+    background-size: contain;
+    box-shadow: inset 0 0 0 1px #CCD3D8;
+}
+/* Checked */
+[type=checkbox]:checked {
+    background-color: currentcolor;
+}
+[type=checkbox]:checked::before {
+    box-shadow: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cpath d='M15.88 8.29L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z' fill='%23fff'/%3E %3C/svg%3E");
+}
+/* Disabled */
+[type=checkbox]:disabled {
+    background-color: #CCD3D8;
+    opacity: 0.84;
+    cursor: not-allowed;
+}
+/* IE */
+[type=checkbox]::-ms-check {
+    content: "";
+    color: transparent;
+    display: block;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    border: 0;
+    background-color: transparent;
+    background-size: contain;
+    box-shadow: inset 0 0 0 1px #CCD3D8;
+}
+[type=checkbox]:checked::-ms-check {
+    box-shadow: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cpath d='M15.88 8.29L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z' fill='%23fff'/%3E %3C/svg%3E");
+}
+/*Checkbox style*/

@@ -1,0 +1,10 @@
+1;1;Haladómozgással kapcsolatos
+2;1;Körmozgás/Forgómozgás kapcsolatos
+3;1;Dinamika (erőtan)
+4;1;Munka/Energiával kapcsolatos
+5;1;Folyadékokkal kapcsolatos
+6;2;Rezgés/Hullámokkal kapcsolatos
+7;3;Hőtan
+8;4;Elektromossággal kapcsolatos
+9;4;Mágnesességgel kapcsolatos
+10;4;Ellenállások fajtái

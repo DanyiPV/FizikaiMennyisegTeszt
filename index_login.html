@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1.0">
+    <link rel="stylesheet" href="style_login.css">
+    <script defer src="login_script.js"></script>
+    <script defer src="adatbazis.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.0.2/sha.js"></script>
+    <title>Bejelentkezés - CKIK</title>
+</head>
+<body>
+    <div class="FaultDiv" id="FaultDiv"></div>
+    <div class="container" id="container">
+        <div class="SelectLine">
+            <p onclick="SwitchTab('B')">login</p>
+            <p onclick="SwitchTab('R')">sign in</p>
+        </div>
+        <div class="Underline" id="Underline"></div>
+        <div class="Tab" id="Tab">
+            <div class="SwitchTab" id="LogTab">
+                <div class="InputTabs">
+                    <form>
+                        <label for="input1" id="label1">email</label>
+                        <input type="text" name="input1" id="input1" class="LogTabIndex" onclick="WarningColorRemove(1)" onfocus="WarningColorRemove(1)" value="pintea.roland@ckik.hu">
+                    </form>
+                </div>
+                <div class="InputTabs">
+                    <form>
+                        <label for="input2" id="label2">password</label>
+                        <input type="password" name="input2" id="input2" maxlength="20" class="LogTabIndex" onclick="WarningColorRemove(2)" onfocus="WarningColorRemove(2)" value="PinteaViktoria2024">
+                    </form>
+                </div>
+                <div class="Checkbox">
+                    <form>
+                        <label for="Checkbox1">show password</label>
+                        <input type="checkbox" name="Checkbox1" id="Checkbox1" tabindex="-1" onchange="PWShow(1)">
+                    </form>
+                </div>
+                <div class="Button" onclick="Login()">
+                    <p tabindex="-1">login</p>
+                </div>
+                <div class="ForgetPW">
+                    <p tabindex="-1" onclick="ElfelejtettJelszo()">forget password?</p>
+                </div>
+            </div>
+            <div class="SwitchTab TabIndex" id="RegTab">
+                <div class="InputTabs">
+                    <form>
+                        <label for="input3" id="label3">username</label>
+                        <input type="text" name="input3" id="input3" class="RegTabIndex" tabindex="-1" onclick="WarningColorRemove(3)" onfocus="WarningColorRemove(3)" value="Szelid Márk">
+                    </form>
+                </div>
+                <div class="InputTabs">
+                    <form>
+                        <label for="input4" id="label4">email</label>
+                        <input type="text" name="input4" id="input4" class="RegTabIndex" tabindex="-1" onclick="WarningColorRemove(4)" onfocus="WarningColorRemove(4)" value="mark.szelid@ckik.hu">
+                    </form>
+                </div>
+                <div class="InputTabs">
+                    <form>
+                        <label for="input5" id="label5">password</label>
+                        <input type="password" name="input5" id="input5" class="RegTabIndex" tabindex="-1" maxlength="20" onchange="PasswordStrongCheck()" onclick="WarningColorRemove(5)" onfocus="WarningColorRemove(5)" value="Mikulas123">
+                    </form>
+                </div>
+                <div class="StrongPWDiv" id="StrongPWDiv">
+                    <div class="StrongPW"></div>
+                    <div class="StrongPW"></div>
+                    <div class="StrongPW"></div>
+                    <div class="StrongPW"></div>
+                    <div class="StrongPW"></div>
+                    <div class="StrongPW"></div>
+                </div>
+                <div class="InputTabs">
+                    <form>
+                        <label for="input6" id="label6">confirm password</label>
+                        <input type="password" name="input6" id="input6" class="RegTabIndex" tabindex="-1" maxlength="20" onclick="WarningColorRemove(6)" onfocus="WarningColorRemove(6)" value="Mikulas123">
+                    </form>
+                </div>
+                <div class="OsztalySelector">
+                    <p onclick="SwitchOsztaly('S')" tabindex="-1">student</p>
+                    <p onclick="SwitchOsztaly('T')" tabindex="-1">teacher</p>
+                </div>
+                <div class="OsztalyUnderline" id="OsztalyUnderline" tabindex="-1"></div>
+                <div class="OsztalyContainer" id="OsztalyContainer">
+                    <div class="OsztalySelect" id="OsztalySelect" tabindex="-1">
+                        <div class="SDiv" id="SDiv">
+                            <div class="Details" onclick="DetailsOpen(1)">
+                                <div class="DetailsIMG" id="DetailsHeader1">
+                                    <img src="ph/ad.png" alt="">
+                                </div>
+                            </div>
+                            <div class="DetailsDiv" id="DetailsDiv1">
+                                <p onclick="CGPick(this,'PickedClass')">9</p>
+                                <p onclick="CGPick(this,'PickedClass')">10</p>
+                                <p onclick="CGPick(this,'PickedClass')">11</p>
+                                <p onclick="CGPick(this,'PickedClass')">12</p>
+                                <p onclick="CGPick(this,'PickedClass')">13</p>
+                            </div>
+                            <div class="Details" onclick="DetailsOpen(2)">
+                                <div class="DetailsIMG" id="DetailsHeader2">
+                                    <img src="ph/ad.png" alt="">
+                                </div>
+                            </div>
+                            <div class="DetailsDiv" id="DetailsDiv2">
+                                <p onclick="CGPick(this,'PickedGrade')">A</p>
+                                <p onclick="CGPick(this,'PickedGrade')">B</p>
+                                <p onclick="CGPick(this,'PickedGrade')">C</p>
+                                <p onclick="CGPick(this,'PickedGrade')">K</p>
+                            </div>
+                        </div>
+                        <div class="TkodDiv">
+                            <form>
+                                <label for="TKod" id="TKodLabel">confirm code</label>
+                                <input type="text" name="TKod" id="TKod" tabindex="-1" onclick="WarningColoRemoveT()">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="Checkbox">
+                    <form>
+                        <label for="Checkbox2">show password</label>
+                        <input type="checkbox" name="Checkbox2" id="Checkbox2" tabindex="-1" onchange="PWShow(2)">
+                    </form>
+                </div>
+                <div class="Button" onclick="Register()">
+                    <p tabindex="-1">register</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

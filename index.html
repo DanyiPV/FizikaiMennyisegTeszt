@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <script src="test_script.js" defer></script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.0.2/sha.js"></script>
+    <title>Fizikai Mennyiségek Test - CKIK</title>
+</head>
+<body>
+    <div id="FaultDiv" class="FaultDiv"></div>
+    <div id="EgyDivMindFelett"></div>
+    <nav>
+        <div class="SignIn SignInAnim" id="SignIn" onclick="SignInOpen()">
+            <div class="SignInIMG" id="SignInIMG">
+                <img src="ph/user_white.png" alt="user_white.png">
+            </div>
+        </div>
+        <div class="OldalName" id="OldalName">
+            <p>home page</p>
+        </div>
+        <div class="SideBar" onclick="SideBarOpen()" id="Sidebar">
+            <img src="ph/menu.png" alt="menu.png">
+        </div>
+    </nav>
+    <div class="SideBarNav" id="SideBarNav">
+        <div class="SideBarHead" id="SideBarHead">
+            <div>
+                <p id="CurTime"></p>
+            </div>
+            <div class="SBCloseIMG" id="SBCloseIMG" onclick="SideBarClose()">
+                <img src="ph/close_white.png" alt="close.png">
+            </div>
+        </div>
+        <div class="SideBarBody" id="SideBarBody">
+            
+        </div>
+    </div>
+    <div class="SignInNav" id="SignInNav">
+        <div class="SignInHead" id="SignInHead">
+            <p>Welcome!</p>
+            <p id="UserNameP"></p>
+        </div>
+        <div class="SignInBody" id="SignInBody">
+            <div class="SignInBodyButton" id="SettingsDiv" onclick="Settings()">
+                <div class="SignInBodyButtonImg" id="SettingsDivIMG">
+                    <img src="ph/settings_white.png" alt="">
+                </div>
+                <p>Settings</p>
+            </div>
+            <div id="ExamDiv">
+            </div>
+            <div class="SignInBodyButton" id="TestResultsDiv">
+                <div class="SignInBodyButtonImg" id="TestResultsDivIMG">
+                    <img src="ph/notepad_white.png" alt="">
+                </div>
+                <p>test results</p>
+            </div>
+            <div class="SignInBodyButton" id="DrkModeDiv" onclick="DrkModeSwitch('change')">
+                <div class="SignInBodyButtonImg" id="DrkModeDivIMG">
+                    <img src="ph/mode_white.png" alt="">
+                </div>
+                <p>white mode</p>
+            </div>
+            <div class="SignInBodyButton" id="LogoutDiv" onclick="LogOut()">
+                <div class="SignInBodyButtonImg" id="LogoutDivIMG">
+                    <img src="ph/logout_white.png" alt="">
+                </div>
+                <p>Logout</p>
+            </div>
+        </div>
+    </div>
+    <div class="MainBody" id="MainBody">
+
+    </div>
+    <div class="BlackBG" id="BlackBG"></div>
+</body>
+<script src="adatbazis.js"></script>
+</html>
