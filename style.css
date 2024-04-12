@@ -744,6 +744,9 @@ nav{
 .NavSelectorDiv:hover{
     background-color: var(--tablanev_bc);
 }
+.SelectedNav{
+    background-color: var(--tablanev_bc);
+}
 .NavSelectorDiv p{
     margin: 0;
 }

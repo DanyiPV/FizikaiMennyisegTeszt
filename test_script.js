@@ -310,6 +310,7 @@ function NavSelectorCreate(value){
     document.getElementById("NavSelectorFoDiv").appendChild(DivCreate("NavSelectorDiv","NavSelectorFirst"));
     document.getElementById("NavSelectorFirst").appendChild(ImgCreate(value=="T"?(usersetting.drkmode==1?"ph/home_dark.png":"ph/home_white.png"):(usersetting.drkmode==1?"ph/test_dark.png":"ph/test_white.png")));
     document.getElementById("NavSelectorFirst").setAttribute("onclick","FooldalBetoltese('default')");
+    document.getElementById("NavSelectorFirst").classList.add("SelectedNav");
     for (let i = 0; i < Teljeskategoriak.length; i++) {
         document.getElementById("NavSelectorFoDiv").appendChild(DivCreate("NavSelectorDiv",Teljeskategoriak[i].nev+value+"N"));
         document.getElementById(Teljeskategoriak[i].nev+value+"N").innerHTML = "<p>"+(i+1)+"</p>";
@@ -325,6 +326,10 @@ function CategoryLoad(div){
         DivId = DivId.split('N')[0];
     }
     if(DivId[DivId.length-1] == "T"){
+        if(document.getElementsByClassName("SelectedNav")[0].id!=DivId+"N"){
+            document.getElementsByClassName("SelectedNav")[0].classList.remove("SelectedNav");
+            document.getElementById(DivId+"N").classList.add("SelectedNav");
+        }
         DivId = DivId.split('T')[0];
         let Alkat = Alkategoriak.filter(c=>c.tkat_id == Teljeskategoriak.filter(c=>c.nev == DivId)[0].id);
         for (let i = 0; i < Alkat.length; i++) {
