@@ -359,11 +359,32 @@ function TestSettings(array){
     document.getElementById("inputTestSlider").max = TeljesTablak.length;
     document.getElementById("inputTestSlider").step = "1";
     document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestSettingsSorDB","TestSettingsSorDB"));
+    document.getElementById("TestSettingsSorDB").innerHTML += "<form><input type='text' name='inputTestSettingsSorDB' id='inputTestSettingsSorDB' maxlength='3' minlength='1' onchange='SorValueChange()'/></form>";
     var slider = document.getElementById("inputTestSlider");
-    var output = document.getElementById("TestSettingsSorDB");
-    output.innerHTML = "<p>5</p>";
+    var output = document.getElementById("inputTestSettingsSorDB");
+    output.value = "5";
     slider.oninput = function() {
-        output.innerHTML = "<p>"+this.value+"</p>";
+        output.value = this.value;
+    }
+}
+
+function SorValueChange(){
+    let max = Number(document.getElementById("inputTestSlider").max);
+    let min = Number(document.getElementById("inputTestSlider").min);
+    let SorDB = Number(document.getElementById("inputTestSettingsSorDB").value);
+    if(isNaN(SorDB) == false && SorDB != Number(document.getElementById("inputTestSlider").value)){
+        if(SorDB <= max && SorDB >= min){
+            document.getElementById("inputTestSlider").value = document.getElementById("inputTestSettingsSorDB").value;
+        }
+        else if(SorDB > max){
+            document.getElementById("inputTestSettingsSorDB").value = max;
+            document.getElementById("inputTestSlider").value = max;
+        }else if(SorDB < min){
+            document.getElementById("inputTestSettingsSorDB").value = min;
+            document.getElementById("inputTestSlider").value = min;
+        }
+    }else if(isNaN(SorDB) == true){
+        document.getElementById("inputTestSettingsSorDB").value = document.getElementById("inputTestSlider").value;
     }
 }
 
@@ -393,6 +414,7 @@ function CategoryLoad(div){
         IdCheck = IdCheck[IdCheck.length-2];
     }
     if(DivId[DivId.length-1] == "T"){
+        document.getElementById("OldalName").innerHTML = "<p>Home page</p>";
         if(document.getElementById("NavSelectorFoDiv") != undefined && IdCheck == "E"){
             document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
             NavSelectorCreate("T");
@@ -415,6 +437,7 @@ function CategoryLoad(div){
             }
         }
     }else if(DivId[DivId.length-1] == "E"){
+        document.getElementById("OldalName").innerHTML = "<p>Test page</p>";
         if(document.getElementById("NavSelectorFoDiv") != undefined && IdCheck == "T"){
             document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
             NavSelectorCreate("E");
