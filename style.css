@@ -500,7 +500,8 @@ nav{
     padding: .5vw;
     background-color: var(--input_bc);
     border-radius: .6vw;
-    width: 1.5vw;
+    width: max-content;
+    width: 2vw;
     text-align: center;
 }
 .TestSettingsSorDB p{

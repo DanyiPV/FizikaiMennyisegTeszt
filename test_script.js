@@ -350,7 +350,13 @@ function TestSettings(array){
     document.getElementById("TestSettingsSlider").innerHTML += InputCreate("range","TestSlider","Tábla Sorok");
     document.getElementById("inputTestSlider").min = "5";
     document.getElementById("inputTestSlider").value = "5";
-    document.getElementById("inputTestSlider").max = "44";
+    let TeljesTablak = [];
+    array.forEach(elem => {
+        Tablak.filter(c=>c.alkat_id == elem.id).forEach(e => {
+            TeljesTablak.push(e);
+        });
+    });
+    document.getElementById("inputTestSlider").max = TeljesTablak.length;
     document.getElementById("inputTestSlider").step = "1";
     document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestSettingsSorDB","TestSettingsSorDB"));
     var slider = document.getElementById("inputTestSlider");
@@ -423,7 +429,7 @@ function CategoryLoad(div){
         }
         DivId = SegedDivId;
         let Alkat = Alkategoriak.filter(c=>c.tkat_id == Teljeskategoriak.filter(c=>c.nev == DivId)[0].id);
-        console.log(Alkat);
+        TestSettings(Alkat);
     }
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
 }
