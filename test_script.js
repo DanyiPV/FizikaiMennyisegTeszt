@@ -9,6 +9,7 @@ function SideBarOpen(){
     document.getElementById("SideBarNav").classList.add("SideBarNavOpen");
     document.getElementById("BlackBG").classList.add("BlackBGOn");
     document.getElementById("BlackBG").setAttribute("onclick","SideBarClose()");
+    document.body.style.overflowY = "hidden";
     CurTime = setInterval(TimerLog,100);
 }
 
@@ -16,6 +17,7 @@ function SideBarClose(){
     document.getElementById("SideBarNav").classList.remove("SideBarNavOpen");
     document.getElementById("BlackBG").classList.remove("BlackBGOn");
     document.getElementById("BlackBG").removeAttribute("onclick");
+    document.body.style.overflowY = "auto";
     clearInterval(CurTime);
 }
 
@@ -32,6 +34,7 @@ function SignInOpen(){
         document.getElementById("SignIn").classList.add("SignInDivOpen");
         document.getElementById("BlackBG").classList.add("BlackBGOn");
         document.getElementById("BlackBG").setAttribute("onclick","SignInOpen()");
+        document.body.style.overflowY = "hidden";
     }else{
         SignInClose();
     }
@@ -42,6 +45,7 @@ function SignInClose(){
     document.getElementById("SignIn").classList.remove("SignInDivOpen");
     document.getElementById("BlackBG").classList.remove("BlackBGOn");
     document.getElementById("BlackBG").removeAttribute("onclick");
+    document.body.style.overflowY = "auto";
 }
 
 function RemoveAnim(){
@@ -92,35 +96,37 @@ function Settings(){
         document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
     }
     SignInClose();
-    document.getElementById("MainBody").innerHTML = "";
-    document.getElementById("OldalName").innerText = "Settings";
-    document.getElementById("MainBody").appendChild(DivCreate("ProfilPicDiv","ProfilPicDiv"));
-    document.getElementById("ProfilPicDiv").appendChild(DivCreate("ProfilPicDivIMG","ProfilPicDivIMG"));
-    //UserAvatarLeker(Tuser.id);
-    console.log(usersetting.avatar);
-
-    document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+(usersetting.drkmode==1?"ph/user_dark.png":"ph/user_white.png")+")";
-    document.getElementById("ProfilPicDiv").innerHTML += "<p>Change profile picture</p>";
-    document.getElementById("ProfilPicDiv").setAttribute("onclick","importIMG()");
-    PrivateModOn("load");
-
-    document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","UNChangeDiv"));
-    document.getElementById("UNChangeDiv").appendChild(DivCreate("SettingsDivIMG","UNChangeDivIMG"));
-    document.getElementById("UNChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/idcard_dark.png":"ph/idcard_white.png"));
-    document.getElementById("UNChangeDiv").innerHTML += "<p>change username</p>";
-    document.getElementById("UNChangeDiv").setAttribute("onclick","UNChange()");
-
-    document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","PWChangeDiv"));
-    document.getElementById("PWChangeDiv").appendChild(DivCreate("SettingsDivIMG","PWChangeDivIMG"));
-    document.getElementById("PWChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/password_dark.png":"ph/password_white.png"));
-    document.getElementById("PWChangeDiv").innerHTML += "<p>change password</p>";
-    document.getElementById("PWChangeDiv").setAttribute("onclick","PWChange()");
-
-    document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","PrivateChangeDiv"));
-    document.getElementById("PrivateChangeDiv").appendChild(DivCreate("SettingsDivIMG","PrivateChangeDivIMG"));
-    document.getElementById("PrivateChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/private_dark.png":"ph/private_white.png"));
-    document.getElementById("PrivateChangeDiv").innerHTML += "<p>change profile visibility</p>";
-    document.getElementById("PrivateChangeDiv").setAttribute("onclick","PrivateModOn('change')");
+    if(document.getElementById("ProfilPicDiv") == undefined){
+        document.getElementById("MainBody").innerHTML = "";
+        document.getElementById("OldalName").innerText = "Settings";
+        document.getElementById("MainBody").appendChild(DivCreate("ProfilPicDiv","ProfilPicDiv"));
+        document.getElementById("ProfilPicDiv").appendChild(DivCreate("ProfilPicDivIMG","ProfilPicDivIMG"));
+        //UserAvatarLeker(Tuser.id);
+        console.log(usersetting.avatar);
+    
+        document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+(usersetting.drkmode==1?"ph/user_dark.png":"ph/user_white.png")+")";
+        document.getElementById("ProfilPicDiv").innerHTML += "<p>Change profile picture</p>";
+        document.getElementById("ProfilPicDiv").setAttribute("onclick","importIMG()");
+        PrivateModOn("load");
+    
+        document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","UNChangeDiv"));
+        document.getElementById("UNChangeDiv").appendChild(DivCreate("SettingsDivIMG","UNChangeDivIMG"));
+        document.getElementById("UNChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/idcard_dark.png":"ph/idcard_white.png"));
+        document.getElementById("UNChangeDiv").innerHTML += "<p>change username</p>";
+        document.getElementById("UNChangeDiv").setAttribute("onclick","UNChange()");
+    
+        document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","PWChangeDiv"));
+        document.getElementById("PWChangeDiv").appendChild(DivCreate("SettingsDivIMG","PWChangeDivIMG"));
+        document.getElementById("PWChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/password_dark.png":"ph/password_white.png"));
+        document.getElementById("PWChangeDiv").innerHTML += "<p>change password</p>";
+        document.getElementById("PWChangeDiv").setAttribute("onclick","PWChange()");
+    
+        document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","PrivateChangeDiv"));
+        document.getElementById("PrivateChangeDiv").appendChild(DivCreate("SettingsDivIMG","PrivateChangeDivIMG"));
+        document.getElementById("PrivateChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/private_dark.png":"ph/private_white.png"));
+        document.getElementById("PrivateChangeDiv").innerHTML += "<p>change profile visibility</p>";
+        document.getElementById("PrivateChangeDiv").setAttribute("onclick","PrivateModOn('change')");
+    }
 }
 
 function AvatarBeallit(response){
@@ -274,6 +280,7 @@ function AdatokKiitaras(){
     document.getElementById("FooldalBetolt").innerHTML += "<p>főoldal</p>";
 
     document.getElementById("TestoldalNav").appendChild(DivCreate("NavGomb","TestoldalBetolt"));
+    document.getElementById("TestoldalBetolt").setAttribute("onclick","TestoldalBetoltese('default')");
     document.getElementById("TestoldalBetolt").appendChild(DivCreate("NavGombIMG","TestoldalBetoltDivIMG"));
     document.getElementById("TestoldalBetoltDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/test_dark.png":"ph/test_white.png"));
     document.getElementById("TestoldalBetolt").innerHTML += "<p>test oldal</p>";
@@ -290,7 +297,15 @@ function AdatokKiitaras(){
 
 function FooldalBetoltese(value){
     document.getElementById("MainBody").innerHTML = "";
+    var IdCheck;
+    if(document.getElementById("NavSelectorFoDiv") != undefined){
+        IdCheck = document.getElementById("NavSelectorFoDiv").children[1].id;
+        IdCheck = IdCheck[IdCheck.length-2];
+    }
     if(document.getElementById("NavSelectorFoDiv") == undefined){
+        NavSelectorCreate("T");
+    }else if(document.getElementById("NavSelectorFoDiv") != undefined && IdCheck == "E"){
+        document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
         NavSelectorCreate("T");
     }
     SignInClose();SideBarClose();
@@ -305,11 +320,30 @@ function FooldalBetoltese(value){
     }
 }
 
+function TestoldalBetoltese(value){
+    document.getElementById("MainBody").innerHTML = "";
+    var IdCheck;
+    if(document.getElementById("NavSelectorFoDiv") != undefined){
+        IdCheck = document.getElementById("NavSelectorFoDiv").children[1].id;
+        IdCheck = IdCheck[IdCheck.length-2];
+    }
+    if(document.getElementById("NavSelectorFoDiv") == undefined){
+        NavSelectorCreate("E");
+    }else if(document.getElementById("NavSelectorFoDiv") != undefined && IdCheck == "T"){
+        document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
+        NavSelectorCreate("E");
+    }
+    SignInClose();SideBarClose();
+    if(value == "default"){
+        //Egyéni rész választó
+    }
+}
+
 function NavSelectorCreate(value){
     document.body.appendChild(DivCreate("NavSelectorFoDiv","NavSelectorFoDiv"));
     document.getElementById("NavSelectorFoDiv").appendChild(DivCreate("NavSelectorDiv","NavSelectorFirst"));
     document.getElementById("NavSelectorFirst").appendChild(ImgCreate(value=="T"?(usersetting.drkmode==1?"ph/home_dark.png":"ph/home_white.png"):(usersetting.drkmode==1?"ph/test_dark.png":"ph/test_white.png")));
-    document.getElementById("NavSelectorFirst").setAttribute("onclick","FooldalBetoltese('default')");
+    document.getElementById("NavSelectorFirst").setAttribute("onclick",(value=="T"?"FooldalBetoltese('default')":"TestoldalBetoltese('default')"));
     document.getElementById("NavSelectorFirst").classList.add("SelectedNav");
     for (let i = 0; i < Teljeskategoriak.length; i++) {
         document.getElementById("NavSelectorFoDiv").appendChild(DivCreate("NavSelectorDiv",Teljeskategoriak[i].nev+value+"N"));
@@ -343,8 +377,13 @@ function CategoryLoad(div){
                 TablaSorokCreate(Alkat[i].nev+"Kiiras",tabla[j].nev,tabla[j].jel,tabla[j].def,tabla[j].mert);
             }
         }
-        MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
+    }else if(DivId[DivId.length-1] == "E"){
+        if(document.getElementsByClassName("SelectedNav")[0].id!=DivId+"N"){
+            document.getElementsByClassName("SelectedNav")[0].classList.remove("SelectedNav");
+            document.getElementById(DivId+"N").classList.add("SelectedNav");
+        }
     }
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
 }
 
 function TablaSorokCreate(id,nev,jel,def,mert){
