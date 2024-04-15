@@ -322,6 +322,7 @@ function FooldalBetoltese(value){
 
 function TestoldalBetoltese(value){
     document.getElementById("MainBody").innerHTML = "";
+    document.getElementById("OldalName").innerHTML = "<p>Test page</p>";
     var IdCheck;
     if(document.getElementById("NavSelectorFoDiv") != undefined){
         IdCheck = document.getElementById("NavSelectorFoDiv").children[1].id;
@@ -335,7 +336,28 @@ function TestoldalBetoltese(value){
     }
     SignInClose();SideBarClose();
     if(value == "default"){
-        //Egyéni rész választó
+        if(document.getElementsByClassName("SelectedNav")[0].id!="NavSelectorFirst"){
+            document.getElementsByClassName("SelectedNav")[0].classList.remove("SelectedNav");
+            document.getElementById("NavSelectorFirst").classList.add("SelectedNav");
+        }
+        TestSettings(Alkategoriak);
+    }
+}
+
+function TestSettings(array){
+    document.getElementById("MainBody").appendChild(DivCreate("TestSettings","TestSettingsDiv"));
+    document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestSettingsSlider","TestSettingsSlider"));
+    document.getElementById("TestSettingsSlider").innerHTML += InputCreate("range","TestSlider","Tábla Sorok");
+    document.getElementById("inputTestSlider").min = "5";
+    document.getElementById("inputTestSlider").value = "5";
+    document.getElementById("inputTestSlider").max = "44";
+    document.getElementById("inputTestSlider").step = "1";
+    document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestSettingsSorDB","TestSettingsSorDB"));
+    var slider = document.getElementById("inputTestSlider");
+    var output = document.getElementById("TestSettingsSorDB");
+    output.innerHTML = "<p>5</p>";
+    slider.oninput = function() {
+        output.innerHTML = "<p>"+this.value+"</p>";
     }
 }
 
@@ -359,7 +381,16 @@ function CategoryLoad(div){
     if(DivId.split('N').length > 1){
         DivId = DivId.split('N')[0];
     }
+    var IdCheck;
+    if(document.getElementById("NavSelectorFoDiv") != undefined){
+        IdCheck = document.getElementById("NavSelectorFoDiv").children[1].id;
+        IdCheck = IdCheck[IdCheck.length-2];
+    }
     if(DivId[DivId.length-1] == "T"){
+        if(document.getElementById("NavSelectorFoDiv") != undefined && IdCheck == "E"){
+            document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
+            NavSelectorCreate("T");
+        }
         if(document.getElementsByClassName("SelectedNav")[0].id!=DivId+"N"){
             document.getElementsByClassName("SelectedNav")[0].classList.remove("SelectedNav");
             document.getElementById(DivId+"N").classList.add("SelectedNav");
@@ -378,10 +409,21 @@ function CategoryLoad(div){
             }
         }
     }else if(DivId[DivId.length-1] == "E"){
-        if(document.getElementsByClassName("SelectedNav")[0].id!=DivId+"N"){
+        if(document.getElementById("NavSelectorFoDiv") != undefined && IdCheck == "T"){
+            document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
+            NavSelectorCreate("E");
+        }
+        if(document.getElementsByClassName("SelectedNav").length > 0 && [0].id!=DivId+"N" && DivId != undefined){
             document.getElementsByClassName("SelectedNav")[0].classList.remove("SelectedNav");
             document.getElementById(DivId+"N").classList.add("SelectedNav");
         }
+        let SegedDivId = "";
+        for (let i = 0; i < DivId.length-1; i++) {
+            SegedDivId += DivId[i];
+        }
+        DivId = SegedDivId;
+        let Alkat = Alkategoriak.filter(c=>c.tkat_id == Teljeskategoriak.filter(c=>c.nev == DivId)[0].id);
+        console.log(Alkat);
     }
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
 }

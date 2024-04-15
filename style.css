@@ -480,6 +480,73 @@ nav{
     animation-delay: .8s;
 }
 
+.TestSettings{
+    background-color: var(--tabla_bc);
+    color: var(--text_color);
+    padding: .5vw;
+    display: flex;
+    flex-direction: row;
+    gap: 1vw;
+    justify-content: center;
+    vertical-align: middle;
+    border-radius: .4vw;
+    font-size: 1vw;
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+    position: relative;
+}
+.TestSettingsSorDB{
+    position: relative;
+    padding: .5vw;
+    background-color: var(--input_bc);
+    border-radius: .6vw;
+    width: 1.5vw;
+    text-align: center;
+}
+.TestSettingsSorDB p{
+    margin: 0;
+    position: relative;
+    top: 50%;
+    transform: translate(0,-50%);
+}
+.TestSettingsSlider{
+    position: relative;
+    display: flex;
+    width: max-content;
+    padding: .5vw;
+    justify-content: center;
+    vertical-align: middle;
+}
+.TestSettingsSlider form{
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    gap: .5vw;
+}
+.TestSettingsSlider form label{
+    position: relative;
+    top: 50%;
+    transform: translate(0,-30%);
+}
+.TestSettingsSlider form input{
+    appearance: none; /* removes browser-specific styling */
+    width: 300px; /* width of slider */
+    height: 25px; /* height of slider */
+    background: var(--input_bc) ; /* orange background */
+    outline: none; /* remove outline */
+    border-radius: 3vw; /* round corners */
+    padding: .1vw .2vw;
+}
+.TestSettingsSlider form input::-webkit-slider-thumb {
+    appearance: none; /* removes browser-specific styling */
+    width: 20px; /* handle width */
+    height: 20px; /* handle height */
+    border-radius: 50%; /* make it circular */
+    background: #FFFFFF; /* white color */
+    cursor: pointer; /* cursor on hover */
+
+}
+
 @keyframes OpacityLoad{
     from {opacity: 0;}
     to {opacity: 1;}
