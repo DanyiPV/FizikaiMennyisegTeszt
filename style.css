@@ -487,6 +487,7 @@ nav{
     animation-fill-mode: forwards;
     animation-delay: .8s;
 }
+
 .TestSettings{
     background-color: var(--tabla_bc);
     color: var(--text_color);
@@ -503,6 +504,11 @@ nav{
     align-items: center;
     position: relative;
     z-index: 1;
+    opacity: 0;
+    animation-name: OpacityLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+    animation-delay: .5s;
 }
 .TestTablakValaszt{
     display: flex;
@@ -548,11 +554,13 @@ nav{
     border: .1vw solid var(--modal_border);
     z-index: 13;
     transition: .3s;
+    opacity: 0;
 }
 .TablaValasztoDivOpen{
     right: 50% !important;
     top: 50% !important;
     transform: translate(50%,-50%) !important;
+    opacity: 1 !important;
 }
 .ValasztoTablakClose{
     width: 3vw;

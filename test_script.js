@@ -2,7 +2,7 @@ var Tuser;
 var usersetting;
 var CurTime;
 var Tablak;var Teljeskategoriak; var Alkategoriak;
-var tudnivalok = ["Valami tudnivaló első","Valami tudnivaló második","Valami tudnivaló harmadik","Valami tudnivaló negyedik"];
+var tudnivalok = ["Valami tudnivaló első","Valami tudnivaló második","Valami tudnivaló harmadik","Valami tudnivaló negyedik","Valami tudnivaló ötödik"];
 var EgyediKat = [{nev: "Tudnivalók",rendel:"FooldalNav",id:"T"},{nev: "Egyéni",rendel: "TestoldalNav",id:"E"}];
 var ValasztottTablak;
 var ValasztottTablaSorok;
@@ -88,6 +88,7 @@ function DrkModeSwitch(value){
     color==1?document.getElementById("SBCloseIMG").children[0].src = "ph/close_dark.png":document.getElementById("SBCloseIMG").children[0].src = "ph/close_white.png";
     color==1?document.getElementById("FooldalBetoltDivIMG").children[0].src = "ph/home_dark.png":document.getElementById("FooldalBetoltDivIMG").children[0].src = "ph/home_white.png";
     color==1?document.getElementById("TestoldalBetoltDivIMG").children[0].src = "ph/test_dark.png":document.getElementById("TestoldalBetoltDivIMG").children[0].src = "ph/test_white.png";
+    document.getElementById("ValasztoTablakClose") != undefined?color==1?document.getElementById("ValasztoTablakClose").children[0].src = "ph/close_dark.png":document.getElementById("ValasztoTablakClose").children[0].src = "ph/close_white.png":"";
     document.getElementById("NavSelectorFirst")!=undefined?color==1?document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>home page</p>"?"ph/test_dark.png":"ph/home_dark.png"):document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>home page</p>"?"ph/test_white.png":"ph/home_white.png"):"";
     Tuser.osztaly == "T" || Tuser.osztaly == "A"?color==1?document.getElementById("ExamDivIMG").children[0].src = "ph/plus_dark.png":document.getElementById("ExamDivIMG").children[0].src = "ph/plus_white.png":"";
     document.getElementById("ProfilPicDiv") != undefined?SettingsCheck():"";
@@ -319,6 +320,10 @@ function FooldalBetoltese(value){
         for (let i = 0; i < tudnivalok.length; i++) {
             document.getElementById("TudnivaloKiiras").innerHTML += "<p>"+tudnivalok[i]+"</p>";
         }
+        if(document.getElementsByClassName("SelectedNav")[0].id!="NavSelectorFirst"){
+            document.getElementsByClassName("SelectedNav")[0].classList.remove("SelectedNav");
+            document.getElementById("NavSelectorFirst").classList.add("SelectedNav");
+        }
     }
 }
 
@@ -376,7 +381,6 @@ function TestSettings(array){
     document.getElementById("TestSettingsSorDB").innerHTML += "<form><input type='text' name='inputTestSettingsSorDB' id='inputTestSettingsSorDB' maxlength='3' minlength='1' onchange='SorValueChange()'/></form>";
     var slider = document.getElementById("inputTestSlider");
     var output = document.getElementById("inputTestSettingsSorDB");
-    output.value = "5";
     slider.oninput = function() {
         output.value = this.value;
     }
@@ -394,7 +398,6 @@ function TablaValaszto(array){
 
 function TablaKivalasztasa(div){
     let db =ValasztottTablaSorok.filter(x=>x.alkat_id == ValasztottTablak.filter(c=>c.nev == div.firstChild.innerText)[0].id).length;
-    console.log(db);
     if(document.getElementById("inputTestSlider").max=="5" && !div.classList.contains("ValasztoTDivValaszt")){
         document.getElementById("inputTestSlider").max = db;
     }else if(document.getElementById("inputTestSlider").max > 5 && !div.classList.contains("ValasztoTDivValaszt")){
