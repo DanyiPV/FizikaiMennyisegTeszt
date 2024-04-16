@@ -4,6 +4,8 @@ var CurTime;
 var Tablak;var Teljeskategoriak; var Alkategoriak;
 var tudnivalok = ["Valami tudnivaló első","Valami tudnivaló második","Valami tudnivaló harmadik","Valami tudnivaló negyedik"];
 var EgyediKat = [{nev: "Tudnivalók",rendel:"FooldalNav",id:"T"},{nev: "Egyéni",rendel: "TestoldalNav",id:"E"}];
+var ValasztottTablak;
+var ValasztottTablaSorok;
 
 function SideBarOpen(){
     document.getElementById("SideBarNav").classList.add("SideBarNavOpen");
@@ -328,6 +330,9 @@ function TestoldalBetoltese(value){
         IdCheck = document.getElementById("NavSelectorFoDiv").children[1].id;
         IdCheck = IdCheck[IdCheck.length-2];
     }
+    if(document.getElementById("TablaValasztoDiv") != undefined){
+        document.body.removeChild(document.getElementById("TablaValasztoDiv"));
+    }
     if(document.getElementById("NavSelectorFoDiv") == undefined){
         NavSelectorCreate("E");
     }else if(document.getElementById("NavSelectorFoDiv") != undefined && IdCheck == "T"){
@@ -346,19 +351,28 @@ function TestoldalBetoltese(value){
 
 function TestSettings(array){
     document.getElementById("MainBody").appendChild(DivCreate("TestSettings","TestSettingsDiv"));
-    document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestSettingsSlider","TestSettingsSlider"));
+    ValasztottTablak = array;
+
+    ValasztottTablaSorok = [];
+    array.forEach(elem => {
+        Tablak.filter(c=>c.alkat_id == elem.id).forEach(e => {
+            ValasztottTablaSorok.push(e);
+        });
+    });
+    document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestTablakValaszt","TestTablakValaszt"));
+    document.getElementById("TestTablakValaszt").innerHTML += "<p>Táblák kiválasztása</p>";
+    document.getElementById("TestTablakValaszt").setAttribute("onclick","TablaValasztoOpen()");
+    TablaValaszto(array);
+    
+    document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestSettingsSliderDiv","TestSettingsSliderDiv"));
+    document.getElementById("TestSettingsSliderDiv").appendChild(DivCreate("TestSettingsSliderDivDisable","TestSettingsSliderDivDisable"));
+    document.getElementById("TestSettingsSliderDiv").appendChild(DivCreate("TestSettingsSlider","TestSettingsSlider"));
     document.getElementById("TestSettingsSlider").innerHTML += InputCreate("range","TestSlider","Tábla Sorok");
     document.getElementById("inputTestSlider").min = "5";
     document.getElementById("inputTestSlider").value = "5";
-    let TeljesTablak = [];
-    array.forEach(elem => {
-        Tablak.filter(c=>c.alkat_id == elem.id).forEach(e => {
-            TeljesTablak.push(e);
-        });
-    });
-    document.getElementById("inputTestSlider").max = TeljesTablak.length;
+    document.getElementById("inputTestSlider").max = "5";
     document.getElementById("inputTestSlider").step = "1";
-    document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestSettingsSorDB","TestSettingsSorDB"));
+    document.getElementById("TestSettingsSliderDiv").appendChild(DivCreate("TestSettingsSorDB","TestSettingsSorDB"));
     document.getElementById("TestSettingsSorDB").innerHTML += "<form><input type='text' name='inputTestSettingsSorDB' id='inputTestSettingsSorDB' maxlength='3' minlength='1' onchange='SorValueChange()'/></form>";
     var slider = document.getElementById("inputTestSlider");
     var output = document.getElementById("inputTestSettingsSorDB");
@@ -366,6 +380,48 @@ function TestSettings(array){
     slider.oninput = function() {
         output.value = this.value;
     }
+}
+
+function TablaValaszto(array){
+    document.body.appendChild(DivCreate("TablaValasztoDiv","TablaValasztoDiv"));
+    document.getElementById("TablaValasztoDiv").appendChild(DivCreate("ValasztoTablakClose","ValasztoTablakClose"));
+    document.getElementById("ValasztoTablakClose").appendChild(ImgCreate(usersetting.drkmode==1?"ph/close_dark.png":"ph/close_white.png"));
+    document.getElementById("ValasztoTablakClose").firstChild.setAttribute("onclick","TablaValasztoClose()");
+    array.forEach(elem => {
+        document.getElementById("TablaValasztoDiv").innerHTML += "<div class='ValasztoTDiv' onclick='TablaKivalasztasa(this)'><p>"+elem.nev+"</p></div";
+    });
+}
+
+function TablaKivalasztasa(div){
+    let db =ValasztottTablaSorok.filter(x=>x.alkat_id == ValasztottTablak.filter(c=>c.nev == div.firstChild.innerText)[0].id).length;
+    console.log(db);
+    if(document.getElementById("inputTestSlider").max=="5" && !div.classList.contains("ValasztoTDivValaszt")){
+        document.getElementById("inputTestSlider").max = db;
+    }else if(document.getElementById("inputTestSlider").max > 5 && !div.classList.contains("ValasztoTDivValaszt")){
+        document.getElementById("inputTestSlider").max = (Number(document.getElementById("inputTestSlider").max) + db);
+    }else if(document.getElementById("inputTestSlider").max > 5 && div.classList.contains("ValasztoTDivValaszt") && (Number(document.getElementById("inputTestSlider").max) - db) > 5){
+        document.getElementById("inputTestSlider").max = (Number(document.getElementById("inputTestSlider").max) - db);
+    }else if(document.getElementById("inputTestSlider").max > 5 && div.classList.contains("ValasztoTDivValaszt") && (Number(document.getElementById("inputTestSlider").max) - db) <= 5){
+        document.getElementById("inputTestSlider").max = 5;
+    }
+
+    div.classList.contains("ValasztoTDivValaszt")?div.classList.remove("ValasztoTDivValaszt"):div.classList.add("ValasztoTDivValaszt");
+    if(document.getElementById("TestSettingsSliderDivDisable")!=undefined && document.getElementsByClassName("ValasztoTDivValaszt").length>0){
+        document.getElementById("TestSettingsSliderDiv").removeChild(document.getElementById("TestSettingsSliderDivDisable"));
+    }else if(document.getElementById("TestSettingsSliderDivDisable")==undefined && document.getElementsByClassName("ValasztoTDivValaszt").length==0){
+        document.getElementById("TestSettingsSliderDiv").appendChild(DivCreate("TestSettingsSliderDivDisable","TestSettingsSliderDivDisable"));
+    }
+}
+
+function TablaValasztoOpen(){
+    document.getElementById("TablaValasztoDiv").classList.add("TablaValasztoDivOpen");
+    document.getElementById("BlackBG").classList.add("BlackBGOn");
+    document.getElementById("BlackBG").setAttribute("onclick","TablaValasztoClose()");
+}
+function TablaValasztoClose(){
+    document.getElementById("TablaValasztoDiv").classList.remove("TablaValasztoDivOpen");
+    document.getElementById("BlackBG").classList.remove("BlackBGOn");
+    document.getElementById("BlackBG").removeAttribute("onclick");
 }
 
 function SorValueChange(){
@@ -445,6 +501,9 @@ function CategoryLoad(div){
         if(document.getElementsByClassName("SelectedNav").length > 0 && [0].id!=DivId+"N" && DivId != undefined){
             document.getElementsByClassName("SelectedNav")[0].classList.remove("SelectedNav");
             document.getElementById(DivId+"N").classList.add("SelectedNav");
+        }
+        if(document.getElementById("TablaValasztoDiv") != undefined){
+            document.body.removeChild(document.getElementById("TablaValasztoDiv"));
         }
         let SegedDivId = "";
         for (let i = 0; i < DivId.length-1; i++) {

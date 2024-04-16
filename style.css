@@ -487,30 +487,115 @@ nav{
     animation-fill-mode: forwards;
     animation-delay: .8s;
 }
-
 .TestSettings{
     background-color: var(--tabla_bc);
     color: var(--text_color);
-    padding: .5vw;
+    padding: .5vw 2vw;
     display: flex;
     flex-direction: row;
     gap: 1vw;
-    justify-content: center;
     vertical-align: middle;
     border-radius: .4vw;
     font-size: 1vw;
     text-transform: uppercase;
+    justify-content: space-around;
     letter-spacing: .1vw;
+    align-items: center;
     position: relative;
+    z-index: 1;
+}
+.TestTablakValaszt{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: max-content;
+    width: max-content;
+    padding: 0 1vw;
+    cursor: pointer;
+    transition: .3s;
+    border-radius: .6vw;
+    background-color: var(--input_bc);
+    padding: 1vw 2vw;
+}
+.TestTablakValaszt p{
+    margin: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.TestTablakValaszt:hover{
+    background-color: var(--button_hover);
+}
+.TablaValasztoDiv{
+    position: absolute;
+    right: -50%;
+    top: 50%;
+    transform: translate(50%,-50%);
+    color: var(--text_color);
+    display:block;
+    float:left;
+    text-align: center;
+    max-width: 70%;
+    max-height: 85%;
+    min-height: 10%;
+    min-width: 15%;
+    clear:both;
+    padding: 1.5vw 3.5vw;
+    padding-top: 3vw;
+    border-radius: .6vw;
+    background-color: var(--modal_bc);
+    border: .1vw solid var(--modal_border);
+    z-index: 13;
+    transition: .3s;
+}
+.TablaValasztoDivOpen{
+    right: 50% !important;
+    top: 50% !important;
+    transform: translate(50%,-50%) !important;
+}
+.ValasztoTablakClose{
+    width: 3vw;
+    height: 3vw;
+    position: absolute;
+    right: .5vw;
+    top: .5vw;
+    transition: .3s;
+    padding: .4vw;
+    border-radius: 2vw;
+    cursor: pointer;
+}
+.ValasztoTablakClose:hover{
+    background-color: var(--button_hover);
+}
+.ValasztoTablakClose img{
+    width: 100%;
+}
+.ValasztoTDiv:first-child{
+    margin-top: 0;
+}
+.ValasztoTDiv{
+    border-radius: .6vw;
+    margin-top: 1vw;
+    transition: .3s;
+    padding: 1vw 2vw;
+    cursor: pointer;
+}
+.ValasztoTDiv:hover{
+    background-color: var(--button_hover);
+}
+.ValasztoTDiv p{
+    margin: 0;
+}
+.ValasztoTDivValaszt{
+    background-color: var(--button_hover);
 }
 .TestSettingsSorDB{
     width: max-content;
-    position: relative;
     display: flex;
-    vertical-align: middle;
+    align-items: center;
 }
 .TestSettingsSorDB form input{
-    position: relative;
     width: 2vw;
     text-align: center;
     background-color: var(--input_bc);
@@ -520,27 +605,35 @@ nav{
     color: var(--text_color);
     font-size: 1vw;
     padding: .7vw .5vw;
-    top: 50%;
-    transform: translate(0,-50%);
+}
+.TestSettingsSliderDiv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1vw;   
+    padding: .5vw 1vw;
+    position: relative;
+    transition: .3s;
+}
+.TestSettingsSliderDivDisable{
+    background-color: rgb(70, 70, 70, 0.5);
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: .6vw;
+    transition: .3s;
 }
 .TestSettingsSlider{
-    position: relative;
     display: flex;
-    width: max-content;
-    padding: .5vw;
     justify-content: center;
-    vertical-align: middle;
+    height: 100%;
 }
 .TestSettingsSlider form{
     display: flex;
     justify-content: center;
-    vertical-align: middle;
+    align-items: center;
     gap: .5vw;
-}
-.TestSettingsSlider form label{
-    position: relative;
-    top: 50%;
-    transform: translate(0,-30%);
 }
 .TestSettingsSlider form input{
     appearance: none; /* removes browser-specific styling */
@@ -558,7 +651,6 @@ nav{
     border-radius: 50%; /* make it circular */
     background: #FFFFFF; /* white color */
     cursor: pointer; /* cursor on hover */
-
 }
 
 @keyframes OpacityLoad{
