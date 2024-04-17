@@ -366,7 +366,7 @@ function TestSettings(array){
         });
     });
     document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestTablakValaszt","TestTablakValaszt"));
-    document.getElementById("TestTablakValaszt").innerHTML += "<p>Chose table</p>";
+    document.getElementById("TestTablakValaszt").innerHTML += "<p>Choose table</p>";
     document.getElementById("TestTablakValaszt").setAttribute("onclick","TablaValasztoOpen()");
     TablaValaszto(array);
     
