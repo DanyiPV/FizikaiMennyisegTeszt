@@ -382,6 +382,37 @@ nav{
     animation-fill-mode: forwards;
     margin-bottom: 1vw;
 }
+.NavGorgeto{
+    border-radius: .6vw;
+    background-color: var(--tabla_bc);
+    padding: .5vw;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-around;
+    font-size: .8vw;
+    text-transform: uppercase;
+    opacity: 0;
+    animation-name: OpacityLoad;
+    animation-duration: .8s;
+    animation-fill-mode: forwards;
+    animation-delay: .5s;
+}
+.GorgetoDivek{
+    cursor: pointer;
+    padding: 1vw;
+    transition: .3s;
+    border-radius: .6vw;
+    color: gray;
+}
+.GorgetoDivek:hover{
+    background-color: var(--button_hover);
+    color: var(--text_color);
+}
+.GorgetoDivek p{
+    margin: 0;
+}
 .TablaNevekKiiras{
     padding: .5vw;
     font-size: 1.2vw;

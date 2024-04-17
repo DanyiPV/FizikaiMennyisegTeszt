@@ -522,6 +522,13 @@ function CategoryLoad(div){
         }
         DivId = DivId.split('T')[0];
         let Alkat = Alkategoriak.filter(c=>c.tkat_id == Teljeskategoriak.filter(c=>c.nev == DivId)[0].id);
+        if(Alkat.length > 1){
+            document.getElementById("MainBody").appendChild(DivCreate("NavGorgeto","NavGorgeto"));
+            for (let i = 0; i < Alkat.length; i++){
+                document.getElementById("NavGorgeto").appendChild(DivCreate("GorgetoDivek","GorgetoDiv"+i));
+                document.getElementById("GorgetoDiv"+i).innerHTML += "<p>"+Alkat[i].nev+"</p";
+            }
+        }
         for (let i = 0; i < Alkat.length; i++) {
             document.getElementById("MainBody").appendChild(DivCreate("TablaDivek",Alkat[i].nev+"Div"));
             document.getElementById(Alkat[i].nev+"Div").appendChild(DivCreate("TablaNevDivek",Alkat[i].nev+"NevDiv"));
