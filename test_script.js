@@ -507,6 +507,7 @@ function CategoryLoad(div){
         IdCheck = IdCheck[IdCheck.length-2];
     }
     if(DivId[DivId.length-1] == "T"){
+        //https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
         document.getElementById("OldalName").innerHTML = "<p>Home page</p>";
         if(document.getElementById("NavSelectorFoDiv") != undefined && IdCheck == "E"){
             document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
