@@ -380,6 +380,7 @@ nav{
     animation-name: OpacityLoad;
     animation-duration: .8s;
     animation-fill-mode: forwards;
+    margin-bottom: 1vw;
 }
 .TablaNevekKiiras{
     padding: .5vw;
@@ -412,6 +413,7 @@ nav{
 }
 .TablaBelsoErtekek:last-child{
     border-bottom: .1vw solid var(--modal_border);
+    border-radius: .6vw;
 }
 .TablaBelsoErtekek:first-child{
     font-size: 1.6vw;
