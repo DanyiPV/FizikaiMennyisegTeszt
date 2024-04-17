@@ -16,6 +16,7 @@ html,body{
 
 :root{
     --button_hover: rgba(170, 170, 170, 0.4);/*rgba(170, 170, 170, 0.4)*/
+    --dif_div_bc: rgba(170, 170, 170, 0.4);
     --modal_bc: rgba(30, 30, 30, .9);/*rgba(30, 30, 30, .9)*/
     --body_bc: rgba(30, 30, 30, 1);/*rgba(30, 30, 30, .9)*/
     --text_color: whitesmoke; /*whitesmoke*/
@@ -659,6 +660,90 @@ nav{
     border-radius: 50%; /* make it circular */
     background: #FFFFFF; /* white color */
     cursor: pointer; /* cursor on hover */
+}
+.DifValaszto{
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 4vw;
+    background-color: var(--input_bc);
+    padding: 1vw;
+    border-radius: .6vw;
+    z-index: 1;
+}
+.DifShowDiv{
+    position: absolute;
+    background-color: var(--dif_div_bc);
+    height: 60%;
+    border-radius: .6vw;
+    transition: .3s;
+    z-index: 2;
+}
+.DifShowDivEasy{
+    width: 5vw;
+    left: .6vw;
+}
+.DifShowDivNormal{
+    width: 7.5vw;
+    left: 8.35vw;
+}
+.DifShowDivHard{
+    width: 5.5vw;
+    left: 18.2vw;
+}
+.DifDivek{
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    cursor: pointer;
+    color: gray;
+    width: inherit;
+    align-items: center;
+}
+.DifDivek p{
+    margin: 0;
+    padding: .5vw;
+}
+.DifActive{
+    color: var(--text_color) !important;
+}
+.TestStartDiv{
+    width: 4vw;
+    height: 4vw;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    transition: .3s;
+}
+.TestStartDiv img{
+    width: 80%;
+    transition: .3s;
+    position: relative;
+    z-index: 2;
+}
+.TestStartDiv p{
+    margin: 0;
+    position: relative;
+    opacity: 0;
+    transition: .3s;
+    top: -1vw;
+    font-size: 0;
+    z-index: 1;
+}
+.TestStartDivActive{
+    cursor: pointer;
+}
+.TestStartDivActive:hover > p{
+    opacity: 1;
+    top: -.1vw;
+    font-size: .8vw;
+}
+.TestStartDivActive:hover > img{
+    top: -.2vw;
 }
 
 @keyframes OpacityLoad{

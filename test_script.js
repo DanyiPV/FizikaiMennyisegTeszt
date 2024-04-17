@@ -80,6 +80,7 @@ function DrkModeSwitch(value){
     color==1?document.querySelector(':root').style.setProperty('--input_bc',"rgba(150, 150, 150, 1)"):document.querySelector(':root').style.setProperty('--input_bc',"rgba(70, 70, 70, 1)");
     color==1?document.querySelector(':root').style.setProperty('--tablanev_bc',"rgba(230, 230, 230, 1)"):document.querySelector(':root').style.setProperty('--tablanev_bc',"rgba(100, 100, 100, 1)");
     color==1?document.querySelector(':root').style.setProperty('--tabla_bc',"rgba(200, 200, 200, 1)"):document.querySelector(':root').style.setProperty('--tabla_bc',"rgba(80, 80, 80, 1)");
+    color==1?document.querySelector(':root').style.setProperty('--dif_div_bc',"rgba(255, 255, 255, 0.4)"):document.querySelector(':root').style.setProperty('--dif_div_bc',"rgba(170, 170, 170, 0.4)");
     color==1?document.getElementById("SettingsDivIMG").children[0].src = "ph/settings_dark.png":document.getElementById("SettingsDivIMG").children[0].src = "ph/settings_white.png";
     color==1?document.getElementById("TestResultsDivIMG").children[0].src = "ph/notepad_dark.png":document.getElementById("TestResultsDivIMG").children[0].src = "ph/notepad_white.png";
     color==1?document.getElementById("DrkModeDivIMG").children[0].src = "ph/mode_dark.png":document.getElementById("DrkModeDivIMG").children[0].src = "ph/mode_white.png";
@@ -365,7 +366,7 @@ function TestSettings(array){
         });
     });
     document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestTablakValaszt","TestTablakValaszt"));
-    document.getElementById("TestTablakValaszt").innerHTML += "<p>Táblák kiválasztása</p>";
+    document.getElementById("TestTablakValaszt").innerHTML += "<p>Chose table</p>";
     document.getElementById("TestTablakValaszt").setAttribute("onclick","TablaValasztoOpen()");
     TablaValaszto(array);
     
@@ -381,9 +382,38 @@ function TestSettings(array){
     document.getElementById("TestSettingsSorDB").innerHTML += "<form><input type='text' name='inputTestSettingsSorDB' id='inputTestSettingsSorDB' maxlength='3' minlength='1' onchange='SorValueChange()'/></form>";
     var slider = document.getElementById("inputTestSlider");
     var output = document.getElementById("inputTestSettingsSorDB");
+    output.value = 5;
     slider.oninput = function() {
         output.value = this.value;
     }
+
+    document.getElementById("TestSettingsDiv").appendChild(DivCreate("DifValaszto","DifValaszto"));
+    document.getElementById("DifValaszto").appendChild(DivCreate("DifShowDiv","DifShowDiv"));
+    document.getElementById("DifShowDiv").classList.add("DifShowDivEasy");
+    document.getElementById("DifValaszto").appendChild(DivCreate("DifDivek","EasyDifDiv"));
+    document.getElementById("EasyDifDiv").innerHTML = "<p>Easy</p>";
+    document.getElementById("EasyDifDiv").classList.add("DifActive");
+    document.getElementById("EasyDifDiv").setAttribute("onclick","DifValaszto(this)");
+    document.getElementById("DifValaszto").appendChild(DivCreate("DifDivek","NormalDifDiv"));
+    document.getElementById("NormalDifDiv").innerHTML = "<p>Normal</p>";
+    document.getElementById("NormalDifDiv").setAttribute("onclick","DifValaszto(this)");
+    document.getElementById("DifValaszto").appendChild(DivCreate("DifDivek","HardDifDiv"));
+    document.getElementById("HardDifDiv").innerHTML = "<p>Hard</p>";
+    document.getElementById("HardDifDiv").setAttribute("onclick","DifValaszto(this)");
+
+    document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestStartDiv","TestStartDiv"));
+    document.getElementById("TestStartDiv").appendChild(ImgCreate("ph/start_default.png"));
+    document.getElementById("TestStartDiv").innerHTML += "<p>Start</p>";
+}
+
+function DifValaszto(div){
+    let DifArray = ["DifShowDivEasy","DifShowDivNormal","DifShowDivHard"];
+    let index = Array.from(document.getElementsByClassName("DifDivek")).indexOf(div);
+    if(!document.getElementsByClassName("DifDivek")[index].classList.contains("DifActive")){
+        document.getElementById("DifShowDiv").classList = "DifShowDiv "+DifArray[index];
+        document.getElementsByClassName("DifActive")[0].classList.remove("DifActive");
+        document.getElementsByClassName("DifDivek")[index].classList.add("DifActive");
+    }//document.getElementsByClassName("DifActive")[0].firstChild.innerText
 }
 
 function TablaValaszto(array){
@@ -411,8 +441,12 @@ function TablaKivalasztasa(div){
     div.classList.contains("ValasztoTDivValaszt")?div.classList.remove("ValasztoTDivValaszt"):div.classList.add("ValasztoTDivValaszt");
     if(document.getElementById("TestSettingsSliderDivDisable")!=undefined && document.getElementsByClassName("ValasztoTDivValaszt").length>0){
         document.getElementById("TestSettingsSliderDiv").removeChild(document.getElementById("TestSettingsSliderDivDisable"));
+        document.getElementById("TestStartDiv").firstChild.src = usersetting.drkmode==1?"ph/start_dark.png":"ph/start_white.png";
+        document.getElementById("TestStartDiv").classList.add("TestStartDivActive");
     }else if(document.getElementById("TestSettingsSliderDivDisable")==undefined && document.getElementsByClassName("ValasztoTDivValaszt").length==0){
         document.getElementById("TestSettingsSliderDiv").appendChild(DivCreate("TestSettingsSliderDivDisable","TestSettingsSliderDivDisable"));
+        document.getElementById("TestStartDiv").firstChild.src = "ph/start_default.png";
+        document.getElementById("TestStartDiv").classList.remove("TestStartDivActive");
     }
 }
 
