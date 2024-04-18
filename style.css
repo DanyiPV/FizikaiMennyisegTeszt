@@ -413,6 +413,32 @@ nav{
 .GorgetoDivek p{
     margin: 0;
 }
+.FelGorgetoDiv{
+    position: fixed;
+    width: 2.5vw;
+    height: 2.5vw;
+    right: -.5vw;
+    bottom: -5vw;
+    background-color: var(--modal_bc);
+    padding: 1vw;
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 1vw;
+    transition: .3s;
+    cursor: pointer;
+    opacity: 0;
+}
+.FelGorgetoDivOpen{
+    right: -.5vw;
+    bottom: 0;
+    opacity: 1;
+}
+.FelGorgetoDiv:hover{
+    background-color: var(--button_hover);
+}
+.FelGorgetoDiv img{
+    width: 80%;
+}
 .TablaNevekKiiras{
     padding: .5vw;
     font-size: 1.2vw;

@@ -93,6 +93,7 @@ function DrkModeSwitch(value){
         color==1?document.getElementById("TestStartDiv").firstChild.src = "ph/start_dark.png":document.getElementById("TestStartDiv").firstChild.src = "ph/start_white.png";
     }
     document.getElementById("ValasztoTablakClose") != undefined?color==1?document.getElementById("ValasztoTablakClose").children[0].src = "ph/close_dark.png":document.getElementById("ValasztoTablakClose").children[0].src = "ph/close_white.png":"";
+    document.getElementById("FelGorgetoDiv") != undefined?color==1?document.getElementById("FelGorgetoDiv").children[0].src = "ph/uparrow_dark.png":document.getElementById("FelGorgetoDiv").children[0].src = "ph/uparrow_white.png":"";
     document.getElementById("NavSelectorFirst")!=undefined?color==1?document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>home page</p>"?"ph/test_dark.png":"ph/home_dark.png"):document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>home page</p>"?"ph/test_white.png":"ph/home_white.png"):"";
     Tuser.osztaly == "T" || Tuser.osztaly == "A"?color==1?document.getElementById("ExamDivIMG").children[0].src = "ph/plus_dark.png":document.getElementById("ExamDivIMG").children[0].src = "ph/plus_white.png":"";
     document.getElementById("ProfilPicDiv") != undefined?SettingsCheck():"";
@@ -524,11 +525,19 @@ function CategoryLoad(div){
         let Alkat = Alkategoriak.filter(c=>c.tkat_id == Teljeskategoriak.filter(c=>c.nev == DivId)[0].id);
         if(Alkat.length > 1){
             document.getElementById("MainBody").appendChild(DivCreate("NavGorgeto","NavGorgeto"));
-            for (let i = 0; i < Alkat.length; i++){
+            for (let i = 1; i < Alkat.length; i++){
                 document.getElementById("NavGorgeto").appendChild(DivCreate("GorgetoDivek","GorgetoDiv"+i));
                 document.getElementById("GorgetoDiv"+i).innerHTML += "<p>"+Alkat[i].nev+"</p";
+                document.getElementById("GorgetoDiv"+i).dataset.sn = Alkat[i].nev;
+                document.getElementById("GorgetoDiv"+i).setAttribute("onclick","ScrollToDiv(this)");
             }
         }
+        if(document.getElementById("FelGorgetoDiv") == undefined){
+            document.body.appendChild(DivCreate("FelGorgetoDiv","FelGorgetoDiv"));
+            document.getElementById("FelGorgetoDiv").appendChild(ImgCreate(usersetting.drkmode==1?"ph/uparrow_dark.png":"ph/uparrow_white.png"));
+            document.getElementById("FelGorgetoDiv").setAttribute("onclick","TetejereGorget()");
+        }
+
         for (let i = 0; i < Alkat.length; i++) {
             document.getElementById("MainBody").appendChild(DivCreate("TablaDivek",Alkat[i].nev+"Div"));
             document.getElementById(Alkat[i].nev+"Div").appendChild(DivCreate("TablaNevDivek",Alkat[i].nev+"NevDiv"));
@@ -562,6 +571,31 @@ function CategoryLoad(div){
         TestSettings(Alkat);
     }
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
+}
+
+function ScrollToDiv(div){
+    let nev = div.dataset.sn;
+    nev = nev+"NevDiv";
+    document.getElementById(nev).scrollIntoView();
+}
+window.onscroll = function ()
+{
+    if(document.getElementsByClassName("TablaNevDivek") != undefined){
+        let element = document.getElementsByClassName("TablaNevDivek")[1].getBoundingClientRect();
+        if(document.getElementsByClassName("TablaNevDivek").length > 1 && element.top < 350){
+            TetejereGorgetShow(true);
+        }else if(document.getElementsByClassName("TablaNevDivek").length > 1 && element.top >= 350){
+            TetejereGorgetShow(false);
+        }
+    }
+}
+
+function TetejereGorget(){
+    document.getElementById("OldalName").scrollIntoView();
+}
+
+function TetejereGorgetShow(value){
+    value?document.getElementById("FelGorgetoDiv").classList.add("FelGorgetoDivOpen"):document.getElementById("FelGorgetoDiv").classList.remove("FelGorgetoDivOpen");
 }
 
 function TablaSorokCreate(id,nev,jel,def,mert){
