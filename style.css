@@ -162,7 +162,7 @@ nav{
     height: max-content;
     margin: .5vw;
     padding: 1vw;
-    transition: .5s;
+    transition: .3s;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -171,7 +171,7 @@ nav{
     position: absolute;
     opacity: 0;
     z-index: -1;
-    transition: .5s;
+    transition: .3s;
     left: 10vw;
     font-size: 1.2vw;
     text-transform: uppercase;
@@ -247,7 +247,7 @@ nav{
     width: 3vw;
     height: 3vw;
     padding: .5vw;
-    transition: .4s;
+    transition: .3s;
     cursor: pointer;
     border-radius: 2vw;
     margin-right: .5vw;
@@ -304,6 +304,7 @@ nav{
     cursor: pointer;
     transition: .3s;
     margin: .2vw 0vw;
+    align-items: center;
 }
 .NavGomb:hover{
     background-color: var(--button_hover);
@@ -323,16 +324,16 @@ nav{
     width: 3vw;
     height: 3vw;
     position: relative;
+    z-index: 10;
     left: 0;
     transition: .3s;
 }
 .NavGomb:first-child p{
     position: absolute;
-    transition: .4s;
+    transition: .3s;
     left: 6vw;
     opacity: 0;
     z-index: -1;
-    margin-top: .25vw;
 }
 .NavGomb:first-child:hover img{
     left: -5vw;
@@ -419,12 +420,12 @@ nav{
     height: 2.5vw;
     right: -.5vw;
     bottom: -5vw;
-    background-color: var(--modal_bc);
+    background-color: var(--body_bc);
     padding: 1vw;
     display: flex;
     align-items: center;
     border-top-left-radius: 1vw;
-    transition: .3s;
+    transition: .5s;
     cursor: pointer;
     opacity: 0;
 }
