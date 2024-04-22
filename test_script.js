@@ -410,6 +410,87 @@ function TestSettings(array){
     document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestStartDiv","TestStartDiv"));
     document.getElementById("TestStartDiv").appendChild(ImgCreate("ph/start_default.png"));
     document.getElementById("TestStartDiv").innerHTML += "<p>Start</p>";
+    document.getElementById("TestStartDiv").setAttribute("onclick","TestInditasa()")
+}
+
+function TestInditasa(){
+    let Dif = document.getElementById("DifShowDiv").classList[1]=="DifShowDivEasy"?1:(document.getElementById("DifShowDiv").classList[1]=="DifShowDivNormal"?2:"R");
+    let Sorok = Number(document.getElementById("inputTestSlider").value);
+    let ValasztottTablak = [];
+    Array.from(document.getElementsByClassName("ValasztoTDivValaszt")).forEach(c=>ValasztottTablak.push(c.innerText));
+    let ValasztottSorok = [];
+    for (let i = 0; i < ValasztottTablak.length; i++) {
+        Tablak.filter(x=>x.alkat_id == Alkategoriak.filter(c=>c.nev==ValasztottTablak[i])[0].id).forEach(k=>ValasztottSorok.push(k));
+    }
+    let RandomArray = [];
+    while(RandomArray.length < Sorok){
+        let random = Math.floor(Math.random()*ValasztottSorok.length);
+        !RandomArray.includes(random)?RandomArray.push(random):"";
+    }
+    ValasztottTablak = [];
+    for (let i = 0; i < RandomArray.length; i++) {
+        ValasztottTablak.push(ValasztottSorok[RandomArray[i]]);
+    }
+    for (let i = 0; i < ValasztottTablak.length; i++) {
+        if(Dif != "R"){
+            RandomArray = [Math.floor(Math.random()*4)];
+            if(Dif == 2){
+                while(RandomArray.length < 2){
+                    let random = Math.floor(Math.random()*4);
+                    !RandomArray.includes(random)?RandomArray.push(random):"";
+                }
+            }
+            for (let j = 0; j < RandomArray.length; j++) {
+                if(RandomArray[j] == 0){
+                    ValasztottTablak[i].nev = "";
+                }else if(RandomArray[j] == 1){
+                    ValasztottTablak[i].jel = "";
+                }else if(RandomArray[j] == 2){
+                    ValasztottTablak[i].def = "";
+                }else if(RandomArray[j] == 3){
+                    ValasztottTablak[i].mert = "";
+                }
+            }
+        }else{
+            let random = RandomGen();
+            if(random != 3){
+                RandomArray = [Math.floor(Math.random()*4)];
+                if(random > 1){
+                    while(RandomArray.length < 2){
+                        let random1 = Math.floor(Math.random()*4);
+                        !RandomArray.includes(random1)?RandomArray.push(random1):"";
+                    }
+                }
+                for (let j = 0; j < RandomArray.length; j++) {
+                    if(RandomArray[j] == 0){
+                        ValasztottTablak[i].nev = "";
+                    }else if(RandomArray[j] == 1){
+                        ValasztottTablak[i].jel = "";
+                    }else if(RandomArray[j] == 2){
+                        ValasztottTablak[i].def = "";
+                    }else if(RandomArray[j] == 3){
+                        ValasztottTablak[i].mert = "";
+                    }
+                }
+            }else{
+                ValasztottTablak[i].jel = "";
+                ValasztottTablak[i].def = "";
+                ValasztottTablak[i].mert = "";
+            }
+        }
+    }
+    console.log(ValasztottTablak);
+}
+
+function RandomGen(){
+    let random = Math.random()*100+1;
+    if(random <= 85 && random > 40){
+        return 2;
+    }else if(random < 40 && random >= 0){
+        return 1;
+    }else{
+        return 3;
+    }
 }
 
 function DifValaszto(div){
@@ -434,25 +515,30 @@ function TablaValaszto(array){
 
 function TablaKivalasztasa(div){
     let db =ValasztottTablaSorok.filter(x=>x.alkat_id == ValasztottTablak.filter(c=>c.nev == div.firstChild.innerText)[0].id).length;
-    if(document.getElementById("inputTestSlider").max=="5" && !div.classList.contains("ValasztoTDivValaszt")){
-        document.getElementById("inputTestSlider").max = db;
-    }else if(document.getElementById("inputTestSlider").max > 5 && !div.classList.contains("ValasztoTDivValaszt")){
-        document.getElementById("inputTestSlider").max = (Number(document.getElementById("inputTestSlider").max) + db);
-    }else if(document.getElementById("inputTestSlider").max > 5 && div.classList.contains("ValasztoTDivValaszt") && (Number(document.getElementById("inputTestSlider").max) - db) > 5){
-        document.getElementById("inputTestSlider").max = (Number(document.getElementById("inputTestSlider").max) - db);
-    }else if(document.getElementById("inputTestSlider").max > 5 && div.classList.contains("ValasztoTDivValaszt") && (Number(document.getElementById("inputTestSlider").max) - db) <= 5){
-        document.getElementById("inputTestSlider").max = 5;
-    }
-
-    div.classList.contains("ValasztoTDivValaszt")?div.classList.remove("ValasztoTDivValaszt"):div.classList.add("ValasztoTDivValaszt");
-    if(document.getElementById("TestSettingsSliderDivDisable")!=undefined && document.getElementsByClassName("ValasztoTDivValaszt").length>0){
-        document.getElementById("TestSettingsSliderDiv").removeChild(document.getElementById("TestSettingsSliderDivDisable"));
-        document.getElementById("TestStartDiv").firstChild.src = usersetting.drkmode==1?"ph/start_dark.png":"ph/start_white.png";
-        document.getElementById("TestStartDiv").classList.add("TestStartDivActive");
-    }else if(document.getElementById("TestSettingsSliderDivDisable")==undefined && document.getElementsByClassName("ValasztoTDivValaszt").length==0){
-        document.getElementById("TestSettingsSliderDiv").appendChild(DivCreate("TestSettingsSliderDivDisable","TestSettingsSliderDivDisable"));
-        document.getElementById("TestStartDiv").firstChild.src = "ph/start_default.png";
-        document.getElementById("TestStartDiv").classList.remove("TestStartDivActive");
+    if(db < 5 && document.getElementsByClassName("ValasztoTDivValaszt").length == 0){
+        div.classList.add("ValasztoTDivValaszt");
+    }else{
+        if(document.getElementById("inputTestSlider").max=="5" && !div.classList.contains("ValasztoTDivValaszt")){
+            document.getElementById("inputTestSlider").max = db;
+        }else if(document.getElementById("inputTestSlider").max > 5 && !div.classList.contains("ValasztoTDivValaszt")){
+            document.getElementById("inputTestSlider").max = (Number(document.getElementById("inputTestSlider").max) + db);
+        }else if(document.getElementById("inputTestSlider").max > 5 && div.classList.contains("ValasztoTDivValaszt") && (Number(document.getElementById("inputTestSlider").max) - db) > 5){
+            document.getElementById("inputTestSlider").max = (Number(document.getElementById("inputTestSlider").max) - db);
+        }else if(document.getElementById("inputTestSlider").max > 5 && div.classList.contains("ValasztoTDivValaszt") && (Number(document.getElementById("inputTestSlider").max) - db) <= 5){
+            document.getElementById("inputTestSlider").max = 5;
+        }
+    
+        div.classList.contains("ValasztoTDivValaszt")?div.classList.remove("ValasztoTDivValaszt"):div.classList.add("ValasztoTDivValaszt");
+        if(document.getElementById("TestSettingsSliderDivDisable")!=undefined && document.getElementsByClassName("ValasztoTDivValaszt").length>0){
+            document.getElementById("TestSettingsSliderDiv").removeChild(document.getElementById("TestSettingsSliderDivDisable"));
+            document.getElementById("TestStartDiv").firstChild.src = usersetting.drkmode==1?"ph/start_dark.png":"ph/start_white.png";
+            document.getElementById("TestStartDiv").classList.add("TestStartDivActive");
+        }else if(document.getElementById("TestSettingsSliderDivDisable")==undefined && document.getElementsByClassName("ValasztoTDivValaszt").length==0){
+            document.getElementById("TestSettingsSliderDiv").appendChild(DivCreate("TestSettingsSliderDivDisable","TestSettingsSliderDivDisable"));
+            document.getElementById("TestStartDiv").firstChild.src = "ph/start_default.png";
+            document.getElementById("TestStartDiv").classList.remove("TestStartDivActive");
+        }
+        
     }
 }
 
