@@ -95,6 +95,7 @@ function DrkModeSwitch(value){
     document.getElementById("ValasztoTablakClose") != undefined?color==1?document.getElementById("ValasztoTablakClose").children[0].src = "ph/close_dark.png":document.getElementById("ValasztoTablakClose").children[0].src = "ph/close_white.png":"";
     document.getElementById("FelGorgetoDiv") != undefined?color==1?document.getElementById("FelGorgetoDiv").children[0].src = "ph/uparrow_dark.png":document.getElementById("FelGorgetoDiv").children[0].src = "ph/uparrow_white.png":"";
     document.getElementById("NavSelectorFirst")!=undefined?color==1?document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>home page</p>"?"ph/test_dark.png":"ph/home_dark.png"):document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>home page</p>"?"ph/test_white.png":"ph/home_white.png"):"";
+    document.getElementsByClassName("TimerIMGOn").length==1?document.getElementById("TimerIMG").firstChild.src = color==1?"ph/on_dark.png":"ph/on_white.png":"";
     Tuser.osztaly == "T" || Tuser.osztaly == "A"?color==1?document.getElementById("ExamDivIMG").children[0].src = "ph/plus_dark.png":document.getElementById("ExamDivIMG").children[0].src = "ph/plus_white.png":"";
     document.getElementById("ProfilPicDiv") != undefined?SettingsCheck():"";
 }
@@ -372,7 +373,7 @@ function TestSettings(array){
         });
     });
     document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestTablakValaszt","TestTablakValaszt"));
-    document.getElementById("TestTablakValaszt").innerHTML += "<p>Choose table</p>";
+    document.getElementById("TestTablakValaszt").innerHTML += "<p>Tábla választás</p>";
     document.getElementById("TestTablakValaszt").setAttribute("onclick","TablaValasztoOpen()");
     TablaValaszto(array);
     
@@ -393,24 +394,40 @@ function TestSettings(array){
         output.value = this.value;
     }
 
+    document.getElementById("TestSettingsDiv").appendChild(DivCreate("TimerOnOff","TimerOnOff"));
+    document.getElementById("TimerOnOff").setAttribute("onclick","TimerOnOff()");
+    document.getElementById("TimerOnOff").innerHTML = "<p>Idő limit</p>";
+    document.getElementById("TimerOnOff").appendChild(DivCreate("TimerIMG","TimerIMG"));
+    document.getElementById("TimerIMG").appendChild(ImgCreate("ph/on_def.png"));
+
     document.getElementById("TestSettingsDiv").appendChild(DivCreate("DifValaszto","DifValaszto"));
     document.getElementById("DifValaszto").appendChild(DivCreate("DifShowDiv","DifShowDiv"));
     document.getElementById("DifShowDiv").classList.add("DifShowDivEasy");
     document.getElementById("DifValaszto").appendChild(DivCreate("DifDivek","EasyDifDiv"));
-    document.getElementById("EasyDifDiv").innerHTML = "<p>Easy</p>";
+    document.getElementById("EasyDifDiv").innerHTML = "<p>Könnyű</p>";
     document.getElementById("EasyDifDiv").classList.add("DifActive");
     document.getElementById("EasyDifDiv").setAttribute("onclick","DifValaszto(this)");
     document.getElementById("DifValaszto").appendChild(DivCreate("DifDivek","NormalDifDiv"));
-    document.getElementById("NormalDifDiv").innerHTML = "<p>Normal</p>";
+    document.getElementById("NormalDifDiv").innerHTML = "<p>Normál</p>";
     document.getElementById("NormalDifDiv").setAttribute("onclick","DifValaszto(this)");
     document.getElementById("DifValaszto").appendChild(DivCreate("DifDivek","HardDifDiv"));
-    document.getElementById("HardDifDiv").innerHTML = "<p>Hard</p>";
+    document.getElementById("HardDifDiv").innerHTML = "<p>Nehéz</p>";
     document.getElementById("HardDifDiv").setAttribute("onclick","DifValaszto(this)");
 
     document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestStartDiv","TestStartDiv"));
     document.getElementById("TestStartDiv").appendChild(ImgCreate("ph/start_default.png"));
-    document.getElementById("TestStartDiv").innerHTML += "<p>Start</p>";
+    document.getElementById("TestStartDiv").innerHTML += "<p>Indítás</p>";
     document.getElementById("TestStartDiv").setAttribute("onclick","TestInditasa()")
+}
+
+function TimerOnOff(){
+    if(document.getElementById("TimerIMG").classList.contains("TimerIMGOn")){
+        document.getElementById("TimerIMG").classList.remove("TimerIMGOn");
+        document.getElementById("TimerIMG").firstChild.src = "ph/on_def.png";
+    }else{
+        document.getElementById("TimerIMG").classList.add("TimerIMGOn");
+        document.getElementById("TimerIMG").firstChild.src = usersetting.drkmode == 1?"ph/on_dark.png":"ph/on_white.png";
+    }
 }
 
 function TestInditasa(){

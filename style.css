@@ -667,7 +667,7 @@ nav{
 .TestSettingsSorDB form input{
     width: 2vw;
     text-align: center;
-    background-color: var(--input_bc);
+    background-color: var(--dif_div_bc);
     border-radius: .6vw;
     outline: none;
     border: none;
@@ -706,8 +706,8 @@ nav{
 }
 .TestSettingsSlider form input{
     appearance: none; /* removes browser-specific styling */
-    width: 300px; /* width of slider */
-    height: 25px; /* height of slider */
+    width: 10   vw; /* width of slider */
+    height: 100%; /* height of slider */
     background: var(--input_bc) ; /* orange background */
     outline: none; /* remove outline */
     border-radius: 3vw; /* round corners */
@@ -721,12 +721,52 @@ nav{
     background: #FFFFFF; /* white color */
     cursor: pointer; /* cursor on hover */
 }
+#labelTestSlider{
+    width: auto;
+    margin: 0;
+    font-size: .9vw;
+    text-align: center;
+}
+.TimerOnOff{
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+    align-items: center;
+    justify-content: left;
+    gap: .5vw;
+    background-color: var(--input_bc);
+    padding: .2vw 1vw;
+    border-radius: 2vw;
+    cursor: pointer;
+}
+.TimerIMG{
+    width: 6vw;
+    padding: .5vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border-radius: 2vw;
+    height: 1.5vw;
+    align-items: center;
+    background-color: var(--dif_div_bc);
+    transition: .3s;
+    position: relative;
+}
+.TimerIMG img{
+    height: 100%;
+    position: relative;
+    left: -35%;
+    transition: .3s;
+}
+.TimerIMGOn img{
+    left: 35%;
+}
 .DifValaszto{
     display: flex;
     position: relative;
     align-items: center;
     justify-content: space-evenly;
-    gap: 4vw;
+    gap: 1vw;
     background-color: var(--input_bc);
     padding: 1vw;
     border-radius: .6vw;
@@ -739,18 +779,21 @@ nav{
     border-radius: .6vw;
     transition: .3s;
     z-index: 2;
+    justify-content: center;
+    left: 0;
+    margin: 0 1vw;
 }
 .DifShowDivEasy{
-    width: 5vw;
-    left: .6vw;
+    left: 0;
+    width: 6vw;
 }
 .DifShowDivNormal{
-    width: 7.5vw;
-    left: 8.35vw;
+    left: 33%;
+    width: 6vw;
 }
 .DifShowDivHard{
-    width: 5.5vw;
-    left: 18.2vw;
+    left: 64%;
+    width: 6vw;
 }
 .DifDivek{
     position: relative;
