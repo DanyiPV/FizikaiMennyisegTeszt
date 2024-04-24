@@ -5,7 +5,9 @@ var Tablak;var Teljeskategoriak; var Alkategoriak;
 var tudnivalok = ["Valami tudnivaló első","Valami tudnivaló második","Valami tudnivaló harmadik","Valami tudnivaló negyedik","Valami tudnivaló ötödik"];
 var EgyediKat = [{nev: "Tudnivalók",rendel:"FooldalNav",id:"T"},{nev: "Egyéni",rendel: "TestoldalNav",id:"E"}];
 var ValasztottTablak;
+var KivalasztottTablak = [];
 var ValasztottTablaSorok;
+var ValasztottTime;
 
 function SideBarOpen(){
     document.getElementById("SideBarNav").classList.add("SideBarNavOpen");
@@ -365,6 +367,7 @@ function TestoldalBetoltese(value){
 function TestSettings(array){
     document.getElementById("MainBody").appendChild(DivCreate("TestSettings","TestSettingsDiv"));
     ValasztottTablak = array;
+    ValasztottTime = [0, 2, 30];
 
     ValasztottTablaSorok = [];
     array.forEach(elem => {
@@ -374,8 +377,8 @@ function TestSettings(array){
     });
     document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestTablakValaszt","TestTablakValaszt"));
     document.getElementById("TestTablakValaszt").innerHTML += "<p>Tábla választás</p>";
-    document.getElementById("TestTablakValaszt").setAttribute("onclick","TablaValasztoOpen()");
-    TablaValaszto(array);
+    document.getElementById("TestTablakValaszt").setAttribute("onclick","TablaValasztoOpen('Tabla')");
+    TablaValaszto();
     
     document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestSettingsSliderDiv","TestSettingsSliderDiv"));
     document.getElementById("TestSettingsSliderDiv").appendChild(DivCreate("TestSettingsSliderDivDisable","TestSettingsSliderDivDisable"));
@@ -395,10 +398,14 @@ function TestSettings(array){
     }
 
     document.getElementById("TestSettingsDiv").appendChild(DivCreate("TimerOnOff","TimerOnOff"));
-    document.getElementById("TimerOnOff").setAttribute("onclick","TimerOnOff()");
     document.getElementById("TimerOnOff").innerHTML = "<p>Idő limit</p>";
+    document.getElementById("TimerOnOff").setAttribute("onclick","TimerOnOff()");
     document.getElementById("TimerOnOff").appendChild(DivCreate("TimerIMG","TimerIMG"));
     document.getElementById("TimerIMG").appendChild(ImgCreate("ph/on_def.png"));
+    document.getElementById("TimerIMG").setAttribute("onclick","TimerOnOff()");
+    document.getElementById("TimerOnOff").appendChild(DivCreate("TimerSetIMG","TimerSetIMG"));
+    document.getElementById("TimerSetIMG").appendChild(ImgCreate("ph/time_set_def.png"));
+    document.getElementById("TimerSetIMG").setAttribute("onclick","TimerOnOff()");
 
     document.getElementById("TestSettingsDiv").appendChild(DivCreate("DifValaszto","DifValaszto"));
     document.getElementById("DifValaszto").appendChild(DivCreate("DifShowDiv","DifShowDiv"));
@@ -417,38 +424,76 @@ function TestSettings(array){
     document.getElementById("TestSettingsDiv").appendChild(DivCreate("TestStartDiv","TestStartDiv"));
     document.getElementById("TestStartDiv").appendChild(ImgCreate("ph/start_default.png"));
     document.getElementById("TestStartDiv").innerHTML += "<p>Indítás</p>";
-    document.getElementById("TestStartDiv").setAttribute("onclick","TestInditasa()")
+    document.getElementById("TestStartDiv").setAttribute("onclick","TestInditasa()");
 }
 
 function TimerOnOff(){
     if(document.getElementById("TimerIMG").classList.contains("TimerIMGOn")){
         document.getElementById("TimerIMG").classList.remove("TimerIMGOn");
         document.getElementById("TimerIMG").firstChild.src = "ph/on_def.png";
+        document.getElementById("TimerSetIMG").firstChild.src = "ph/time_set_def.png";
+        document.getElementById("TimerOnOff").classList.remove("TimerOnOffActive");
+        document.getElementById("TimerSetIMG").classList.remove("TimerSetIMGActive");
+        document.getElementById("TimerSetIMG").removeAttribute('onclick','TimerSettingsOn()');
+        document.getElementById("TimerOnOff").firstChild.setAttribute("onclick","TimerOnOff()");
+        document.getElementById("TimerIMG").setAttribute("onclick","TimerOnOff()");
+        document.getElementById("TimerSetIMG").setAttribute("onclick","TimerOnOff()");
+        document.getElementById("TimerOnOff").style.removeProperty("cursor");
     }else{
         document.getElementById("TimerIMG").classList.add("TimerIMGOn");
         document.getElementById("TimerIMG").firstChild.src = usersetting.drkmode == 1?"ph/on_dark.png":"ph/on_white.png";
+        document.getElementById("TimerOnOff").removeAttribute("onclick");
+        document.getElementById("TimerOnOff").classList.add("TimerOnOffActive");
+        document.getElementById("TimerIMG").setAttribute("onclick","TimerOnOff()");
+        document.getElementById("TimerOnOff").firstChild.setAttribute("onclick","TimerOnOff()");
+        document.getElementById("TimerOnOff").style.setProperty("cursor","default");
+        document.getElementById("TimerSetIMG").setAttribute('onclick','TimerSettingsOn()');
+        document.getElementById("TimerSetIMG").classList.add("TimerSetIMGActive");
+        document.getElementById("TimerSetIMG").firstChild.src = usersetting.drkmode == 1?"ph/time_set_dark.png":"ph/time_set_white.png";
+        TimerSettingsOn();
     }
+}
+
+function TimerSettingsOn(){
+    if(document.getElementById("TablaValasztoDiv") == undefined){
+        document.body.appendChild(DivCreate("TablaValasztoDiv","TablaValasztoDiv"));
+    }
+    else{
+        document.getElementById("TablaValasztoDiv").innerHTML = "";
+    }
+    TablaValasztoOpen("Timer");
+    document.getElementById("TablaValasztoDiv").appendChild(DivCreate("ValasztoTablakClose","ValasztoTablakClose"));
+    document.getElementById("TablaValasztoDiv").classList.add("TimerInputs");
+    document.getElementById("ValasztoTablakClose").appendChild(ImgCreate(usersetting.drkmode==1?"ph/close_dark.png":"ph/close_white.png"));
+    document.getElementById("ValasztoTablakClose").firstChild.setAttribute("onclick","TablaValasztoClose()");
+    document.getElementById("TablaValasztoDiv").innerHTML += "<form><label id='labelTestTimerH' for='inputTestTimerH'>óra</label><input type='number' max=24 min=0 value="+ValasztottTime[0]+" name='inputTestTimerH' id='inputTestTimerH' onchange='TimerChanged(this)'/></form>";
+    document.getElementById("TablaValasztoDiv").innerHTML += "<form><label id='labelTestTimerM' for='inputTestTimerM'>perc</label><input type='number' max=60 min=0 value="+ValasztottTime[1]+" name='inputTestTimerM' id='inputTestTimerM' onchange='TimerChanged(this)'/></form>";
+    document.getElementById("TablaValasztoDiv").innerHTML += "<form><label id='labelTestTimerS' for='inputTestTimerS'>másodperc</label><input type='number' max=60 min=0 value="+ValasztottTime[2]+" name='inputTestTimerS' id='inputTestTimerS' onchange='TimerChanged(this)'/></form>";
+}
+
+function TimerChanged(input){
+    let value = input.id[input.id.length-1];
+    value=='H'?ValasztottTime[0]=Number(document.getElementById("inputTestTimerH").value):value=='M'?ValasztottTime[1]=Number(document.getElementById("inputTestTimerM").value):ValasztottTime[2]=Number(document.getElementById("inputTestTimerS").value);
 }
 
 function TestInditasa(){
     let Dif = document.getElementById("DifShowDiv").classList[1]=="DifShowDivEasy"?1:(document.getElementById("DifShowDiv").classList[1]=="DifShowDivNormal"?2:"R");
     let Sorok = Number(document.getElementById("inputTestSlider").value);
-    let ValasztottTablak = [];
-    Array.from(document.getElementsByClassName("ValasztoTDivValaszt")).forEach(c=>ValasztottTablak.push(c.innerText));
+    document.getElementById("TimerIMG").classList.contains("TimerIMGOn")?ValasztottTime= (ValasztottTime[0]*360) + (ValasztottTime[1]*60) + ValasztottTime[2]:"";
     let ValasztottSorok = [];
-    for (let i = 0; i < ValasztottTablak.length; i++) {
-        Tablak.filter(x=>x.alkat_id == Alkategoriak.filter(c=>c.nev==ValasztottTablak[i])[0].id).forEach(k=>ValasztottSorok.push(k));
+    for (let i = 0; i < KivalasztottTablak.length; i++) {
+        Tablak.filter(x=>x.alkat_id == Alkategoriak.filter(c=>c.nev==KivalasztottTablak[i])[0].id).forEach(k=>ValasztottSorok.push(k));
     }
     let RandomArray = [];
     while(RandomArray.length < Sorok){
         let random = Math.floor(Math.random()*ValasztottSorok.length);
         !RandomArray.includes(random)?RandomArray.push(random):"";
     }
-    ValasztottTablak = [];
+    KivalasztottTablak = [];
     for (let i = 0; i < RandomArray.length; i++) {
-        ValasztottTablak.push(ValasztottSorok[RandomArray[i]]);
+        KivalasztottTablak.push(ValasztottSorok[RandomArray[i]]);
     }
-    for (let i = 0; i < ValasztottTablak.length; i++) {
+    for (let i = 0; i < KivalasztottTablak.length; i++) {
         if(Dif != "R"){
             RandomArray = [Math.floor(Math.random()*4)];
             if(Dif == 2){
@@ -459,13 +504,13 @@ function TestInditasa(){
             }
             for (let j = 0; j < RandomArray.length; j++) {
                 if(RandomArray[j] == 0){
-                    ValasztottTablak[i].nev = "";
+                    KivalasztottTablak[i].nev = "";
                 }else if(RandomArray[j] == 1){
-                    ValasztottTablak[i].jel = "";
+                    KivalasztottTablak[i].jel = "";
                 }else if(RandomArray[j] == 2){
-                    ValasztottTablak[i].def = "";
+                    KivalasztottTablak[i].def = "";
                 }else if(RandomArray[j] == 3){
-                    ValasztottTablak[i].mert = "";
+                    KivalasztottTablak[i].mert = "";
                 }
             }
         }else{
@@ -480,23 +525,37 @@ function TestInditasa(){
                 }
                 for (let j = 0; j < RandomArray.length; j++) {
                     if(RandomArray[j] == 0){
-                        ValasztottTablak[i].nev = "";
+                        KivalasztottTablak[i].nev = "";
                     }else if(RandomArray[j] == 1){
-                        ValasztottTablak[i].jel = "";
+                        KivalasztottTablak[i].jel = "";
                     }else if(RandomArray[j] == 2){
-                        ValasztottTablak[i].def = "";
+                        KivalasztottTablak[i].def = "";
                     }else if(RandomArray[j] == 3){
-                        ValasztottTablak[i].mert = "";
+                        KivalasztottTablak[i].mert = "";
                     }
                 }
             }else{
-                ValasztottTablak[i].jel = "";
-                ValasztottTablak[i].def = "";
-                ValasztottTablak[i].mert = "";
+                KivalasztottTablak[i].jel = "";
+                KivalasztottTablak[i].def = "";
+                KivalasztottTablak[i].mert = "";
             }
         }
     }
-    console.log(ValasztottTablak);
+    document.getElementById("TestSettingsDiv").classList.add("FeltolTestSettings");
+    setTimeout(TestTablaBetoltesek,700);
+}
+
+function TestTablaBetoltesek(){
+    document.getElementById("MainBody").innerHTML = "";
+    document.getElementById("MainBody").appendChild(DivCreate("TablaDivek","TestTablaDiv"));
+    document.getElementById("TestTablaDiv").appendChild(DivCreate("TablaNevDivek","TestTablaNevDiv"));
+    document.getElementById("TestTablaNevDiv").innerHTML ="<p>Teszt</p>";
+    document.getElementById("TestTablaDiv").appendChild(DivCreate("TablaNevekKiiras","TestDivKiiras"));
+    TablaSorokCreate("TestDivKiiras","Név","Jele","Definíció","Mértékegység");
+    for (let j = 0; j < KivalasztottTablak.length; j++) {
+        TablaSorokCreate("TestDivKiiras",KivalasztottTablak[j].nev,KivalasztottTablak[j].jel,KivalasztottTablak[j].def,KivalasztottTablak[j].mert);
+    }
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
 }
 
 function RandomGen(){
@@ -520,13 +579,13 @@ function DifValaszto(div){
     }
 }
 
-function TablaValaszto(array){
-    document.body.appendChild(DivCreate("TablaValasztoDiv","TablaValasztoDiv"));
+function TablaValaszto(){
+    document.getElementById("TablaValasztoDiv") == undefined?document.body.appendChild(DivCreate("TablaValasztoDiv","TablaValasztoDiv")):document.getElementById("TablaValasztoDiv").innerHTML = "";
     document.getElementById("TablaValasztoDiv").appendChild(DivCreate("ValasztoTablakClose","ValasztoTablakClose"));
     document.getElementById("ValasztoTablakClose").appendChild(ImgCreate(usersetting.drkmode==1?"ph/close_dark.png":"ph/close_white.png"));
     document.getElementById("ValasztoTablakClose").firstChild.setAttribute("onclick","TablaValasztoClose()");
-    array.forEach(elem => {
-        document.getElementById("TablaValasztoDiv").innerHTML += "<div class='ValasztoTDiv' onclick='TablaKivalasztasa(this)'><p>"+elem.nev+"</p></div";
+    ValasztottTablak.forEach(elem => {
+        document.getElementById("TablaValasztoDiv").innerHTML += "<div class='ValasztoTDiv "+(KivalasztottTablak.includes(elem.nev)?'ValasztoTDivValaszt':"")+"'  onclick='TablaKivalasztasa(this)'><p>"+elem.nev+"</p></div";
     });
 }
 
@@ -544,7 +603,7 @@ function TablaKivalasztasa(div){
         }else if(document.getElementById("inputTestSlider").max > 5 && div.classList.contains("ValasztoTDivValaszt") && (Number(document.getElementById("inputTestSlider").max) - db) <= 5){
             document.getElementById("inputTestSlider").max = 5;
         }
-    
+
         div.classList.contains("ValasztoTDivValaszt")?div.classList.remove("ValasztoTDivValaszt"):div.classList.add("ValasztoTDivValaszt");
         if(document.getElementById("TestSettingsSliderDivDisable")!=undefined && document.getElementsByClassName("ValasztoTDivValaszt").length>0){
             document.getElementById("TestSettingsSliderDiv").removeChild(document.getElementById("TestSettingsSliderDivDisable"));
@@ -555,11 +614,15 @@ function TablaKivalasztasa(div){
             document.getElementById("TestStartDiv").firstChild.src = "ph/start_default.png";
             document.getElementById("TestStartDiv").classList.remove("TestStartDivActive");
         }
-        
     }
+    let IT = div.firstChild.innerText;
+    div.classList.contains("ValasztoTDivValaszt")?KivalasztottTablak.push(IT):KivalasztottTablak.splice(KivalasztottTablak.indexOf(IT),1);
 }
 
-function TablaValasztoOpen(){
+function TablaValasztoOpen(value){
+    if(value == 'Tabla'){
+        TablaValaszto();
+    }
     document.getElementById("TablaValasztoDiv").classList.add("TablaValasztoDivOpen");
     document.getElementById("BlackBG").classList.add("BlackBGOn");
     document.getElementById("BlackBG").setAttribute("onclick","TablaValasztoClose()");
@@ -686,7 +749,7 @@ function ScrollToDiv(div){
 }
 window.onscroll = function ()
 {
-    if(document.getElementsByClassName("TablaNevDivek") != undefined){
+    if(document.getElementsByClassName("TablaNevDivek") != undefined && document.getElementById("OldalName").firstChild.innerText != "TEST PAGE"){
         let element = document.getElementsByClassName("TablaNevDivek")[1].getBoundingClientRect();
         if(document.getElementsByClassName("TablaNevDivek").length > 1 && element.top < 350){
             TetejereGorgetShow(true);

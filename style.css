@@ -382,6 +382,7 @@ nav{
     animation-duration: .8s;
     animation-fill-mode: forwards;
     margin-bottom: 1vw;
+    overflow: hidden;
 }
 .NavGorgeto{
     border-radius: .6vw;
@@ -570,6 +571,12 @@ nav{
     animation-duration: .8s;
     animation-fill-mode: forwards;
     animation-delay: .5s;
+    top: 0;
+    transition: .6s;
+}
+.FeltolTestSettings{
+    top: -7vw;
+    opacity: 0;
 }
 .TestTablakValaszt{
     display: flex;
@@ -738,6 +745,10 @@ nav{
     padding: .2vw 1vw;
     border-radius: 2vw;
     cursor: pointer;
+    color: gray;
+}
+.TimerOnOffActive{
+    color: var(--text_color) !important;
 }
 .TimerIMG{
     width: 6vw;
@@ -752,6 +763,9 @@ nav{
     transition: .3s;
     position: relative;
 }
+.TimerOnOff p, .TimerIMG {
+    cursor: pointer;
+}
 .TimerIMG img{
     height: 100%;
     position: relative;
@@ -760,6 +774,19 @@ nav{
 }
 .TimerIMGOn img{
     left: 35%;
+}
+.TimerSetIMG{
+    width: 1.5vw;
+    height: 1.5vw;
+    cursor: pointer;
+    border-radius: 2vw;
+    padding: .5vw;
+}
+.TimerSetIMGActive:hover{
+    background-color: var(--button_hover);
+}
+.TimerSetIMG img{
+    width: 100%;
 }
 .DifValaszto{
     display: flex;
@@ -771,6 +798,39 @@ nav{
     padding: 1vw;
     border-radius: .6vw;
     z-index: 1;
+}
+.TimerInputs form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    color: var(--text_color);
+    font-size: 1vw;
+    margin: 1vw 0;
+}
+.TimerInputs form:first-child{
+    margin-top: 3vw;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+}
+.TimerInputs form label{
+    width: 3vw;
+    text-align: left;
+    text-transform: uppercase;
+    margin-right: 2vw;
+    position: relative;
+    top: .5vw;
+}
+.TimerInputs form input{
+    outline: none;
+    border: none;
+    padding: .5vw;
+    width: 3vw;
+    font-size: 1vw;
+    border-radius: .6vw;
+    background-color: var(--input_bc);
+    color: var(--text_color);
 }
 .DifShowDiv{
     position: absolute;
