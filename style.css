@@ -419,18 +419,18 @@ nav{
     height: 2.5vw;
     right: -.5vw;
     bottom: -5vw;
-    background-color: var(--modal_bc);
+    background-color: var(--body_bc);
     padding: 1vw;
     display: flex;
     align-items: center;
     border-top-left-radius: 1vw;
-    transition: .3s;
+    transition: .5s;
     cursor: pointer;
     opacity: 0;
 }
 .FelGorgetoDivOpen{
     right: -.5vw;
-    bottom: 0;
+    bottom: -.1vw;
     opacity: 1;
 }
 .FelGorgetoDiv:hover{
