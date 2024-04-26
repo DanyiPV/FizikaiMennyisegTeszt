@@ -14,8 +14,8 @@
     <div class="FaultDiv" id="FaultDiv"></div>
     <div class="container" id="container">
         <div class="SelectLine">
-            <p onclick="SwitchTab('B')">login</p>
-            <p onclick="SwitchTab('R')">sign in</p>
+            <p onclick="SwitchTab('B')">bejelentkezés</p>
+            <p onclick="SwitchTab('R')">regisztálás</p>
         </div>
         <div class="Underline" id="Underline"></div>
         <div class="Tab" id="Tab">
@@ -28,40 +28,40 @@
                 </div>
                 <div class="InputTabs">
                     <form>
-                        <label for="input2" id="label2">password</label>
+                        <label for="input2" id="label2">jelszó</label>
                         <input type="password" name="input2" id="input2" maxlength="20" class="LogTabIndex" onclick="WarningColorRemove(2)" onfocus="WarningColorRemove(2)" value="PinteaViktoria2024">
                     </form>
                 </div>
                 <div class="Checkbox">
                     <form>
-                        <label for="Checkbox1">show password</label>
+                        <label for="Checkbox1">jelszó mutatás</label>
                         <input type="checkbox" name="Checkbox1" id="Checkbox1" tabindex="-1" onchange="PWShow(1)">
                     </form>
                 </div>
                 <div class="Button" onclick="Login()">
-                    <p tabindex="-1">login</p>
+                    <p tabindex="-1">bejelentkezés</p>
                 </div>
                 <div class="ForgetPW">
-                    <p tabindex="-1" onclick="ElfelejtettJelszo()">forget password?</p>
+                    <p tabindex="-1" onclick="ElfelejtettJelszo()">elfelejtette a jelszót?</p>
                 </div>
             </div>
             <div class="SwitchTab TabIndex" id="RegTab">
                 <div class="InputTabs">
                     <form>
-                        <label for="input3" id="label3">username</label>
-                        <input type="text" name="input3" id="input3" class="RegTabIndex" tabindex="-1" onclick="WarningColorRemove(3)" onfocus="WarningColorRemove(3)" value="Szelid Márk">
+                        <label for="input3" id="label3">felhasználó</label>
+                        <input type="text" name="input3" id="input3" class="RegTabIndex" tabindex="-1" onclick="WarningColorRemove(3)" onfocus="WarningColorRemove(3)">
                     </form>
                 </div>
                 <div class="InputTabs">
                     <form>
                         <label for="input4" id="label4">email</label>
-                        <input type="text" name="input4" id="input4" class="RegTabIndex" tabindex="-1" onclick="WarningColorRemove(4)" onfocus="WarningColorRemove(4)" value="mark.szelid@ckik.hu">
+                        <input type="text" name="input4" id="input4" class="RegTabIndex" tabindex="-1" onclick="WarningColorRemove(4)" onfocus="WarningColorRemove(4)">
                     </form>
                 </div>
                 <div class="InputTabs">
                     <form>
-                        <label for="input5" id="label5">password</label>
-                        <input type="password" name="input5" id="input5" class="RegTabIndex" tabindex="-1" maxlength="20" onchange="PasswordStrongCheck()" onclick="WarningColorRemove(5)" onfocus="WarningColorRemove(5)" value="Mikulas123">
+                        <label for="input5" id="label5">jelszó</label>
+                        <input type="password" name="input5" id="input5" class="RegTabIndex" tabindex="-1" maxlength="20" onchange="PasswordStrongCheck()" onclick="WarningColorRemove(5)" onfocus="WarningColorRemove(5)">
                     </form>
                 </div>
                 <div class="StrongPWDiv" id="StrongPWDiv">
@@ -74,13 +74,13 @@
                 </div>
                 <div class="InputTabs">
                     <form>
-                        <label for="input6" id="label6">confirm password</label>
-                        <input type="password" name="input6" id="input6" class="RegTabIndex" tabindex="-1" maxlength="20" onclick="WarningColorRemove(6)" onfocus="WarningColorRemove(6)" value="Mikulas123">
+                        <label for="input6" id="label6">jelszó megerősítés</label>
+                        <input type="password" name="input6" id="input6" class="RegTabIndex" tabindex="-1" maxlength="20" onclick="WarningColorRemove(6)" onfocus="WarningColorRemove(6)">
                     </form>
                 </div>
                 <div class="OsztalySelector">
-                    <p onclick="SwitchOsztaly('S')" tabindex="-1">student</p>
-                    <p onclick="SwitchOsztaly('T')" tabindex="-1">teacher</p>
+                    <p onclick="SwitchOsztaly('S')" tabindex="-1">diák</p>
+                    <p onclick="SwitchOsztaly('T')" tabindex="-1">tanár</p>
                 </div>
                 <div class="OsztalyUnderline" id="OsztalyUnderline" tabindex="-1"></div>
                 <div class="OsztalyContainer" id="OsztalyContainer">
@@ -112,7 +112,7 @@
                         </div>
                         <div class="TkodDiv">
                             <form>
-                                <label for="TKod" id="TKodLabel">confirm code</label>
+                                <label for="TKod" id="TKodLabel">kód megerősítése</label>
                                 <input type="text" name="TKod" id="TKod" tabindex="-1" onclick="WarningColoRemoveT()">
                             </form>
                         </div>
@@ -120,12 +120,12 @@
                 </div>
                 <div class="Checkbox">
                     <form>
-                        <label for="Checkbox2">show password</label>
+                        <label for="Checkbox2">jelszó mutatás</label>
                         <input type="checkbox" name="Checkbox2" id="Checkbox2" tabindex="-1" onchange="PWShow(2)">
                     </form>
                 </div>
                 <div class="Button" onclick="Register()">
-                    <p tabindex="-1">register</p>
+                    <p tabindex="-1">regisztrálás</p>
                 </div>
             </div>
         </div>

@@ -70,7 +70,7 @@ function DrkModeSwitch(value){
         usersetting.drkmode==0?color=1:color=0;
         usersetting.drkmode = color;
     }
-    document.getElementById("DrkModeDiv").children[1].innerText = color==1?"dark mode":"white mode";
+    document.getElementById("DrkModeDiv").children[1].innerText = color==1?"fekete mód":"fehér mód";
     value == "change"?UserSettingsChange("drkmode = "+usersetting.drkmode+"","userid = '"+Tuser.id+"'"):"";
     getComputedStyle(document.querySelector(':root'));
     color==1?document.getElementById("DrkModeDiv").children[1].innerText = "dark mode":document.getElementById("DrkModeDiv").children[1].innerText = "white mode";
@@ -110,40 +110,35 @@ function Settings(){
     SignInClose();
     if(document.getElementById("ProfilPicDiv") == undefined){
         document.getElementById("MainBody").innerHTML = "";
-        document.getElementById("OldalName").innerText = "Settings";
+        document.getElementById("OldalName").innerText = "Beállítások";
         document.getElementById("MainBody").appendChild(DivCreate("ProfilPicDiv","ProfilPicDiv"));
         document.getElementById("ProfilPicDiv").appendChild(DivCreate("ProfilPicDivIMG","ProfilPicDivIMG"));
         //UserAvatarLeker(Tuser.id);
         console.log(usersetting.avatar);
     
         document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+(usersetting.drkmode==1?"ph/user_dark.png":"ph/user_white.png")+")";
-        document.getElementById("ProfilPicDiv").innerHTML += "<p>Change profile picture</p>";
+        document.getElementById("ProfilPicDiv").innerHTML += "<p>Profilkép megváltoztatás</p>";
         document.getElementById("ProfilPicDiv").setAttribute("onclick","importIMG()");
         PrivateModOn("load");
     
         document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","UNChangeDiv"));
         document.getElementById("UNChangeDiv").appendChild(DivCreate("SettingsDivIMG","UNChangeDivIMG"));
         document.getElementById("UNChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/idcard_dark.png":"ph/idcard_white.png"));
-        document.getElementById("UNChangeDiv").innerHTML += "<p>change username</p>";
+        document.getElementById("UNChangeDiv").innerHTML += "<p>Felhasználónév</p>";
         document.getElementById("UNChangeDiv").setAttribute("onclick","UNChange()");
     
         document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","PWChangeDiv"));
         document.getElementById("PWChangeDiv").appendChild(DivCreate("SettingsDivIMG","PWChangeDivIMG"));
         document.getElementById("PWChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/password_dark.png":"ph/password_white.png"));
-        document.getElementById("PWChangeDiv").innerHTML += "<p>change password</p>";
+        document.getElementById("PWChangeDiv").innerHTML += "<p>jelszó</p>";
         document.getElementById("PWChangeDiv").setAttribute("onclick","PWChange()");
     
         document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","PrivateChangeDiv"));
         document.getElementById("PrivateChangeDiv").appendChild(DivCreate("SettingsDivIMG","PrivateChangeDivIMG"));
         document.getElementById("PrivateChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/private_dark.png":"ph/private_white.png"));
-        document.getElementById("PrivateChangeDiv").innerHTML += "<p>change profile visibility</p>";
+        document.getElementById("PrivateChangeDiv").innerHTML += "<p>Profil láthatóság</p>";
         document.getElementById("PrivateChangeDiv").setAttribute("onclick","PrivateModOn('change')");
     }
-}
-
-function AvatarBeallit(response){
-    console.log(response, "data:image/png;base64,"+response);
-    document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+(response != undefined?"data:image/png;base64,"+response:usersetting.drkmode==1?"ph/user_dark.png":"ph/user_white.png")+")";
 }
 
 function UNChange(){
@@ -173,10 +168,10 @@ function PWChange(){
         document.getElementById("EgyDivMindFelett").classList.add("PWChange");
         document.getElementById("BlackBG").classList.add("BlackBGOn");
         document.getElementById("BlackBG").setAttribute("onclick","EgyMindFelettClose()");
-        document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("password","current","Current password");
-        document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("password","new","New password");
-        document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("password","newconfirm","new password confirm");
-        document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("checkbox","showpw","show password");
+        document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("password","current","Jelenlegi jelszó");
+        document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("password","new","Új jelszó");
+        document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("password","newconfirm","Új jelszó megerősítése");
+        document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("checkbox","showpw","jelszó mutatás");
         document.getElementById("inputshowpw").setAttribute("onchange","PWShow(1)");
         document.getElementById("EgyDivMindFelett").appendChild(DivCreate("PWchangeSubmit","PWchangeSubmit"));
         document.getElementById("PWchangeSubmit").innerHTML = "<p>password change</p>";
@@ -295,7 +290,7 @@ function AdatokKiitaras(){
     document.getElementById("TestoldalBetolt").setAttribute("onclick","TestoldalBetoltese('default')");
     document.getElementById("TestoldalBetolt").appendChild(DivCreate("NavGombIMG","TestoldalBetoltDivIMG"));
     document.getElementById("TestoldalBetoltDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/test_dark.png":"ph/test_white.png"));
-    document.getElementById("TestoldalBetolt").innerHTML += "<p>test oldal</p>";
+    document.getElementById("TestoldalBetolt").innerHTML += "<p>teszt oldal</p>";
 
     for (let i = 0; i < EgyediKat.length; i++) {
         for (let j = 0; j < Teljeskategoriak.length; j++) {
@@ -340,7 +335,7 @@ function FooldalBetoltese(value){
 
 function TestoldalBetoltese(value){
     document.getElementById("MainBody").innerHTML = "";
-    document.getElementById("OldalName").innerHTML = "<p>Test page</p>";
+    document.getElementById("OldalName").innerHTML = "<p>Teszt oldal</p>";
     var IdCheck;
     if(document.getElementById("NavSelectorFoDiv") != undefined){
         IdCheck = document.getElementById("NavSelectorFoDiv").children[1].id;
