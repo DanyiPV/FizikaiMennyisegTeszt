@@ -305,6 +305,7 @@ function AdatokKiitaras(){
 function FooldalBetoltese(value){
     SignInClose();SideBarClose();
     if(document.getElementById("TudnivalokDiv") == undefined){
+        document.getElementById("OldalName").firstChild.innerText = "Fő oldal";
         document.getElementById("MainBody").innerHTML = "";
         var IdCheck;
         if(document.getElementById("NavSelectorFoDiv") != undefined){
