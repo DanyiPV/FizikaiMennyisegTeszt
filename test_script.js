@@ -491,6 +491,7 @@ function TestInditasa(){
         KivalasztottTablak.push(ValasztottSorok[RandomArray[i]]);
     }
     let TeljesTablak = [];
+    let KivettErtekek = [];
     for (let i = 0; i < KivalasztottTablak.length; i++) {
         let SorokArray = [KivalasztottTablak[i].nev,KivalasztottTablak[i].jel,KivalasztottTablak[i].def,KivalasztottTablak[i].mert,KivalasztottTablak[i].id];
         if(Dif != "R"){
@@ -503,7 +504,12 @@ function TestInditasa(){
             }
             let BA = [];
             for (let i = 0; i < SorokArray.length; i++) {
-                !RandomArray.includes(i)?BA.push(SorokArray[i]):BA.push("");
+                if(!RandomArray.includes(i)){
+                    BA.push(SorokArray[i])
+                }else{
+                    KivettErtekek.push(SorokArray[i]);
+                    BA.push("");
+                }
             }
             TeljesTablak.push(BA);
         }else{
@@ -518,19 +524,27 @@ function TestInditasa(){
                 }
                 let BA = [];
                 for (let i = 0; i < SorokArray.length; i++) {
-                    !RandomArray.includes(i)?BA.push(SorokArray[i]):BA.push("");
+                    if(!RandomArray.includes(i)){
+                        BA.push(SorokArray[i])
+                    }else{
+                        KivettErtekek.push(SorokArray[i]);
+                        BA.push("");
+                    }
                 }
                 BA.push(KivalasztottTablak[i].id);
             }else{
                 TeljesTablak.push([SorokArray[0],"","",""]);
+                KivettErtekek.push(SorokArray[1]);
+                KivettErtekek.push(SorokArray[2]);
+                KivettErtekek.push(SorokArray[3]);
             }
         }
     }
     document.getElementById("TestSettingsDiv").classList.add("FeltolTestSettings");
-    setTimeout(TestTablaBetoltesek,700,TeljesTablak);
+    setTimeout(TestTablaBetoltesek,700,TeljesTablak,KivettErtekek);
 }
 
-function TestTablaBetoltesek(array){
+function TestTablaBetoltesek(array,kivettarray){
     document.getElementById("MainBody").innerHTML = "";
     document.getElementById("MainBody").appendChild(DivCreate("TablaDivek","TestTablaDiv"));
     document.getElementById("TestTablaDiv").appendChild(DivCreate("TablaNevDivek","TestTablaNevDiv"));
@@ -546,6 +560,16 @@ function TestTablaBetoltesek(array){
                 UtolsoChild[j].dataset.sorid = array[j][4];
             }
         }
+    }
+    document.body.appendChild(DivCreate("KivettErtekek","KivettErtekek"));
+    let ra = [];
+    while(ra.length < kivettarray.length){
+        let random = Math.floor(Math.random()*4);
+        !ra.includes(random)?ra.push(random):"";
+    }
+    for (let i = 0; i < ra.length; i++) {
+        document.getElementById("KivettErtekek").appendChild(DivCreate("KEDivek","KEDivek"+i));
+        document.getElementById("KEDivek"+i).innerHTML = "<p>"+kivettarray[ra[i]]+"</p>";
     }
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
 }
