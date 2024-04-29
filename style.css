@@ -910,6 +910,31 @@ nav{
 .TestStartDivActive:hover > img{
     top: -.2vw;
 }
+.LetehetoValasz p, .CserelhetoValasz p{
+    background-color: transparent;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 98%;
+    height: 90%;
+    border-radius: .4vw;
+    animation-name: ValaszthatoHelyek !important;
+    animation-duration: 2.5s !important;
+    animation-iteration-count: infinite;
+}
+.LetehetoValasz p{
+    border: .1vw solid rgba(0, 255, 0);
+}
+.CserelhetoValasz p{
+    border: .1vw solid darkorange;
+}
+
+@keyframes ValaszthatoHelyek{
+    0%   {opacity: 0.4;}
+    50%  {opacity: 1;}
+    100% {opacity: 0.4;}
+}
 
 @keyframes OpacityLoad{
     from {opacity: 0;}

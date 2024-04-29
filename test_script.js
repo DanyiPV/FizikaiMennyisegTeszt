@@ -492,7 +492,7 @@ function TestInditasa(){
     }
     let TeljesTablak = [];
     for (let i = 0; i < KivalasztottTablak.length; i++) {
-        let SorokArray = [KivalasztottTablak[i].nev,KivalasztottTablak[i].jel,KivalasztottTablak[i].def,KivalasztottTablak[i].mert];
+        let SorokArray = [KivalasztottTablak[i].nev,KivalasztottTablak[i].jel,KivalasztottTablak[i].def,KivalasztottTablak[i].mert,KivalasztottTablak[i].id];
         if(Dif != "R"){
             RandomArray = [Math.floor(Math.random()*4)];
             if(Dif == 2){
@@ -527,7 +527,6 @@ function TestInditasa(){
         }
     }
     document.getElementById("TestSettingsDiv").classList.add("FeltolTestSettings");
-    console.log(TeljesTablak);
     setTimeout(TestTablaBetoltesek,700,TeljesTablak);
 }
 
@@ -538,8 +537,15 @@ function TestTablaBetoltesek(array){
     document.getElementById("TestTablaNevDiv").innerHTML ="<p>Teszt</p>";
     document.getElementById("TestTablaDiv").appendChild(DivCreate("TablaNevekKiiras","TestDivKiiras"));
     TablaSorokCreate("TestDivKiiras","Név","Jele","Definíció","Mértékegység");
-    for (let j = 0; j < array.length; j++) {
-        TablaSorokCreate("TestDivKiiras",array[j][0],array[j][1],array[j][2],array[j][3]);
+    for (let i = 0; i < array.length; i++) {
+        TablaSorokCreate("TestDivKiiras",array[i][0],array[i][1],array[i][2],array[i][3]);
+        let UtolsoChild = document.getElementById("TestDivKiiras").lastChild.children;
+        for (let j = 0; j <UtolsoChild.length; j++) {
+            if(UtolsoChild[j].firstChild.innerText == ""){
+                UtolsoChild[j].classList.add("KivettValaszDivek");
+                UtolsoChild[j].dataset.sorid = array[j][4];
+            }
+        }
     }
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
 }
@@ -667,7 +673,6 @@ function CategoryLoad(div){
     }
     if(DivId[DivId.length-1] == "T" && !document.getElementById(DivId+"N").classList.contains("SelectedNav")){
         document.getElementById("MainBody").innerHTML = "";
-        //https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
         document.getElementById("OldalName").innerHTML = "<p>fő oldal</p>";
         if(document.getElementById("NavSelectorFoDiv") != undefined && IdCheck == "E"){
             document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
@@ -737,7 +742,7 @@ function ScrollToDiv(div){
 }
 window.onscroll = function ()
 {
-    if(document.getElementsByClassName("TablaNevDivek") != undefined && document.getElementById("OldalName").firstChild.innerText != "TEST PAGE"){
+    if(document.getElementsByClassName("TablaNevDivek") != undefined && document.getElementById("OldalName").firstChild.innerText != "TESZT OLDAL"){
         let element = document.getElementsByClassName("TablaNevDivek")[1].getBoundingClientRect();
         if(document.getElementsByClassName("TablaNevDivek").length > 1 && element.top < 350){
             TetejereGorgetShow(true);
