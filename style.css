@@ -26,6 +26,7 @@ html,body{
     --warning_c: orangered;/*orangered*/
     --tablanev_bc: rgba(100,100,100);
     --tabla_bc: rgba(80,80,80);
+    --kivettdiv: rgba(0, 0, 0, 0.4);
 }
 
 .BlackBG{
@@ -492,6 +493,8 @@ nav{
 .TablaBelsoErtekek div p{
     margin: 0;
     opacity: 0;
+    display: flex;
+    align-items: center;
     animation-name: OpacityLoad;
     animation-duration: .8s;
     animation-fill-mode: forwards;
@@ -551,7 +554,7 @@ nav{
 }
 
 .MainBodyMegemel{
-    margin-bottom: 5.5vw;
+    margin-bottom: 5.8vw;
 }
 .TestSettings{
     background-color: var(--tabla_bc);
@@ -923,7 +926,7 @@ nav{
     height: 90%;
     border-radius: .4vw;
     animation-name: ValaszthatoHelyek !important;
-    animation-duration: 2.5s !important;
+    animation-duration: 1.5s !important;
     animation-iteration-count: infinite;
 }
 .LetehetoValasz p{
@@ -934,6 +937,7 @@ nav{
 }
 .KivettErtekek{
     border: .1vw solid var(--modal_border);
+    background-color: var(--kivettdiv);
     display: flex;
     overflow-x: scroll;
     width: 90.2%;
