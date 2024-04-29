@@ -547,6 +547,7 @@ function TestInditasa(){
 function TestTablaBetoltesek(array,kivettarray){
     document.getElementById("MainBody").innerHTML = "";
     document.getElementById("MainBody").appendChild(DivCreate("TablaDivek","TestTablaDiv"));
+    document.getElementById("MainBody").classList.add("MainBodyMegemel");
     document.getElementById("TestTablaDiv").appendChild(DivCreate("TablaNevDivek","TestTablaNevDiv"));
     document.getElementById("TestTablaNevDiv").innerHTML ="<p>Teszt</p>";
     document.getElementById("TestTablaDiv").appendChild(DivCreate("TablaNevekKiiras","TestDivKiiras"));
@@ -564,7 +565,7 @@ function TestTablaBetoltesek(array,kivettarray){
     document.body.appendChild(DivCreate("KivettErtekek","KivettErtekek"));
     let ra = [];
     while(ra.length < kivettarray.length){
-        let random = Math.floor(Math.random()*4);
+        let random = Math.floor(Math.random()*kivettarray.length);
         !ra.includes(random)?ra.push(random):"";
     }
     for (let i = 0; i < ra.length; i++) {

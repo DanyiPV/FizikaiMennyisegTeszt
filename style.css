@@ -550,6 +550,9 @@ nav{
     animation-delay: .8s;
 }
 
+.MainBodyMegemel{
+    margin-bottom: 5.5vw;
+}
 .TestSettings{
     background-color: var(--tabla_bc);
     color: var(--text_color);
@@ -928,6 +931,62 @@ nav{
 }
 .CserelhetoValasz p{
     border: .1vw solid darkorange;
+}
+.KivettErtekek{
+    border: .1vw solid var(--modal_border);
+    display: flex;
+    overflow-x: scroll;
+    width: 90.2%;
+    position: fixed;
+    bottom: .5vw;
+    left: 50%;
+    transform: translate(-50%,0);
+    text-align: center;
+    color: var(--text_color);
+    border-radius: .6vw;
+    padding: 0 .5vw;
+    backdrop-filter: blur(1.5px);
+    font-size: 1vw;
+}
+.KEDivek{
+    display: flex;
+    width: fit-content;
+    min-width: fit-content;
+    justify-content: center;
+    align-items: center;
+    padding: 0vw 1vw;
+    transition: .3s;
+    margin: .5vw;
+    border-radius: .4vw;
+    cursor: pointer;
+}
+.KEDivek p{
+    margin: .2vw;
+}
+.KEDivek:hover{
+    background-color: var(--button_hover);
+}
+
+.KivettErtekek::-webkit-scrollbar {
+    width: auto;
+    height: .5vw;
+}
+  
+/* Track */
+.KivettErtekek::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px transparent; 
+    margin: 0 .3vw;
+}
+   
+/* Handle */
+.KivettErtekek::-webkit-scrollbar-thumb {
+    background: var(--input_bc); 
+    border-radius: 4vw;
+}
+  
+/* Handle on hover */
+.KivettErtekek::-webkit-scrollbar-thumb:hover {
+    background: var(--button_hover); 
 }
 
 @keyframes ValaszthatoHelyek{
