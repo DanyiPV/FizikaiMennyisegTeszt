@@ -577,8 +577,13 @@ function TestTablaBetoltesek(array,kivettarray){
     for (let i = 0; i < ra.length; i++) {
         document.getElementById("KivettErtekek").appendChild(DivCreate("KEDivek","KEDivek"+i));
         document.getElementById("KEDivek"+i).innerHTML = "<p>"+kivettarray[ra[i]]+"</p>";
+        document.getElementById("KEDivek"+i).setAttribute("onclick","KivettErtekek(this)");
     }
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
+}
+
+function KivettErtekek(div){
+    
 }
 
 function RandomGen(){
