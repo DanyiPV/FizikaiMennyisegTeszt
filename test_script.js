@@ -9,6 +9,7 @@ var KivalasztottTablak = [];
 var ValasztottTablaSorok;
 var ValasztottTime;
 var TestActive = false;
+var TestTimer
 
 function SideBarOpen(){
     if(!TestActive){
@@ -551,6 +552,7 @@ function TestInditasa(){
 }
 
 function TestTablaBetoltesek(array,kivettarray){
+    let timeractive = document.getElementsByClassName("TimerIMGOn").length==1?true:false;
     document.getElementById("MainBody").innerHTML = "";
     document.getElementById("MainBody").appendChild(DivCreate("TablaDivek","TestTablaDiv"));
     document.getElementById("MainBody").classList.add("MainBodyMegemel");
@@ -579,7 +581,24 @@ function TestTablaBetoltesek(array,kivettarray){
         document.getElementById("KEDivek"+i).innerHTML = "<p>"+kivettarray[ra[i]]+"</p>";
         document.getElementById("KEDivek"+i).setAttribute("onclick","KivettErtekek(this)");
     }
+    if(timeractive){
+        document.getElementById("TestDivKiiras").appendChild(DivCreate("TestTimer","TestTimer"));
+        TestTimer = setInterval(TestTimerKiir,1000);
+    }
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
+}
+
+function TestTimerKiir(){
+    if(ValasztottTime >= 0){
+        let h = Math.floor(ValasztottTime/360);
+        let sec = h>0?Math.floor((ValasztottTime-h*360)%60):Math.floor(ValasztottTime%60);
+        let min = h>0?Math.floor((ValasztottTime-h*360)/60):Math.floor(ValasztottTime/60);
+        document.getElementById("TestTimer").innerHTML = "<p>"+(h>0?h+":":"")+(min>9?min:"0"+min)+":"+(sec>9?sec:"0"+sec)+"</p>";
+        if(min == 0 && h == 0 && sec <= 30){
+            sec <= 10?document.getElementById("TestTimer").classList.add("TestTimerE"):document.getElementById("TestTimer").classList.add("TestTimerAE");
+        }
+        ValasztottTime = ValasztottTime -1;
+    }
 }
 
 function KivettErtekek(div){

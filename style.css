@@ -444,7 +444,7 @@ nav{
 }
 .TablaNevekKiiras{
     padding: .5vw;
-    font-size: 1.2vw;
+    font-size: 1vw;
     opacity: 0;
     animation-name: OpacityLoad;
     animation-duration: .8s;
@@ -915,6 +915,26 @@ nav{
 }
 .TestStartDivActive:hover > img{
     top: -.2vw;
+}
+.TestTimer{
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: var(--text_color);
+    font-family: "digital-7";
+    font-size: 2.5vw;
+    background-color: var(--button_hover);
+    padding: 1vw;
+    border-bottom-left-radius: 2vw;
+}
+.TestTimer p{
+    margin: 0;
+}
+.TestTimerAE{
+    color: orange;
+}
+.TestTimerE{
+    color: red;
 }
 .LetehetoValasz p, .CserelhetoValasz p{
     background-color: transparent;
