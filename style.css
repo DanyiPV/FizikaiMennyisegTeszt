@@ -488,17 +488,26 @@ nav{
     border-top: .1vw solid var(--modal_border);
     border-right: .1vw solid var(--modal_border);
     width: 25%;
-    padding: 1.5vw;
+    padding: 2vw;
 }
 .TablaBelsoErtekek div p{
     margin: 0;
     opacity: 0;
     display: flex;
+    background-color: transparent;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
     align-items: center;
     animation-name: OpacityLoad;
     animation-duration: .8s;
     animation-fill-mode: forwards;
     animation-delay: .8s;
+}
+.AlsoBorder{
+    border-bottom: .1vw solid var(--modal_border);
+    border-radius: .6vw;
 }
 
 .TablaDivek{
@@ -936,15 +945,24 @@ nav{
 .TestTimerE{
     color: red;
 }
-.LetehetoValasz p, .CserelhetoValasz p{
+.LetehetoValasz, .CserelhetoValasz{
+    cursor: pointer;
+}
+.LetehetoValasz p, .CserelhetoValasz p, .ActiveValasz p{
     background-color: transparent;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    align-items: center;
     width: 98%;
     height: 90%;
     border-radius: .4vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.LetehetoValasz p, .CserelhetoValasz p{
     animation-name: ValaszthatoHelyek !important;
     animation-duration: 1.5s !important;
     animation-iteration-count: infinite;
@@ -954,6 +972,9 @@ nav{
 }
 .CserelhetoValasz p{
     border: .1vw solid darkorange;
+}
+.ActiveValasz p{
+    border: .1vw solid var(--modal_border);
 }
 .KivettErtekek{
     border: .1vw solid var(--modal_border);
@@ -971,6 +992,11 @@ nav{
     padding: 0 .5vw;
     backdrop-filter: blur(1.5px);
     font-size: 1vw;
+    opacity: 0;
+    animation-name: KivettDivAnim;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-delay: 1.5s;
 }
 .KEDivek{
     display: flex;
@@ -983,11 +1009,17 @@ nav{
     margin: .5vw;
     border-radius: .4vw;
     cursor: pointer;
+    color: var(--text_color);
 }
 .KEDivek p{
     margin: .2vw;
+    position: relative;
+    z-index: 3;
 }
 .KEDivek:hover{
+    background-color: var(--button_hover);
+}
+.KivettErtekActive{
     background-color: var(--button_hover);
 }
 
@@ -1013,10 +1045,15 @@ nav{
     background: var(--button_hover); 
 }
 
+@keyframes KivettDivAnim{
+    from {opacity: 0; bottom: -10vw;}
+    to {opacity: 1; bottom: .5vw;}
+}
+
 @keyframes ValaszthatoHelyek{
-    0%   {opacity: 0.4;}
+    0%   {opacity: 0.6;}
     50%  {opacity: 1;}
-    100% {opacity: 0.4;}
+    100% {opacity: 0.6;}
 }
 
 @keyframes OpacityLoad{

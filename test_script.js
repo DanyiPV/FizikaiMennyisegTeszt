@@ -483,7 +483,7 @@ function TestInditasa(){
     TestActive = true;
     let Dif = document.getElementById("DifShowDiv").classList[1]=="DifShowDivEasy"?1:(document.getElementById("DifShowDiv").classList[1]=="DifShowDivNormal"?2:"R");
     let Sorok = Number(document.getElementById("inputTestSlider").value);
-    document.getElementById("TimerIMG").classList.contains("TimerIMGOn")?ValasztottTime= (ValasztottTime[0]*360) + (ValasztottTime[1]*60) + ValasztottTime[2]:"";
+    document.getElementById("TimerIMG").classList.contains("TimerIMGOn")?ValasztottTime = (ValasztottTime[0]*3600) + (ValasztottTime[1]*60) + ValasztottTime[2]:"";
     let ValasztottSorok = [];
     for (let i = 0; i < KivalasztottTablak.length; i++) {
         Tablak.filter(x=>x.alkat_id == Alkategoriak.filter(c=>c.nev==KivalasztottTablak[i])[0].id).forEach(k=>ValasztottSorok.push(k));
@@ -566,7 +566,7 @@ function TestTablaBetoltesek(array,kivettarray){
         for (let j = 0; j <UtolsoChild.length; j++) {
             if(UtolsoChild[j].firstChild.innerText == ""){
                 UtolsoChild[j].classList.add("KivettValaszDivek");
-                UtolsoChild[j].dataset.sorid = array[j][4];
+                UtolsoChild[j].dataset.sorid = array[i][4];
             }
         }
     }
@@ -577,22 +577,26 @@ function TestTablaBetoltesek(array,kivettarray){
         !ra.includes(random)?ra.push(random):"";
     }
     for (let i = 0; i < ra.length; i++) {
-        document.getElementById("KivettErtekek").appendChild(DivCreate("KEDivek","KEDivek"+i));
-        document.getElementById("KEDivek"+i).innerHTML = "<p>"+kivettarray[ra[i]]+"</p>";
-        document.getElementById("KEDivek"+i).setAttribute("onclick","KivettErtekek(this)");
+        document.getElementById("KivettErtekek").appendChild(DivCreate("KEDivek",""));
+        let elem = document.getElementsByClassName("KEDivek")[document.getElementsByClassName("KEDivek").length-1];
+        elem.innerHTML = "<p>"+kivettarray[ra[i]]+"</p>";
+        elem.setAttribute("onclick","KivettErtekek(this,'KivettErtek')");
     }
     if(timeractive){
         document.getElementById("TestDivKiiras").appendChild(DivCreate("TestTimer","TestTimer"));
         TestTimer = setInterval(TestTimerKiir,1000);
+        document.getElementsByClassName("TablaBelsoErtekek")[document.getElementsByClassName("TablaBelsoErtekek").length-1].classList.add("AlsoBorder");
+        document.getElementsByClassName("TablaBelsoErtekek")[document.getElementsByClassName("TablaBelsoErtekek").length-1].children[0].style.borderBottomLeftRadius = ".6vw";
+        document.getElementsByClassName("TablaBelsoErtekek")[document.getElementsByClassName("TablaBelsoErtekek").length-1].children[3].style.borderBottomRightRadius = ".6vw";
     }
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
 }
 
 function TestTimerKiir(){
     if(ValasztottTime >= 0){
-        let h = Math.floor(ValasztottTime/360);
-        let sec = h>0?Math.floor((ValasztottTime-h*360)%60):Math.floor(ValasztottTime%60);
-        let min = h>0?Math.floor((ValasztottTime-h*360)/60):Math.floor(ValasztottTime/60);
+        let h = Math.floor(ValasztottTime/3600);
+        let sec = h>0?Math.floor((ValasztottTime-h*3600)%60):Math.floor(ValasztottTime%60);
+        let min = h>0?Math.floor((ValasztottTime-h*3600)/60):Math.floor(ValasztottTime/60);
         document.getElementById("TestTimer").innerHTML = "<p>"+(h>0?h+":":"")+(min>9?min:"0"+min)+":"+(sec>9?sec:"0"+sec)+"</p>";
         if(min == 0 && h == 0 && sec <= 30){
             sec <= 10?document.getElementById("TestTimer").classList.add("TestTimerE"):document.getElementById("TestTimer").classList.add("TestTimerAE");
@@ -601,8 +605,65 @@ function TestTimerKiir(){
     }
 }
 
-function KivettErtekek(div){
-    
+function KivettErtekek(div,value){
+    if(value == "KivettErtek"){
+        if(document.getElementsByClassName("ActiveValasz").length == 1){
+            document.getElementsByClassName("ActiveValasz")[0].classList.add("CserelhetoValasz");
+            document.getElementsByClassName("ActiveValasz")[0].classList.remove('ActiveValasz');
+        }
+    }
+    if(document.getElementsByClassName("KivettErtekActive").length == 0 || document.getElementsByClassName("KivettErtekActive")[0]!=div){
+        document.getElementsByClassName("KivettErtekActive").length>0?document.getElementsByClassName("KivettErtekActive")[0].classList.remove("KivettErtekActive"):"";
+        div.classList.add("KivettErtekActive");
+        let ValaszthatoHelyek = document.getElementsByClassName("KivettValaszDivek");
+        for (let i = 0; i < ValaszthatoHelyek.length; i++) {
+            !ValaszthatoHelyek[i].classList.contains("ActiveValasz")?ValaszthatoHelyek[i].firstChild.innerText==""?ValaszthatoHelyek[i].classList.add("LetehetoValasz"):ValaszthatoHelyek[i].classList.add("CserelhetoValasz"):"";
+            ValaszthatoHelyek[i].setAttribute("onclick","ValaszBetevese(this,'"+(ValaszthatoHelyek[i].firstChild.innerText==""?'betesz':'csere')+"')");
+        }
+    }
+}
+
+function ValaszBetevese(div,value){
+    if(value == "betesz"){
+        div.classList.remove("LetehetoValasz");
+        div.removeAttribute("onclick");
+        if(document.getElementsByClassName("KivettErtekActive").length == 1){
+            div.innerHTML = document.getElementsByClassName("KivettErtekActive")[0].children[0].outerHTML;
+            document.getElementById("KivettErtekek").removeChild(document.getElementsByClassName("KivettErtekActive")[0]);
+            if(document.getElementsByClassName("ActiveValasz").length == 1 && document.getElementsByClassName("ActiveValasz")[0] != div){
+                document.getElementsByClassName("ActiveValasz")[0].classList.remove("ActiveValasz");
+                div.classList.add("ActiveValasz");
+            }else if(document.getElementsByClassName("ActiveValasz").length == 0){
+                div.classList.add("ActiveValasz");
+            }
+        }else if(document.getElementsByClassName("ActiveValasz").length == 1){
+            div.innerHTML = document.getElementsByClassName("ActiveValasz")[0].children[0].outerHTML;
+            document.getElementsByClassName("ActiveValasz")[0].setAttribute("onclick","ValaszBetevese(this,'betesz')");
+            document.getElementsByClassName("ActiveValasz")[0].classList.add("LetehetoValasz");
+            document.getElementsByClassName("ActiveValasz")[0].innerHTML = "<p></p>";
+            document.getElementsByClassName("ActiveValasz")[0].classList.remove("ActiveValasz");
+            div.classList.add("ActiveValasz");
+        }
+    }else{
+        if(document.getElementsByClassName("KivettErtekActive").length == 1){
+            let innertext = div.firstChild;
+            div.innerHTML = document.getElementsByClassName("KivettErtekActive")[0].children[0].outerHTML;
+            div.classList.remove("CserelhetoValasz");
+            div.classList.add("ActiveValasz");
+            document.getElementsByClassName("KivettErtekActive")[0].innerHTML = innertext.outerHTML;
+            document.getElementsByClassName("KivettErtekActive")[0].classList.remove("KivettErtekActive");
+
+        }else if(document.getElementsByClassName("ActiveValasz").length == 1){
+            let innertext = div.firstChild;
+            div.innerHTML = document.getElementsByClassName("ActiveValasz")[0].firstChild.outerHTML;
+            div.classList.remove("CserelhetoValasz");
+            document.getElementsByClassName("ActiveValasz")[0].innerHTML = innertext.outerHTML;
+            document.getElementsByClassName("ActiveValasz")[0].classList.add("CserelhetoValasz");
+            document.getElementsByClassName("ActiveValasz")[0].setAttribute("onclick","ValaszBetevese(this,'csere')");
+            document.getElementsByClassName("ActiveValasz")[0].classList.remove("ActiveValasz");
+            div.classList.add("ActiveValasz");
+        }
+    }
 }
 
 function RandomGen(){
@@ -823,7 +884,7 @@ function TablaSorokCreate(id,nev,jel,def,mert){
 
 function DivCreate(Class,id){
     let div = document.createElement("div");
-    div.id = id;
+    id!=""?div.id = id:"";
     div.classList.add(Class);
     return div;
 }
