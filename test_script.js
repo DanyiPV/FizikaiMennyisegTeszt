@@ -589,10 +589,21 @@ function TestTablaBetoltesek(array,kivettarray){
         document.getElementsByClassName("TablaBelsoErtekek")[document.getElementsByClassName("TablaBelsoErtekek").length-1].children[0].style.borderBottomLeftRadius = ".6vw";
         document.getElementsByClassName("TablaBelsoErtekek")[document.getElementsByClassName("TablaBelsoErtekek").length-1].children[3].style.borderBottomRightRadius = ".6vw";
     }
+    document.getElementById("TestDivKiiras").appendChild(DivCreate("TestDone","TestDone"));
+    document.getElementById("TestDone").innerHTML = "<p>teszt leadása</p>";
+    document.getElementById("TestDone").setAttribute("onclick","TesztLeadasa()")
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
 }
 
+function TesztLeadasa(){
+    //Teszt kiertekeles
+}
+
 function TestTimerKiir(){
+    if(ValasztottTime == 0){
+        clearInterval(TestTimer);
+        TesztLeadasa();
+    }
     if(ValasztottTime >= 0){
         let h = Math.floor(ValasztottTime/3600);
         let sec = h>0?Math.floor((ValasztottTime-h*3600)%60):Math.floor(ValasztottTime%60);

@@ -945,6 +945,29 @@ nav{
 .TestTimerE{
     color: red;
 }
+.TestDone{
+    position: absolute;
+    color: gray;
+    top: 0;
+    left: 0;
+    padding: 1vw;
+    cursor: pointer;
+    border-bottom-right-radius: .6vw;
+    border-top-left-radius: .6vw;
+    transition: .3s;
+    border: .1vw solid gray;
+}
+.TestDone:hover{
+    background-color: var(--button_hover);
+    color: var(--text_color);
+    border: .1vw solid transparent;
+}
+.TestDone p{
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+    font-size: 1.7vw; 
+}
 .LetehetoValasz, .CserelhetoValasz{
     cursor: pointer;
 }
