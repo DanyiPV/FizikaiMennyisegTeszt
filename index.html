@@ -39,6 +39,12 @@
         <div class="SideBarBody" id="SideBarBody">
             
         </div>
+        <div class="SideBarSwitch" id="SideBarSwitch" onclick="SideBarNotif()">
+            <p>Értesítések</p>
+            <div class="SideBarSwitchIMG" id="SideBarSwitchIMG">
+                <img src="ph/arrow_white.png" alt="arrow.png">
+            </div>
+        </div>
     </div>
     <div class="SignInNav" id="SignInNav">
         <div class="SignInHead" id="SignInHead">
@@ -48,27 +54,27 @@
         <div class="SignInBody" id="SignInBody">
             <div class="SignInBodyButton" id="SettingsDiv" onclick="Settings()">
                 <div class="SignInBodyButtonImg" id="SettingsDivIMG">
-                    <img src="ph/settings_white.png" alt="">
+                    <img src="ph/settings_white.png" alt="stettings.png">
                 </div>
                 <p>Beállítások</p>
             </div>
             <div id="ExamDiv">
             </div>
-            <div class="SignInBodyButton" id="TestResultsDiv">
+            <div class="SignInBodyButton" id="TestResultsDiv" onclick="TesztEredmenyLoad()">
                 <div class="SignInBodyButtonImg" id="TestResultsDivIMG">
-                    <img src="ph/notepad_white.png" alt="">
+                    <img src="ph/notepad_white.png" alt="notepad.png">
                 </div>
                 <p>teszt eredmény</p>
             </div>
             <div class="SignInBodyButton" id="DrkModeDiv" onclick="DrkModeSwitch('change')">
                 <div class="SignInBodyButtonImg" id="DrkModeDivIMG">
-                    <img src="ph/mode_white.png" alt="">
+                    <img src="ph/mode_white.png" alt="mode.png">
                 </div>
                 <p>fehér mód</p>
             </div>
             <div class="SignInBodyButton" id="LogoutDiv" onclick="LogOut()">
                 <div class="SignInBodyButtonImg" id="LogoutDivIMG">
-                    <img src="ph/logout_white.png" alt="">
+                    <img src="ph/logout_white.png" alt="logout.png">
                 </div>
                 <p>kijelentkezés</p>
             </div>

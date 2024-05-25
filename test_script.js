@@ -6,10 +6,16 @@ var tudnivalok = ["Valami tudnivaló első","Valami tudnivaló második","Valami
 var EgyediKat = [{nev: "Tudnivalók",rendel:"FooldalNav",id:"T"},{nev: "Egyéni",rendel: "TestoldalNav",id:"E"}];
 var ValasztottTablak;
 var KivalasztottTablak = [];
+var EredetiKivalasztottTablak = [];
+var KivettErtekekDB = 0;
 var ValasztottTablaSorok;
 var ValasztottTime;
+var EredetiValasztottTime;
 var TestActive = false;
-var TestTimer
+var Difficulty;
+var TestTimer;
+var DogaKategTabla = [];
+var DogaTeljesTabla = [];
 
 function SideBarOpen(){
     if(!TestActive){
@@ -26,6 +32,7 @@ function SideBarClose(){
     document.getElementById("BlackBG").classList.remove("BlackBGOn");
     document.getElementById("BlackBG").removeAttribute("onclick");
     document.body.style.overflowY = "auto";
+    document.getElementsByClassName("SideBarNotActive").length != 0?SideBarNotif():"";
     clearInterval(CurTime);
 }
 
@@ -94,6 +101,7 @@ function DrkModeSwitch(value){
     color==1?document.getElementById("LogoutDivIMG").children[0].src = "ph/logout_dark.png":document.getElementById("LogoutDivIMG").children[0].src = "ph/logout_white.png";
     color==1?document.getElementById("SignInIMG").children[0].src = "ph/user_dark.png":document.getElementById("SignInIMG").children[0].src = "ph/user_white.png";
     color==1?document.getElementById("SBCloseIMG").children[0].src = "ph/close_dark.png":document.getElementById("SBCloseIMG").children[0].src = "ph/close_white.png";
+    color==1?document.getElementById("SideBarSwitchIMG").children[0].src = "ph/arrow_dark.png":document.getElementById("SideBarSwitchIMG").children[0].src = "ph/arrow_white.png";
     color==1?document.getElementById("FooldalBetoltDivIMG").children[0].src = "ph/home_dark.png":document.getElementById("FooldalBetoltDivIMG").children[0].src = "ph/home_white.png";
     color==1?document.getElementById("TestoldalBetoltDivIMG").children[0].src = "ph/test_dark.png":document.getElementById("TestoldalBetoltDivIMG").children[0].src = "ph/test_white.png";
     if(document.getElementById("TestStartDiv")!=undefined && document.getElementById("TestStartDiv").classList.contains("TestStartDivActive")){
@@ -279,10 +287,87 @@ function WarningColorRemove(id){
     FaultDivClose();
 }
 
+function TesztEredmenyLoad(){
+    SignInClose();
+    if(document.getElementById("NavSelectorFoDiv") != undefined){
+        document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
+    }
+    if(document.getElementById("OldalName").innerText != "TESZT EREDMÉNYEK"){
+        document.getElementById("OldalName").innerText = "TESZT EREDMÉNYEK";
+        document.getElementById("MainBody").innerHTML = "";
+        document.getElementById("MainBody").appendChild(DivCreate("TesztEredmenyDiv","TesztEredmenyDiv"));
+        document.getElementById("TesztEredmenyDiv").appendChild(DivCreate("TesztEredmeny","TesztEredmeny"));
+        document.getElementById("TesztEredmenyDiv").appendChild(DivCreate("DogaEredmeny","DogaEredmeny"));
+        EredmenyLekeres(Tuser.id);
+    }
+}
+
+function EredmenyekKiGen(response){
+    let TestGen = false;
+    let DogaGen = false;
+    if(response.length == 0){
+        document.getElementById("MainBody").innerHTML = "<div class='UresTesztEredmenyDiv'><p>Jelenleg még nincs egyetlen dolgozata vagy teszt eredménye!</p></div>";
+    }
+    for (let i = 0; i < response.length; i++){
+        let Szazalek = Math.floor(Number(response[i].Epont)/Number(response[i].Mpont)* 100);
+        let Jegy;
+        if(Szazalek <= 100 && Szazalek>=85){Jegy = "5"}
+        else if(Szazalek < 85 && Szazalek >= 70){Jegy = "4"}
+        else if(Szazalek < 70 && Szazalek >= 50){Jegy = "3"}
+        else if(Szazalek < 50 && Szazalek >= 30){Jegy = "2"}
+        else{Jegy = "1"}
+        if(response[i].fajta == 0){
+            if(!TestGen){
+                TestGen = true;
+                TestHeaderGen("TesztEredmeny");
+            }
+        }
+        else{
+            if(!DogaGen){
+                DogaGen = true;
+                TestHeaderGen("DogaEredmeny");
+            }
+        }
+        document.getElementById(response[i].fajta == 0?"TesztEredmeny":"DogaEredmeny").appendChild(DivCreate((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"),"")); //TEredmenyDoga
+        document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div><p>"+response[i].datum.split('T')[0]+"<br>"+response[i].datum.split('T')[1].split('.')[0]+"</p></div>";
+        document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div class='EredmenyEJegy'><p>"+Jegy+"</p></div>";
+        document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div class='EredmenyESzazalek'><p>"+Szazalek+"%</p></div>";
+        document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div class='EredmenyDif'><p>"+(response[i].dif==1?"Könnyű":response[i].dif==2?"Közepes":"Nehéz")+"</p></div>";
+        if(response[i].TIdo != undefined && response[i].TIdo != "0" && response[i].TIdo != "-1"){
+            let MaradtTime = response[i].TIdo - response[i].EIdo;
+            let h = Math.floor(MaradtTime/3600);
+            let sec = h>0?Math.floor((MaradtTime-h*3600)%60):Math.floor(MaradtTime%60);
+            let min = h>0?Math.floor((MaradtTime-h*3600)/60):Math.floor(MaradtTime/60);
+            document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div class='EredmenyEIdo'><p> "+(h>0?h+":":"")+(min>9?min:"0"+min)+":"+(sec>9?sec:"0"+sec)+"</p></div>";
+        }
+        else{document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div class='EredmenyEIdoNincs'><p>Nem volt beállítva idő!</p></div>"};
+        let KatArray = response[i].katok.split(',');
+        document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div class='EredmenyKatok'><p></p></div>";
+        for (let j = 0; j < KatArray.length; j++) {
+            document.getElementsByClassName("EredmenyKatok")[document.getElementsByClassName("EredmenyKatok").length-1].firstChild.innerText += KatArray[j];
+        }
+    }
+}
+
+function TestHeaderGen(id){
+    document.getElementById(id).appendChild(DivCreate("TesztEredmenyekNevek",""));
+    document.getElementsByClassName("TesztEredmenyekNevek")[document.getElementsByClassName("TesztEredmenyekNevek").length-1].innerHTML += "<p>"+(document.getElementsByClassName("TesztEredmenyekNevek").length==1?"Teszt":"Dolgozat")+"</p>";
+    document.getElementById(id).appendChild(DivCreate("EHeaderDiv",""));
+    document.getElementsByClassName("EHeaderDiv")[document.getElementsByClassName("EHeaderDiv").length-1].innerHTML += "<div class='EHeaderStyleDiv'><p>Dátum<p></div>";
+    document.getElementsByClassName("EHeaderDiv")[document.getElementsByClassName("EHeaderDiv").length-1].innerHTML += "<div class='EHeaderStyleDiv EHeaderJegy'><p>jegy</p></div>";//(document.getElementsByClassName("EHeaderDiv").length==1?"Láthatatlan":"Kapott")
+    document.getElementsByClassName("EHeaderDiv")[document.getElementsByClassName("EHeaderDiv").length-1].innerHTML += "<div class='EHeaderStyleDiv EHeaderSzazalek'><p>Százalék<p></div>";
+    document.getElementsByClassName("EHeaderDiv")[document.getElementsByClassName("EHeaderDiv").length-1].innerHTML += "<div class='EHeaderStyleDiv'><p>Nehézség<p></div>";
+    document.getElementsByClassName("EHeaderDiv")[document.getElementsByClassName("EHeaderDiv").length-1].innerHTML += "<div class='EHeaderStyleDiv'><p>Eltelt idő<p></div>";
+    document.getElementsByClassName("EHeaderDiv")[document.getElementsByClassName("EHeaderDiv").length-1].innerHTML += "<div class='EHeaderStyleDiv'><p>Kategóriák<p></div>";
+}
+
 function AdatokKiitaras(){
     FooldalBetoltese("default");
-    document.getElementById("SideBarBody").appendChild(DivCreate("NavGombok","FooldalNav"));
-    document.getElementById("SideBarBody").appendChild(DivCreate("NavGombok","TestoldalNav"));
+    document.getElementById("SideBarBody").appendChild(DivCreate("SideBarNavGombokDiv","SideBarNavGombokDiv"));
+    document.getElementById("SideBarBody").appendChild(DivCreate("SideBarNotifDiv","SideBarNotifDiv"));
+    ErtesitesekLeker(Tuser.id);
+    document.getElementById("SideBarNavGombokDiv").appendChild(DivCreate("NavGombok","FooldalNav"));
+    document.getElementById("SideBarNavGombokDiv").appendChild(DivCreate("NavGombok","TestoldalNav"));
 
     document.getElementById("FooldalNav").appendChild(DivCreate("NavGomb","FooldalBetolt"));
     document.getElementById("FooldalBetolt").setAttribute("onclick","FooldalBetoltese('default')");
@@ -304,6 +389,56 @@ function AdatokKiitaras(){
         }
     }
     DrkModeSwitch("load");
+}
+
+function NotifBetolt(response){
+    if(response.length == 0){
+        document.getElementById("SideBarNotifDiv").innerHTML += "<div class='NotifHiba'><p>Nincs egy értesítésed se!</p></div>";
+    }else{
+
+    }
+}
+
+function SideBarNotif(){
+    if(document.getElementsByClassName("SideBarNotActive").length == 0){
+        document.getElementById("SideBarNavGombokDiv").classList.add("SideBarNotActive");
+        document.getElementById("SideBarNotifDiv").classList.add("SideBarNotActive");
+        document.getElementById("SideBarSwitchIMG").classList.add("SideBarSwitchIMGActive");
+        document.getElementById("SideBarSwitch").classList.add("SideBarSwitchActive");
+        document.getElementById("SideBarSwitch").children[0].innerText = "Navigáció";
+    }
+    else{
+        document.getElementById("SideBarNavGombokDiv").classList.remove("SideBarNotActive");
+        document.getElementById("SideBarNotifDiv").classList.remove("SideBarNotActive");
+        document.getElementById("SideBarSwitchIMG").classList.remove("SideBarSwitchIMGActive");
+        document.getElementById("SideBarSwitch").classList.remove("SideBarSwitchActive");
+        document.getElementById("SideBarSwitch").children[0].innerText = "értesítések";
+    }
+}
+
+function ExamPub(){
+    document.getElementById("MainBody").innerHTML = "";
+    SignInClose();
+    document.getElementById("NavSelectorFoDiv")!=undefined?document.body.removeChild(document.getElementById("NavSelectorFoDiv")):"";
+    document.getElementById("OldalName").innerText = "Dolgozat Kiírás";
+    document.getElementById("MainBody").appendChild(DivCreate("DolgozatPubDivHeader","DolgozatPubDivHeader"));
+    document.getElementById("DolgozatPubDivHeader").appendChild(DivCreate("DogaEHeaderGomb","DogaTablaValasztoDiv"));
+    document.getElementById("DogaTablaValasztoDiv").innerHTML = "<p>Kategória választás</p>";
+    document.getElementById("DogaTablaValasztoDiv").setAttribute("onclick","TablaValasztoOpen('Kateg')");
+
+    document.getElementById("DolgozatPubDivHeader").appendChild(DivCreate("DogaEHeaderGomb","DogaTeljesTablaDiv"));
+    document.getElementById("DogaTeljesTablaDiv").innerHTML = "<p>Tábla választás</p>";
+    document.getElementById("DogaTeljesTablaDiv").setAttribute("onclick","TablaValasztoOpen('DogaTabla')");
+
+    if(document.getElementById("TablaValasztoDiv") == undefined){
+        document.body.appendChild(DivCreate("TablaValasztoDiv","TablaValasztoDiv"));
+    }
+    else{
+        document.getElementById("TablaValasztoDiv").innerHTML = "";
+    }
+    document.getElementById("TablaValasztoDiv").appendChild(DivCreate("ValasztoTablakClose","ValasztoTablakClose"));
+    document.getElementById("ValasztoTablakClose").appendChild(ImgCreate(usersetting.drkmode==1?"ph/close_dark.png":"ph/close_white.png"));
+    document.getElementById("ValasztoTablakClose").firstChild.setAttribute("onclick","TablaValasztoClose()");
 }
 
 function FooldalBetoltese(value){
@@ -476,13 +611,16 @@ function TimerSettingsOn(){
 
 function TimerChanged(input){
     let value = input.id[input.id.length-1];
+    Number(input.value)>Number(input.max)?input.value = input.max:"";
+    Number(input.value)<Number(input.min)?input.value = input.min:"";
     value=='H'?ValasztottTime[0]=Number(document.getElementById("inputTestTimerH").value):value=='M'?ValasztottTime[1]=Number(document.getElementById("inputTestTimerM").value):ValasztottTime[2]=Number(document.getElementById("inputTestTimerS").value);
 }
 
 function TestInditasa(){
     TestActive = true;
-    let Dif = document.getElementById("DifShowDiv").classList[1]=="DifShowDivEasy"?1:(document.getElementById("DifShowDiv").classList[1]=="DifShowDivNormal"?2:"R");
+    Difficulty = document.getElementById("DifShowDiv").classList[1]=="DifShowDivEasy"?1:(document.getElementById("DifShowDiv").classList[1]=="DifShowDivNormal"?2:"R");
     let Sorok = Number(document.getElementById("inputTestSlider").value);
+    document.getElementById("TimerIMG").classList.contains("TimerIMGOn")?EredetiValasztottTime = (ValasztottTime[0]*3600) + (ValasztottTime[1]*60) + ValasztottTime[2]:"";
     document.getElementById("TimerIMG").classList.contains("TimerIMGOn")?ValasztottTime = (ValasztottTime[0]*3600) + (ValasztottTime[1]*60) + ValasztottTime[2]:"";
     let ValasztottSorok = [];
     for (let i = 0; i < KivalasztottTablak.length; i++) {
@@ -501,9 +639,9 @@ function TestInditasa(){
     let KivettErtekek = [];
     for (let i = 0; i < KivalasztottTablak.length; i++) {
         let SorokArray = [KivalasztottTablak[i].nev,KivalasztottTablak[i].jel,KivalasztottTablak[i].def,KivalasztottTablak[i].mert,KivalasztottTablak[i].id];
-        if(Dif != "R"){
+        if(Difficulty != "R"){
             RandomArray = [Math.floor(Math.random()*4)];
-            if(Dif == 2){
+            if(Difficulty == 2){
                 while(RandomArray.length < 2){
                     let random = Math.floor(Math.random()*4);
                     !RandomArray.includes(random)?RandomArray.push(random):"";
@@ -514,7 +652,7 @@ function TestInditasa(){
                 if(!RandomArray.includes(i)){
                     BA.push(SorokArray[i])
                 }else{
-                    KivettErtekek.push(SorokArray[i]);
+                    KivettErtekek.push({nev:SorokArray[i], id: SorokArray[4]});
                     BA.push("");
                 }
             }
@@ -534,20 +672,21 @@ function TestInditasa(){
                     if(!RandomArray.includes(i)){
                         BA.push(SorokArray[i])
                     }else{
-                        KivettErtekek.push(SorokArray[i]);
+                        KivettErtekek.push({nev:SorokArray[i], id: SorokArray[4]});
                         BA.push("");
                     }
                 }
                 BA.push(KivalasztottTablak[i].id);
             }else{
                 TeljesTablak.push([SorokArray[0],"","",""]);
-                KivettErtekek.push(SorokArray[1]);
-                KivettErtekek.push(SorokArray[2]);
-                KivettErtekek.push(SorokArray[3]);
+                KivettErtekek.push({nev:SorokArray[1], id: SorokArray[4]});
+                KivettErtekek.push({nev:SorokArray[2], id: SorokArray[4]});
+                KivettErtekek.push({nev:SorokArray[3], id: SorokArray[4]});
             }
         }
     }
     document.getElementById("TestSettingsDiv").classList.add("FeltolTestSettings");
+    KivettErtekekDB = KivettErtekek.length
     setTimeout(TestTablaBetoltesek,700,TeljesTablak,KivettErtekek);
 }
 
@@ -579,16 +718,16 @@ function TestTablaBetoltesek(array,kivettarray){
     for (let i = 0; i < ra.length; i++) {
         document.getElementById("KivettErtekek").appendChild(DivCreate("KEDivek",""));
         let elem = document.getElementsByClassName("KEDivek")[document.getElementsByClassName("KEDivek").length-1];
-        elem.innerHTML = "<p>"+kivettarray[ra[i]]+"</p>";
+        elem.innerHTML = "<p id='"+kivettarray[ra[i]].id+"' >"+kivettarray[ra[i]].nev+"</p>";
         elem.setAttribute("onclick","KivettErtekek(this,'KivettErtek')");
     }
     if(timeractive){
         document.getElementById("TestDivKiiras").appendChild(DivCreate("TestTimer","TestTimer"));
         TestTimer = setInterval(TestTimerKiir,1000);
-        document.getElementsByClassName("TablaBelsoErtekek")[document.getElementsByClassName("TablaBelsoErtekek").length-1].classList.add("AlsoBorder");
-        document.getElementsByClassName("TablaBelsoErtekek")[document.getElementsByClassName("TablaBelsoErtekek").length-1].children[0].style.borderBottomLeftRadius = ".6vw";
-        document.getElementsByClassName("TablaBelsoErtekek")[document.getElementsByClassName("TablaBelsoErtekek").length-1].children[3].style.borderBottomRightRadius = ".6vw";
     }
+    document.getElementsByClassName("TablaBelsoErtekek")[document.getElementsByClassName("TablaBelsoErtekek").length-1].classList.add("AlsoBorder");
+    document.getElementsByClassName("TablaBelsoErtekek")[document.getElementsByClassName("TablaBelsoErtekek").length-1].children[0].style.borderBottomLeftRadius = ".6vw";
+    document.getElementsByClassName("TablaBelsoErtekek")[document.getElementsByClassName("TablaBelsoErtekek").length-1].children[3].style.borderBottomRightRadius = ".6vw";
     document.getElementById("TestDivKiiras").appendChild(DivCreate("TestDone","TestDone"));
     document.getElementById("TestDone").innerHTML = "<p>teszt leadása</p>";
     document.getElementById("TestDone").setAttribute("onclick","TesztLeadasa()")
@@ -596,12 +735,58 @@ function TestTablaBetoltesek(array,kivettarray){
 }
 
 function TesztLeadasa(){
-    //Teszt kiertekeles
+    clearInterval(TestTimer);
+    let Pontok = 0;
+    let ValaszArray = Array.from(document.getElementsByClassName("TablaBelsoErtekek"));
+    for (let i = 1; i < ValaszArray.length; i++){
+        for (let j = 0; j < ValaszArray[i].children.length; j++){
+            let Valasz = KivalasztottTablak.filter(c=>c.id == ValaszArray[i].children[j].firstChild.id)[0];
+            if(Valasz != undefined){
+                Valasz = j==0?Valasz.nev:(j==1?Valasz.jel:(j==2?Valasz.def:Valasz.mert));
+                let HelyesValasz = j==0?KivalasztottTablak[i-1].nev:(j==1?KivalasztottTablak[i-1].jel:(j==2?KivalasztottTablak[i-1].def:KivalasztottTablak[i-1].mert));
+                Valasz == HelyesValasz?Pontok++:"";
+            }
+        }
+    }
+    document.getElementById("MainBody").innerHTML = "";
+    Kiertekeles("T",Pontok);
+}
+
+function Kiertekeles(value, Pontok){
+    document.getElementById("MainBody").appendChild(DivCreate("KiertekelesDiv","KiertekelesDiv"));
+    document.getElementById("KiertekelesDiv").appendChild(DivCreate("JegyDiv","JegyDiv"));
+    document.getElementById("KiertekelesDiv").appendChild(DivCreate("IdoDiv","IdoDiv"));
+    document.getElementById("KiertekelesDiv").appendChild(DivCreate("ValasztottTablakDiv","ValasztottTablakDiv"));
+    let Szazalek = Math.floor(Pontok/KivettErtekekDB * 100);
+    let Jegy;
+    if(Szazalek <= 100 && Szazalek>=85){Jegy = "5"}
+    else if(Szazalek < 85 && Szazalek >= 70){Jegy = "4"}
+    else if(Szazalek < 70 && Szazalek >= 50){Jegy = "3"}
+    else if(Szazalek < 50 && Szazalek >= 30){Jegy = "2"}
+    else{Jegy = "1"}
+    let ETablak = "";
+    if(value == "T"){
+        document.getElementById("JegyDiv").innerHTML = "<p>Láthatatlan jegy: "+Jegy+" - Százalék: "+Szazalek+"%</p>";
+        if(EredetiValasztottTime!=undefined){
+            let MaradtTime = EredetiValasztottTime - ValasztottTime;        
+            let h = Math.floor(MaradtTime/3600);
+            let sec = h>0?Math.floor((MaradtTime-h*3600)%60):Math.floor(MaradtTime%60);
+            let min = h>0?Math.floor((MaradtTime-h*3600)/60):Math.floor(MaradtTime/60);
+            document.getElementById("IdoDiv").innerHTML = "<p>Eltelt idő: </p><p>"+(h>0?h+":":"")+(min>9?min:"0"+min)+":"+(sec>9?sec:"0"+sec)+"</p>";
+        }
+        else{document.getElementById("IdoDiv").innerHTML = "Nem volt beállítva idő!"};
+        for (let i = 0; i < EredetiKivalasztottTablak.length; i++) {
+            ETablak += EredetiKivalasztottTablak[i] + (i<EredetiKivalasztottTablak.length-1?", ":"");
+        }
+        document.getElementById("ValasztottTablakDiv").innerHTML = "<p>"+ETablak+"</p>";
+    }
+    //(value == "T"?0:1)
+    EredmenyFeltolt({id:Tuser.id, mpont:KivalasztottTablak.length, epont:Pontok, kateg:ETablak, nehezseg:(Difficulty=="R"?3:Difficulty), fajta:(value == "T"?0:1), EIdo:(typeof ValasztottTime != 'number'?-1:ValasztottTime), TIdo:(EredetiValasztottTime==undefined?-1:EredetiValasztottTime)});
+    TestActive = false;
 }
 
 function TestTimerKiir(){
     if(ValasztottTime == 0){
-        clearInterval(TestTimer);
         TesztLeadasa();
     }
     if(ValasztottTime >= 0){
@@ -675,6 +860,9 @@ function ValaszBetevese(div,value){
             div.classList.add("ActiveValasz");
         }
     }
+    if(document.getElementById("KivettErtekek") != undefined && document.getElementById("KivettErtekek").children.length == 0){
+        document.body.removeChild(document.getElementById("KivettErtekek"));
+    }
 }
 
 function RandomGen(){
@@ -738,16 +926,87 @@ function TablaKivalasztasa(div){
     }
     let IT = div.firstChild.innerText;
     div.classList.contains("ValasztoTDivValaszt")?KivalasztottTablak.push(IT):KivalasztottTablak.splice(KivalasztottTablak.indexOf(IT),1);
+    div.classList.contains("ValasztoTDivValaszt")?EredetiKivalasztottTablak.push(IT):EredetiKivalasztottTablak.splice(EredetiKivalasztottTablak.indexOf(IT),1);
 }
 
 function TablaValasztoOpen(value){
     if(value == 'Tabla'){
         TablaValaszto();
+        document.getElementById("TablaValasztoDiv").classList.add("TablaValasztoDivOpen");
+        document.getElementById("BlackBG").classList.add("BlackBGOn");
+        document.getElementById("BlackBG").setAttribute("onclick","TablaValasztoClose()");
     }
-    document.getElementById("TablaValasztoDiv").classList.add("TablaValasztoDivOpen");
-    document.getElementById("BlackBG").classList.add("BlackBGOn");
-    document.getElementById("BlackBG").setAttribute("onclick","TablaValasztoClose()");
+    else if(value == "Kateg"){
+        DogaTablaValaszto();
+        document.getElementById("TablaValasztoDiv").classList.add("TablaValasztoDivOpen");
+        document.getElementById("BlackBG").classList.add("BlackBGOn");
+        document.getElementById("BlackBG").setAttribute("onclick","TablaValasztoClose()");
+    }
+    else if(value == "DogaTabla" && DogaKategTabla.length != 0){
+        DogaTeljesValaszto();
+        document.getElementById("TablaValasztoDiv").classList.add("TablaValasztoDivOpen");
+        document.getElementById("BlackBG").classList.add("BlackBGOn");
+        document.getElementById("BlackBG").setAttribute("onclick","TablaValasztoClose()");
+    }
 }
+
+function DogaTablaValaszto(){
+    if(document.getElementById("TablaValasztoDiv").children.length>1){
+        document.getElementById("TablaValasztoDiv").innerHTML = "";
+        document.getElementById("TablaValasztoDiv").appendChild(DivCreate("ValasztoTablakClose","ValasztoTablakClose"));
+        document.getElementById("ValasztoTablakClose").appendChild(ImgCreate(usersetting.drkmode==1?"ph/close_dark.png":"ph/close_white.png"));
+        document.getElementById("ValasztoTablakClose").firstChild.setAttribute("onclick","TablaValasztoClose()");
+    }
+    for (let i = 0; i < Teljeskategoriak.length; i++){
+        document.getElementById("TablaValasztoDiv").appendChild(DivCreate("ValasztoTDiv",""));
+        DogaKategTabla.includes(Teljeskategoriak[i].nev)?document.getElementsByClassName("ValasztoTDiv")[document.getElementsByClassName("ValasztoTDiv").length-1].classList.add("DogaTKivalaszt"):"";
+        document.getElementsByClassName("ValasztoTDiv")[document.getElementsByClassName("ValasztoTDiv").length-1].innerHTML = "<p>"+Teljeskategoriak[i].nev+"</p>";
+        document.getElementsByClassName("ValasztoTDiv")[document.getElementsByClassName("ValasztoTDiv").length-1].setAttribute("onclick","KategTablaKivalaszt(this,'DogaTKivalaszt')");
+    }
+}
+
+function DogaTeljesValaszto(){
+    if(document.getElementById("TablaValasztoDiv").children.length>1){
+        document.getElementById("TablaValasztoDiv").innerHTML = "";
+        document.getElementById("TablaValasztoDiv").appendChild(DivCreate("ValasztoTablakClose","ValasztoTablakClose"));
+        document.getElementById("ValasztoTablakClose").appendChild(ImgCreate(usersetting.drkmode==1?"ph/close_dark.png":"ph/close_white.png"));
+        document.getElementById("ValasztoTablakClose").firstChild.setAttribute("onclick","TablaValasztoClose()");
+    }
+    DogaTeljesTabla = [];
+    let KategArray = [];
+    for (let i = 0; i < Teljeskategoriak.filter(c=>DogaKategTabla.includes(c.nev)).length; i++) {
+        KategArray.push(Teljeskategoriak.filter(c=>DogaKategTabla.includes(c.nev))[i].id);
+    }
+    KategArray = Alkategoriak.filter(c=>KategArray.includes(c.tkat_id));
+    for (let i = 0; i < KategArray.length; i++){
+        document.getElementById("TablaValasztoDiv").appendChild(DivCreate("ValasztoTDiv",""));
+        DogaTeljesTabla.includes(KategArray[i].nev)?document.getElementsByClassName("ValasztoTDiv")[document.getElementsByClassName("ValasztoTDiv").length-1].classList.add("DogaTeljesKivalaszt"):"";
+        document.getElementsByClassName("ValasztoTDiv")[document.getElementsByClassName("ValasztoTDiv").length-1].innerHTML = "<p>"+KategArray[i].nev+"</p>";
+        document.getElementsByClassName("ValasztoTDiv")[document.getElementsByClassName("ValasztoTDiv").length-1].setAttribute("onclick","KategTablaKivalaszt(this,'DogaTeljesKivalaszt')");
+    }
+}
+
+function KategTablaKivalaszt(div,CList){
+    if(div.classList.contains(CList)){
+        div.classList.remove(CList);
+        if(CList == "DogaTKivalaszt"){
+            DogaKategTabla.splice(DogaKategTabla.indexOf(div.innerText),1);
+        }
+        if(CList == "DogaTeljesKivalaszt"){
+            DogaTeljesTabla.splice(DogaTeljesTabla.indexOf(div.innerText),1);
+        }
+    }
+    else{
+        div.classList.add(CList);
+        if(CList == "DogaTKivalaszt" && !DogaKategTabla.includes(div.innerText)){
+            DogaKategTabla.push(div.innerText);
+        }
+        if(CList == "DogaTeljesKivalaszt" && !DogaTeljesTabla.includes(div.innerText)){
+            DogaTeljesTabla.push(div.innerText);
+        }
+    }
+}
+
 function TablaValasztoClose(){
     document.getElementById("TablaValasztoDiv").classList.remove("TablaValasztoDivOpen");
     document.getElementById("BlackBG").classList.remove("BlackBGOn");
@@ -798,6 +1057,9 @@ function CategoryLoad(div){
         if(document.getElementById("NavSelectorFoDiv") != undefined){
             IdCheck = document.getElementById("NavSelectorFoDiv").children[1].id;
             IdCheck = IdCheck[IdCheck.length-2];
+        }
+        else if(document.getElementById("NavSelectorFoDiv") == undefined){
+            NavSelectorCreate(DivId[DivId.length-1]);
         }
         if(DivId[DivId.length-1] == "T" && !document.getElementById(DivId+"N").classList.contains("SelectedNav")){
             document.getElementById("MainBody").innerHTML = "";
@@ -871,7 +1133,7 @@ function ScrollToDiv(div){
 }
 window.onscroll = function ()
 {
-    if(document.getElementsByClassName("TablaNevDivek") != undefined && document.getElementById("OldalName").firstChild.innerText != "TESZT OLDAL"){
+    if(document.getElementsByClassName("TablaNevDivek") != undefined && document.getElementById("OldalName").firstChild.innerText == "FŐ OLDAL"){
         let element = document.getElementsByClassName("TablaNevDivek")[1].getBoundingClientRect();
         if(document.getElementsByClassName("TablaNevDivek").length > 1 && element.top < 350){
             TetejereGorgetShow(true);
@@ -950,7 +1212,8 @@ function AlapBeallitasok(){
 }
 function TeacherView(){
     document.getElementById("ExamDiv").classList.add("SignInBodyButton");
-    document.getElementById("ExamDiv").innerHTML = "<div class='SignInBodyButtonImg' id='ExamDivIMG'><img src='ph/plus_white.png' alt=''></div><p>exam publish</p>";
+    document.getElementById("ExamDiv").setAttribute("onclick","ExamPub()");
+    document.getElementById("ExamDiv").innerHTML = "<div class='SignInBodyButtonImg' id='ExamDivIMG'><img src='ph/plus_white.png' alt=''></div><p>Dolgozat kiírás</p>";
 }
 
 function Alapok(){

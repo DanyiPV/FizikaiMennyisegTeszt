@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 24, 2024 at 10:40 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Gép: 127.0.0.1
+-- Létrehozás ideje: 2024. Máj 23. 23:23
+-- Kiszolgáló verziója: 10.4.32-MariaDB
+-- PHP verzió: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `fizikai_tablazatok`
+-- Adatbázis: `fizikai_tablazatok`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `alkat`
+-- Tábla szerkezet ehhez a táblához `alkat`
 --
 
 CREATE TABLE `alkat` (
@@ -34,7 +34,7 @@ CREATE TABLE `alkat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `alkat`
+-- A tábla adatainak kiíratása `alkat`
 --
 
 INSERT INTO `alkat` (`id`, `tkat_id`, `nev`) VALUES
@@ -52,7 +52,7 @@ INSERT INTO `alkat` (`id`, `tkat_id`, `nev`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dolgozatok`
+-- Tábla szerkezet ehhez a táblához `dolgozatok`
 --
 
 CREATE TABLE `dolgozatok` (
@@ -65,7 +65,7 @@ CREATE TABLE `dolgozatok` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `eredmenyek`
+-- Tábla szerkezet ehhez a táblához `eredmenyek`
 --
 
 CREATE TABLE `eredmenyek` (
@@ -82,7 +82,21 @@ CREATE TABLE `eredmenyek` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tablak`
+-- Tábla szerkezet ehhez a táblához `ertesitesek`
+--
+
+CREATE TABLE `ertesitesek` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `datum` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `extra` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `tablak`
 --
 
 CREATE TABLE `tablak` (
@@ -95,7 +109,7 @@ CREATE TABLE `tablak` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tablak`
+-- A tábla adatainak kiíratása `tablak`
 --
 
 INSERT INTO `tablak` (`id`, `nev`, `jel`, `def`, `mert`, `alkat_id`) VALUES
@@ -217,7 +231,7 @@ INSERT INTO `tablak` (`id`, `nev`, `jel`, `def`, `mert`, `alkat_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tablakapocs`
+-- Tábla szerkezet ehhez a táblához `tablakapocs`
 --
 
 CREATE TABLE `tablakapocs` (
@@ -230,7 +244,7 @@ CREATE TABLE `tablakapocs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tkat`
+-- Tábla szerkezet ehhez a táblához `tkat`
 --
 
 CREATE TABLE `tkat` (
@@ -239,7 +253,7 @@ CREATE TABLE `tkat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tkat`
+-- A tábla adatainak kiíratása `tkat`
 --
 
 INSERT INTO `tkat` (`id`, `nev`) VALUES
@@ -251,7 +265,7 @@ INSERT INTO `tkat` (`id`, `nev`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Tábla szerkezet ehhez a táblához `users`
 --
 
 CREATE TABLE `users` (
@@ -265,7 +279,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `users`
+-- A tábla adatainak kiíratása `users`
 --
 
 INSERT INTO `users` (`id`, `email`, `nev`, `osztaly`, `jelszo`, `letrehozva`, `modositva`) VALUES
@@ -276,7 +290,7 @@ INSERT INTO `users` (`id`, `email`, `nev`, `osztaly`, `jelszo`, `letrehozva`, `m
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usersetting`
+-- Tábla szerkezet ehhez a táblához `usersetting`
 --
 
 CREATE TABLE `usersetting` (
@@ -287,7 +301,7 @@ CREATE TABLE `usersetting` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `usersetting`
+-- A tábla adatainak kiíratása `usersetting`
 --
 
 INSERT INTO `usersetting` (`id`, `userid`, `drkmode`, `private`) VALUES
@@ -296,39 +310,46 @@ INSERT INTO `usersetting` (`id`, `userid`, `drkmode`, `private`) VALUES
 (3, 3, 0, 0);
 
 --
--- Indexes for dumped tables
+-- Indexek a kiírt táblákhoz
 --
 
 --
--- Indexes for table `alkat`
+-- A tábla indexei `alkat`
 --
 ALTER TABLE `alkat`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tkat_id` (`tkat_id`);
 
 --
--- Indexes for table `dolgozatok`
+-- A tábla indexei `dolgozatok`
 --
 ALTER TABLE `dolgozatok`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indexes for table `eredmenyek`
+-- A tábla indexei `eredmenyek`
 --
 ALTER TABLE `eredmenyek`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indexes for table `tablak`
+-- A tábla indexei `ertesitesek`
+--
+ALTER TABLE `ertesitesek`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- A tábla indexei `tablak`
 --
 ALTER TABLE `tablak`
   ADD PRIMARY KEY (`id`),
   ADD KEY `alkat_id` (`alkat_id`);
 
 --
--- Indexes for table `tablakapocs`
+-- A tábla indexei `tablakapocs`
 --
 ALTER TABLE `tablakapocs`
   ADD PRIMARY KEY (`id`),
@@ -336,113 +357,125 @@ ALTER TABLE `tablakapocs`
   ADD KEY `dolgozatid` (`dolgozatid`);
 
 --
--- Indexes for table `tkat`
+-- A tábla indexei `tkat`
 --
 ALTER TABLE `tkat`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users`
+-- A tábla indexei `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `usersetting`
+-- A tábla indexei `usersetting`
 --
 ALTER TABLE `usersetting`
   ADD PRIMARY KEY (`id`),
   ADD KEY `userid` (`userid`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- A kiírt táblák AUTO_INCREMENT értéke
 --
 
 --
--- AUTO_INCREMENT for table `alkat`
+-- AUTO_INCREMENT a táblához `alkat`
 --
 ALTER TABLE `alkat`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `dolgozatok`
+-- AUTO_INCREMENT a táblához `dolgozatok`
 --
 ALTER TABLE `dolgozatok`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `eredmenyek`
+-- AUTO_INCREMENT a táblához `eredmenyek`
 --
 ALTER TABLE `eredmenyek`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tablak`
+-- AUTO_INCREMENT a táblához `ertesitesek`
+--
+ALTER TABLE `ertesitesek`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT a táblához `tablak`
 --
 ALTER TABLE `tablak`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
 
 --
--- AUTO_INCREMENT for table `tablakapocs`
+-- AUTO_INCREMENT a táblához `tablakapocs`
 --
 ALTER TABLE `tablakapocs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tkat`
+-- AUTO_INCREMENT a táblához `tkat`
 --
 ALTER TABLE `tkat`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(55) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `usersetting`
+-- AUTO_INCREMENT a táblához `usersetting`
 --
 ALTER TABLE `usersetting`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Constraints for dumped tables
+-- Megkötések a kiírt táblákhoz
 --
 
 --
--- Constraints for table `alkat`
+-- Megkötések a táblához `alkat`
 --
 ALTER TABLE `alkat`
   ADD CONSTRAINT `alkat_ibfk_1` FOREIGN KEY (`tkat_id`) REFERENCES `tkat` (`id`);
 
 --
--- Constraints for table `dolgozatok`
+-- Megkötések a táblához `dolgozatok`
 --
 ALTER TABLE `dolgozatok`
   ADD CONSTRAINT `dolgozatok_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `eredmenyek`
+-- Megkötések a táblához `eredmenyek`
 --
 ALTER TABLE `eredmenyek`
   ADD CONSTRAINT `eredmenyek_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `tablak`
+-- Megkötések a táblához `ertesitesek`
+--
+ALTER TABLE `ertesitesek`
+  ADD CONSTRAINT `ertesitesek_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Megkötések a táblához `tablak`
 --
 ALTER TABLE `tablak`
   ADD CONSTRAINT `tablak_ibfk_1` FOREIGN KEY (`alkat_id`) REFERENCES `alkat` (`id`);
 
 --
--- Constraints for table `tablakapocs`
+-- Megkötések a táblához `tablakapocs`
 --
 ALTER TABLE `tablakapocs`
   ADD CONSTRAINT `tablakapocs_ibfk_1` FOREIGN KEY (`tablaid`) REFERENCES `tablak` (`id`),
   ADD CONSTRAINT `tablakapocs_ibfk_2` FOREIGN KEY (`dolgozatid`) REFERENCES `dolgozatok` (`id`);
 
 --
--- Constraints for table `usersetting`
+-- Megkötések a táblához `usersetting`
 --
 ALTER TABLE `usersetting`
   ADD CONSTRAINT `usersetting_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`id`);

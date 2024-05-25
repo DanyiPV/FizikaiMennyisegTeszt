@@ -277,11 +277,116 @@ nav{
 .SideBarBody{
     position: relative;
     height: max-content;
-    width: 100%;
+    width: 200%;
     display: flex;
+    overflow: hidden;
+    justify-content: space-between;
+    align-items: start;
+}
+.SideBarNotifDiv{
+    width: 50%;
+    position: relative;
+    margin: auto;
+    top: 0;
+    left: 0vw;/*-30vw*/
+    display: flex;
+    flex-direction: column;
+    transition: .3s;
+    height: 40.4vw;
+    gap: .5vw;
+    font-size: 1vw;
+    overflow: hidden;
+}
+.SideBarNavGombokDiv{
+    width: 50%;
+    position: relative;
+    margin: auto;
+    left: 0vw;/*-30vw*/
+    display: flex;
+    transition: .3s;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+.SideBarNotActive{
+    left: -30vw;
+}
+.NotifHiba{
+    text-align: center;
+    padding: .5vw 1vw;
+    background-color: var(--tablanev_bc);
+    border-radius: .6vw;
+    width: 70%;
+    margin: 0 auto 0 auto;
+    text-transform: uppercase;
+}
+.NotifHiba p{
+    margin: 0;
+}
+.SideBarNotifDiv div:first-child{
+    margin-top: 1vw;
+}
+.SideBarNotifDiv div:last-child{
+    margin-bottom: 1vw;
+}
+
+.SideBarSwitch{
+    padding: .5vw 7vw;
+    border-radius: 2vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+    margin: auto;
+    transition: .3s;
+    cursor: pointer;
+    color: var(--text_color);
+}
+.SideBarSwitch:hover{
+    background-color: var(--button_hover);
+}
+.SideBarSwitch:hover > p{
+    opacity: 1;
+    right: 1vw;
+}
+.SideBarSwitch:hover > div{
+    left: 5%;
+}
+.SideBarSwitch p{
+    position: relative;
+    right: -1.5vw;
+    opacity: 0;
+    transition: .3s;
+    text-transform: uppercase;
+}
+.SideBarSwitchActive p{
+    right: -1.5vw !important;
+}
+.SideBarSwitchIMG{
+    width: 3vw;
+    height: 3vw;
+    cursor: pointer;
+    position: relative;
+    left: -35%;
+    transition: .3s;
+}
+.SideBarSwitchIMG img{
+    width: 100%;
+    position: relative;
+    transition: .3s;
+}
+.SideBarSwitchIMGActive{
+    left: -35% !important;
+}
+.SideBarSwitchIMGActive img{
+    transform: rotate(180deg);
+}
+
+.SideBarSwitchActive:hover > p{
+    right: -4.5vw !important;
+}
+.SideBarSwitchActive:hover > div{
+    left: -70% !important;
 }
 
 .NavGombok{
@@ -1199,6 +1304,202 @@ nav{
     z-index: 1;
     opacity: 1;
 }
+.KiertekelesDiv{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+}
+.KiertekelesDiv div{
+    padding: .5vw;
+    border-bottom: .1vw solid var(--modal_border);
+    position: relative;
+    animation-name: KiertekelesDivekLoad;
+    animation-duration: .7s;
+    animation-fill-mode: forwards;
+    margin: .5vw 0;
+    color: var(--text_color);
+    font-size: 1.5vw;
+    text-align: center;
+    width: 65%;
+    padding-bottom: 1vw;
+}
+.KiertekelesDiv div:last-child{
+    border-bottom: transparent;
+}
+.KiertekelesDiv div p{
+    margin: 0;
+}
+.JegyDiv{
+    font-size: 3vw;
+}
+.IdoDiv{
+    display: flex;
+    justify-content: center;
+}
+.IdoDiv p:last-child{
+    font-family: "digital-7";
+    font-size: 2vw;
+    position: relative;
+    left: .5vw;
+    top: -0vw;
+}
+
+@keyframes KiertekelesDivekLoad{
+    from {right: -80vw;}
+    to {right: 0vw;}
+}
+
+.TesztEredmenyDiv{
+    color: var(--text_color);
+    display: flex;
+    flex-direction: column;
+}
+.TesztEredmenyDiv:first-child{ 
+    font-size: 1.5vw;
+    padding: .5vw;
+}
+.TesztEredmenyekNevek{
+    margin: auto;
+    background-color: var(--kivettdiv);
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+    width: max-content;
+    border-radius: .4vw;
+    margin-bottom: 1vw;
+    font-size: 2.5vw;
+}
+.TesztEredmenyekNevek p{
+    margin: 0;
+    padding: 1vw;
+}
+.DogaEredmeny{
+    margin-top: 1vw;
+}
+.EHeaderDiv{
+    display: flex;
+    background-color: var(--kivettdiv);
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    position: relative;
+    border-top-left-radius: .4vw;
+    border-top-right-radius: .4vw;
+    border-bottom: .1vw solid var(--modal_border);
+}
+.EHeaderStyleDiv{
+    padding: .5vw;
+    border-right: .1vw solid var(--modal_border);
+    width: 20%;
+    position: relative;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+.EHeaderStyleDiv p{
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+    font-size: 1.3vw;
+    padding: .5vw;
+}
+.TEredmeny,.TEredmenyDoga{
+    text-align: center;
+    display: flex;
+    background-color: var(--kivettdiv);
+    justify-content: space-between;
+}
+.TEredmeny:last-child,.TEredmenyDoga:last-child{
+    border-bottom-left-radius: .4vw;
+    border-bottom-right-radius: .4vw;
+}
+.EredmenyEJegy, .EredmenyESzazalek{
+    font-size: 3vw;
+    font-family: "digital-7";
+}
+.TEredmeny div, .TEredmenyDoga div{
+    position: relative;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 20%;
+    border-right: .1vw solid var(--modal_border);
+}
+.EHeaderStyleDiv:last-child, .TEredmeny div:last-child, .TEredmenyDoga div:last-child{
+    border: transparent;
+}
+.TEredmeny div:last-child, .TEredmenyDoga:last-child{
+    font-size: 1.1vw;
+}
+.TEredmeny div p, .TEredmenyDoga div p{
+    margin: 0;
+    padding: 1vw;
+}
+.EredmenyEIdo{
+    font-family: "digital-7";
+    font-size: 3vw;
+    position: relative;
+}
+.EredmenyDif{
+    font-size: 2vw;
+}
+.EredmenyEJegy{
+    width: 10.5% !important;
+}
+.EHeaderJegy{
+    width: 10% !important;
+}
+.EredmenyESzazalek{
+    width: 12.5% !important;
+}
+.EHeaderSzazalek{
+    width: 11% !important;
+}
+.EredmenyEIdoNincs{
+    font-size: 1.3vw;
+}
+.UresTesztEredmenyDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text_color);
+    font-size: 1.7vw;
+    border-radius: .6vw;
+    width: max-content;
+    padding: 1vw 5vw;
+    margin: auto;
+}
+.UresTesztEredmenyDiv p{
+    margin: 0;
+}
+
+.DolgozatPubDivHeader{
+    border: .1vw solid var(--modal_border);
+    border-radius: .4vw;
+    padding: .5vw;
+    color: var(--text_color);
+    display: flex;
+    justify-content: space-around;
+    font-size: 1vw;
+}
+.DogaEHeaderGomb{
+    padding: .5vw 2vw;
+    border-radius: .4vw;
+    text-transform: uppercase;
+    transition: .3s;
+    cursor: pointer;
+}
+.DogaEHeaderGomb:hover{
+    background-color: var(--button_hover);
+}
+.DogaEHeaderGomb p{
+    margin: 0;
+}
+.DogaTKivalaszt, .DogaTeljesKivalaszt{
+    background-color: var(--button_hover);
+}
+
 
 #EgyDivMindFelett{
     position: absolute;

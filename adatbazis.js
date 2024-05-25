@@ -344,8 +344,27 @@ function EredmenyLekeres(id){
     });
 }
 
+function ErtesitesekLeker(id){
+    const data = { lekerdezes: "select * from ertesitesek where user_id = '"+id+"'"};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        if (!response.ok) {console.log("Nem jó válasz érekezett az adatbázisból");}
+        return response.json();
+    })
+    .then(function (response) {
+        NotifBetolt(response);
+        return response;
+    });
+}
+
 function EredmenyFeltolt(adat){
-    const data =  { lekerdezes: "insert into eredmenyek values(null,'"+adat.id+"','"+adat.mpont+"','"+adat.epont+"',null,'"+adat.kateg+"',"+adat.nehezseg+",'"+adat.fajta+"')"};
+    const data =  { lekerdezes: "insert into eredmenyek values(null,'"+adat.id+"','"+adat.mpont+"','"+adat.epont+"',null,'"+adat.kateg+"','"+adat.nehezseg+"','"+adat.fajta+"', '"+adat.EIdo+"', '"+adat.TIdo+"')"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
         headers: {
