@@ -99,7 +99,7 @@ nav{
     animation-fill-mode: forwards;
 }
 .SignInDivOpen{
-    left: 25vw;
+    left: 24.5vw;
     z-index: 3;
     border-bottom: .1vw solid var(--modal_border);
 }
@@ -132,7 +132,7 @@ nav{
     z-index: 11;
 }
 .SignInOpen{
-    left: 0;
+    left: -.2vw;
     z-index: 3;
 }
 .SignInHead{
@@ -159,7 +159,7 @@ nav{
     justify-content: center;
 }
 .SignInBodyButton{
-    width: 4vw;
+    width: max-content;
     height: max-content;
     margin: .5vw;
     padding: 1vw;
@@ -167,29 +167,32 @@ nav{
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 .SignInBodyButton p{
-    position: absolute;
+    position: relative;
     opacity: 0;
     z-index: -1;
     transition: .3s;
-    left: 10vw;
+    left: -1.5vw;
     font-size: 1.2vw;
     text-transform: uppercase;
     letter-spacing: .1vw;
 }
 .SignInBodyButton:hover{
-    width: 12vw !important;
     z-index: 1;
 }
 .SignInBodyButton:hover > p{
     z-index: 1;
-    left: 12vw;
+    left: 15%;
     opacity: 1;
 }
 .SignInBodyButtonImg{
     width: 4vw;
     height: 4vw;
+    position: relative;
+    right: -35%;
+    transition: .3s;
 }
 .SignInBodyButtonImg img{
     width: 100%;
@@ -200,10 +203,13 @@ nav{
 }
 #TestResultsDivIMG img{
     width: 80%;
-    left: .3vw;
+    left: .7vw;
 }
 #LogoutDivIMG img{
-    left: -.2vw;
+    left: -.1vw;
+}
+.SignInBodyButton:hover .SignInBodyButtonImg{
+    right: -5%;
 }
 
 .SideBar{
@@ -295,7 +301,7 @@ nav{
     height: 40.4vw;
     gap: .5vw;
     font-size: 1vw;
-    overflow: hidden;
+    overflow: auto;
 }
 .SideBarNavGombokDiv{
     width: 50%;
@@ -316,12 +322,68 @@ nav{
     padding: .5vw 1vw;
     background-color: var(--tablanev_bc);
     border-radius: .6vw;
-    width: 70%;
+    width: 85%;
     margin: 0 auto 0 auto;
     text-transform: uppercase;
 }
 .NotifHiba p{
     margin: 0;
+}
+.NotifKiirDiv{
+    text-align: center;
+    padding: 1.5vw 1vw .5vw 1vw;
+    background-color: var(--kivettdiv);
+    border-radius: .6vw;
+    width: 85%;
+    margin: 0 auto 0 auto;
+    font-size: 1vw;
+    position: relative;
+}
+.NotifDatum{
+    width: max-content;
+    position: absolute;
+    top: -1vw;
+    padding: .1vw .3vw;
+    left: 0;
+    border-top-left-radius: .6vw;
+    border-bottom-right-radius: .6vw;
+    background-color: var(--tablanev_bc);
+}
+.NotifDatum p{
+    margin: 0;
+}
+.NotifElfogadas{
+    position: relative;
+    border-radius: .6vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.NotifElfogadas div{
+    background-color: var(--checkbox_bc);
+    position: relative;
+    cursor: pointer;
+    margin: 0 !important;
+    margin-top: .5vw !important;
+    padding: .5vw 2vw;
+    border-radius: .6vw;
+    transition: .3s;
+    text-transform: uppercase;
+}
+.NotifElfogadas div:first-child:hover{
+    background-color: rgba(0, 255, 0, 0.65);
+}
+.NotifElfogadas div:last-child:hover{
+    background-color: rgba(255, 0, 0, 0.65);
+}
+.NotifElfogadas div p{
+    margin: 0;
+}
+.NotifLezarvaElfogadva{
+    background-color: rgba(55, 196, 55, 0.65);
+}
+.NotifLezarvaElutasitva{
+    background-color: rgba(196, 55, 55, 0.65);
 }
 .SideBarNotifDiv div:first-child{
     margin-top: 1vw;
@@ -334,6 +396,7 @@ nav{
     padding: .5vw 7vw;
     border-radius: 2vw;
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: center;
     width: max-content;
@@ -416,36 +479,45 @@ nav{
     background-color: var(--button_hover);
 }
 .NavGomb:first-of-type p{
-    font-size: 2vw;
+    font-size: 1.8vw;
 }
 .NavGomb:first-child{
     display: flex;
     flex-direction: row;
-    vertical-align: middle;
+    align-items: center;
     position: relative;
     justify-content: center;
     transition: .3s;
 }
-.NavGomb:first-child img{
+.NavGomb:first-child div{
+    position: relative;
+    transition: .3s;
+}
+#FooldalBetolt div{
+    right: -18%;
+}
+#TestoldalBetolt div{
+    right: -28%;
+}
+.NavGomb:first-child div img{
     width: 3vw;
     height: 3vw;
     position: relative;
     z-index: 10;
-    left: 0;
     transition: .3s;
 }
 .NavGomb:first-child p{
-    position: absolute;
+    position: relative;
     transition: .3s;
-    left: 6vw;
-    opacity: 0;
+    left: 0;
     z-index: -1;
+    opacity: 0;
 }
-.NavGomb:first-child:hover img{
-    left: -5vw;
+.NavGomb:first-child:hover div{
+    right: -5% !important;
 }
 .NavGomb:first-child:hover p{
-    left: 9.5vw;
+    left: 2vw;
     z-index: 1;
     opacity: 1;
 }
@@ -786,12 +858,12 @@ nav{
 .ValasztoTDivValaszt{
     background-color: var(--button_hover);
 }
-.TestSettingsSorDB{
+.TestSettingsSorDB, .DogaSettingsSorDB{
     width: max-content;
     display: flex;
     align-items: center;
 }
-.TestSettingsSorDB form input{
+.TestSettingsSorDB form input, .DogaSettingsSorDB form input{
     width: 2vw;
     text-align: center;
     background-color: var(--dif_div_bc);
@@ -802,7 +874,7 @@ nav{
     font-size: 1vw;
     padding: .7vw .5vw;
 }
-.TestSettingsSliderDiv{
+.TestSettingsSliderDiv, .DogaSettingsSliderDiv{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -813,7 +885,7 @@ nav{
     background-color: var(--input_bc);
     border-radius: 2vw;
 }
-.TestSettingsSliderDivDisable{
+.TestSettingsSliderDivDisable, .DogaSettingsSliderDivDisable{
     background-color: rgb(20, 20, 20, 0.5);
     position: absolute;
     left: 0;
@@ -822,27 +894,27 @@ nav{
     border-radius: 2vw;
     transition: .3s;
 }
-.TestSettingsSlider{
+.TestSettingsSlider, .DogaSettingsSlider{
     display: flex;
     justify-content: center;
     height: 100%;
 }
-.TestSettingsSlider form{
+.TestSettingsSlider form, .DogaSettingsSlider form{
     display: flex;
     justify-content: center;
     align-items: center;
     gap: .5vw;
 }
-.TestSettingsSlider form input{
+.TestSettingsSlider form input, .DogaSettingsSlider form input{
     appearance: none; /* removes browser-specific styling */
-    width: 10   vw; /* width of slider */
-    height: 100%; /* height of slider */
+    width: 8vw; /* width of slider */
+    height: 80%; /* height of slider */
     background: var(--dif_div_bc) ; /* orange background */
     outline: none; /* remove outline */
     border-radius: 3vw; /* round corners */
-    padding: .1vw .2vw;
+    padding: 0vw .5vw;
 }
-.TestSettingsSlider form input::-webkit-slider-thumb {
+.TestSettingsSlider form input::-webkit-slider-thumb, .DogaSettingsSlider form input::-webkit-slider-thumb{
     appearance: none; /* removes browser-specific styling */
     width: 20px; /* handle width */
     height: 20px; /* handle height */
@@ -850,11 +922,14 @@ nav{
     background: #FFFFFF; /* white color */
     cursor: pointer; /* cursor on hover */
 }
-#labelTestSlider{
+#labelTestSlider, #labelDogaSlider{
     width: auto;
     margin: 0;
     font-size: .9vw;
     text-align: center;
+}
+#inputTestSlider{
+    height: 2vw;
 }
 .TimerOnOff{
     display: flex;
@@ -1250,39 +1325,46 @@ nav{
     font-size: 1vw;
     opacity: 1;
 }
+.TestGombDivek{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5vw;
+}
 
 .SettingsDiv{
-    width: 30%;
-    position: relative;
-    margin: auto;
+    padding: .5vw 4.5vw;
+    border-radius: .6vw;
     display: flex;
     flex-direction: row;
+    position: relative;
     align-items: center;
-    cursor: pointer;
-    border-radius: .6vw;
-    transition: .3s;
-    padding: .5vw;
     justify-content: center;
+    transition: .3s;
+    cursor: pointer;
+    color: var(--text_color);
+    text-align: center;
 }
 .SettingsDiv p{
-    margin: auto;
-    color: var(--text_color);
-    position: absolute;
+    position: relative;
     text-transform: uppercase;
     letter-spacing: .1vw;
     z-index: -1;
-    left: 10vw;
     transition: .3s;
-    font-size: .8vw;
+    font-size: 1vw;
+    width: 15vw;
     opacity: 0;
+    right: -10%;
 }
 .SettingsDivIMG{
     width: 3vw;
     height: 3vw;
+    cursor: pointer;
     position: relative;
     transition: .3s;
-    left: 0;
-    position: relative;
+    left: -40%;
     z-index: 2;
     opacity: 0;
     animation-name: OpacityLoad;
@@ -1292,18 +1374,25 @@ nav{
 }
 .SettingsDivIMG img{
     width: 100%;
+    position: relative;
+    transition: .3s;
 }
 .SettingsDiv:hover{
     background-color: var(--button_hover);
 }
 .SettingsDiv:hover .SettingsDivIMG{
-    left: -6vw;
+    left: -10%;
+}
+.SettingsDiv:hover #PWChangeDivIMG{
+    left: -25% !important;
 }
 .SettingsDiv:hover > p{
-    left: 11vw;
+    right: 5%;
     z-index: 1;
     opacity: 1;
 }
+
+
 .KiertekelesDiv{
     display: flex;
     flex-direction: column;
@@ -1475,31 +1564,223 @@ nav{
 }
 
 .DolgozatPubDivHeader{
-    border: .1vw solid var(--modal_border);
-    border-radius: .4vw;
-    padding: .5vw;
     color: var(--text_color);
     display: flex;
     justify-content: space-around;
     font-size: 1vw;
 }
+#DolgozatPubDivHeaderSecond{
+    padding-top: 1vw;
+    border-top: .1vw solid var(--modal_border);
+}
 .DogaEHeaderGomb{
     padding: .5vw 2vw;
-    border-radius: .4vw;
+    border-radius: .6vw;
     text-transform: uppercase;
     transition: .3s;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    background-color: var(--kivettdiv);
+    width: 15vw;
+    text-align: center;
+    display: flex;
+    align-items: center;
 }
 .DogaEHeaderGomb:hover{
     background-color: var(--button_hover);
 }
 .DogaEHeaderGomb p{
     margin: 0;
+    margin: auto;
+}
+.EHeaderGombDisable{
+    color: gray;
+    background-color: transparent !important;
+    cursor: default;
+}
+.EHeaderGombDisable:hover{
+    background-color: transparent !important;
 }
 .DogaTKivalaszt, .DogaTeljesKivalaszt{
     background-color: var(--button_hover);
 }
-
+.DogaDifSettingsDiv{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    gap: 1.5vw;
+    position: relative;
+    background-color: var(--kivettdiv);
+    padding: 0 1.5vw;
+    border-radius: .6vw;
+}
+.DogaDifSettingsDiv p{
+    margin: 0;
+    font-size: 1vw;
+    text-transform: uppercase;
+}
+.DogaDif{
+    cursor: pointer;
+    position: relative;
+    padding: .5vw 1vw;
+}
+.DogaDifValaszto{
+    position: absolute;
+    width: 6.5vw;
+    height: 70%;
+    background-color: var(--button_hover);
+    left: 6%;
+    transition: .3s;
+    border-radius: .6vw;
+}
+.DogaDifValasztoNo{
+    left: 38.5%;
+}
+.DogaDifValasztoNe{
+    left: 71%;
+    width: 5.5vw;
+}
+.OsztalyValasztoDiv{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1vw;
+    gap: 1vw;
+    position: relative;
+}
+.OsztalyValasztoDiv:last-child{
+    margin-bottom: 1vw;
+}
+.OsztalyValasztoDiv div{
+    padding: .8vw 1vw;
+    width: 1.5vw;
+    border-radius: 1vw;
+    transition: .3s;
+    cursor: pointer;
+}
+.OsztalyValasztoDiv div:hover{
+    background-color: var(--button_hover);
+}
+.OsztalyValasztoDiv div p{
+    margin: 0;
+}
+.OsztalyHatter0, .OsztalyHatter1, .OsztalyHatter2, .OsztalyHatter3{
+    position: absolute;
+    background-color: var(--button_hover);
+    height: 40%;
+    width: 1.5vw !important;
+    left: 0;
+    z-index: -1;
+}
+.OsztalyHatter1{
+    left: 26.5% !important;
+}
+.OsztalyHatter2{
+    left: 53% !important;
+}
+.OsztalyHatter3{
+    left: 79% !important;
+}
+.DogaKiirasGomb{
+    background-color: var(--kivettdiv);
+    margin: auto;
+    margin-top: 1.5vw;
+    padding: 1.5vw 3vw;
+    color: var(--text_color);
+    border-radius: .6vw;
+    cursor: pointer;
+    transition: .3s;
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+    font-size: 1.5vw;
+}
+.DogaKiirasGomb:hover{
+    background-color: var(--button_hover);
+}
+.DogaKiirasGomb p{
+    margin: 0;
+}
+.DogaInput:first-child{
+    margin-top: 1vw;
+}
+.DogaInput{
+    padding: .5vw 0;
+}
+.DogaInput form{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    text-transform: uppercase;
+    gap: 1vw;
+}
+.DogaInput label{
+    font-size: 1vw;
+    cursor: pointer;
+}
+.DogaInput input{
+    font-size: 1vw;
+    background-color: var(--input_bc);
+    outline: none;
+    border: none;
+    border-radius: 2vw;
+    color: var(--text_color);
+    padding: .5vw .5vw;
+    width: 3vw;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+.DogaVegsoKiiras{
+    color: var(--text_color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.DogaVegsoKiiras h1{
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+    font-size: 2vw;
+    margin: .5vw 0 1vw 0;
+    padding: .5vw 2vw;
+}
+.DogaVegsoKiiras p{
+    font-size: 1.2vw;
+    width: 50%;
+    text-align: center;
+    margin: 0;
+    padding: 1.5vw 1.5vw;
+    border-top: .1vw solid var(--modal_border);
+}
+.DogaVegsoGombokDiv{
+    display: flex;
+    color: var(--text_color);
+    align-items: center;
+    width: 60%;
+    margin: auto;
+    justify-content: space-around;
+    margin-bottom: 1vw;
+}
+.DogaVegsoGombokDiv div{
+    background-color: var(--kivettdiv);
+    transition: .3s;
+    width: max-content;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: .6vw;
+    padding: 1vw 2.5vw;
+    font-size: 1.2vw;
+    text-transform: uppercase;
+}
+.DogaVegsoGombokDiv div:hover{
+    background-color: var(--button_hover);
+}
+.DogaVegsoGombokDiv div p{
+    margin: 0;
+}
 
 #EgyDivMindFelett{
     position: absolute;
@@ -1661,6 +1942,270 @@ nav{
     to {top: 0vw;opacity: 1;}
 }
 
+@media only screen and (max-width: 1000px){
+    html{
+        position: fixed;
+        height: 100%;
+        overflow: hidden !important;
+    }
+    body {
+        margin: 0;
+        width: 100vw; 
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .OldalName{
+        font-size: 4vw;
+        padding: 1vw 2vw 2vw 2vw;
+    }
+    
+    .SignIn, .SideBar{
+        width: 7vw;
+        height: 7vw;
+        padding: 1vw;
+    }
+    .SignInDivOpen{
+        left: 92vw;
+        z-index: 12;
+        border-bottom: .1vw solid var(--modal_border);
+        border-radius: 0;
+        top: 0 !important;
+        background-color: transparent !important;
+    }
+    .SignInIMG{
+        border-radius: 4vw;
+        padding: .5vw;
+        transition: .3s;
+    }
+    .SignIn:hover > .SignInIMG,.SignInIMG:hover, .SideBar:hover{
+        background-color: transparent;
+    }
+    .SideBar img{
+        width: 100%;
+    }
+    .SignInIMG img{
+        width: 70%;
+        position: relative;
+        left: 1vw;
+        top: .2vw;
+    }
+    .SignInNav{
+        width: 100vw;
+        left: -100vw;
+    }
+    .SignInOpen{
+        left: 0;
+    }
+    .SignInHead{
+        height: 9.5vw;
+        font-size: 3.5vw;
+    }
+    .SignInHead p{
+        margin-right: 8.5vw;
+        font-size: 4.5vw;
+    }
+    .SignInBody{
+        padding: 2vw;
+        gap: 2vw;
+    }
+    .SignInBodyButton{
+        width: 75%;
+        padding: 1vw 0;
+        border-radius: 2vw;
+        background-color: var(--button_hover);
+        justify-content: space-around;
+    }
+    .SignInBodyButton p{
+        text-align: center;
+        width: 60%;
+        opacity: 1;
+        z-index: 2;
+        font-size: 4vw;
+    }
+    .SignInBodyButtonImg{
+        width: 8vw;
+        height: 8vw;
+        margin-left: 10%;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .SideBar img{
+        position: relative;
+        top: .4vw;
+    }
+    .SideBarNav{
+        width: 100vw;
+        right: -100vw;
+    }
+    .SideBarNavOpen{
+        right: 0 !important;
+    }
+    .SideBarHead{
+        width: 100%;
+        height: 10vw;
+    }
+    .SBCloseIMG{
+        width: 7vw;
+        height: 7vw;
+    }
+    .SBCloseIMG:hover{
+        background-color: transparent;
+    }
+    #CurTime{
+        font-size: 7vw;
+    }
+    .SideBarHead p{
+        margin-left: 1.5vw;
+    }
+    .SideBarNotifDiv{
+        font-size: 3vw;
+        height: 120vw;
+        gap: 2vw;
+    }
+    .SideBarNotActive{
+        left: -100vw;
+    }
+    .NotifHiba p{
+        margin: 0;
+    }
+    .NotifKiirDiv{
+        padding: 4vw 2vw 1vw 2vw;
+        background-color: var(--kivettdiv);
+        border-radius: .6vw;
+        width: 85%;
+        margin: 0 auto 0 auto;
+        font-size: 3vw;
+    }
+    .NotifDatum p{
+        margin: 0;
+    }
+    .NotifElfogadas{
+        border-radius: 1.5vw;
+    }
+    .NotifElfogadas div{
+        margin-top: 1.5vw !important;
+        padding: 1vw 4vw;
+        border-radius: 1vw;
+    }
+    .SideBarNavGombokDiv{
+        margin-top: 0;
+    }
+    .SideBarSwitch{
+        padding: .5vw 3vw;
+        border-radius: 5vw;
+        margin-top: 2vw;
+        background-color: var(--button_hover) !important;
+        width: 50%;
+        justify-content: space-around;
+    }
+    .SideBarSwitch:hover{
+        background-color: transparent;
+    }
+    .SideBarSwitch:hover > p{
+        opacity: 1;
+        right: 0;
+    }
+    .SideBarSwitch:hover > div{
+        left: 0;
+    }
+    .SideBarSwitch > div{
+        left: 0;
+    }
+    .SideBarSwitch p{
+        right: 0;
+        opacity: 1;
+    }
+    .SideBarSwitchActive p{
+        left: 40%;
+    }
+    .SideBarSwitchIMG{
+        width: 7vw;
+        height: 7vw;
+    }
+    .SideBarSwitchIMG img{
+        width: 100%;
+        position: relative;
+        transition: .3s;
+    }
+    .SideBarSwitchIMGActive{
+        left: -60% !important;
+    }
+    .SideBarSwitchIMGActive img{
+        transform: rotate(180deg);
+    }
+    .SideBarSwitchActive:hover > p{
+        left: 40%;
+    }
+    .SideBarSwitchActive:hover > div{
+        left: -60% !important;
+    }
+    
+    .NavGombok{
+        width: 80%;
+        align-items: center;
+        margin: 2vw 1vw;
+        gap: 2vw;
+        padding: 1vw 2vw;
+    }
+    .NavGombok:first-child{
+        border-bottom: .1vw solid var(--modal_border);
+        margin-bottom: -.3vw;
+        display: flex;
+    }
+    .NavGomb{
+        background-color: var(--button_hover);
+        border-radius: 4vw;
+        padding: 1.5vw 0vw;
+    }
+    .NavGomb:hover{
+        background-color: transparent;
+    }
+    .NavGomb:first-of-type p{
+        font-size: 7vw !important;
+        width: 70%;
+    }
+    .NavGomb:first-child{
+        border-radius: 5vw;
+        transition: .3s;
+        gap: 2vw;
+        padding: 2.5vw 0vw;
+    }
+    #FooldalBetolt div{
+        right: 0;
+    }
+    #TestoldalBetolt div{
+        right: 0;
+    }
+    .NavGomb:first-child div img{
+        width: 7vw;
+        height: 7vw;
+        z-index: 10;
+    }
+    .NavGomb:first-child p{
+        z-index: 3;
+        opacity: 1;
+    }
+    .NavGomb:first-child:hover div{
+        right: -5% !important;
+    }
+    .NavGomb:first-child:hover p{
+        left: 2vw;
+        z-index: 1;
+        opacity: 1;
+    }
+    .NavGomb:last-child{
+        margin-bottom: 3vw;
+    }
+    .NavGomb p{
+        font-size: 3vw;
+    }
+}
 
 input:focus{outline: none;}
 /*Checkbox style*/

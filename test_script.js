@@ -10,6 +10,8 @@ var EredetiKivalasztottTablak = [];
 var KivettErtekekDB = 0;
 var ValasztottTablaSorok;
 var ValasztottTime;
+var DogaOsztaly;
+var DogaKezdet;
 var EredetiValasztottTime;
 var TestActive = false;
 var Difficulty;
@@ -109,7 +111,7 @@ function DrkModeSwitch(value){
     }
     document.getElementById("ValasztoTablakClose") != undefined?color==1?document.getElementById("ValasztoTablakClose").children[0].src = "ph/close_dark.png":document.getElementById("ValasztoTablakClose").children[0].src = "ph/close_white.png":"";
     document.getElementById("FelGorgetoDiv") != undefined?color==1?document.getElementById("FelGorgetoDiv").children[0].src = "ph/uparrow_dark.png":document.getElementById("FelGorgetoDiv").children[0].src = "ph/uparrow_white.png":"";
-    document.getElementById("NavSelectorFirst")!=undefined?color==1?document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>home page</p>"?"ph/test_dark.png":"ph/home_dark.png"):document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>home page</p>"?"ph/test_white.png":"ph/home_white.png"):"";
+    document.getElementById("NavSelectorFirst")!=undefined?color==1?document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>CKIK Fizika</p>"?"ph/test_dark.png":"ph/home_dark.png"):document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>CKIK Fizika</p>"?"ph/test_white.png":"ph/home_white.png"):"";
     document.getElementsByClassName("TimerIMGOn").length==1?document.getElementById("TimerIMG").firstChild.src = color==1?"ph/on_dark.png":"ph/on_white.png":"";
     document.getElementsByClassName("TimerIMGOn").length==1?document.getElementById("TimerSetIMG").firstChild.src = color==1?"ph/time_set_dark.png":"ph/time_set_white.png":"";
     Tuser.osztaly == "T" || Tuser.osztaly == "A"?color==1?document.getElementById("ExamDivIMG").children[0].src = "ph/plus_dark.png":document.getElementById("ExamDivIMG").children[0].src = "ph/plus_white.png":"";
@@ -133,22 +135,23 @@ function Settings(){
         document.getElementById("ProfilPicDiv").setAttribute("onclick","importIMG()");
         PrivateModOn("load");
     
-        document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","UNChangeDiv"));
+        document.getElementById("MainBody").appendChild(DivCreate("TestGombDivek","TestGombDivek"));
+        document.getElementById("TestGombDivek").appendChild(DivCreate("SettingsDiv","UNChangeDiv"));
+        document.getElementById("UNChangeDiv").innerHTML += "<p>Felhasználónév</p>";
         document.getElementById("UNChangeDiv").appendChild(DivCreate("SettingsDivIMG","UNChangeDivIMG"));
         document.getElementById("UNChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/idcard_dark.png":"ph/idcard_white.png"));
-        document.getElementById("UNChangeDiv").innerHTML += "<p>Felhasználónév</p>";
-        document.getElementById("UNChangeDiv").setAttribute("onclick","UNChange()");
+        document.getElementById("UNChangeDiv").setAttribute("onclick","UNChange()");0
     
-        document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","PWChangeDiv"));
+        document.getElementById("TestGombDivek").appendChild(DivCreate("SettingsDiv","PWChangeDiv"));
+        document.getElementById("PWChangeDiv").innerHTML += "<p>jelszó</p>";
         document.getElementById("PWChangeDiv").appendChild(DivCreate("SettingsDivIMG","PWChangeDivIMG"));
         document.getElementById("PWChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/password_dark.png":"ph/password_white.png"));
-        document.getElementById("PWChangeDiv").innerHTML += "<p>jelszó</p>";
         document.getElementById("PWChangeDiv").setAttribute("onclick","PWChange()");
     
-        document.getElementById("MainBody").appendChild(DivCreate("SettingsDiv","PrivateChangeDiv"));
+        document.getElementById("TestGombDivek").appendChild(DivCreate("SettingsDiv","PrivateChangeDiv"));
+        document.getElementById("PrivateChangeDiv").innerHTML += "<p>Profil láthatóság</p>";
         document.getElementById("PrivateChangeDiv").appendChild(DivCreate("SettingsDivIMG","PrivateChangeDivIMG"));
         document.getElementById("PrivateChangeDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/private_dark.png":"ph/private_white.png"));
-        document.getElementById("PrivateChangeDiv").innerHTML += "<p>Profil láthatóság</p>";
         document.getElementById("PrivateChangeDiv").setAttribute("onclick","PrivateModOn('change')");
     }
 }
@@ -163,12 +166,24 @@ function UNChange(){
         document.getElementById("BlackBG").classList.add("BlackBGOn");
         document.getElementById("BlackBG").setAttribute("onclick","EgyMindFelettClose()");
         document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("text","new","new username");
-        document.getElementById("EgyDivMindFelett").innerHTML += "<p class='UserNameMess'>A felhasználó név megváltoztatását csak a rendszergazda tudja engedélyezni!</p>";
+        if(Tuser.osztaly != "T" && Tuser.osztaly != "A"){
+            document.getElementById("EgyDivMindFelett").innerHTML += "<p class='UserNameMess'>A felhasználó név megváltoztatását csak a rendszergazda tudja engedélyezni!</p>";
+        }
         document.getElementById("EgyDivMindFelett").appendChild(DivCreate("UNchangeSubmit","UNchangeSubmit"));
         document.getElementById("UNchangeSubmit").innerHTML = "<p>username change</p>";
         document.getElementById("UNchangeSubmit").setAttribute("onclick","UNChangeSubmit()");
-        document.getElementById("inputnew").setAttribute("onclick","WarningColorRemove('inputnew')");document.getElementById("inputnew").setAttribute("onfocus","WarningColorRemove('inputnew')");
+        document.getElementById("inputnew").setAttribute("onclick","WarningColorRemove('inputnew')");
+        document.getElementById("inputnew").setAttribute("onfocus","WarningColorRemove('inputnew')");
     }
+}
+
+function UNChangeSubmit(){
+    if(Tuser.osztaly == "T" || Tuser.osztaly == "A"){
+        UserNameChange(document.getElementById("UNchangeSubmit").value,Tuser.id);
+    }else{
+        ErtesitesFeltoltese({id: Tuser.id, message: "A felhasználó megakarja változtatni a nevét!", extra: document.getElementById("inputnew").value +","+Tuser.nev, kinek: "A", lezarva: 0});
+    }
+    EgyMindFelettClose();
 }
 
 function PWChange(){
@@ -365,7 +380,7 @@ function AdatokKiitaras(){
     FooldalBetoltese("default");
     document.getElementById("SideBarBody").appendChild(DivCreate("SideBarNavGombokDiv","SideBarNavGombokDiv"));
     document.getElementById("SideBarBody").appendChild(DivCreate("SideBarNotifDiv","SideBarNotifDiv"));
-    ErtesitesekLeker(Tuser.id);
+    ErtesitesekLeker(Tuser.osztaly, Tuser.nev, Tuser.id);
     document.getElementById("SideBarNavGombokDiv").appendChild(DivCreate("NavGombok","FooldalNav"));
     document.getElementById("SideBarNavGombokDiv").appendChild(DivCreate("NavGombok","TestoldalNav"));
 
@@ -395,8 +410,40 @@ function NotifBetolt(response){
     if(response.length == 0){
         document.getElementById("SideBarNotifDiv").innerHTML += "<div class='NotifHiba'><p>Nincs egy értesítésed se!</p></div>";
     }else{
-
+        let ResArray = Array.from(response).reverse();
+        for (let i = 0; i < ResArray.length; i++) {
+            document.getElementById("SideBarNotifDiv").appendChild(DivCreate("NotifKiirDiv",""));
+            let datum = ResArray[i].datum.split('T')[0] +" "+ ResArray[i].datum.split('T')[1].split('.')[0];
+            document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifDatum'><p>"+datum+"</p></div>";
+            document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifKiiras'><p>"+ResArray[i].message+"</p></div>";
+            if(ResArray[i].message == "A felhasználó megakarja változtatni a nevét!"){
+                let Extra = ResArray[i].extra.split(',');
+                document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifExtra'><p>"+Extra[1]+" -> "+Extra[0]+"</p></div>";
+                if(ResArray[i].lezarva == '0'){
+                    document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifElfogadas' id='NotifElfogadDiv"+i+"'><div><p>Elfogadás</p></div><div onclick='KerelemElfogadas("+ResArray[i].id+",false,"+i+","+ResArray[i].user_id+")'><p>Elutasítás</p></div></div>";
+                    document.getElementById("NotifElfogadDiv"+i).firstChild.setAttribute("onclick","KerelemElfogadas("+ResArray[i].id+",true,"+i+","+ResArray[i].user_id+",'"+Extra[0]+"',0)");
+                }
+            }
+            if(ResArray[i].lezarva == '1'){
+                document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].firstChild.classList.add("NotifLezarvaElfogadva");
+            }
+            else if(ResArray[i].lezarva == '-1'){
+                document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].firstChild.classList.add("NotifLezarvaElutasitva");
+            }
+        }
     }
+}
+
+function KerelemElfogadas(id,igaze,index, userid, fn , value){
+    document.getElementById("NotifElfogadDiv"+index).parentElement.firstChild.classList.add(igaze==true?"NotifLezarvaElfogadva":"NotifLezarvaElutasitva");
+    document.getElementById("NotifElfogadDiv"+index).parentElement.removeChild(document.getElementById("NotifElfogadDiv"+index));
+    ErtesitesLezaras(id,igaze==true?"1":"-1");
+    if(igaze == true){
+        if(value == 0){
+            UserNameChange(fn,userid);
+        }
+    }
+    ErtesitesFeltoltese({id: Tuser.id, message: "A felhasználó név megváltoztatás "+(igaze==true?"sikeres":"sikertelen")+" volt!",extra: "null",kinek: userid, lezarva: igaze==true?"1":"-1"});
 }
 
 function SideBarNotif(){
@@ -417,6 +464,11 @@ function SideBarNotif(){
 }
 
 function ExamPub(){
+    ValasztottTime = undefined;
+    DogaOsztaly = undefined;
+    DogaKezdet = undefined;
+    DogaKategTabla = [];
+    DogaTeljesTabla = [];
     document.getElementById("MainBody").innerHTML = "";
     SignInClose();
     document.getElementById("NavSelectorFoDiv")!=undefined?document.body.removeChild(document.getElementById("NavSelectorFoDiv")):"";
@@ -428,6 +480,7 @@ function ExamPub(){
 
     document.getElementById("DolgozatPubDivHeader").appendChild(DivCreate("DogaEHeaderGomb","DogaTeljesTablaDiv"));
     document.getElementById("DogaTeljesTablaDiv").innerHTML = "<p>Tábla választás</p>";
+    document.getElementById("DogaTeljesTablaDiv").classList.add("EHeaderGombDisable");
     document.getElementById("DogaTeljesTablaDiv").setAttribute("onclick","TablaValasztoOpen('DogaTabla')");
 
     if(document.getElementById("TablaValasztoDiv") == undefined){
@@ -439,12 +492,116 @@ function ExamPub(){
     document.getElementById("TablaValasztoDiv").appendChild(DivCreate("ValasztoTablakClose","ValasztoTablakClose"));
     document.getElementById("ValasztoTablakClose").appendChild(ImgCreate(usersetting.drkmode==1?"ph/close_dark.png":"ph/close_white.png"));
     document.getElementById("ValasztoTablakClose").firstChild.setAttribute("onclick","TablaValasztoClose()");
+
+    document.getElementById("DolgozatPubDivHeader").appendChild(DivCreate("DogaSettingsSliderDiv","DogaSettingsSliderDiv"));
+    document.getElementById("DogaSettingsSliderDiv").appendChild(DivCreate("DogaSettingsSliderDivDisable","DogaSettingsSliderDivDisable"));
+    document.getElementById("DogaSettingsSliderDiv").appendChild(DivCreate("DogaSettingsSlider","DogaSettingsSlider"));
+    document.getElementById("DogaSettingsSlider").innerHTML += InputCreate("range","DogaSlider","Tábla Sorok");
+    document.getElementById("inputDogaSlider").min = "5";
+    document.getElementById("inputDogaSlider").value = "5";
+    document.getElementById("inputDogaSlider").max = "5";
+    document.getElementById("inputDogaSlider").step = "1";
+    document.getElementById("DogaSettingsSliderDiv").appendChild(DivCreate("DogaSettingsSorDB","DogaSettingsSorDB"));
+    document.getElementById("DogaSettingsSorDB").innerHTML += "<form><input type='text' name='inputDogaSettingsSorDB' id='inputDogaSettingsSorDB' maxlength='3' minlength='1' onchange='DogaSorValueChange()'/></form>";
+    var slider = document.getElementById("inputDogaSlider");
+    var output = document.getElementById("inputDogaSettingsSorDB");
+    output.value = 5;
+    slider.oninput = function() {
+        output.value = this.value;
+    }
+
+    document.getElementById("DolgozatPubDivHeader").appendChild(DivCreate("DogaDifSettingsDiv","DogaDifSettingsDiv"));
+    document.getElementById("DogaDifSettingsDiv").appendChild(DivCreate("DogaDifValaszto","DogaDifValaszto"));
+    document.getElementById("DogaDifSettingsDiv").appendChild(DivCreate("DogaDif","DogaDifKonnyu"));
+    document.getElementById("DogaDifKonnyu").innerHTML = "<p>könnyű</p>";
+    document.getElementById("DogaDifKonnyu").setAttribute("onclick","DogaDifValaszto('')");
+    document.getElementById("DogaDifSettingsDiv").appendChild(DivCreate("DogaDif","DogaDifNormal"));
+    document.getElementById("DogaDifNormal").innerHTML = "<p>normál</p>";
+    document.getElementById("DogaDifNormal").setAttribute("onclick","DogaDifValaszto('DogaDifValasztoNo')");
+    document.getElementById("DogaDifSettingsDiv").appendChild(DivCreate("DogaDif","DogaDifNehez"));
+    document.getElementById("DogaDifNehez").innerHTML = "<p>nehéz</p>";
+    document.getElementById("DogaDifNehez").setAttribute("onclick","DogaDifValaszto('DogaDifValasztoNe')");
+
+    document.getElementById("MainBody").appendChild(DivCreate("DolgozatPubDivHeader","DolgozatPubDivHeaderSecond"));
+
+    document.getElementById("DolgozatPubDivHeaderSecond").appendChild(DivCreate("DogaEHeaderGomb","DogaOsztalyValaszto"));
+    document.getElementById("DogaOsztalyValaszto").innerHTML = "<p>Osztály választás</p>";
+    document.getElementById("DogaOsztalyValaszto").setAttribute("onclick","TablaValasztoOpen('Osztaly')");
+    DogaOsztaly = ["9","A"];
+
+    document.getElementById("DolgozatPubDivHeaderSecond").appendChild(DivCreate("DogaEHeaderGomb","DogaKezdetDiv"));
+    document.getElementById("DogaKezdetDiv").innerHTML = "<p>Dolgozat Kezdet</p>";
+    document.getElementById("DogaKezdetDiv").setAttribute("onclick","TablaValasztoOpen('Kezdet')");
+    let d = new Date();
+    DogaKezdet = [d.getFullYear(),(d.getMonth()+1),d.getDate(),d.getHours(),d.getMinutes()];
+
+    document.getElementById("DolgozatPubDivHeaderSecond").appendChild(DivCreate("TimerOnOff","TimerOnOff"));
+    document.getElementById("TimerOnOff").innerHTML = "<p>Idő Beállítás</p>";
+    document.getElementById("TimerOnOff").setAttribute("onclick","TimerOnOff()");
+    document.getElementById("TimerOnOff").appendChild(DivCreate("TimerIMG","TimerIMG"));
+    document.getElementById("TimerIMG").appendChild(ImgCreate("ph/on_def.png"));
+    document.getElementById("TimerIMG").setAttribute("onclick","TimerOnOff()");
+    document.getElementById("TimerOnOff").appendChild(DivCreate("TimerSetIMG","TimerSetIMG"));
+    document.getElementById("TimerSetIMG").appendChild(ImgCreate("ph/time_set_def.png"));
+    document.getElementById("TimerSetIMG").setAttribute("onclick","TimerOnOff()");
+    ValasztottTime = [0,2,30];
+
+    document.getElementById("MainBody").appendChild(DivCreate("DogaKiirasGomb","DogaKiirasGomb"));
+    document.getElementById("DogaKiirasGomb").innerHTML = "<p>Dolgozat Kiírása</p>";
+    document.getElementById("DogaKiirasGomb").setAttribute("onclick","DolgozatKiiras()");
+}
+
+function DolgozatKiiras(){
+    let sordb = document.getElementById("DogaSettingsSliderDivDisable") == undefined?document.getElementById("inputDogaSlider").value:undefined;
+    let ido = document.getElementById("TimerIMG").classList.contains("TimerIMGOn")?ValasztottTime[0]*3600 + ValasztottTime[1]*60 + ValasztottTime[2]:undefined;
+    let dif;
+    if(document.getElementById("DogaDifValaszto").classList == "DogaDifValaszto"){
+        dif = "1";
+    }else if(document.getElementById("DogaDifValaszto").classList == "DogaDifValaszto DogaDifValasztoNo"){
+        dif = "2";
+    }else{dif = "3";}
+    let TablaId = "";
+    DogaTeljesTabla = Alkategoriak.filter(c=> DogaTeljesTabla.includes(c.nev));
+    for (let i = 0; i < DogaTeljesTabla.length; i++) {
+        TablaId += DogaTeljesTabla[i].id+ (i!=DogaTeljesTabla.length-1?",":"");
+    }
+    let Kezdet = "";
+    for (let i = 0; i < DogaKezdet.length; i++) {
+        Kezdet += DogaKezdet[i] + (i!=DogaKezdet.length-1?",":"");
+    }
+    if(sordb != undefined && TablaId != "" &&  Kezdet == ""){
+        DolgozatFeltolt({id: Tuser.id, ido: (ido == undefined?-1:ido), kezdet: Kezdet, dif: dif, tabla_id: TablaId, tabla_sor: sordb, osztaly: DogaOsztaly[0]+"/"+DogaOsztaly[1]});
+    }
+    TablaId = "";
+    for (let i = 0; i < DogaTeljesTabla.length; i++){
+        TablaId += DogaTeljesTabla[i].nev+ (i!=DogaTeljesTabla.length-1?", ":"");
+    }
+
+    document.getElementById("MainBody").innerHTML = "";
+    document.getElementById("MainBody").appendChild(DivCreate("DogaVegsoKiiras","DogaVegsoKiiras"));
+    document.getElementById("DogaVegsoKiiras").innerHTML += "<h1>Dolgozat kiírva!</h1>";
+    document.getElementById("DogaVegsoKiiras").innerHTML += "<p>Dolgozat kezdete: "+DogaKezdet[0]+"-"+DogaKezdet[1]+"-"+DogaKezdet[2]+" "+DogaKezdet[3]+":"+DogaKezdet[4]+"</p>";
+    document.getElementById("DogaVegsoKiiras").innerHTML += "<p>Dolgozat sorok száma: "+sordb+"</p>";
+    document.getElementById("DogaVegsoKiiras").innerHTML += "<p>Dolgozat táblái: "+TablaId+"</p>";
+    document.getElementById("DogaVegsoKiiras").innerHTML += "<p>Dolgozat nehézsége: "+(dif=='1'?"Könnyű":(dif=='2'?"Normál":"Nehéz"))+"</p>";
+    document.getElementById("DogaVegsoKiiras").innerHTML += "<p>Dolgozatot író osztály: "+DogaOsztaly[0]+"/"+DogaOsztaly[1]+"</p>";
+    ido = (ValasztottTime[0]==0?"":ValasztottTime[0]+":")+(ValasztottTime[1]<10?"0"+ValasztottTime[1]:ValasztottTime[1])+":"+(ValasztottTime[2]<10?"0"+ValasztottTime[2]:ValasztottTime[2]);
+    document.getElementById("DogaVegsoKiiras").innerHTML += "<p>Beállított idő: "+(ValasztottTime==undefined?"Nem lett beállítva idő!":ido)+"</p>";
+
+    document.getElementById("MainBody").appendChild(DivCreate("DogaVegsoGombokDiv","DogaVegsoGombokDiv"));
+    document.getElementById("DogaVegsoGombokDiv").innerHTML += "<div><p>Visszatérés a főoldalra</p></div>";
+    document.getElementById("DogaVegsoGombokDiv").lastChild.setAttribute("onclick","FooldalBetoltese('default')");
+    document.getElementById("DogaVegsoGombokDiv").innerHTML += "<div onclick='ExamPub()'><p>Új dolgozat kiírása</p></div>";
+}
+
+function DogaDifValaszto(CL){
+    document.getElementById("DogaDifValaszto").classList = CL==''?"DogaDifValaszto":"DogaDifValaszto "+CL;
 }
 
 function FooldalBetoltese(value){
     SignInClose();SideBarClose();
     if(document.getElementById("TudnivalokDiv") == undefined){
-        document.getElementById("OldalName").innerHTML = "<p>Fő oldal</p>";
+        document.getElementById("OldalName").innerHTML = "<p>CKIK Fizika</p>";
         document.getElementById("MainBody").innerHTML = "";
         var IdCheck;
         if(document.getElementById("NavSelectorFoDiv") != undefined){
@@ -930,6 +1087,7 @@ function TablaKivalasztasa(div){
 }
 
 function TablaValasztoOpen(value){
+    document.getElementById("TablaValasztoDiv").classList = "TablaValasztoDiv";
     if(value == 'Tabla'){
         TablaValaszto();
         document.getElementById("TablaValasztoDiv").classList.add("TablaValasztoDivOpen");
@@ -947,6 +1105,89 @@ function TablaValasztoOpen(value){
         document.getElementById("TablaValasztoDiv").classList.add("TablaValasztoDivOpen");
         document.getElementById("BlackBG").classList.add("BlackBGOn");
         document.getElementById("BlackBG").setAttribute("onclick","TablaValasztoClose()");
+    }
+    else if(value == "Timer"){
+        document.getElementById("TablaValasztoDiv").classList.add("TablaValasztoDivOpen");
+        document.getElementById("BlackBG").classList.add("BlackBGOn");
+        document.getElementById("BlackBG").setAttribute("onclick","TablaValasztoClose()");
+    }
+    else if(value == "Osztaly"){
+        DogaOsztalyValaszto();
+        document.getElementById("TablaValasztoDiv").classList.add("TablaValasztoDivOpen");
+        document.getElementById("BlackBG").classList.add("BlackBGOn");
+        document.getElementById("BlackBG").setAttribute("onclick","TablaValasztoClose()");
+    }
+    else if(value == "Kezdet"){
+        IdoKezdetValaszto();
+        document.getElementById("TablaValasztoDiv").classList.add("TablaValasztoDivOpen");
+        document.getElementById("BlackBG").classList.add("BlackBGOn");
+        document.getElementById("BlackBG").setAttribute("onclick","TablaValasztoClose()");
+    }
+}
+
+function IdoKezdetValaszto(){
+    if(document.getElementById("TablaValasztoDiv").children.length>1){
+        document.getElementById("TablaValasztoDiv").innerHTML = "";
+        document.getElementById("TablaValasztoDiv").appendChild(DivCreate("ValasztoTablakClose","ValasztoTablakClose"));
+        document.getElementById("ValasztoTablakClose").appendChild(ImgCreate(usersetting.drkmode==1?"ph/close_dark.png":"ph/close_white.png"));
+        document.getElementById("ValasztoTablakClose").firstChild.setAttribute("onclick","TablaValasztoClose()");
+    }
+    document.getElementById("TablaValasztoDiv").appendChild(DivCreate("DogaKezdetDivValaszto","DogaKezdetDivValaszto"));
+    document.getElementById("DogaKezdetDivValaszto").innerHTML += "<div class='DogaInput'><form><label for='DogaEv' id='DogaEvLabel'>Év</label><input maxlength='4' value='"+DogaKezdet[0]+"' type='text' name='DogaEv' id='DogaEv' onchange='DogaKezdetChange(this,0)'></form></div>";
+    document.getElementById("DogaKezdetDivValaszto").innerHTML += "<div class='DogaInput'><form><label for='DogaHonap' id='DogaHonapLabel'>Hónap</label><input maxlength='2' value='"+DogaKezdet[1]+"' type='text' name='DogaHonap' id='DogaHonap' onchange='DogaKezdetChange(this,1)'></form></div>";
+    document.getElementById("DogaKezdetDivValaszto").innerHTML += "<div class='DogaInput'><form><label for='DogaNap' id='DogaNapLabel'>Nap</label><input maxlength='2' type='text' value='"+DogaKezdet[2]+"' name='DogaNap' id='DogaNap' onchange='DogaKezdetChange(this,2)'></form></div>";
+    document.getElementById("DogaKezdetDivValaszto").innerHTML += "<div class='DogaInput'><form><label for='DogaOra' id='DogaOraLabel'>Óra</label><input maxlength='2' type='text' value='"+DogaKezdet[3]+"' name='DogaOra' id='DogaOra' onchange='DogaKezdetChange(this,3)'></form></div>";
+    document.getElementById("DogaKezdetDivValaszto").innerHTML += "<div class='DogaInput'><form><label for='DogaPerc' id='DogaPercLabel'>Perc</label><input type='text' maxlength='2' value='"+DogaKezdet[4]+"' name='DogaPerc' id='DogaPerc' onchange='DogaKezdetChange(this,4)'></form></div>";
+}
+
+function DogaKezdetChange(input,id){
+    DogaKezdet[Number(id)] = input.value;
+}
+
+function DogaOsztalyValaszto(){
+    if(document.getElementById("TablaValasztoDiv").children.length>1){
+        document.getElementById("TablaValasztoDiv").innerHTML = "";
+        document.getElementById("TablaValasztoDiv").appendChild(DivCreate("ValasztoTablakClose","ValasztoTablakClose"));
+        document.getElementById("ValasztoTablakClose").appendChild(ImgCreate(usersetting.drkmode==1?"ph/close_dark.png":"ph/close_white.png"));
+        document.getElementById("ValasztoTablakClose").firstChild.setAttribute("onclick","TablaValasztoClose()");
+    }
+    document.getElementById("TablaValasztoDiv").appendChild(DivCreate("OsztalyValasztoDiv","EvfolyamValaszt"));
+    document.getElementById("EvfolyamValaszt").innerHTML += "<div class='' id='EvfolyamHatter'></div>";
+    document.getElementById("EvfolyamValaszt").innerHTML += "<div class='EvfolyamDivek' onclick='OsztalyKiValaszt(this)'><p>9</p></div>";
+    document.getElementById("EvfolyamValaszt").innerHTML += "<div class='EvfolyamDivek' onclick='OsztalyKiValaszt(this)'><p>10</p></div>";
+    document.getElementById("EvfolyamValaszt").innerHTML += "<div class='EvfolyamDivek' onclick='OsztalyKiValaszt(this)'><p>11</p></div>";
+    document.getElementById("EvfolyamValaszt").innerHTML += "<div class='EvfolyamDivek' onclick='OsztalyKiValaszt(this)'><p>12</p></div>";
+    document.getElementById("TablaValasztoDiv").appendChild(DivCreate("OsztalyValasztoDiv","OsztalyValaszt"));
+    document.getElementById("OsztalyValaszt").innerHTML += "<div class='' id='OsztalyHatter'></div>";
+    document.getElementById("OsztalyValaszt").innerHTML += "<div class='OsztalyDivek' onclick='OsztalyKiValaszt(this)'><p>A</p></div>";
+    document.getElementById("OsztalyValaszt").innerHTML += "<div class='OsztalyDivek' onclick='OsztalyKiValaszt(this)'><p>B</p></div>";
+    document.getElementById("OsztalyValaszt").innerHTML += "<div class='OsztalyDivek' onclick='OsztalyKiValaszt(this)'><p>C</p></div>";
+    document.getElementById("OsztalyValaszt").innerHTML += "<div class='OsztalyDivek' onclick='OsztalyKiValaszt(this)'><p>K</p></div>";
+    for (let i = 0; i < Array.from(document.getElementsByClassName("EvfolyamDivek")).length; i++){
+        if(Array.from(document.getElementsByClassName("EvfolyamDivek"))[i].innerText == DogaOsztaly[0]){
+            Array.from(document.getElementsByClassName("EvfolyamDivek"))[i].classList.add("OsztalyKiValasztDiv");
+            document.getElementById("EvfolyamHatter").classList.add("OsztalyHatter"+i);
+        }
+    }
+    for (let i = 0; i < Array.from(document.getElementsByClassName("OsztalyDivek")).length; i++){
+        if(Array.from(document.getElementsByClassName("OsztalyDivek"))[i].innerText == DogaOsztaly[1]){
+            Array.from(document.getElementsByClassName("OsztalyDivek"))[i].classList.add("OsztalyKiValasztDiv");
+            document.getElementById("OsztalyHatter").classList.add("OsztalyHatter"+i);
+        }
+    }
+}
+
+function OsztalyKiValaszt(div){
+    let Divek = Array.from(document.getElementsByClassName(div.classList));
+    let KivalasztottDivek = Array.from(document.getElementsByClassName("OsztalyKiValasztDiv"));
+    for (let i = 0; i < KivalasztottDivek.length; i++){
+        if(Divek.includes(KivalasztottDivek[i]) && div != KivalasztottDivek[i] && KivalasztottDivek[i].classList[0] == div.classList[0]){
+            KivalasztottDivek[i].classList = div.classList[0];
+            div.classList.add("OsztalyKiValasztDiv");
+            let index = Divek.indexOf(div);
+            i==0? document.getElementById("EvfolyamHatter").classList = "OsztalyHatter"+index:document.getElementById("OsztalyHatter").classList = "OsztalyHatter"+index;
+            DogaOsztaly[i] = div.innerText;
+        }
     }
 }
 
@@ -972,7 +1213,6 @@ function DogaTeljesValaszto(){
         document.getElementById("ValasztoTablakClose").appendChild(ImgCreate(usersetting.drkmode==1?"ph/close_dark.png":"ph/close_white.png"));
         document.getElementById("ValasztoTablakClose").firstChild.setAttribute("onclick","TablaValasztoClose()");
     }
-    DogaTeljesTabla = [];
     let KategArray = [];
     for (let i = 0; i < Teljeskategoriak.filter(c=>DogaKategTabla.includes(c.nev)).length; i++) {
         KategArray.push(Teljeskategoriak.filter(c=>DogaKategTabla.includes(c.nev))[i].id);
@@ -987,6 +1227,12 @@ function DogaTeljesValaszto(){
 }
 
 function KategTablaKivalaszt(div,CList){
+    let ALkatID;
+    let DB;
+    if(CList == "DogaTeljesKivalaszt"){
+        ALkatID = Alkategoriak.filter(c=>c.nev == div.innerText)[0].id;
+        DB = Tablak.filter(c=>c.alkat_id == ALkatID).length;
+    }
     if(div.classList.contains(CList)){
         div.classList.remove(CList);
         if(CList == "DogaTKivalaszt"){
@@ -994,6 +1240,16 @@ function KategTablaKivalaszt(div,CList){
         }
         if(CList == "DogaTeljesKivalaszt"){
             DogaTeljesTabla.splice(DogaTeljesTabla.indexOf(div.innerText),1);
+            if(DogaTeljesTabla.length==0){
+                document.getElementById("inputDogaSlider").max = 5;
+                document.getElementById("inputDogaSlider").min = 5;
+                document.getElementById("inputDogaSlider").value = 5;
+                document.getElementById("inputDogaSettingsSorDB").value = 5;
+                document.getElementById("DogaSettingsSliderDiv").appendChild(DivCreate("DogaSettingsSliderDivDisable","DogaSettingsSliderDivDisable"));
+            }
+            else{
+                document.getElementById("inputDogaSlider").max = Number(document.getElementById("inputDogaSlider").max) - DB;
+            }
         }
     }
     else{
@@ -1002,8 +1258,30 @@ function KategTablaKivalaszt(div,CList){
             DogaKategTabla.push(div.innerText);
         }
         if(CList == "DogaTeljesKivalaszt" && !DogaTeljesTabla.includes(div.innerText)){
+            if(DB < 5){
+                document.getElementById("inputDogaSlider").min = DB;
+            }
+            if(DogaTeljesTabla.length==0){
+                document.getElementById("inputDogaSlider").max = DB;
+                if(DB < 5){
+                    document.getElementById("inputDogaSlider").min = DB;
+                    document.getElementById("inputDogaSlider").max = DB;
+                    document.getElementById("inputDogaSlider").value = DB;
+                    document.getElementById("inputDogaSettingsSorDB").value = DB;
+                }
+                document.getElementById("DogaSettingsSliderDiv").removeChild(document.getElementById("DogaSettingsSliderDivDisable"));
+            }
+            else{
+                document.getElementById("inputDogaSlider").max = Number(document.getElementById("inputDogaSlider").max) + DB;
+            }
             DogaTeljesTabla.push(div.innerText);
         }
+    }
+    if(DogaKategTabla.length > 0){
+        document.getElementById("DogaTeljesTablaDiv").classList.remove("EHeaderGombDisable");
+    }
+    else{
+        document.getElementById("DogaTeljesTablaDiv").classList.add("EHeaderGombDisable");
     }
 }
 
@@ -1030,6 +1308,26 @@ function SorValueChange(){
         }
     }else if(isNaN(SorDB) == true){
         document.getElementById("inputTestSettingsSorDB").value = document.getElementById("inputTestSlider").value;
+    }
+}
+
+function DogaSorValueChange(){
+    let max = Number(document.getElementById("inputDogaSlider").max);
+    let min = Number(document.getElementById("inputDogaSlider").min);
+    let SorDB = Number(document.getElementById("inputDogaSettingsSorDB").value);
+    if(isNaN(SorDB) == false && SorDB != Number(document.getElementById("inputDogaSlider").value)){
+        if(SorDB <= max && SorDB >= min){
+            document.getElementById("inputDogaSlider").value = document.getElementById("inputDogaSettingsSorDB").value;
+        }
+        else if(SorDB > max){
+            document.getElementById("inputDogaSettingsSorDB").value = max;
+            document.getElementById("inputDogaSlider").value = max;
+        }else if(SorDB < min){
+            document.getElementById("inputDogaSettingsSorDB").value = min;
+            document.getElementById("inputDogaSlider").value = min;
+        }
+    }else if(isNaN(SorDB) == true){
+        document.getElementById("inputDogaSettingsSorDB").value = document.getElementById("inputDogaSlider").value;
     }
 }
 
@@ -1063,7 +1361,7 @@ function CategoryLoad(div){
         }
         if(DivId[DivId.length-1] == "T" && !document.getElementById(DivId+"N").classList.contains("SelectedNav")){
             document.getElementById("MainBody").innerHTML = "";
-            document.getElementById("OldalName").innerHTML = "<p>fő oldal</p>";
+            document.getElementById("OldalName").innerHTML = "<p>CKIK Fizika</p>";
             if(document.getElementById("NavSelectorFoDiv") != undefined && IdCheck == "E"){
                 document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
                 NavSelectorCreate("T");
@@ -1133,7 +1431,7 @@ function ScrollToDiv(div){
 }
 window.onscroll = function ()
 {
-    if(document.getElementsByClassName("TablaNevDivek") != undefined && document.getElementById("OldalName").firstChild.innerText == "FŐ OLDAL"){
+    if(document.getElementsByClassName("TablaNevDivek") != undefined && document.getElementById("OldalName").firstChild.innerText == "CKIK FIZIKA"){
         let element = document.getElementsByClassName("TablaNevDivek")[1].getBoundingClientRect();
         if(document.getElementsByClassName("TablaNevDivek").length > 1 && element.top < 350){
             TetejereGorgetShow(true);
@@ -1153,6 +1451,14 @@ function TetejereGorgetShow(value){
 
 function TablaSorokCreate(id,nev,jel,def,mert){
     document.getElementById(id).innerHTML += "<div class='TablaBelsoErtekek'> <div><p>"+nev+"</p></div> <div><p>"+jel+"</p></div> <div><p>"+def+"</p></div> <div><p>"+mert+"</p></div> </div>";
+}
+
+function AdminPanel(){
+    SignInClose();SideBarClose();
+    document.getElementById("MainBody").innerHTML = "";
+    document.getElementById("OldalName").innerText = "Admin panel";
+    document.getElementById("MainBody").appendChild(DivCreate("AdminPanelDiv","AdminPanelDiv"));
+    document.getElementById("AdminPanelDiv").appendChild(DivCreate("AdminPanelDiv","AdminPanelDiv"));
 }
 
 function DivCreate(Class,id){
@@ -1208,12 +1514,19 @@ function hash(pw) {
 
 function AlapBeallitasok(){
     Tuser.osztaly == "T" || Tuser.osztaly == "A"?TeacherView():"";
+    Tuser.osztaly == "A"?AdminPanelEnable():"";
     document.getElementById("UserNameP").innerText = Tuser.nev;
 }
 function TeacherView(){
     document.getElementById("ExamDiv").classList.add("SignInBodyButton");
     document.getElementById("ExamDiv").setAttribute("onclick","ExamPub()");
     document.getElementById("ExamDiv").innerHTML = "<div class='SignInBodyButtonImg' id='ExamDivIMG'><img src='ph/plus_white.png' alt=''></div><p>Dolgozat kiírás</p>";
+}
+
+function AdminPanelEnable(){
+    document.getElementById("AdminPanel").classList.add("SignInBodyButton");
+    document.getElementById("AdminPanel").setAttribute("onclick","AdminPanel()");
+    document.getElementById("AdminPanel").innerHTML = "<div class='SignInBodyButtonImg' id='AdminPanelDivIMG'><img src='ph/admin-panel_white.png' alt=''></div><p>admin panel</p>";
 }
 
 function Alapok(){

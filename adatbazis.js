@@ -344,8 +344,8 @@ function EredmenyLekeres(id){
     });
 }
 
-function ErtesitesekLeker(id){
-    const data = { lekerdezes: "select * from ertesitesek where user_id = '"+id+"'"};
+function ErtesitesekLeker(osztaly, nev, id){
+    const data = { lekerdezes: "select * from ertesitesek where kinek = '"+osztaly+"' or kinek = '"+nev+"' or kinek = '"+id+"'"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
         headers: {
@@ -362,9 +362,63 @@ function ErtesitesekLeker(id){
         return response;
     });
 }
+function ErtesitesFeltoltese(adat){
+    const data =  { lekerdezes: "insert into ertesitesek values(null,'"+adat.id+"','"+adat.message+"',null,'"+adat.extra+"','"+adat.kinek+"', '"+adat.lezarva+"')"};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        return response;
+    });
+}
+function ErtesitesLezaras(id,lezarva){
+    const data =  { lekerdezes: "update ertesitesek set lezarva = '"+lezarva+"' where id = '"+id+"'"};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        return response;
+    });
+}
 
 function EredmenyFeltolt(adat){
     const data =  { lekerdezes: "insert into eredmenyek values(null,'"+adat.id+"','"+adat.mpont+"','"+adat.epont+"',null,'"+adat.kateg+"','"+adat.nehezseg+"','"+adat.fajta+"', '"+adat.EIdo+"', '"+adat.TIdo+"')"};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        return response;
+    });
+}
+
+function DolgozatFeltolt(adat){
+    const data =  { lekerdezes: "insert into dolgozatok values(null,'"+adat.id+"','"+adat.ido+"','"+adat.kezdet+"','"+adat.dif+"','"+adat.tabla_id+"','"+adat.tabla_sor+"', '"+adat.osztaly+"', null)"};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        return response;
+    });
+}
+
+function UserNameChange(nev,id){
+    const data =  { lekerdezes: "update users set nev = '"+nev+"' where id = '"+id+"'"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
         headers: {
