@@ -182,6 +182,7 @@ function UNChangeSubmit(){
         UserNameChange(document.getElementById("UNchangeSubmit").value,Tuser.id);
     }else{
         ErtesitesFeltoltese({id: Tuser.id, message: "A felhasználó megakarja változtatni a nevét!", extra: document.getElementById("inputnew").value +","+Tuser.nev, kinek: "A", lezarva: 0});
+        ErtesitesFeltoltese({id: Tuser.id, message: "A felhasználónév megváltoztatási kérelem elküldve!", extra: "", kinek: Tuser.id, lezarva: 1});
     }
     EgyMindFelettClose();
 }
@@ -307,6 +308,9 @@ function TesztEredmenyLoad(){
     if(document.getElementById("NavSelectorFoDiv") != undefined){
         document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
     }
+    if(document.getElementById("KivettErtekek") != undefined){
+        document.body.removeChild(document.getElementById("KivettErtekek"));
+    }
     if(document.getElementById("OldalName").innerText != "TESZT EREDMÉNYEK"){
         document.getElementById("OldalName").innerText = "TESZT EREDMÉNYEK";
         document.getElementById("MainBody").innerHTML = "";
@@ -423,6 +427,8 @@ function NotifBetolt(response){
                     document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifElfogadas' id='NotifElfogadDiv"+i+"'><div><p>Elfogadás</p></div><div onclick='KerelemElfogadas("+ResArray[i].id+",false,"+i+","+ResArray[i].user_id+")'><p>Elutasítás</p></div></div>";
                     document.getElementById("NotifElfogadDiv"+i).firstChild.setAttribute("onclick","KerelemElfogadas("+ResArray[i].id+",true,"+i+","+ResArray[i].user_id+",'"+Extra[0]+"',0)");
                 }
+            }else if(ResArray[i].message == "A felhasználónak új dolgozat lett kiírva!"){
+                document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='DolgozatNotif' id='DolgozatNotif"+i+"'><p>Dolgozat megkezdése</p></div>";
             }
             if(ResArray[i].lezarva == '1'){
                 document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].firstChild.classList.add("NotifLezarvaElfogadva");
@@ -470,6 +476,9 @@ function ExamPub(){
     DogaKategTabla = [];
     DogaTeljesTabla = [];
     document.getElementById("MainBody").innerHTML = "";
+    if(document.getElementById("KivettErtekek") != undefined){
+        document.body.removeChild(document.getElementById("KivettErtekek"));
+    }
     SignInClose();
     document.getElementById("NavSelectorFoDiv")!=undefined?document.body.removeChild(document.getElementById("NavSelectorFoDiv")):"";
     document.getElementById("OldalName").innerText = "Dolgozat Kiírás";
@@ -569,7 +578,8 @@ function DolgozatKiiras(){
     for (let i = 0; i < DogaKezdet.length; i++) {
         Kezdet += DogaKezdet[i] + (i!=DogaKezdet.length-1?",":"");
     }
-    if(sordb != undefined && TablaId != "" &&  Kezdet == ""){
+    if(sordb != undefined && TablaId != "" &&  Kezdet != ""){
+        ErtesitesFeltoltese({id: Tuser.id, message: "A felhasználónak új dolgozat lett kiírva!", extra: "", kinek: (DogaOsztaly[0]+"/"+DogaOsztaly[1]), lezarva: 1});
         DolgozatFeltolt({id: Tuser.id, ido: (ido == undefined?-1:ido), kezdet: Kezdet, dif: dif, tabla_id: TablaId, tabla_sor: sordb, osztaly: DogaOsztaly[0]+"/"+DogaOsztaly[1]});
     }
     TablaId = "";
@@ -600,6 +610,9 @@ function DogaDifValaszto(CL){
 
 function FooldalBetoltese(value){
     SignInClose();SideBarClose();
+    if(document.getElementById("KivettErtekek") != undefined){
+        document.body.removeChild(document.getElementById("KivettErtekek"));
+    }
     if(document.getElementById("TudnivalokDiv") == undefined){
         document.getElementById("OldalName").innerHTML = "<p>CKIK Fizika</p>";
         document.getElementById("MainBody").innerHTML = "";
@@ -937,7 +950,6 @@ function Kiertekeles(value, Pontok){
         }
         document.getElementById("ValasztottTablakDiv").innerHTML = "<p>"+ETablak+"</p>";
     }
-    //(value == "T"?0:1)
     EredmenyFeltolt({id:Tuser.id, mpont:KivalasztottTablak.length, epont:Pontok, kateg:ETablak, nehezseg:(Difficulty=="R"?3:Difficulty), fajta:(value == "T"?0:1), EIdo:(typeof ValasztottTime != 'number'?-1:ValasztottTime), TIdo:(EredetiValasztottTime==undefined?-1:EredetiValasztottTime)});
     TestActive = false;
 }
@@ -1346,6 +1358,9 @@ function NavSelectorCreate(value){
 
 function CategoryLoad(div){
     if(!TestActive){
+        if(document.getElementById("KivettErtekek") != undefined){
+            document.body.removeChild(document.getElementById("KivettErtekek"));
+        }
         SignInClose();SideBarClose();
         let DivId = div.id;
         if(DivId.split('N').length > 1){
