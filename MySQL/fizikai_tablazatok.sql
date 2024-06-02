@@ -76,7 +76,7 @@ CREATE TABLE `dolgozatok` (
 CREATE TABLE `eredmenyek` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `MPont` int(11) NOT NULL,
+  `Mpont` int(11) NOT NULL,
   `Epont` int(11) NOT NULL,
   `datum` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `katok` varchar(255) NOT NULL,

@@ -1986,7 +1986,7 @@ nav{
         padding: 1vw;
     }
     .SignInDivOpen{
-        left: 92vw;
+        left: 91vw;
         z-index: 12;
         border-bottom: .1vw solid var(--modal_border);
         border-radius: 0;
@@ -2052,6 +2052,9 @@ nav{
         align-items: center;
         justify-content: center;
     }
+    #ExamDiv, #AdminPanel{
+        position: absolute;
+    }    
 
     .SideBar img{
         position: relative;
@@ -2088,6 +2091,11 @@ nav{
     }
     .SideBarNotActive{
         left: -100vw;
+    }
+    .NotifHiba{
+        padding: 2vw 2vw;
+        margin-top: 2vw !important;
+        border-radius: 1.5vw;
     }
     .NotifHiba p{
         margin: 0;
@@ -2222,6 +2230,197 @@ nav{
     }
     .NavGomb p{
         font-size: 3vw;
+    }
+
+    .MainBody{
+        width: 90%;
+        border-radius: 1vw;
+        padding: 2vw;
+        margin-top: 1.2vw;
+        gap: 4vw;
+        margin-bottom: 2vw;
+    }
+    .NavGorgeto{
+        position: absolute;
+        left: 0;
+        top: -100vw;
+        visibility: hidden;
+    }
+    .GorgetoDivek{
+        cursor: pointer;
+        padding: 2vw;
+        transition: .3s;
+        border-radius: .6vw;
+        color: var(--text_color);
+    }
+    .GorgetoDivek:hover{
+        background-color: transparent;
+    }
+    .GorgetoDivek p{
+        margin: 0;
+    }
+    .FelGorgetoDiv{
+        position: fixed;
+        width: 2.5vw;
+        height: 2.5vw;
+        right: -.5vw;
+        bottom: -5vw;
+        background-color: var(--body_bc);
+        padding: 1vw;
+        display: flex;
+        align-items: center;
+        border-top-left-radius: 1vw;
+        transition: .5s;
+        cursor: pointer;
+        opacity: 0;
+    }
+    .FelGorgetoDivOpen{
+        right: -.5vw;
+        bottom: -.1vw;
+        opacity: 1;
+    }
+    .FelGorgetoDiv:hover{
+        background-color: var(--button_hover);
+    }
+    .FelGorgetoDiv img{
+        width: 80%;
+    }
+    .TablaNevekKiiras{
+        padding: .5vw;
+    }
+    .TablaBelsoErtekek:first-child div:first-child{
+        border-top-left-radius: 1vw;
+    }
+    .TablaBelsoErtekek:first-child div:last-child{
+        border-top-right-radius: 1vw;
+    }
+    .TablaBelsoErtekek:last-child div:first-child{
+        border-bottom-left-radius: 1vw;
+    }
+    .TablaBelsoErtekek:last-child div:last-child{
+        border-bottom-right-radius: 1vw;
+    }
+    .TablaBelsoErtekek:last-child{
+        border-radius: 1vw;
+    }
+    .TablaBelsoErtekek:first-child{
+        font-size: 3vw ;
+        letter-spacing: .05vw;
+    }
+    .TablaBelsoErtekek div{
+        width: 25%;
+        padding: 6vw 0vw;
+        height: 4vw;
+        font-size: 2.2vw;
+    }
+    .TablaBelsoErtekek:first-child div{ 
+        font-size: 2.5vw;
+        padding: 4vw 0;
+        height: max-content;
+    }
+    .AlsoBorder{
+        border-radius: 1vw;
+    }
+
+    .TablaDivek{
+        gap: 1.5vw;
+    }
+    .TablaNevDivek{
+        padding: 1.5vw;
+        border-radius: 1vw;
+    }
+    .TablaNevDivek p{
+        font-size: 3vw
+    }
+    .TudnivaloKiiras,.TablaNevekKiiras{
+        border-radius: 1vw;
+    }
+    .TudnivaloKiiras p{
+        padding: 1.5vw;
+    }
+    
+    .MainBodyMegemel{
+        margin-bottom: 5.8vw;
+    }
+    .TestSettings{
+        background-color: var(--tabla_bc);
+        color: var(--text_color);
+        padding: .5vw 2vw;
+        display: flex;
+        flex-direction: row;
+        gap: 1vw;
+        vertical-align: middle;
+        border-radius: .4vw;
+        font-size: 1vw;
+        text-transform: uppercase;
+        justify-content: space-around;
+        letter-spacing: .1vw;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+        opacity: 0;
+        animation-name: OpacityLoad;
+        animation-duration: .8s;
+        animation-fill-mode: forwards;
+        animation-delay: .5s;
+        top: 0;
+        transition: .6s;
+    }
+    .FeltolTestSettings{
+        top: -7vw;
+        opacity: 0;
+    }
+    .TestTablakValaszt{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: max-content;
+        width: max-content;
+        padding: 0 1vw;
+        cursor: pointer;
+        transition: .3s;
+        border-radius: .6vw;
+        background-color: var(--input_bc);
+        padding: 1.5vw 1vw;
+    }
+    .TestTablakValaszt p{
+        margin: 0;
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .TestTablakValaszt:hover{
+        background-color: var(--button_hover);
+    }
+    .TablaValasztoDiv{
+        position: absolute;
+        right: -50%;
+        top: 50%;
+        transform: translate(50%,-50%);
+        color: var(--text_color);
+        display:block;
+        float:left;
+        text-align: center;
+        max-width: 70%;
+        max-height: 85%;
+        min-height: 10%;
+        min-width: 15%;
+        clear:both;
+        padding: 1.5vw 3.5vw;
+        padding-top: 3vw;
+        border-radius: .6vw;
+        background-color: var(--modal_bc);
+        border: .1vw solid var(--modal_border);
+        z-index: 13;
+        transition: .3s;
+        opacity: 0;
+    }
+    .TablaValasztoDivOpen{
+        right: 50% !important;
+        top: 50% !important;
+        transform: translate(50%,-50%) !important;
+        opacity: 1 !important;
     }
 }
 
