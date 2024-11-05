@@ -2043,6 +2043,9 @@ nav{
         z-index: 2;
         font-size: 4vw;
     }
+    .SignInBodyButton:hover > p{
+        left: -1.5vw;
+    }
     .SignInBodyButtonImg{
         width: 8vw;
         height: 8vw;
@@ -2052,10 +2055,16 @@ nav{
         align-items: center;
         justify-content: center;
     }
-    #ExamDiv, #AdminPanel{
+    .PanelElsoEltuntet #ExamDiv, .PanelElsoEltuntet #AdminPanel{
         position: absolute;
-    }    
-
+    }
+    .PanelMasodikEltuntet #AdminPanel{
+        position: absolute;
+    }
+    .SignInBodyButton:hover .SignInBodyButtonImg{
+        right: 0;
+    }
+    
     .SideBar img{
         position: relative;
         top: .4vw;
@@ -2232,6 +2241,68 @@ nav{
         font-size: 3vw;
     }
 
+
+    .ProfilPicDiv{
+        height: 32vw;
+        width: 50%;
+    }
+
+    .ProfilPicDivIMG{
+        width: 25vw;
+        height: 25vw;
+        border-radius: 50%;
+    }
+    .ProfilPicDiv p{
+        top: 28vw;
+        font-size: 2.5vw;
+        opacity: 1;
+    }
+    .TestGombDivek{
+        gap: 3vw;
+    }
+
+    .SettingsDiv{
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--button_hover);
+        border-radius: 5vw;
+        width: 45vw;
+    }
+    .SettingsDiv p{
+        z-index: 1;
+        font-size: 2.5vw;
+        width: max-content;
+        opacity: 1;
+        width: 30vw;
+    }
+    .SettingsDivIMG{
+        width: 7vw;
+        height: 7vw;
+        left: 0;
+        z-index: 1;
+    }
+    .SettingsDivIMG img{
+        width: 100%;
+        position: relative;
+        transition: .3s;
+    }
+    .SettingsDiv:hover .SettingsDivIMG{
+        left: -10%;
+    }
+    .SettingsDiv:hover #PWChangeDivIMG{
+        left: -25% !important;
+    }
+    .SettingsDiv:hover > p{
+        right: 5%;
+        z-index: 1;
+        opacity: 1;
+    }
+
+    .NavSelectorFoDiv{
+        top: -20vw !important;
+    }
+
+
     .MainBody{
         width: 90%;
         border-radius: 1vw;
@@ -2303,20 +2374,21 @@ nav{
     .TablaBelsoErtekek:last-child{
         border-radius: 1vw;
     }
-    .TablaBelsoErtekek:first-child{
-        font-size: 3vw ;
-        letter-spacing: .05vw;
-    }
     .TablaBelsoErtekek div{
-        width: 25%;
-        padding: 6vw 0vw;
-        height: 4vw;
-        font-size: 2.2vw;
+        padding: 7.5vw .5vw;
+        position: relative;
+    }
+    .TablaBelsoErtekek div p{
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        font-size: 2.5vw;
+        display: flex;
+        justify-content: center;
     }
     .TablaBelsoErtekek:first-child div{ 
         font-size: 2.5vw;
         padding: 4vw 0;
-        height: max-content;
     }
     .AlsoBorder{
         border-radius: 1vw;
@@ -2338,89 +2410,482 @@ nav{
     .TudnivaloKiiras p{
         padding: 1.5vw;
     }
+
+    .TablaNevekKiiras{
+        padding: .5vw;
+        font-size: 2.5vw;
+    }
+    .TablaBelsoErtekek:first-child div:first-child{
+        border-top-left-radius: .6vw;
+    }
+    .TablaBelsoErtekek:first-child div:last-child{
+        border-top-right-radius: .6vw;
+    }
+    .TablaBelsoErtekek:last-child div:first-child{
+        border-bottom-left-radius: .6vw;
+    }
+    .TablaBelsoErtekek:last-child div:last-child{
+        border-bottom-right-radius: .6vw;
+    }
+    .TablaBelsoErtekek{
+        display: flex;
+        justify-content: center;
+        vertical-align: middle;
+    }
+    .TablaBelsoErtekek div:first-child{
+        border-left: .1vw solid var(--modal_border);
+    }
+    .TablaBelsoErtekek:last-child{
+        border-bottom: .1vw solid var(--modal_border);
+        border-radius: .6vw;
+    }
+    .AlsoBorder{
+        border-bottom: .1vw solid var(--modal_border);
+        border-radius: .8vw;
+    }
+    .NevBelsoDiv{
+        width: 30% !important;
+        font-size: 80%;
+    }
+    .JelBelsoDiv{
+        width: 15% !important;
+    }
+    .DefBelsoDiv{
+        width: 30% !important;
+        font-size: 80%;
+    }
+    .MertBelsoDiv{
+        width: 25% !important;
+    }
+    .TablaBelsoErtekek:first-child{
+        font-size: 2vw !important;
+        letter-spacing: .1vw;
+        text-transform: uppercase;
+    }
+    .TablaBelsoErtekek:first-child .JelBelsoDiv{
+        width: 15.3% !important;
+    }
+    .TablaBelsoErtekek:first-child div{
+        font-size: 2.3vw !important;
+    }
+    .TablaBelsoErtekek:first-child div p{
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .TudnivaloKiiras{
+        font-size: 2.5vw;
+    }
     
     .MainBodyMegemel{
-        margin-bottom: 5.8vw;
+        margin-bottom: 13vw;
     }
     .TestSettings{
-        background-color: var(--tabla_bc);
-        color: var(--text_color);
-        padding: .5vw 2vw;
+        background-color: transparent;
         display: flex;
-        flex-direction: row;
-        gap: 1vw;
-        vertical-align: middle;
-        border-radius: .4vw;
-        font-size: 1vw;
-        text-transform: uppercase;
-        justify-content: space-around;
-        letter-spacing: .1vw;
-        align-items: center;
-        position: relative;
-        z-index: 1;
-        opacity: 0;
-        animation-name: OpacityLoad;
-        animation-duration: .8s;
-        animation-fill-mode: forwards;
-        animation-delay: .5s;
-        top: 0;
-        transition: .6s;
+        flex-direction: column;
+        font-size: 2.5vw;
+        gap: 2.5vw;
     }
     .FeltolTestSettings{
         top: -7vw;
         opacity: 0;
     }
     .TestTablakValaszt{
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        height: max-content;
-        width: max-content;
+        width: 70%;
         padding: 0 1vw;
         cursor: pointer;
         transition: .3s;
-        border-radius: .6vw;
-        background-color: var(--input_bc);
+        border-radius: 1vw;
         padding: 1.5vw 1vw;
+        height: 4vw;
     }
-    .TestTablakValaszt p{
-        margin: 0;
-        position: relative;
+    .TestTablakValaszt:hover{
+        background-color: var(--input_bc);
+    }
+    .TablaValasztoDiv{
+        right: 50%;
+        top: -50%;
+        max-width: 80%;
+        max-height: 85%;
+        min-height: max-content;
+        min-width: 35%;
+        width: max-content;
+        padding: 1.5vw 3.5vw;
+        padding-top: 6vw;
+        padding-bottom: 4vw;
+        border-radius: 1vw;
+    }
+    .ValasztoTablakClose{
+        width: 6vw;
+        height: 6vw;
+        right: 1vw;
+        top: 1vw;
+    }
+    .ValasztoTDiv{
+        margin: auto;
+        margin-top: 3vw;
+        transition: .3s;
+        padding: 1vw 2vw;
+        width: 90%;
+        border: .1vw solid gray;
+        background-color: var(--button_hover);
+    }
+    .ValasztoTDivValaszt{
+        border: .1vw solid white;
+    }
+    /*-------*/
+    .TestSettingsSorDB, .DogaSettingsSorDB{
+        width: max-content;
         display: flex;
         align-items: center;
     }
-    .TestTablakValaszt:hover{
+    .TestSettingsSorDB form input, .DogaSettingsSorDB form input{
+        width: 4vw;
+        text-align: center;
+        background-color: var(--dif_div_bc);
+        border-radius: .6vw;
+        font-size: 2.5vw;
+        padding: .7vw 1vw;
+    }
+    .TestSettingsSliderDiv, .DogaSettingsSliderDiv{
+        gap: 3vw;   
+        padding: .5vw 1vw;
+        border-radius: 1vw;
+        width: 70%;
+        font-size: 2.5vw;
+        justify-content: center;
+        height: 5vw;
+    }
+    .TestSettingsSliderDivDisable, .DogaSettingsSliderDivDisable{
+        background-color: rgb(20, 20, 20, 0.5);
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 1vw;
+        transition: .3s;
+    }
+    .TestSettingsSlider, .DogaSettingsSlider{
+        display: flex;
+        justify-content: center;
+        height: 100%;
+    }
+    .TestSettingsSlider form, .DogaSettingsSlider form{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: .5vw;
+    }
+    .TestSettingsSlider form input, .DogaSettingsSlider form input{
+        appearance: none; /* removes browser-specific styling */
+        width: 50%; /* width of slider */
+        height: max-content; /* height of slider */
+        background: var(--dif_div_bc) ; /* orange background */
+        outline: none; /* remove outline */
+        border-radius: 3vw; /* round corners */
+        padding: 0vw 0vw;
+    }
+    .TestSettingsSlider form input::-webkit-slider-thumb, .DogaSettingsSlider form input::-webkit-slider-thumb{
+        appearance: none; /* removes browser-specific styling */
+        width: 20px; /* handle width */
+        height: 20px; /* handle height */
+        border-radius: 50%; /* make it circular */
+        background: #FFFFFF; /* white color */
+        cursor: pointer; /* cursor on hover */
+    }
+    #labelTestSlider, #labelDogaSlider{
+        width: auto;
+        margin: 0;
+        font-size: 2vw;
+        text-align: center;
+    }
+    #inputTestSlider{
+        height: 2vw;
+    }
+    .TimerOnOff{
+        gap: 1vw;
+        border-radius: 1vw;
+        color: gray;
+        width: 70%;
+        height: 6vw;
+        justify-content: center;
+    }
+    .TimerIMG{
+        width: 12vw;
+        padding: 1vw;
+        border-radius: 3vw;
+        height: 2.5vw;
+    }
+    .TimerSetIMG{
+        width: 4vw;
+        height: 4vw;
+    }
+    .TimerInputs form{
+        font-size: 2.5vw;
+        margin: 2vw 0;
+    }
+    .TimerInputs form:first-child{
+        margin-top: 6vw;
+    }
+    .TimerInputs form label{
+        width: 5vw;
+        margin-right: 7vw;
+    }
+    .TimerInputs form input{
+        padding: .5vw 2vw;
+        width: 7vw;
+        text-align: center;
+        font-size: 2.5vw;
+        border-radius: .2vw;
+    }
+    .DifValaszto{
+        gap: 1vw;
+        padding: 1vw;
+        border-radius: 1vw;
+        width: 70%;
+        height: 5vw;
+    }
+    .DifShowDiv{
+        border-radius: 1vw;
+        margin: 0 3.5vw;
+        height: 75%;
+    }
+    .DifShowDivEasy{
+        left: 0;
+        width: 14.5vw;
+    }
+    .DifShowDivNormal{
+        left: 33%;
+        width: 14vw;
+    }
+    .DifShowDivHard{
+        left: 66.5%;
+        width: 14vw;
+    }
+    .TestStartDiv{
+        width: 10vw;
+        height: 10vw;
+        margin: 2vw 0vw;
+    }
+    .TestStartDiv p{
+        transition: .3s;
+        top: 1vw;
+        font-size: 2.5vw;
+        color: gray;
+        opacity: 1;
+    }
+    .TestStartDivActive{
+        cursor: pointer;
+    }
+    .TestStartDivActive > p{
+        color: var(--text_color);
+    }
+    .TestStartDivActive:hover > p{
+        opacity: 1;
+        top: 1vw;
+        font-size: 2.5vw;
+    }
+    .TestStartDivActive:hover > img{
+        top: 0vw;
+    }
+    .TestTimer{
+        font-size: 5.5vw;
+        border-bottom-left-radius: 1vw;
+    }
+    .TestDone{
+        color: var(--text_color);
+        border-bottom-right-radius: 1vw;
+        background-color: var(--button_hover);
+        border: transparent;
+    }
+    .TestDone p{
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: .1vw;
+        font-size: 3.5vw;
+    }
+    .LetehetoValasz p, .CserelhetoValasz p, .ActiveValasz p{
+        align-items: center;
+        border-radius: 1.5vw;
+        width: 95% !important;
+        height: 80% !important;
+    }
+    .LetehetoValasz p, .CserelhetoValasz p{
+        animation-name: ValaszthatoHelyek !important;
+        animation-duration: 1.5s !important;
+        animation-iteration-count: infinite;
+    }
+    .LetehetoValasz p{
+        border: .1vw solid rgba(0, 255, 0);
+    }
+    .CserelhetoValasz p{
+        border: .1vw solid darkorange;
+    }
+    .ActiveValasz p{
+        border: .1vw solid var(--modal_border);
+    }
+    .KivettErtekek{
+        width: 91.8%;
+        border-radius: 1vw;
+        padding: 0 1vw;
+        font-size: 2.5vw;
+        gap: 0vw;
+        height: 11vw;
+        overflow-y: hidden;
+    }
+    .KEDivek{
+        display: flex;
+        width: fit-content;
+        min-width: fit-content;
+        justify-content: center;
+        align-items: center;
+        padding: 0vw 1vw;
+        transition: .3s;
+        margin: .5vw;
+        border-radius: .4vw;
+        cursor: pointer;
+        color: var(--text_color);
+    }
+    .KEDivek p{
+        margin: .2vw;
+        position: relative;
+        z-index: 3;
+        padding: 1vw 2vw;
+        border-radius: .4vw;
+    }
+    .KEDivek:hover{
         background-color: var(--button_hover);
     }
-    .TablaValasztoDiv{
-        position: absolute;
-        right: -50%;
-        top: 50%;
-        transform: translate(50%,-50%);
-        color: var(--text_color);
-        display:block;
-        float:left;
-        text-align: center;
-        max-width: 70%;
-        max-height: 85%;
-        min-height: 10%;
-        min-width: 15%;
-        clear:both;
-        padding: 1.5vw 3.5vw;
-        padding-top: 3vw;
-        border-radius: .6vw;
-        background-color: var(--modal_bc);
-        border: .1vw solid var(--modal_border);
-        z-index: 13;
-        transition: .3s;
-        opacity: 0;
+    .KivettErtekActive{
+        background-color: var(--button_hover);
     }
-    .TablaValasztoDivOpen{
-        right: 50% !important;
-        top: 50% !important;
-        transform: translate(50%,-50%) !important;
-        opacity: 1 !important;
+    
+    .KivettErtekek::-webkit-scrollbar {
+        width: auto;
+        height: 1vw;
+    }
+      
+    /* Track */
+    .KivettErtekek::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px transparent; 
+        margin: 0 .3vw;
+    }
+       
+    /* Handle */
+    .KivettErtekek::-webkit-scrollbar-thumb {
+        background: var(--button_hover); 
+        border-radius: 4vw;
+    }
+      
+    /* Handle on hover */
+    .KivettErtekek::-webkit-scrollbar-thumb:hover {
+        background: var(--button_hover); 
+    }
+
+    .KiertekelesDiv div{
+        font-size: 3vw;
+        text-align: center;
+        width: 80%;
+        padding-bottom: 2vw;
+    }
+    .JegyDiv{
+        font-size: 3vw;
+    }
+    .IdoDiv p:last-child{
+        font-size: 3.5vw;
+    }
+    
+    /*--------------------*/
+    .TesztEredmenyekNevek{
+        letter-spacing: .05vw;
+        border-radius: 1vw;
+        margin-bottom: 2vw;
+        font-size: 3.5vw;
+    }
+    .DogaEredmeny{
+        margin-top: 1vw;
+    }
+    .EHeaderDiv{
+        border-top-left-radius: 1vw;
+        border-top-right-radius: 1vw;
+    }
+    .EHeaderStyleDiv{
+        padding: 1vw;
+        width: 25%;
+    }
+    .EHeaderStyleDiv p{
+        letter-spacing: .05vw;
+        font-size: 2vw;
+        padding: 0vw;
+    }
+    .TEredmeny:last-child,.TEredmenyDoga:last-child{
+        border-bottom-left-radius: 1vw;
+        border-bottom-right-radius: 1vw;
+    }
+    .EredmenyEJegy, .EredmenyESzazalek{
+        font-size: 2.8vw !important;
+        font-family: "digital-7";
+    }
+    .TEredmeny div, .TEredmenyDoga div{
+        width: 25%;
+        border-right: .1vw solid var(--modal_border);
+    }
+    .EHeaderStyleDiv:last-child, .TEredmeny div:last-child, .TEredmenyDoga div:last-child{
+        border: transparent;
+    }
+    .TEredmeny div:last-child, .TEredmenyDoga:last-child{
+        font-size: 2vw;
+        display: flex;
+        margin: 1vw;
+        flex-direction: column;
+    }
+    .TEredmeny div p, .TEredmenyDoga div p{
+        margin: 0;
+        padding: 0vw;
+    }
+    .EredmenyEIdo{
+        font-family: "digital-7";
+        font-size: 5vw;
+        position: relative;
+    }
+    .EredmenyDif{
+        font-size: 2vw;
+    }
+    .EredmenyEJegy{
+        width: 8% !important;
+    }
+    .EHeaderJegy{
+        width: 15% !important;
+    }
+    .EredmenyESzazalek{
+        width: 15% !important;
+    }
+    .EHeaderSzazalek{
+        width: 15% !important;
+    }
+    .EredmenyEIdoNincs{
+        font-size: 2vw;
+    }
+    .UresTesztEredmenyDiv{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--text_color);
+        font-size: 2.5vw;
+        border-radius: .6vw;
+        width: max-content;
+        padding: 1vw 5vw;
+        margin: auto;
+    }
+    .UresTesztEredmenyDiv p{
+        margin: 0;
+    }
+    .TesztEredmenyDiv:first-child{ 
+        font-size: 2vw;
+        padding: .5vw;
     }
 }
 

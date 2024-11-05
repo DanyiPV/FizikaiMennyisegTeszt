@@ -361,9 +361,9 @@ function EredmenyekKiGen(response){
         }
         else{document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div class='EredmenyEIdoNincs'><p>Nem volt beállítva idő!</p></div>"};
         let KatArray = response[i].katok.split(',');
-        document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div class='EredmenyKatok'><p></p></div>";
+        document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div class='EredmenyKatok'></div>";
         for (let j = 0; j < KatArray.length; j++) {
-            document.getElementsByClassName("EredmenyKatok")[document.getElementsByClassName("EredmenyKatok").length-1].firstChild.innerText += KatArray[j];
+            document.getElementsByClassName("EredmenyKatok")[document.getElementsByClassName("EredmenyKatok").length-1].innerHTML += "<p>"+KatArray[j]+"</p>"; 
         }
     }
 }
@@ -919,6 +919,7 @@ function TesztLeadasa(){
         }
     }
     document.getElementById("MainBody").innerHTML = "";
+    document.body.removeChild(document.getElementById("KivettErtekek"));
     Kiertekeles("T",Pontok);
 }
 
@@ -1465,7 +1466,7 @@ function TetejereGorgetShow(value){
 }
 
 function TablaSorokCreate(id,nev,jel,def,mert){
-    document.getElementById(id).innerHTML += "<div class='TablaBelsoErtekek'> <div><p>"+nev+"</p></div> <div><p>"+jel+"</p></div> <div><p>"+def+"</p></div> <div><p>"+mert+"</p></div> </div>";
+    document.getElementById(id).innerHTML += "<div class='TablaBelsoErtekek'> <div class='NevBelsoDiv'><p>"+nev+"</p></div> <div class='JelBelsoDiv'><p>"+jel+"</p></div> <div class='DefBelsoDiv'><p>"+def+"</p></div> <div class='MertBelsoDiv'><p>"+mert+"</p></div> </div>";
 }
 
 function AdminPanel(){
@@ -1531,6 +1532,8 @@ function AlapBeallitasok(){
     Tuser.osztaly == "T" || Tuser.osztaly == "A"?TeacherView():"";
     Tuser.osztaly == "A"?AdminPanelEnable():"";
     document.getElementById("UserNameP").innerText = Tuser.nev;
+    Tuser.osztaly != "T" && Tuser.osztaly != "A"?document.getElementById("SignInBody").classList.add("PanelElsoEltuntet"):"";
+    Tuser.osztaly == "T"?document.getElementById("SignInBody").classList.add("PanelMasodikEltuntet"):"";
 }
 function TeacherView(){
     document.getElementById("ExamDiv").classList.add("SignInBodyButton");
