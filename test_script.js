@@ -44,6 +44,7 @@ function TimerLog(){
     let h = time.getHours();
     let m = time.getMinutes();
     document.getElementById("CurTime").innerText = (h<10?"0"+h:h) +":"+(m<10?"0"+m:m);
+    ErtesitesekLeker(Tuser.osztaly, Tuser.nev, Tuser.id);
 }
 
 function SignInOpen(){
@@ -412,52 +413,59 @@ function AdatokKiitaras(){
 }
 
 function NotifBetolt(response){
-    if(response.length == 0){
-        document.getElementById("SideBarNotifDiv").innerHTML += "<div class='NotifHiba'><p>Nincs egy értesítésed se!</p></div>";
+    if(response.length == 0 && document.getElementById("NotifHiba") == undefined){
+        document.getElementById("SideBarNotifDiv").innerHTML += "<div class='NotifHiba' id='NotifHiba'><p>Nincs egy értesítésed se!</p></div>";
     }else{
         let ResArray = Array.from(response).reverse();
+        let DogaDB = 0;
         for (let i = 0; i < ResArray.length; i++) {
+            let datum = ResArray[i].datum.split('T')[0] +" "+ ResArray[i].datum.split('T')[1].split('.')[0];
             if(!BetoltottNotif.includes(ResArray[i].id)){
                 document.getElementById("SideBarNotifDiv").appendChild(DivCreate("NotifKiirDiv",""));
-                let datum = ResArray[i].datum.split('T')[0] +" "+ ResArray[i].datum.split('T')[1].split('.')[0];
-                document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifDatum' id='NotifDatum'"+i+"><p>"+datum+"</p></div>";
+                document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifDatum' id='NotifDatum"+i+"'><p>"+datum+"</p></div>";
                 document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifKiiras'><p>"+ResArray[i].message+"</p></div>";
-                if(ResArray[i].message == "A felhasználó megakarja változtatni a nevét!"){
-                    let Extra = ResArray[i].extra.split(',');
-                    document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifExtra'><p>"+Extra[1]+" -> "+Extra[0]+"</p></div>";
-                    if(ResArray[i].lezarva == '0'){
-                        document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifElfogadas' id='NotifElfogadDiv"+i+"'><div><p>Elfogadás</p></div><div onclick='KerelemElfogadas("+ResArray[i].id+",false,"+i+","+ResArray[i].user_id+")'><p>Elutasítás</p></div></div>";
-                        document.getElementById("NotifElfogadDiv"+i).firstChild.setAttribute("onclick","KerelemElfogadas("+ResArray[i].id+",true,"+i+","+ResArray[i].user_id+",'"+Extra[0]+"',0)");
-                    }
-                }else if(ResArray[i].message == "A felhasználónak új dolgozat lett kiírva!"){
-                    DolgozatLeker(Tuser.osztaly, i);
-                    document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='DolgozatKezdetIdo' id='DolgozatKezdetIdo"+i+"'><p>Kezdés: </p></div>";
+            }
+            if(ResArray[i].message == "A felhasználó megakarja változtatni a nevét!" && !BetoltottNotif.includes(ResArray[i].id)){
+                let Extra = ResArray[i].extra.split(',');
+                document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifExtra'><p>"+Extra[1]+" -> "+Extra[0]+"</p></div>";
+                if(ResArray[i].lezarva == '0'){
+                    document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifElfogadas' id='NotifElfogadDiv"+i+"'><div><p>Elfogadás</p></div><div onclick='KerelemElfogadas("+ResArray[i].id+",false,"+i+","+ResArray[i].user_id+")'><p>Elutasítás</p></div></div>";
+                    document.getElementById("NotifElfogadDiv"+i).firstChild.setAttribute("onclick","KerelemElfogadas("+ResArray[i].id+",true,"+i+","+ResArray[i].user_id+",'"+Extra[0]+"',0)");
+                }
+            }else if(ResArray[i].message == "A felhasználónak új dolgozat lett kiírva!"){
+                DolgozatLeker(Tuser.osztaly,ResArray[i].id, i, DogaDB++);
+                if(!BetoltottNotif.includes(ResArray[i].id)){
+                    document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='DolgozatKezdetIdo' id='DolgozatKezdetIdo"+i+"'><p>Vége: </p></div>";
                     document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='DolgozatNotif' id='DolgozatNotif"+i+"'><p>Dolgozat megkezdése</p></div>";
                 }
-                if(ResArray[i].message != "A felhasználónak új dolgozat lett kiírva!"){
-                    if(ResArray[i].lezarva == '1'){
-                        document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].firstChild.classList.add("NotifLezarvaElfogadva");
-                    }
-                    else if(ResArray[i].lezarva == '-1'){
-                        document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].firstChild.classList.add("NotifLezarvaElutasitva");
-                    }
-                }
+            }
+            if(!BetoltottNotif.includes(ResArray[i].id)){
                 BetoltottNotif.push(ResArray[i].id);
             }
         }
     }
 }
 
-function DolgozatNotifBetolt(response, id){
-    let ResArray = Array.from(response).reverse()[0];
+function DolgozatNotifBetolt(response, ResID, id, DogaDB){
+    let ResArray = Array.from(response).reverse()[DogaDB];
     let kezdDatum = ResArray.kezdet.split(',');
-    let DogVeg = Number(kezdDatum[3]) * 3600 + Number(kezdDatum[4]) + ResArray.ido;
-    let datum = kezdDatum[0]+"."+kezdDatum[1]+"."+kezdDatum[2]+". " + kezdDatum[3] + ":"+ (Number(kezdDatum[4]) < 10? +"00"+kezdDatum[4]: kezdDatum[4]) +
-    "\n Vége: "+kezdDatum[0]+"."+kezdDatum[1]+"."+kezdDatum[2]+". " + Math.floor(DogVeg/3600) + ":"+(DogVeg%3600)/60;
+    let DogVeg = Number(kezdDatum[3]) * 3600 + Number(kezdDatum[4])*60 + ResArray.ido;
+    let datum = kezdDatum[0]+"."+(Number(kezdDatum[1]) < 10 ? "0"+kezdDatum[1]:kezdDatum[1])+"."+(Number(kezdDatum[2]) < 10 ? "0"+kezdDatum[2]:kezdDatum[2])+". " +(Math.floor(DogVeg/3600) < 10 ? +"0"+Math.floor(DogVeg/3600):Math.floor(DogVeg/3600)) + ":"+(Math.floor((DogVeg%3600)/60) < 10? "0"+Math.floor((DogVeg%3600)/60):Math.floor((DogVeg%3600)/60)) +":"+(((DogVeg%3600)%60 < 10 ? + "0"+String((DogVeg%3600)%60):(DogVeg%3600)%60));
+    if(!BetoltottNotif.includes(ResID) || document.getElementById("DolgozatKezdetIdo"+id).firstChild.innerText == "Vége:"){
+        document.getElementById("NotifDatum"+id).firstChild.innerText = kezdDatum[0]+"."+(Number(kezdDatum[1]) < 10 ? "0"+kezdDatum[1]:kezdDatum[1])+"."+(Number(kezdDatum[2]) < 10 ? "0"+kezdDatum[2]:kezdDatum[2])+". " + (Number(kezdDatum[3]) < 10 ? "0"+kezdDatum[3]:kezdDatum[3]) + ":"+ (Number(kezdDatum[4]) < 10 && kezdDatum[4] != "00"? +"00":kezdDatum[4]);
+        document.getElementById("DolgozatKezdetIdo"+id).innerText += " "+ datum;
+    }
     let CurTime = new Date();
-    //console.log(CurTime.getMonth()+1 , CurTime.getDate() , CurTime.getHours(), CurTime.getMinutes() ); 
-    document.getElementById("") 
-    document.getElementById("DolgozatKezdetIdo"+id).innerText += " "+ datum;
+    if(CurTime.getFullYear() >= Number(kezdDatum[0]) && CurTime.getMonth()+1 >= Number(kezdDatum[1]) && CurTime.getDate() >= Number(kezdDatum[2]) && (Number(CurTime.getHours())*3600 + Number(CurTime.getMinutes())*60 + Number(CurTime.getSeconds())*60)){
+        document.getElementById("NotifDatum"+id).classList.add("DogaNemIrhato");
+    }
+    else if(CurTime.getFullYear() == Number(kezdDatum[0]) && CurTime.getMonth()+1 == Number(kezdDatum[1]) && CurTime.getDate() == Number(kezdDatum[2]) && (Number(kezdDatum[3])*3600 + Number(kezdDatum[4])*60) <= (CurTime.getHours()*3600 + CurTime.getMinutes()*60 + CurTime.getSeconds()) && (CurTime.getHours()*3600 + CurTime.getMinutes()*60 + CurTime.getSeconds()) <= DogVeg){
+        document.getElementById("NotifDatum"+id).classList.add("DogaIrhato");
+    }
+    else{
+        document.getElementById("NotifDatum"+id).classList.remove("DogaIrhato");
+        document.getElementById("NotifDatum"+id).classList.remove("DogaNemIrhato");
+    }
 }
 
 function KerelemElfogadas(id,igaze,index, userid, fn , value){
@@ -940,7 +948,9 @@ function TesztLeadasa(){
         }
     }
     document.getElementById("MainBody").innerHTML = "";
-    document.body.removeChild(document.getElementById("KivettErtekek"));
+    if(document.getElementById("KivettErtekek") != undefined){
+        document.body.removeChild(document.getElementById("KivettErtekek"));
+    }
     Kiertekeles("T",Pontok);
 }
 

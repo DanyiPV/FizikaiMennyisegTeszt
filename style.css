@@ -398,13 +398,13 @@ nav{
     border: .1vw solid transparent;
 }
 .DolgozatKezdetIdo{
-    margin-bottom: .8vw;
+    margin-bottom: 1.5vw;
     font-size: 1.8vw;
 }
-.NotifLezarvaElfogadva{
+.NotifLezarvaElfogadva, .DogaIrhato{
     background-color: rgba(55, 196, 55, 0.65);
 }
-.NotifLezarvaElutasitva{
+.NotifLezarvaElutasitva, .DogaNemIrhato{
     background-color: rgba(196, 55, 55, 0.65);
 }
 .SideBarNotifDiv div:first-child{

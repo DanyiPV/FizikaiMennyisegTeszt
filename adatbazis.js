@@ -416,7 +416,7 @@ function DolgozatFeltolt(adat){
         return response;
     });
 }
-function DolgozatLeker(osztaly, id){
+function DolgozatLeker(osztaly,ResID, id, DogaDB){
     const data =  { lekerdezes: "select * from dolgozatok where osztaly = '"+osztaly+"'"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
@@ -430,7 +430,7 @@ function DolgozatLeker(osztaly, id){
         return response.json();
     })
     .then(function (response) {
-        DolgozatNotifBetolt(response, id);
+        DolgozatNotifBetolt(response,ResID, id, DogaDB);
         return response;
     });
 }
