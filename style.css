@@ -397,10 +397,6 @@ nav{
     background-color: var(--button_hover);
     border: .1vw solid transparent;
 }
-.DolgozatKezdetIdo{
-    margin-bottom: .8vw;
-    font-size: 1.8vw;
-}
 .NotifLezarvaElfogadva{
     background-color: rgba(55, 196, 55, 0.65);
 }
@@ -1415,33 +1411,63 @@ nav{
 }
 
 
-.KiertekelesDiv{
+.KiertekelesDiv {
     display: flex;
     flex-direction: column;
     overflow: hidden;
     align-items: center;
     justify-content: center;
+    min-height: 70vh;
+    padding: 2rem; 
 }
-.KiertekelesDiv div{
-    padding: .5vw;
-    border-bottom: .1vw solid var(--modal_border);
+
+.KiertekelesDiv div {
+    padding: 1rem;
+    border-bottom: 1px solid var(--modal_border);
     position: relative;
     animation-name: KiertekelesDivekLoad;
     animation-duration: .7s;
     animation-fill-mode: forwards;
-    margin: .5vw 0;
+    margin: 0.5rem 0;
     color: var(--text_color);
-    font-size: 1.5vw;
+    font-size: 1.2rem;
     text-align: center;
-    width: 65%;
-    padding-bottom: 1vw;
+    width: 80%;
+    padding-bottom: 1rem;
 }
-.KiertekelesDiv div:last-child{
+
+.KiertekelesDiv div:last-child {
     border-bottom: transparent;
 }
-.KiertekelesDiv div p{
+
+.KiertekelesDiv div p {
     margin: 0;
 }
+
+
+@media (min-width: 768px) {
+    .KiertekelesDiv div {
+        width: 70%;
+        font-size: 1.4rem;
+        padding: 0.8rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .KiertekelesDiv div {
+        width: 60%;
+        font-size: 1.5rem;
+        padding: 1rem;
+    }
+}
+
+@media (min-width: 1440px) {
+    .KiertekelesDiv div {
+        width: 50%;
+        font-size: 1.5vw;
+    }
+}
+
 .JegyDiv{
     font-size: 3vw;
 }
@@ -1814,6 +1840,43 @@ nav{
     transition: .8s;
     background-color: var(--body_bc);
 }
+.kategoriamegjelenitstilus {
+    height: 70vh;
+    width: 80%;
+    color: var(--text_color);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2vw;
+}
+
+.bezarInfoButton {
+    padding: 1em 2em;
+    font-size: 2vw;
+    margin-top: 1em;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .kategoriamegjelenitstilus {
+        font-size: 3vw;
+    }
+    .bezarInfoButton {
+        font-size: 3vw;
+    }
+}
+
+@media (min-width: 1200px) {
+    .kategoriamegjelenitstilus {
+        font-size: 1vw;
+    }
+    .bezarInfoButton {
+        font-size: 1vw;
+    }
+}
+
 
 .EgyDivMindFelettOpen{
     top: 50% !important;
