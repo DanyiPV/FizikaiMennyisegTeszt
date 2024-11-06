@@ -173,7 +173,7 @@ function LogCheckFunction(){
         WarningColorAdd(2);
     }
     if(igaze == true){
-        localStorage.setItem("User",User.id);
+        sessionStorage.setItem("User",User.id);
         window.open("index.html","_self");
     }
 }

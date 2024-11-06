@@ -71,7 +71,7 @@ function RemoveAnim(){
 }
 
 function LogOut(){
-    localStorage.removeItem("User");
+    sessionStorage.removeItem("User");
     window.open("index_login.html","_self");
 }
 
@@ -420,9 +420,7 @@ function NotifBetolt(response){
             if(!BetoltottNotif.includes(ResArray[i].id)){
                 document.getElementById("SideBarNotifDiv").appendChild(DivCreate("NotifKiirDiv",""));
                 let datum = ResArray[i].datum.split('T')[0] +" "+ ResArray[i].datum.split('T')[1].split('.')[0];
-                if(ResArray[i].message != "A felhasználónak új dolgozat lett kiírva!"){
-                    document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifDatum'><p>"+datum+"</p></div>";
-                }
+                document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifDatum' id='NotifDatum'"+i+"><p>"+datum+"</p></div>";
                 document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifKiiras'><p>"+ResArray[i].message+"</p></div>";
                 if(ResArray[i].message == "A felhasználó megakarja változtatni a nevét!"){
                     let Extra = ResArray[i].extra.split(',');
@@ -432,9 +430,9 @@ function NotifBetolt(response){
                         document.getElementById("NotifElfogadDiv"+i).firstChild.setAttribute("onclick","KerelemElfogadas("+ResArray[i].id+",true,"+i+","+ResArray[i].user_id+",'"+Extra[0]+"',0)");
                     }
                 }else if(ResArray[i].message == "A felhasználónak új dolgozat lett kiírva!"){
+                    DolgozatLeker(Tuser.osztaly, i);
                     document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='DolgozatKezdetIdo' id='DolgozatKezdetIdo"+i+"'><p>Kezdés: </p></div>";
                     document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='DolgozatNotif' id='DolgozatNotif"+i+"'><p>Dolgozat megkezdése</p></div>";
-                    DolgozatLeker(Tuser.osztaly, i);
                 }
                 if(ResArray[i].message != "A felhasználónak új dolgozat lett kiírva!"){
                     if(ResArray[i].lezarva == '1'){
@@ -457,7 +455,8 @@ function DolgozatNotifBetolt(response, id){
     let datum = kezdDatum[0]+"."+kezdDatum[1]+"."+kezdDatum[2]+". " + kezdDatum[3] + ":"+ (Number(kezdDatum[4]) < 10? +"00"+kezdDatum[4]: kezdDatum[4]) +
     "\n Vége: "+kezdDatum[0]+"."+kezdDatum[1]+"."+kezdDatum[2]+". " + Math.floor(DogVeg/3600) + ":"+(DogVeg%3600)/60;
     let CurTime = new Date();
-    //console.log(CurTime.getMonth()+1 , CurTime.getDate() , CurTime.getHours(), CurTime.getMinutes() );  
+    //console.log(CurTime.getMonth()+1 , CurTime.getDate() , CurTime.getHours(), CurTime.getMinutes() ); 
+    document.getElementById("") 
     document.getElementById("DolgozatKezdetIdo"+id).innerText += " "+ datum;
 }
 
@@ -1571,7 +1570,7 @@ function AdminPanelEnable(){
 
 function Alapok(){
     if(Tuser==undefined){
-        Tuser = JSON.parse(localStorage.getItem("User"));
+        Tuser = JSON.parse(sessionStorage.getItem("User"));
         if(Tuser == null || Tuser == "-1" || Tuser == -1){
             LogOut();
         }else{
