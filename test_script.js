@@ -18,7 +18,10 @@ var Difficulty;
 var TestTimer;
 var DogaKategTabla = [];
 var DogaTeljesTabla = [];
-var BetoltottNotif = [];
+
+
+
+
 
 function SideBarOpen(){
     if(!TestActive){
@@ -166,12 +169,12 @@ function UNChange(){
         document.getElementById("EgyDivMindFelett").classList.add("UNChange");
         document.getElementById("BlackBG").classList.add("BlackBGOn");
         document.getElementById("BlackBG").setAttribute("onclick","EgyMindFelettClose()");
-        document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("text","new","new username");
+        document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("text","new","Új felhasználónév:");
         if(Tuser.osztaly != "T" && Tuser.osztaly != "A"){
             document.getElementById("EgyDivMindFelett").innerHTML += "<p class='UserNameMess'>A felhasználó név megváltoztatását csak a rendszergazda tudja engedélyezni!</p>";
         }
         document.getElementById("EgyDivMindFelett").appendChild(DivCreate("UNchangeSubmit","UNchangeSubmit"));
-        document.getElementById("UNchangeSubmit").innerHTML = "<p>username change</p>";
+        document.getElementById("UNchangeSubmit").innerHTML = "<p>Jóváhagy</p>";
         document.getElementById("UNchangeSubmit").setAttribute("onclick","UNChangeSubmit()");
         document.getElementById("inputnew").setAttribute("onclick","WarningColorRemove('inputnew')");
         document.getElementById("inputnew").setAttribute("onfocus","WarningColorRemove('inputnew')");
@@ -203,7 +206,7 @@ function PWChange(){
         document.getElementById("EgyDivMindFelett").innerHTML += InputCreate("checkbox","showpw","jelszó mutatás");
         document.getElementById("inputshowpw").setAttribute("onchange","PWShow(1)");
         document.getElementById("EgyDivMindFelett").appendChild(DivCreate("PWchangeSubmit","PWchangeSubmit"));
-        document.getElementById("PWchangeSubmit").innerHTML = "<p>password change</p>";
+        document.getElementById("PWchangeSubmit").innerHTML = "<p>Jóváhagy</p>";
         document.getElementById("PWchangeSubmit").setAttribute("onclick","PWChangeSubmit()");
         document.getElementById("inputnew").setAttribute("onclick","WarningColorRemove('inputnew')");document.getElementById("inputnew").setAttribute("onfocus","WarningColorRemove('inputnew')");
         document.getElementById("inputcurrent").setAttribute("onclick","WarningColorRemove('labelcurrent')");document.getElementById("inputcurrent").setAttribute("onfocus","WarningColorRemove('labelcurrent')");
@@ -363,11 +366,46 @@ function EredmenyekKiGen(response){
         else{document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div class='EredmenyEIdoNincs'><p>Nem volt beállítva idő!</p></div>"};
         let KatArray = response[i].katok.split(',');
         document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div class='EredmenyKatok'></div>";
-        for (let j = 0; j < KatArray.length; j++) {
-            document.getElementsByClassName("EredmenyKatok")[document.getElementsByClassName("EredmenyKatok").length-1].innerHTML += "<p>"+KatArray[j]+"</p>"; 
-        }
+        const lastElement = document.getElementsByClassName("EredmenyKatok")[document.getElementsByClassName("EredmenyKatok").length - 1];
+        const button = document.createElement("button");
+        button.textContent = "ok";
+        button.onclick = function() {
+            KategoriakMegjelenit(KatArray);
+        };
+        lastElement.appendChild(button);
     }
 }
+
+function KategoriakMegjelenit(KatArray) {
+    const container = document.getElementById("EgyDivMindFelett");
+    container.classList.add("kategoriamegjelenitstilus");
+    container.classList.add("EgyDivMindFelettOpen");
+    document.getElementById("BlackBG").classList.add("BlackBGOn");
+    container.innerHTML = ''; // Clear any previous content
+
+    KatArray.forEach(function(kat) {
+        const katp = document.createElement("p");
+        katp.textContent = kat;
+        container.appendChild(katp);
+    });
+
+    let closeButton = document.createElement("button");
+    closeButton.innerText = "bezár";
+    closeButton.classList.add("bezarInfoButton");
+    closeButton.setAttribute("onclick", "CloseKategoriakMegjelenit()");
+    container.appendChild(closeButton);
+}
+
+function CloseKategoriakMegjelenit() {
+    let md = document.getElementById("EgyDivMindFelett");
+    md.classList.remove("EgyDivMindFelettOpen");  // Close the div
+    document.getElementById("BlackBG").classList.remove("BlackBGOn"); // Remove the black background
+    
+    // Optionally clear all content (like paragraphs and buttons) inside the container:
+    md.innerHTML = '';  // Clear everything inside the container
+}
+
+
 
 function TestHeaderGen(id){
     document.getElementById(id).appendChild(DivCreate("TesztEredmenyekNevek",""));
@@ -417,47 +455,28 @@ function NotifBetolt(response){
     }else{
         let ResArray = Array.from(response).reverse();
         for (let i = 0; i < ResArray.length; i++) {
-            if(!BetoltottNotif.includes(ResArray[i].id)){
-                document.getElementById("SideBarNotifDiv").appendChild(DivCreate("NotifKiirDiv",""));
-                let datum = ResArray[i].datum.split('T')[0] +" "+ ResArray[i].datum.split('T')[1].split('.')[0];
-                document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifDatum' id='NotifDatum'"+i+"><p>"+datum+"</p></div>";
-                document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifKiiras'><p>"+ResArray[i].message+"</p></div>";
-                if(ResArray[i].message == "A felhasználó megakarja változtatni a nevét!"){
-                    let Extra = ResArray[i].extra.split(',');
-                    document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifExtra'><p>"+Extra[1]+" -> "+Extra[0]+"</p></div>";
-                    if(ResArray[i].lezarva == '0'){
-                        document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifElfogadas' id='NotifElfogadDiv"+i+"'><div><p>Elfogadás</p></div><div onclick='KerelemElfogadas("+ResArray[i].id+",false,"+i+","+ResArray[i].user_id+")'><p>Elutasítás</p></div></div>";
-                        document.getElementById("NotifElfogadDiv"+i).firstChild.setAttribute("onclick","KerelemElfogadas("+ResArray[i].id+",true,"+i+","+ResArray[i].user_id+",'"+Extra[0]+"',0)");
-                    }
-                }else if(ResArray[i].message == "A felhasználónak új dolgozat lett kiírva!"){
-                    DolgozatLeker(Tuser.osztaly, i);
-                    document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='DolgozatKezdetIdo' id='DolgozatKezdetIdo"+i+"'><p>Kezdés: </p></div>";
-                    document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='DolgozatNotif' id='DolgozatNotif"+i+"'><p>Dolgozat megkezdése</p></div>";
+            document.getElementById("SideBarNotifDiv").appendChild(DivCreate("NotifKiirDiv",""));
+            let datum = ResArray[i].datum.split('T')[0] +" "+ ResArray[i].datum.split('T')[1].split('.')[0];
+            document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifDatum'><p>"+datum+"</p></div>";
+            document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifKiiras'><p>"+ResArray[i].message+"</p></div>";
+            if(ResArray[i].message == "A felhasználó megakarja változtatni a nevét!"){
+                let Extra = ResArray[i].extra.split(',');
+                document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifExtra'><p>"+Extra[1]+" -> "+Extra[0]+"</p></div>";
+                if(ResArray[i].lezarva == '0'){
+                    document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='NotifElfogadas' id='NotifElfogadDiv"+i+"'><div><p>Elfogadás</p></div><div onclick='KerelemElfogadas("+ResArray[i].id+",false,"+i+","+ResArray[i].user_id+")'><p>Elutasítás</p></div></div>";
+                    document.getElementById("NotifElfogadDiv"+i).firstChild.setAttribute("onclick","KerelemElfogadas("+ResArray[i].id+",true,"+i+","+ResArray[i].user_id+",'"+Extra[0]+"',0)");
                 }
-                if(ResArray[i].message != "A felhasználónak új dolgozat lett kiírva!"){
-                    if(ResArray[i].lezarva == '1'){
-                        document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].firstChild.classList.add("NotifLezarvaElfogadva");
-                    }
-                    else if(ResArray[i].lezarva == '-1'){
-                        document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].firstChild.classList.add("NotifLezarvaElutasitva");
-                    }
-                }
-                BetoltottNotif.push(ResArray[i].id);
+            }else if(ResArray[i].message == "A felhasználónak új dolgozat lett kiírva!"){
+                document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='DolgozatNotif' id='DolgozatNotif"+i+"'><p>Dolgozat megkezdése</p></div>";
+            }
+            if(ResArray[i].lezarva == '1'){
+                document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].firstChild.classList.add("NotifLezarvaElfogadva");
+            }
+            else if(ResArray[i].lezarva == '-1'){
+                document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].firstChild.classList.add("NotifLezarvaElutasitva");
             }
         }
     }
-}
-
-function DolgozatNotifBetolt(response, id){
-    let ResArray = Array.from(response).reverse()[0];
-    let kezdDatum = ResArray.kezdet.split(',');
-    let DogVeg = Number(kezdDatum[3]) * 3600 + Number(kezdDatum[4]) + ResArray.ido;
-    let datum = kezdDatum[0]+"."+kezdDatum[1]+"."+kezdDatum[2]+". " + kezdDatum[3] + ":"+ (Number(kezdDatum[4]) < 10? +"00"+kezdDatum[4]: kezdDatum[4]) +
-    "\n Vége: "+kezdDatum[0]+"."+kezdDatum[1]+"."+kezdDatum[2]+". " + Math.floor(DogVeg/3600) + ":"+(DogVeg%3600)/60;
-    let CurTime = new Date();
-    //console.log(CurTime.getMonth()+1 , CurTime.getDate() , CurTime.getHours(), CurTime.getMinutes() ); 
-    document.getElementById("") 
-    document.getElementById("DolgozatKezdetIdo"+id).innerText += " "+ datum;
 }
 
 function KerelemElfogadas(id,igaze,index, userid, fn , value){
@@ -473,7 +492,6 @@ function KerelemElfogadas(id,igaze,index, userid, fn , value){
 }
 
 function SideBarNotif(){
-    ErtesitesekLeker(Tuser.osztaly,Tuser.nev, Tuser.id);
     if(document.getElementsByClassName("SideBarNotActive").length == 0){
         document.getElementById("SideBarNavGombokDiv").classList.add("SideBarNotActive");
         document.getElementById("SideBarNotifDiv").classList.add("SideBarNotActive");
@@ -940,7 +958,10 @@ function TesztLeadasa(){
         }
     }
     document.getElementById("MainBody").innerHTML = "";
-    document.body.removeChild(document.getElementById("KivettErtekek"));
+    if(document.getElementById("KivettErtekek"))
+    {
+        document.body.removeChild(document.getElementById("KivettErtekek"));    
+    }
     Kiertekeles("T",Pontok);
 }
 
