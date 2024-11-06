@@ -416,6 +416,24 @@ function DolgozatFeltolt(adat){
         return response;
     });
 }
+function DolgozatLeker(osztaly, id){
+    const data =  { lekerdezes: "select * from dolgozatok where osztaly = '"+osztaly+"'"};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        if (!response.ok) {console.log("Nem jó válasz érekezett az adatbázisból");}
+        return response.json();
+    })
+    .then(function (response) {
+        DolgozatNotifBetolt(response, id);
+        return response;
+    });
+}
 
 function UserNameChange(nev,id){
     const data =  { lekerdezes: "update users set nev = '"+nev+"' where id = '"+id+"'"};
