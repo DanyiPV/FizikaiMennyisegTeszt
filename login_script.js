@@ -2,8 +2,6 @@
 var User;
 var MegerositoKod = "88888888";
 
-/*szab.eman@ckik.hu - TanarJelszo */
-
 function SwitchTab(value){
     FaultDivClose();
     document.getElementsByClassName("WarningColor").length>0?document.getElementsByClassName("WarningColor")[0].classList.remove("WarningColor"):"";
@@ -272,5 +270,4 @@ function hash(pw) {
     var hash = hashObj.getHash("HEX");
     return hash
 }
-
 // ---- Login oldal --------------------------------------------------------------------------------------------------------------------------------------------
