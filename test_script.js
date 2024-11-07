@@ -1574,15 +1574,14 @@ function importIMG() {
         reader.addEventListener(
           "load",
           () => {
-            console.log(reader.result);
-            UserSettingsChange("avatar = '"+reader.result+"'","userid = "+Tuser.id+"");
+            //UserSettingsChange("avatar = '"+reader.result+"'","userid = "+Tuser.id+"");
             document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+reader.result+")";
           },
           false,
         );
       
         if (file) {
-          reader.readAsArrayBuffer(file);
+          reader.readAsDataURL(file);
         }
     };
     input.click();
