@@ -1845,8 +1845,9 @@ nav{
     background-color: var(--body_bc);
 }
 .kategoriamegjelenitstilus {
-    height: 70vh;
-    width: 80%;
+    height: max-content;
+    width: max-content;
+    padding: 2.5vw;
     color: var(--text_color);
     text-align: center;
     display: flex;

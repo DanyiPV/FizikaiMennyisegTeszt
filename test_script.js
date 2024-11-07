@@ -44,7 +44,8 @@ function TimerLog(){
     let time = new Date();
     let h = time.getHours();
     let m = time.getMinutes();
-    document.getElementById("CurTime").innerText = (h<10?"0"+h:h) +":"+(m<10?"0"+m:m);
+    let s = time.getSeconds();
+    document.getElementById("CurTime").innerText = (h<10?"0"+h:h) +":"+(m<10?"0"+m:m)+":"+(s<10?"0"+s:s);
     ErtesitesekLeker(Tuser.osztaly, Tuser.nev, Tuser.id);
 }
 
@@ -380,7 +381,7 @@ function KategoriakMegjelenit(KatArray) {
     container.classList.add("kategoriamegjelenitstilus");
     container.classList.add("EgyDivMindFelettOpen");
     document.getElementById("BlackBG").classList.add("BlackBGOn");
-    container.innerHTML = ''; // Clear any previous content
+    document.getElementById("BlackBG").setAttribute("onclick", "CloseKategoriakMegjelenit()");
 
     KatArray.forEach(function(kat) {
         const katp = document.createElement("p");
@@ -388,7 +389,7 @@ function KategoriakMegjelenit(KatArray) {
         container.appendChild(katp);
     });
 
-    let closeButton = document.createElement("button");
+    let closeButton = document.createElement("button"); 
     closeButton.innerText = "bezár";
     closeButton.classList.add("bezarInfoButton");
     closeButton.setAttribute("onclick", "CloseKategoriakMegjelenit()");
@@ -488,11 +489,11 @@ function DolgozatNotifBetolt(response, ResID, id, DogaDB){
     let DogVeg = Number(kezdDatum[3]) * 3600 + Number(kezdDatum[4])*60 + ResArray.ido;
     let datum = kezdDatum[0]+"."+(Number(kezdDatum[1]) < 10 ? "0"+kezdDatum[1]:kezdDatum[1])+"."+(Number(kezdDatum[2]) < 10 ? "0"+kezdDatum[2]:kezdDatum[2])+". " +(Math.floor(DogVeg/3600) < 10 ? +"0"+Math.floor(DogVeg/3600):Math.floor(DogVeg/3600)) + ":"+(Math.floor((DogVeg%3600)/60) < 10? "0"+Math.floor((DogVeg%3600)/60):Math.floor((DogVeg%3600)/60)) +":"+(((DogVeg%3600)%60 < 10 ? + "0"+String((DogVeg%3600)%60):(DogVeg%3600)%60));
     if(!BetoltottNotif.includes(ResID) || document.getElementById("DolgozatKezdetIdo"+id).firstChild.innerText == "Vége:"){
-        document.getElementById("NotifDatum"+id).firstChild.innerText = kezdDatum[0]+"."+(Number(kezdDatum[1]) < 10 ? "0"+kezdDatum[1]:kezdDatum[1])+"."+(Number(kezdDatum[2]) < 10 ? "0"+kezdDatum[2]:kezdDatum[2])+". " + (Number(kezdDatum[3]) < 10 ? "0"+kezdDatum[3]:kezdDatum[3]) + ":"+ (Number(kezdDatum[4]) < 10 && kezdDatum[4] != "00"? +"00":kezdDatum[4]);
+        document.getElementById("NotifDatum"+id).firstChild.innerText = kezdDatum[0]+"."+(Number(kezdDatum[1]) < 10 ? "0"+kezdDatum[1]:kezdDatum[1])+"."+(Number(kezdDatum[2]) < 10 ? "0"+kezdDatum[2]:kezdDatum[2])+". " + (Number(kezdDatum[3]) < 10 ? "0"+kezdDatum[3]:kezdDatum[3]) + ":"+ (Number(kezdDatum[4]) < 10? "0"+kezdDatum[4]:kezdDatum[4]);
         document.getElementById("DolgozatKezdetIdo"+id).innerText += " "+ datum;
     }
     let CurTime = new Date();
-    if(CurTime.getFullYear() >= Number(kezdDatum[0]) && CurTime.getMonth()+1 >= Number(kezdDatum[1]) && CurTime.getDate() >= Number(kezdDatum[2]) && (Number(CurTime.getHours())*3600 + Number(CurTime.getMinutes())*60 + Number(CurTime.getSeconds())*60)){
+    if(CurTime.getFullYear() >= Number(kezdDatum[0]) && CurTime.getMonth()+1 >= Number(kezdDatum[1]) && CurTime.getDate() >= Number(kezdDatum[2]) && (Number(CurTime.getHours())*3600 + Number(CurTime.getMinutes())*60 + Number(CurTime.getSeconds())) > DogVeg){
         document.getElementById("NotifDatum"+id).classList.add("DogaNemIrhato");
     }
     else if(CurTime.getFullYear() == Number(kezdDatum[0]) && CurTime.getMonth()+1 == Number(kezdDatum[1]) && CurTime.getDate() == Number(kezdDatum[2]) && (Number(kezdDatum[3])*3600 + Number(kezdDatum[4])*60) <= (CurTime.getHours()*3600 + CurTime.getMinutes()*60 + CurTime.getSeconds()) && (CurTime.getHours()*3600 + CurTime.getMinutes()*60 + CurTime.getSeconds()) <= DogVeg){
