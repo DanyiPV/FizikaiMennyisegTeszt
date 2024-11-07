@@ -1569,6 +1569,7 @@ function importIMG() {
     input.type = 'file';
     var file;
     var reader = new FileReader();
+    
     input.onchange = _ => {
         file = Array.from(input.files)[0];
         reader.addEventListener(
@@ -1576,13 +1577,13 @@ function importIMG() {
           () => {
             console.log(reader.result);
             UserSettingsChange("avatar = '"+reader.result+"'","userid = "+Tuser.id+"");
-            document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+reader.result+")";
+            document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url(" + reader.result + ")";
           },
           false,
         );
-      
+
         if (file) {
-          reader.readAsArrayBuffer(file);
+          reader.readAsDataURL(file);
         }
     };
     input.click();
