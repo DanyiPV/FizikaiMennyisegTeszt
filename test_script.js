@@ -473,7 +473,6 @@ function NotifBetolt(response){
                 DolgozatLeker(Tuser.osztaly,ResArray[i].id, i, DogaDB++);
                 if(!BetoltottNotif.includes(ResArray[i].id)){
                     document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='DolgozatKezdetIdo' id='DolgozatKezdetIdo"+i+"'><p>Vége: </p></div>";
-                    document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='DolgozatNotif' id='DolgozatNotif"+i+"'><p>Dolgozat megkezdése</p></div>";
                 }
             }
             if(!BetoltottNotif.includes(ResArray[i].id)){
@@ -491,6 +490,7 @@ function DolgozatNotifBetolt(response, ResID, id, DogaDB){
     if(!BetoltottNotif.includes(ResID) || document.getElementById("DolgozatKezdetIdo"+id).firstChild.innerText == "Vége:"){
         document.getElementById("NotifDatum"+id).firstChild.innerText = kezdDatum[0]+"."+(Number(kezdDatum[1]) < 10 ? "0"+kezdDatum[1]:kezdDatum[1])+"."+(Number(kezdDatum[2]) < 10 ? "0"+kezdDatum[2]:kezdDatum[2])+". " + (Number(kezdDatum[3]) < 10 ? "0"+kezdDatum[3]:kezdDatum[3]) + ":"+ (Number(kezdDatum[4]) < 10? "0"+kezdDatum[4]:kezdDatum[4]);
         document.getElementById("DolgozatKezdetIdo"+id).innerText += " "+ datum;
+        document.getElementsByClassName("NotifKiirDiv")[id].innerHTML += "<div class='DogaDivGomb' ><div class='DogaMegkezdes' id='DogaMegkezdes"+ResID+"'><p>Megkezdése</p></div><div class='DolgaMorInfo' id='DolgaMorInfo"+ResID+"'><p>Dolgozatról</p></div></div>";
     }
     let CurTime = new Date();
     if(CurTime.getFullYear() >= Number(kezdDatum[0]) && CurTime.getMonth()+1 >= Number(kezdDatum[1]) && CurTime.getDate() >= Number(kezdDatum[2]) && (Number(CurTime.getHours())*3600 + Number(CurTime.getMinutes())*60 + Number(CurTime.getSeconds())) > DogVeg){

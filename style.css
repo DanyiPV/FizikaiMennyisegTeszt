@@ -302,6 +302,7 @@ nav{
     gap: .5vw;
     font-size: 1vw;
     overflow: auto;
+    margin-bottom: .5vw;
 }
 .SideBarNavGombokDiv{
     width: 50%;
@@ -335,14 +336,14 @@ nav{
     background-color: var(--kivettdiv);
     border-radius: .6vw;
     width: 85%;
-    margin: 0 auto 0 auto;
+    margin: 1vw auto 0 auto;
     font-size: 1vw;
     position: relative;
 }
 .NotifDatum{
     width: max-content;
     position: absolute;
-    top: -1vw;
+    top: -0vw;
     padding: .1vw .3vw;
     left: 0;
     border-top-left-radius: .6vw;
@@ -379,24 +380,6 @@ nav{
 .NotifElfogadas div p{
     margin: 0;
 }
-.DolgozatNotif{
-    padding: .5vw 2vw;
-    border-radius: .6vw;
-    width: max-content;
-    margin: auto;
-    cursor: pointer;
-    transition: .3s;
-    font-size: 1vw;
-    text-transform: uppercase;
-    border: .1vw solid var(--modal_border);
-}
-.DolgozatNotif p{
-    margin: 0;
-}
-.DolgozatNotif:hover{
-    background-color: var(--button_hover);
-    border: .1vw solid transparent;
-}
 .DolgozatKezdetIdo{
     margin-bottom: 1.5vw;
     font-size: 1.8vw;
@@ -407,11 +390,32 @@ nav{
 .NotifLezarvaElutasitva, .DogaNemIrhato{
     background-color: rgba(196, 55, 55, 0.65);
 }
-.SideBarNotifDiv div:first-child{
-    margin-top: 1vw;
-}
-.SideBarNotifDiv div:last-child{
+.DogaDivGomb{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     margin-bottom: 1vw;
+    height: 2vw;
+    position: relative;
+    color: gray !important;
+}
+.DogaDivGomb div{
+    border-radius: .6vw;
+    cursor: pointer;
+    padding: .5vw 1vw;
+    position: relative;
+    transition: .3s;
+    font-size: 1vw;
+    text-transform: uppercase;
+    border: .1vw solid gray; /*;.1vw solid var(--modal_border);*/
+}
+.DogaDivGomb div p{
+    margin: 0;
+}
+.DogaDivGomb div:hover{
+    background-color: var(--button_hover);
+    color: var(--text_color) !important;
+    border: .1vw solid transparent;
 }
 
 .SideBarSwitch{
