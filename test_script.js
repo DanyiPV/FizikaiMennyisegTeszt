@@ -488,21 +488,31 @@ function DolgozatNotifBetolt(response, ResID, id, DogaDB){
     let DogVeg = Number(kezdDatum[3]) * 3600 + Number(kezdDatum[4])*60 + ResArray.ido;
     let datum = kezdDatum[0]+"."+(Number(kezdDatum[1]) < 10 ? "0"+kezdDatum[1]:kezdDatum[1])+"."+(Number(kezdDatum[2]) < 10 ? "0"+kezdDatum[2]:kezdDatum[2])+". " +(Math.floor(DogVeg/3600) < 10 ? +"0"+Math.floor(DogVeg/3600):Math.floor(DogVeg/3600)) + ":"+(Math.floor((DogVeg%3600)/60) < 10? "0"+Math.floor((DogVeg%3600)/60):Math.floor((DogVeg%3600)/60)) +":"+(((DogVeg%3600)%60 < 10 ? + "0"+String((DogVeg%3600)%60):(DogVeg%3600)%60));
     if(!BetoltottNotif.includes(ResID) || document.getElementById("DolgozatKezdetIdo"+id).firstChild.innerText == "Vége:"){
-        document.getElementById("NotifDatum"+id).firstChild.innerText = kezdDatum[0]+"."+(Number(kezdDatum[1]) < 10 ? "0"+kezdDatum[1]:kezdDatum[1])+"."+(Number(kezdDatum[2]) < 10 ? "0"+kezdDatum[2]:kezdDatum[2])+". " + (Number(kezdDatum[3]) < 10 ? "0"+kezdDatum[3]:kezdDatum[3]) + ":"+ (Number(kezdDatum[4]) < 10? "0"+kezdDatum[4]:kezdDatum[4]);
+        document.getElementById("NotifDatum"+id).firstChild.innerText = kezdDatum[0]+"."+(Number(kezdDatum[1]) < 10 ? "0"+kezdDatum[1]:kezdDatum[1])+"."+(Number(kezdDatum[2]) < 10 ? "0"+kezdDatum[2]:kezdDatum[2])+". " + (Number(kezdDatum[3]) < 10 ? "0"+kezdDatum[3]:kezdDatum[3]) + ":"+ (Number(kezdDatum[4]) < 10? "0"+Number(kezdDatum[4]):kezdDatum[4]);
         document.getElementById("DolgozatKezdetIdo"+id).innerText += " "+ datum;
-        document.getElementsByClassName("NotifKiirDiv")[id].innerHTML += "<div class='DogaDivGomb' ><div class='DogaMegkezdes' id='DogaMegkezdes"+ResID+"'><p>Megkezdése</p></div><div class='DolgaMorInfo' id='DolgaMorInfo"+ResID+"'><p>Dolgozatról</p></div></div>";
+        document.getElementsByClassName("NotifKiirDiv")[id].innerHTML += "<div class='DogaDivGomb'><div class='DogaMegkezdes' id='DogaMegkezdes"+ResID+"' onclick='DolgaztMegkezdese("+response+")'><p>Megkezdése</p></div><div class='DogaMorInfo' id='DogaMorInfo"+ResID+"'><p>Dolgozatról</p></div></div>";
     }
     let CurTime = new Date();
-    if(CurTime.getFullYear() >= Number(kezdDatum[0]) && CurTime.getMonth()+1 >= Number(kezdDatum[1]) && CurTime.getDate() >= Number(kezdDatum[2]) && (Number(CurTime.getHours())*3600 + Number(CurTime.getMinutes())*60 + Number(CurTime.getSeconds())) > DogVeg){
+    if((CurTime.getFullYear() >= Number(kezdDatum[0]) && CurTime.getMonth()+1 >= Number(kezdDatum[1]) && CurTime.getDate() >= Number(kezdDatum[2]) && (Number(CurTime.getHours())*3600 + Number(CurTime.getMinutes())*60 + Number(CurTime.getSeconds())) > DogVeg) ||
+        (CurTime.getFullYear() >= Number(kezdDatum[0]) && CurTime.getMonth()+1 >= Number(kezdDatum[1]) && CurTime.getDate() >= Number(kezdDatum[2]))){
         document.getElementById("NotifDatum"+id).classList.add("DogaNemIrhato");
+        document.getElementById("DogaMegkezdes"+ResID).classList.add("DogaMegkezdesNemLehetséges");
     }
-    else if(CurTime.getFullYear() == Number(kezdDatum[0]) && CurTime.getMonth()+1 == Number(kezdDatum[1]) && CurTime.getDate() == Number(kezdDatum[2]) && (Number(kezdDatum[3])*3600 + Number(kezdDatum[4])*60) <= (CurTime.getHours()*3600 + CurTime.getMinutes()*60 + CurTime.getSeconds()) && (CurTime.getHours()*3600 + CurTime.getMinutes()*60 + CurTime.getSeconds()) <= DogVeg){
+    else if(CurTime.getFullYear() >= Number(kezdDatum[0]) && CurTime.getMonth()+1 >= Number(kezdDatum[1]) && CurTime.getDate() >= Number(kezdDatum[2]) && (Number(kezdDatum[3])*3600 + Number(kezdDatum[4])*60) <= (CurTime.getHours()*3600 + CurTime.getMinutes()*60 + CurTime.getSeconds()) && (CurTime.getHours()*3600 + CurTime.getMinutes()*60 + CurTime.getSeconds()) >= DogVeg){
         document.getElementById("NotifDatum"+id).classList.add("DogaIrhato");
+        document.getElementById("DogaMegkezdes"+ResID).classList.remove("DogaMegkezdesNemLehetséges");
+        document.getElementById("DogaMegkezdes"+ResID).classList.add("DogaMegkezdesLehetséges");
     }
     else{
         document.getElementById("NotifDatum"+id).classList.remove("DogaIrhato");
         document.getElementById("NotifDatum"+id).classList.remove("DogaNemIrhato");
+        document.getElementById("DogaMegkezdes"+ResID).classList.add("DogaMegkezdesNemLehetséges");
+        document.getElementById("DogaMegkezdes"+ResID).classList.remove("DogaMegkezdesLehetséges");
     }
+}
+
+function DolgaztMegkezdese(){
+    SignInClose();SideBarClose();
 }
 
 function KerelemElfogadas(id,igaze,index, userid, fn , value){
