@@ -530,6 +530,8 @@ function DolgaztMegkezdese(Gomb){
     let Difficulty = TovabbKuldes[4][1] == 1?1:TovabbKuldes[4][1]==2?2:"R";
     let Sorok = TovabbKuldes[6][1];
     let TablaID = TovabbKuldes[5][1].split(',')
+    EredetiKivalasztottTablak =TovabbKuldes[5][1].split(',');
+    EredetiValasztottTime = TovabbKuldes[2][1];
     for (let i = 0; i < TablaID.length; i++) {
         KivalasztottTablak.push(Alkategoriak[TablaID[i]-1].nev);
     }
@@ -638,13 +640,13 @@ function DogaTablaBetoltesek(array,kivettarray){
     document.getElementsByClassName("TablaBelsoErtekek")[document.getElementsByClassName("TablaBelsoErtekek").length-1].children[3].style.borderBottomRightRadius = ".6vw";
     document.getElementById("TestDivKiiras").appendChild(DivCreate("TestDone","TestDone"));
     document.getElementById("TestDone").innerHTML = "<p>Dolgozat leadása</p>";
-    document.getElementById("TestDone").setAttribute("onclick","DolgozatLeadasa()")
+    document.getElementById("TestDone").setAttribute("onclick","DogaLeadasa()");
     MathJax.Hub.Queue(["Typeset",MathJax.Hub, "expression"]);
 }
 
 function DogaTimerKiir(){
     if(ValasztottTime == 0){
-        TesztLeadasa();
+        DogaLeadasa();
     }
     if(ValasztottTime >= 0){
         let h = Math.floor(ValasztottTime/3600);
@@ -658,8 +660,8 @@ function DogaTimerKiir(){
     }
 }
 
-function TesztLeadasa(){
-    clearInterval(TestTimer);
+function DogaLeadasa(){
+    clearInterval(DogaTimer);
     let Pontok = 0;
     let ValaszArray = Array.from(document.getElementsByClassName("TablaBelsoErtekek"));
     for (let i = 1; i < ValaszArray.length; i++){
@@ -675,9 +677,9 @@ function TesztLeadasa(){
     document.getElementById("MainBody").innerHTML = "";
     if(document.getElementById("KivettErtekek"))
     {
-        document.body.removeChild(document.getElementById("KivettErtekek"));    
+        document.body.removeChild(document.getElementById("KivettErtekek"));
     }
-    Kiertekeles("T",Pontok);
+    Kiertekeles("D",Pontok);
 }
 
 function KerelemElfogadas(id,igaze,index, userid, fn , value){
@@ -1033,7 +1035,6 @@ function TestInditasa(){
     document.getElementById("TimerIMG").classList.contains("TimerIMGOn")?EredetiValasztottTime = (ValasztottTime[0]*3600) + (ValasztottTime[1]*60) + ValasztottTime[2]:"";
     document.getElementById("TimerIMG").classList.contains("TimerIMGOn")?ValasztottTime = (ValasztottTime[0]*3600) + (ValasztottTime[1]*60) + ValasztottTime[2]:"";
     let ValasztottSorok = [];
-    console.log(KivalasztottTablak);
     for (let i = 0; i < KivalasztottTablak.length; i++) {
         Tablak.filter(x=>x.alkat_id == Alkategoriak.filter(c=>c.nev==KivalasztottTablak[i])[0].id).forEach(k=>ValasztottSorok.push(k));
     }
@@ -1194,8 +1195,22 @@ function Kiertekeles(value, Pontok){
             ETablak += EredetiKivalasztottTablak[i] + (i<EredetiKivalasztottTablak.length-1?", ":"");
         }
         document.getElementById("ValasztottTablakDiv").innerHTML = "<p>"+ETablak+"</p>";
+    }else{
+        document.getElementById("JegyDiv").innerHTML = "<p>Kapott jegy: "+Jegy+" - Százalék: "+Szazalek+"%</p>";
+        if(EredetiValasztottTime!=undefined){
+            let MaradtTime = EredetiValasztottTime - ValasztottTime;        
+            let h = Math.floor(MaradtTime/3600);
+            let sec = h>0?Math.floor((MaradtTime-h*3600)%60):Math.floor(MaradtTime%60);
+            let min = h>0?Math.floor((MaradtTime-h*3600)/60):Math.floor(MaradtTime/60);
+            document.getElementById("IdoDiv").innerHTML = "<p>Eltelt idő: </p><p>"+(h>0?h+":":"")+(min>9?min:"0"+min)+":"+(sec>9?sec:"0"+sec)+"</p>";
+        }
+        console.log(EredetiKivalasztottTablak);
+        for (let i = 0; i < EredetiKivalasztottTablak.length; i++) {
+            ETablak += Alkategoriak[Number(EredetiKivalasztottTablak[i])-1].nev + (i<EredetiKivalasztottTablak.length-1?", ":"");
+        }
+        document.getElementById("ValasztottTablakDiv").innerHTML = "<p>"+ETablak+"</p>";
     }
-    EredmenyFeltolt({id:Tuser.id, mpont:KivalasztottTablak.length, epont:Pontok, kateg:ETablak, nehezseg:(Difficulty=="R"?3:Difficulty), fajta:(value == "T"?0:1), EIdo:(typeof ValasztottTime != 'number'?-1:ValasztottTime), TIdo:(EredetiValasztottTime==undefined?-1:EredetiValasztottTime)});
+    EredmenyFeltolt({id:Tuser.id,osztaly: Tuser.osztaly, mpont:KivalasztottTablak.length, epont:Pontok, kateg:EredetiKivalasztottTablak, nehezseg:(Difficulty=="R"?3:Difficulty), fajta:(value == "T"?0:1), EIdo:(typeof ValasztottTime != 'number'?-1:ValasztottTime), TIdo:(EredetiValasztottTime==undefined?-1:EredetiValasztottTime)});
     TestActive = false;
 }
 
