@@ -1755,12 +1755,22 @@ function AlapBeallitasok(){
     Tuser.osztaly != "T" && Tuser.osztaly != "A"?document.getElementById("SignInBody").classList.add("PanelElsoEltuntet"):"";
     Tuser.osztaly == "T"?document.getElementById("SignInBody").classList.add("PanelMasodikEltuntet"):"";
 }
-function TeacherView(){
+function TeacherView() {
+    // Existing ExamDiv setup
     document.getElementById("ExamDiv").classList.add("SignInBodyButton");
-    document.getElementById("ExamDiv").setAttribute("onclick","ExamPub()");
+    document.getElementById("ExamDiv").setAttribute("onclick", "ExamPub()");
     document.getElementById("ExamDiv").innerHTML = "<div class='SignInBodyButtonImg' id='ExamDivIMG'><img src='ph/plus_white.png' alt=''></div><p>Dolgozat kiírás</p>";
-}
 
+    // Create a new ResultDiakDiv and set it up like ExamDiv
+    var resultDiakDiv = document.createElement("div");
+    resultDiakDiv.id = "ResultDiakDiv";
+    resultDiakDiv.classList.add("SignInBodyButton");
+    resultDiakDiv.setAttribute("onclick", "ResultDiak()");
+    resultDiakDiv.innerHTML = "<div class='SignInBodyButtonImg' id='ResultDiakIMG'><img src='ph/plus_white.png' alt=''></div><p>Diák eredmények</p>";
+
+    // Append the new div to the SignInBody container
+    document.getElementById("SignInBody").appendChild(resultDiakDiv);
+}
 function AdminPanelEnable(){
     document.getElementById("AdminPanel").classList.add("SignInBodyButton");
     document.getElementById("AdminPanel").setAttribute("onclick","AdminPanel()");
