@@ -324,7 +324,7 @@ nav{
     background-color: var(--tablanev_bc);
     border-radius: .6vw;
     width: 85%;
-    margin: 0 auto 0 auto;
+    margin: 1vw auto 0 auto;
     text-transform: uppercase;
 }
 .NotifHiba p{
@@ -426,6 +426,7 @@ nav{
 .SideBarSwitch{
     padding: .5vw 7vw;
     border-radius: 2vw;
+    margin-bottom: 1vw;
     display: flex;
     position: relative;
     align-items: center;
