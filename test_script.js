@@ -527,7 +527,7 @@ function DolgaztMegkezdese(Gomb){
         document.body.removeChild(document.getElementById("TablaValasztoDiv"));
     }
     TestActive = true;
-    let Difficulty = TovabbKuldes[4][1] == 1?1:TovabbKuldes[4][1]==2?2:"R";
+    Difficulty = TovabbKuldes[4][1] == 1?1:TovabbKuldes[4][1]==2?2:"R";
     let Sorok = TovabbKuldes[6][1];
     let TablaID = TovabbKuldes[5][1].split(',')
     EredetiKivalasztottTablak =TovabbKuldes[5][1].split(',');
@@ -1210,7 +1210,8 @@ function Kiertekeles(value, Pontok){
         }
         document.getElementById("ValasztottTablakDiv").innerHTML = "<p>"+ETablak+"</p>";
     }
-    EredmenyFeltolt({id:Tuser.id,osztaly: Tuser.osztaly, mpont:KivalasztottTablak.length, epont:Pontok, kateg:EredetiKivalasztottTablak, nehezseg:(Difficulty=="R"?3:Difficulty), fajta:(value == "T"?0:1), EIdo:(typeof ValasztottTime != 'number'?-1:ValasztottTime), TIdo:(EredetiValasztottTime==undefined?-1:EredetiValasztottTime)});
+    console.log({id:Tuser.id,osztaly: Tuser.osztaly, mpont:KivalasztottTablak.length, epont:Pontok, kateg:ETablak, nehezseg:(Difficulty=="R"?3:Difficulty), fajta:(value == "T"?0:1), EIdo:(typeof ValasztottTime != 'number'?-1:ValasztottTime), TIdo:(EredetiValasztottTime==undefined?-1:EredetiValasztottTime)});
+    EredmenyFeltolt({id:Tuser.id,osztaly: Tuser.osztaly, mpont:KivalasztottTablak.length, epont:Pontok, kateg:ETablak, nehezseg:(Difficulty=="R"?3:Difficulty), fajta:(value == "T"?0:1), EIdo:(typeof ValasztottTime != 'number'?-1:ValasztottTime), TIdo:(EredetiValasztottTime==undefined?-1:EredetiValasztottTime)});
     TestActive = false;
 }
 
