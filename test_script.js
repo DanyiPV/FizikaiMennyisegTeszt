@@ -1771,6 +1771,7 @@ function InputCreate(type,id,nev){
 
 function ResultDiak(){
     SignInClose();SideBarClose();
+    OsztalyokLeker();
     document.getElementById("MainBody").innerHTML = "" ;
     if(document.getElementById("NavSelectorFoDiv") != undefined){
         document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
@@ -1778,7 +1779,7 @@ function ResultDiak(){
     document.getElementById("OldalName").innerText = "Diák eredmények";
 
     document.getElementById("MainBody").innerHTML = "<div class='DiakEredmenyek'><div class='DiakEredmenyekNav' id='DiakEredmenyekNav'></div></div>";
-    document.getElementById("DiakEredmenyekNav").innerHTML = "<select id='OsztalyValasztas' class='OsztalyValasztas' name='valasztas'><option value='' hidden selected>Válasszon egy osztályt</option><option class='DiakOptions' value='1'>Első lehetőség</option></select>"; 
+    document.getElementById("DiakEredmenyekNav").innerHTML = "<select id='valasztas1' name='valasztas'><option value='1'>Első lehetőség</option></select>"; 
 
     
 }
