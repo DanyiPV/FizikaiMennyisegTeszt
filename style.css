@@ -230,20 +230,66 @@ nav{
     background-color: var(--input_bc);
     border-radius: .8vw;
 }
-.OsztalyValasztas{
-    height: 35%;
-    color: var(--text_color);
-    background-color: var(--dif_div_bc);
-    padding: .5vw;
+
+/* Dropdown alapértelmezett beállítások */
+.dropdown {
     position: relative;
-    -webkit-appearance: none; /* Safari és Chrome */
-    -moz-appearance: none;    /* Firefox */
-    appearance: none;         /* Modern böngészők */
-    border-radius: 0;         /* Eltávolítja a lekerekítést */
+    display: inline-block;
+    color: var(--text_color);
 }
-.OsztalyValasztas option {
-    color: blue;
-    font-weight: bold;
+
+.dropdown-button {
+    background-color: transparent; /* Gomb színe */
+    color: gray;
+    padding: .5vw 1vw;
+    font-size: 1.4vw;
+    border: none;
+    cursor: pointer;
+    transition: .3s;
+    width: 7vw;
+    border-top-left-radius: .4vw;
+    border-top-right-radius: .4vw;
+}
+
+.dropdown-button:hover {
+    background-color: var(--button_hover); /* Hover állapot színe */
+    color: var(--text_color);
+}
+
+/* Dropdown tartalom (elrejtett alapból) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--tablanev_bc);
+    min-width: 7vw;
+    z-index: 1;
+    overflow: hidden;
+    transition: .3s;
+}
+.dropdown-content:last-child {
+    border-bottom-left-radius: .4vw;
+    border-bottom-right-radius: .4vw;
+}
+
+/* Linkek stílusa */
+.dropdown-content div {
+    color: gray;
+    padding: .4vw .6vw;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.dropdown-content div:hover {
+    background-color: var(--button_hover); /* Hover szín a linkeken */
+    color: var(--text_color);
+}
+
+/* Dropdown megjelenítés hover esetén */
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 
 .SideBar{

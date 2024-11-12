@@ -1778,9 +1778,8 @@ function ResultDiak(){
     document.getElementById("OldalName").innerText = "Diák eredmények";
 
     document.getElementById("MainBody").innerHTML = "<div class='DiakEredmenyek'><div class='DiakEredmenyekNav' id='DiakEredmenyekNav'></div></div>";
-    document.getElementById("DiakEredmenyekNav").innerHTML = "<select id='OsztalyValasztas' class='OsztalyValasztas' name='valasztas'><option value='' hidden selected>Válasszon egy osztályt</option><option class='DiakOptions' value='1'>Első lehetőség</option></select>"; 
+    document.getElementById("DiakEredmenyekNav").innerHTML = "<div class='dropdown'><button class='dropdown-button'>Osztály</button><div class='dropdown-content'><div href='#'>Első opció</div></div></div>"; 
 
-    
 }
 
 /* --------------------------------------------------------------- */
