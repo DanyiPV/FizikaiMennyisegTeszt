@@ -217,18 +217,20 @@ nav{
 
 .DiakEredmenyek{
     display: flex;
-    justify-content: center;
-    vertical-align: middle;
+    flex-direction: column;
+    min-height: 25vw;
+    width: 100%;
 }
 .DiakEredmenyekNav{
     width: 20vw;
-    height: auto;
-    height: 6vw;
+    height: 5vw;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: var(--input_bc);
     border-radius: .8vw;
+    padding: .5vw 1.5vw;
+    margin: 0 auto 0 auto;
 }
 
 /* Dropdown alapértelmezett beállítások */
@@ -248,7 +250,6 @@ nav{
     transition: .3s;
     width: 7vw;
     border-top-left-radius: .4vw;
-    border-top-right-radius: .4vw;
 }
 
 .dropdown-button:hover {
@@ -262,13 +263,7 @@ nav{
     position: absolute;
     background-color: var(--tablanev_bc);
     min-width: 7vw;
-    z-index: 1;
-    overflow: hidden;
     transition: .3s;
-}
-.dropdown-content:last-child {
-    border-bottom-left-radius: .4vw;
-    border-bottom-right-radius: .4vw;
 }
 
 /* Linkek stílusa */
@@ -287,9 +282,48 @@ nav{
     color: var(--text_color);
 }
 
+.PickedDiakOsztaly {
+    background-color: var(--dif_div_bc) !important; /* Hover szín a linkeken */
+    color: var(--text_color) !important;
+    transition: .3s;
+}
+
 /* Dropdown megjelenítés hover esetén */
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+.dropdown-content:last-child, .dropdown-content div:last-child:hover {
+    border-bottom-left-radius: .4vw;
+    border-bottom-right-radius: .4vw;
+}
+
+.MegtekintesButton{
+    background-color: transparent; /* Gomb színe */
+    color: gray;
+    padding: .5vw 1vw;
+    font-size: 1.4vw;
+    border: none;
+    cursor: pointer;
+    transition: .3s;
+    width: max-content;
+    border-top-right-radius: .4vw;
+    border-bottom-right-radius: .4vw;
+}
+.MegtekintesButton p{
+    margin: 0;
+}
+.MegtekintesButton:hover {
+    background-color: var(--button_hover);
+    color: var(--text_color);
+}
+
+.EredmenyekGenDiv{
+    margin: 1vw auto 0 auto;
+    padding: .5vw 1vw;
+    background-color: var(--dif_div_bc);
+    border-radius: .4vw;
+    color: var(--text_color);
 }
 
 .SideBar{

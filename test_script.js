@@ -1778,9 +1778,55 @@ function ResultDiak(){
     }
     document.getElementById("OldalName").innerText = "Diák eredmények";
 
-    document.getElementById("MainBody").innerHTML = "<div class='DiakEredmenyek'><div class='DiakEredmenyekNav' id='DiakEredmenyekNav'></div></div>";
-    document.getElementById("DiakEredmenyekNav").innerHTML = "<div class='dropdown'><button class='dropdown-button'>Osztály</button><div class='dropdown-content'><div href='#'>Első opció</div></div></div>"; 
+    document.getElementById("MainBody").innerHTML = "<div class='DiakEredmenyek' id='DiakEredmenyek'><div class='DiakEredmenyekNav' id='DiakEredmenyekNav'></div></div>";
+    document.getElementById("DiakEredmenyekNav").innerHTML += "<div class='dropdown'><button class='dropdown-button'>Osztály</button><div class='dropdown-content' id='OsztalyDropdown'></div></div>"; 
+    document.getElementById("DiakEredmenyekNav").innerHTML += "<div class='MegtekintesButton' onclick='OsztalyEredmenyekMegtekintese()'><p>Megtekintés</p></div>";
+}
 
+function OsztalyokMegjelenitese(response){
+    for (let i = 0; i < response.length; i++) {
+        if(response[i].osztaly != "A" && response[i].osztaly != "T"){
+            document.getElementById("OsztalyDropdown").innerHTML += "<div id='OsztalyOption"+i+"' onclick='DiakOsztalyPick(this)'>"+response[i].osztaly+"</div>";
+        }
+    }
+}
+
+function DiakOsztalyPick(div){
+    if(document.getElementsByClassName("PickedDiakOsztaly").length > 0){
+        document.getElementsByClassName("PickedDiakOsztaly")[0].classList.remove("PickedDiakOsztaly");
+    }
+    div.classList.add("PickedDiakOsztaly");
+}
+
+function OsztalyEredmenyekMegtekintese(){
+    if(document.getElementsByClassName("PickedDiakOsztaly").length == 1){
+        let osztaly = document.getElementsByClassName("PickedDiakOsztaly")[0].innerText;
+        OsztalyEredmenyekLeker(osztaly);
+    }
+}
+
+function OsztalyEredmenyekKiGen(response){
+    if(document.getElementById("EredmenyekGenDiv") != undefined){
+        document.getElementById("DiakEredmenyek").removeChild(document.getElementById("EredmenyekGenDiv"));
+    }
+    if(response.length == 0){
+        document.getElementById("DiakEredmenyek").innerHTML += "<div class='EredmenyekGenDiv' id='EredmenyekGenDiv'></div>";
+        document.getElementById("EredmenyekGenDiv").innerHTML = "<div class='EredmenyekGenHIba'><p>A kiválasztott osztálynak nincs még dolgozata se!</p></div>";
+    }else{
+        document.getElementById("DiakEredmenyek").innerHTML += "<div class='EredmenyekGenDiv' id='EredmenyekGenDiv'></div>";
+        document.getElementById("EredmenyekGenDiv").innerHTML += "<table class='DiakEredmenyekTabla' id='DiakEredmenyekTabla'><thead><tr><th>Név</th><th>Dolgozatok</th></tr></thead></table>";
+        let TBody = document.createElement("tbody");
+        console.log(response);
+        const getUniqueNames = (data) => {
+            const names = data.map(item => item.nev);  // Kiválasztja az összes nevet a tömbből
+            return [...new Set(names)];                // Eltávolítja a duplikátumokat, és egyedi neveket ad vissza tömbként
+        };
+        let Nevek = getUniqueNames(response);
+        for (let i = 0; i < Nevek.length; i++) {
+            TBody.innerHTML += "<tr><td>"+Nevek[i]+"</td><td><button class='LegutobbiDolgozat'>Legutobbi</button><button class='OsszesDolgozat'>Összes</button></td></tr>";
+        }
+        document.getElementById("DiakEredmenyekTabla").appendChild(TBody);
+    }
 }
 
 /* --------------------------------------------------------------- */
