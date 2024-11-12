@@ -1771,6 +1771,7 @@ function InputCreate(type,id,nev){
 
 function ResultDiak(){
     SignInClose();SideBarClose();
+    OsztalyokLeker();
     document.getElementById("MainBody").innerHTML = "" ;
     if(document.getElementById("NavSelectorFoDiv") != undefined){
         document.body.removeChild(document.getElementById("NavSelectorFoDiv"));

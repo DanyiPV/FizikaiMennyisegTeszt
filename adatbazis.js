@@ -448,5 +448,23 @@ function UserNameChange(nev,id){
         return response;
     });
 }
-
+function OsztalyokLeker() {
+    const data = { lekerdezes: "Select DISTINCT(u.osztaly) from users u" };
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST", 
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        console.log(data); 
+    })
+    .catch(function (error) {
+        console.error('Hiba történt:', error);
+    });
+}
 //Multer
