@@ -1,0 +1,65 @@
+test_script:
+function importIMG() {
+    let input = document.createElement('input');
+    input.type = 'file';
+
+    input.onchange = () => {
+        let file = input.files[0];
+
+        var reader = new FileReader();
+        reader.onloadend = () => {
+            document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url(" + reader.result + ")";
+
+            const base64Pic = reader.result;
+
+            ProfilkepFeltolt(base64Pic);
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
+
+    input.click();
+}
+
+adatbazis.js:
+function ProfilkepFeltolt(base64Pic) {
+    const data = { lekerdezes: `UPDATE usersetting SET profPic = '${base64Pic}' WHERE id = ${sessionStorage.User}` }; // assuming id = 1, adjust as necessary
+    console.log(data)
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data) 
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Successful update:", data);
+    })
+    .catch(error => {
+        console.error('Error occurred:', error);
+    });
+}
+
+index.js:
+app.post("/lekerdezes", bodyParser.json(), function(req, res) {
+    const connection = getConnection();
+    connection.connect();
+
+    const lekerdezes = req.body.lekerdezes;
+    const base64Pic = req.body.base64Pic;
+
+    const query = `UPDATE usersetting SET proPic = ? WHERE id = ?`;
+    connection.query(query, [base64Pic, userId], function(err, result) {
+        if (!err) {
+            res.send({ success: 'Profile picture updated successfully.' });
+        } else {
+            res.status(500).send({ error: 'Failed to execute the query.' });
+        }
+    });
+
+    connection.end();
+});
+
