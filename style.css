@@ -218,14 +218,32 @@ nav{
 .DiakEredmenyek{
     display: flex;
     justify-content: center;
+    vertical-align: middle;
 }
 .DiakEredmenyekNav{
     width: 20vw;
+    height: auto;
     height: 6vw;
     display: flex;
     justify-content: center;
+    align-items: center;
     background-color: var(--input_bc);
     border-radius: .8vw;
+}
+.OsztalyValasztas{
+    height: 35%;
+    color: var(--text_color);
+    background-color: var(--dif_div_bc);
+    padding: .5vw;
+    position: relative;
+    -webkit-appearance: none; /* Safari és Chrome */
+    -moz-appearance: none;    /* Firefox */
+    appearance: none;         /* Modern böngészők */
+    border-radius: 0;         /* Eltávolítja a lekerekítést */
+}
+.OsztalyValasztas option {
+    color: blue;
+    font-weight: bold;
 }
 
 .SideBar{
