@@ -1569,17 +1569,19 @@ function importIMG() {
     input.type = 'file';
     var file;
     var reader = new FileReader();
+    
     input.onchange = _ => {
         file = Array.from(input.files)[0];
         reader.addEventListener(
           "load",
           () => {
-            //UserSettingsChange("avatar = '"+reader.result+"'","userid = "+Tuser.id+"");
-            document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+reader.result+")";
+            console.log(reader.result);
+            UserSettingsChange("avatar = '"+reader.result+"'","userid = "+Tuser.id+"");
+            document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url(" + reader.result + ")";
           },
           false,
         );
-      
+
         if (file) {
           reader.readAsDataURL(file);
         }
