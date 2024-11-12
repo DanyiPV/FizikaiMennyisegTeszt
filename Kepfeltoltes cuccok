@@ -23,7 +23,7 @@ function importIMG() {
     input.click();
 }
 
-adatbazis.js:
+//adatbazis.js:
 function ProfilkepFeltolt(base64Pic) {
     const data = { lekerdezes: `UPDATE usersetting SET profPic = '${base64Pic}' WHERE id = ${sessionStorage.User}` }; // assuming id = 1, adjust as necessary
     console.log(data)
@@ -43,7 +43,7 @@ function ProfilkepFeltolt(base64Pic) {
     });
 }
 
-index.js:
+//index.js:
 app.post("/lekerdezes", bodyParser.json(), function(req, res) {
     const connection = getConnection();
     connection.connect();
