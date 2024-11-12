@@ -215,6 +215,19 @@ nav{
     right: -5%;
 }
 
+.DiakEredmenyek{
+    display: flex;
+    justify-content: center;
+}
+.DiakEredmenyekNav{
+    width: 20vw;
+    height: 6vw;
+    display: flex;
+    justify-content: center;
+    background-color: var(--input_bc);
+    border-radius: .8vw;
+}
+
 .SideBar{
     margin-right: .5vw;
     border-radius: .6vw;

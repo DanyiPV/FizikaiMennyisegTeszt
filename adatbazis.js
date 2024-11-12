@@ -399,7 +399,6 @@ function EredmenyFeltolt(adat){
         body: JSON.stringify(data)
     })
     .then(function (response) {
-        console.log(response);
         return response;
     });
 }
