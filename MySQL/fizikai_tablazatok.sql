@@ -63,7 +63,7 @@ CREATE TABLE `dolgozatok` (
   `dif` int(11) NOT NULL,
   `tabla_id` varchar(255) NOT NULL,
   `tabla_sor` int(11) NOT NULL,
-  `osztaly` varchar(255) NOT NULL,
+  `osztaly` varchar(4) NOT NULL,
   `kiirva` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -76,6 +76,7 @@ CREATE TABLE `dolgozatok` (
 CREATE TABLE `eredmenyek` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `osztaly` varchar(4) NOT NULL,
   `Mpont` int(11) NOT NULL,
   `Epont` int(11) NOT NULL,
   `datum` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),

@@ -390,7 +390,7 @@ function ErtesitesLezaras(id,lezarva){
 }
 
 function EredmenyFeltolt(adat){
-    const data =  { lekerdezes: "insert into eredmenyek values(null,'"+adat.id+"','"+adat.mpont+"','"+adat.epont+"',null,'"+adat.kateg+"','"+adat.nehezseg+"','"+adat.fajta+"', '"+adat.EIdo+"', '"+adat.TIdo+"')"};
+    const data =  { lekerdezes: "insert into eredmenyek values(null,'"+adat.id+"','"+adat.osztaly+"','"+adat.mpont+"','"+adat.epont+"',null,'"+adat.kateg+"','"+adat.nehezseg+"','"+adat.fajta+"', '"+adat.EIdo+"', '"+adat.TIdo+"')"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
         headers: {

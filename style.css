@@ -324,7 +324,7 @@ nav{
     background-color: var(--tablanev_bc);
     border-radius: .6vw;
     width: 85%;
-    margin: 0 auto 0 auto;
+    margin: 1vw auto 0 auto;
     text-transform: uppercase;
 }
 .NotifHiba p{
@@ -397,7 +397,7 @@ nav{
     margin-bottom: 1vw;
     height: 2vw;
     position: relative;
-    color: gray !important;
+    color: gray;
 }
 .DogaDivGomb div{
     border-radius: .6vw;
@@ -407,20 +407,26 @@ nav{
     transition: .3s;
     font-size: 1vw;
     text-transform: uppercase;
-    border: .1vw solid gray; /*;.1vw solid var(--modal_border);*/
+    border: .1vw solid gray;
 }
 .DogaDivGomb div p{
     margin: 0;
 }
-.DogaDivGomb div:hover{
+.DogaMorInfo:hover, .DogaMegkezdesLehetséges:hover{
     background-color: var(--button_hover);
-    color: var(--text_color) !important;
+    color: var(--text_color);
     border: .1vw solid transparent;
+}
+.DogaMegkezdesNemLehetséges{
+    border: .1vw solid gray !important;
+    color: gray !important;
+    cursor: default;
 }
 
 .SideBarSwitch{
     padding: .5vw 7vw;
     border-radius: 2vw;
+    margin-bottom: 1vw;
     display: flex;
     position: relative;
     align-items: center;
