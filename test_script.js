@@ -120,6 +120,7 @@ function DrkModeSwitch(value){
     document.getElementsByClassName("TimerIMGOn").length==1?document.getElementById("TimerIMG").firstChild.src = color==1?"ph/on_dark.png":"ph/on_white.png":"";
     document.getElementsByClassName("TimerIMGOn").length==1?document.getElementById("TimerSetIMG").firstChild.src = color==1?"ph/time_set_dark.png":"ph/time_set_white.png":"";
     Tuser.osztaly == "T" || Tuser.osztaly == "A"?color==1?document.getElementById("ExamDivIMG").children[0].src = "ph/plus_dark.png":document.getElementById("ExamDivIMG").children[0].src = "ph/plus_white.png":"";
+    Tuser.osztaly == "T" || Tuser.osztaly == "A"?color==1?document.getElementById("ResultDiakIMG").children[0].src = "ph/students_dark.png":document.getElementById("ResultDiakIMG").children[0].src = "ph/students_white.png":"";
     document.getElementById("ProfilPicDiv") != undefined?SettingsCheck():"";
 }
 
@@ -1770,6 +1771,15 @@ function InputCreate(type,id,nev){
     return "<form><label id='label"+id+"' for='input"+id+"'>"+nev+"</label><input type='"+type+"' name='input"+id+"' id='input"+id+"'/></form>";
 }
 
+function ResultDiak(){
+    SignInClose();SideBarClose();
+    document.getElementById("MainBody").innerHTML = "" ;
+    if(document.getElementById("NavSelectorFoDiv") != undefined){
+        document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
+    }
+    document.getElementById("OldalName").innerText = "Diák eredmények";
+}
+
 /* --------------------------------------------------------------- */
 
 function importIMG() {
@@ -1821,7 +1831,7 @@ function TeacherView() {
     var examresdiak = document.getElementById("ResultDiakDiv");
     examresdiak.classList.add("SignInBodyButton");
     examresdiak.setAttribute("onclick", "ResultDiak()");
-    examresdiak.innerHTML = "<div class='SignInBodyButtonImg' id='ResultDiakIMG'><img src='ph/plus_white.png' alt=''></div><p>Diák eredmények</p>";
+    examresdiak.innerHTML = "<div class='SignInBodyButtonImg' id='ResultDiakIMG'><img src='ph/students_white.png' alt=''></div><p>Diák eredmények</p>";
 }
 
 function AdminPanelEnable(){

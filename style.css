@@ -208,6 +208,9 @@ nav{
 #LogoutDivIMG img{
     left: -.1vw;
 }
+#ResultDiakIMG img{
+    left: .5vw;
+}
 .SignInBodyButton:hover .SignInBodyButtonImg{
     right: -5%;
 }
