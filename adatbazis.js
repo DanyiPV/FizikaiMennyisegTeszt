@@ -488,8 +488,8 @@ function OsztalyEredmenyekLeker(osztaly) {
     });
 }
 
-function OsztalyEredmenyekLeker(id) {
-    const data = { lekerdezes: "SELECT eredmenyek.user_id, users.nev FROM eredmenyek INNER JOIN users ON eredmenyek.user_id = users.id WHERE users.osztaly = '"+osztaly+"'"};
+function UserLegutobbiDolgozat(id) {
+    const data = { lekerdezes: "SELECT eredmenyek.*, users.nev FROM eredmenyek WHERE eredmenyek.user_id = "+id+""};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST", 
         headers: {
@@ -501,7 +501,7 @@ function OsztalyEredmenyekLeker(id) {
         return response.json();
     })
     .then(function (data) {
-        OsztalyEredmenyekKiGen(data); 
+        DolgozatokMutat("Legutóbbi dolgozatok",data); 
     })
     .catch(function (error) {
         console.error('Hiba történt:', error);

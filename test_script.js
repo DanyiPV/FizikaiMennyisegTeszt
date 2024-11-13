@@ -1836,7 +1836,9 @@ function OsztalyEredmenyekKiGen(response){
     }
 }
 
-function Dolgozatok
+function DolgozatokMutat(text, response){
+
+}
 
 /* --------------------------------------------------------------- */
 
