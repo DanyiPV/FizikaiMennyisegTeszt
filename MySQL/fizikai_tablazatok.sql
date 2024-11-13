@@ -308,7 +308,7 @@ CREATE TABLE `usersetting` (
   `userid` int(11) NOT NULL,
   `drkmode` int(11) NOT NULL DEFAULT 0,
   `private` int(11) NOT NULL DEFAULT 0,
-  `profPic` longblob NOT NULL,
+  `profPic` longblob NOT NULL DEFAULT 0,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -316,9 +316,9 @@ CREATE TABLE `usersetting` (
 --
 
 INSERT INTO `usersetting` (`id`, `userid`, `drkmode`, `private`) VALUES
-(1, 1, 0, 0),
-(2, 2, 0, 0),
-(3, 3, 0, 0);
+(1, 1, 0, 0, 0),
+(2, 2, 0, 0), 0,
+(3, 3, 0, 0, 0);
 
 --
 -- Indexek a kiírt táblákhoz
