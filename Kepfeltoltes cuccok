@@ -22,11 +22,32 @@ function importIMG() {
 
     input.click();
 }
+function UserAvatarLeker(){
+    ProfilkepLeszed()[0].data;
+    console.log(ProfilkepLeszed().profPic.data);
+}
 
 //adatbazis.js:
 function ProfilkepFeltolt(base64Pic) {
     const data = { lekerdezes: `UPDATE usersetting SET profPic = '${base64Pic}' WHERE id = ${sessionStorage.User}` }; // assuming id = 1, adjust as necessary
     console.log(data)
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data) 
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Successful update:", data);
+    })
+    .catch(error => {
+        console.error('Error occurred:', error);
+    });
+}
+function ProfilkepLeszed(){
+    const data = {lekerdezes: `Select u.profPic from usersetting u where u.userid = ${sessionStorage.User}`}
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
         headers: {
