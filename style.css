@@ -373,13 +373,73 @@ nav{
     background-color: transparent;
     transition: .3s;
     cursor: pointer;
-    font-size: 1vw;
+    font-size: 1.2vw;
+    text-transform: capitalize;
     border-radius: .2vw;
     height: 2vw;
 }
 .DiakEredmenyButton:hover{
     color: var(--text_color);
     border: .1vw solid var(--modal_border);
+}
+.EredmenyekGenHIba{
+    font-size: 1.2vw;
+    width: 40vw;
+    text-align: center;
+}
+
+.DolgozatMutat{
+    color: var(--text_color);
+    padding: 1vw 3vw;
+}
+.DolgozatMutat > p{
+    padding: 1vw 1vw;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3vw;
+    border-radius: .4vw;
+    border: .1vw solid var(--modal_border);
+}
+.EredmenyMutat{
+    border: .1vw solid var(--modal_border);
+    padding: .5vw 4vw;
+    font-size: 1.3vw;
+    border-radius: .4vw;
+    max-height: 75vh;
+    overflow: auto;
+}
+.EredmenyekDivek{
+    border: .1vw solid var(--modal_border);
+    padding: .5vw 4vw;
+    border-radius: .4vw;
+    margin: 2vw 0vw;
+}
+.EredmenyekDivek:first-child{
+    margin: 0vw 0vw;
+}
+.EredmenyekDivek:last-child{
+    margin: 2vw 0vw 0vw 0vw;
+}
+.CsakEgyDogaDiv{
+    margin: 0vw !important;
+}
+.EredmenyMutat::-webkit-scrollbar {
+    width: auto;
+    height: 1vw;
+}
+/* Track */
+.EredmenyMutat::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px transparent; 
+    margin: 0 .3vw;
+}
+/* Handle */
+.EredmenyMutat::-webkit-scrollbar-thumb {
+    background: var(--button_hover); 
+    border-radius: 4vw;
+}
+/* Handle on hover */
+.EredmenyMutat::-webkit-scrollbar-thumb:hover {
+    background: var(--button_hover); 
 }
 
 .SideBar{
@@ -762,7 +822,6 @@ nav{
     animation-duration: .8s;
     animation-fill-mode: forwards;
     margin-bottom: 1vw;
-    overflow: hidden;
 }
 .NavGorgeto{
     border-radius: .6vw;

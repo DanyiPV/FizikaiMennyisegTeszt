@@ -1811,7 +1811,7 @@ function OsztalyEredmenyekKiGen(response){
     }
     if(response.length == 0){
         document.getElementById("DiakEredmenyek").innerHTML += "<div class='EredmenyekGenDiv' id='EredmenyekGenDiv'></div>";
-        document.getElementById("EredmenyekGenDiv").innerHTML = "<div class='EredmenyekGenHIba'><p>A kiválasztott osztálynak nincs még dolgozata se!</p></div>";
+        document.getElementById("EredmenyekGenDiv").innerHTML = "<div class='EredmenyekGenHIba'><p>A kiválasztott osztályban egy tanulónak sincs megírt dolgozata!</p></div>";
     }else{
         document.getElementById("DiakEredmenyek").innerHTML += "<div class='EredmenyekGenDiv' id='EredmenyekGenDiv'></div>";
         document.getElementById("EredmenyekGenDiv").innerHTML += "<table class='DiakEredmenyekTabla' id='DiakEredmenyekTabla'><thead><tr><th>Név</th><th>Dolgozatok</th></tr></thead></table>";
@@ -1830,14 +1830,47 @@ function OsztalyEredmenyekKiGen(response){
         };
         let Nevek = getUniqueNames(response)[0];
         for (let i = 0; i < Nevek.length; i++) {
-            TBody.innerHTML += "<tr><td><p class='DiakEredmenyNevek'>"+Nevek[i].name+"</p></td><td class='DiakEredmenyButtonTD'><button class='DiakEredmenyButton' id='LegutobbiDogaButton"+i+"' onclick='UserLegutobbiDolgozat("+Nevek[i].id+")'>Legutobbi</button><button class='DiakEredmenyButton' id='OsszesDogaButton"+i+"'  onclick='UserOsszesDolgozat("+Nevek[i].id+")'>Összes</button></td></tr>";
+            TBody.innerHTML += "<tr><td><p class='DiakEredmenyNevek'>"+Nevek[i].name+"</p></td><td class='DiakEredmenyButtonTD'><button class='DiakEredmenyButton' id='LegutobbiDogaButton"+i+"'>Legutobbi</button><button class='DiakEredmenyButton' id='OsszesDogaButton"+i+"'>Összes</button></td></tr>";
         }
         document.getElementById("DiakEredmenyekTabla").appendChild(TBody);
+        for (let i = 0; i < Nevek.length; i++) {
+            document.getElementById("LegutobbiDogaButton"+i).setAttribute("onclick","UserLegutobbiDolgozat("+Nevek[i].id+",'"+Nevek[i].name+"')");
+            document.getElementById("OsszesDogaButton"+i).setAttribute("onclick","UserOsszesDolgozat("+Nevek[i].id+",'"+Nevek[i].name+"')");
+        }
     }
 }
 
 function DolgozatokMutat(text, response){
-
+    if(document.getElementById("EgyDivMindFelett").classList.contains("EgyDivMindFelettOpen")){
+        EgyMindFelettClose();
+    }
+    else{
+        document.getElementById("EgyDivMindFelett").classList.add("EgyDivMindFelettOpen");
+        document.getElementById("EgyDivMindFelett").classList.add("LegutobbiDolgozat");
+        document.getElementById("BlackBG").classList.add("BlackBGOn");
+        document.getElementById("BlackBG").setAttribute("onclick","EgyMindFelettClose()");
+        document.getElementById("EgyDivMindFelett").innerHTML += "<div class='DolgozatMutat' id='DolgozatMutat'><p>"+text+"</p><div class='EredmenyMutat' id='EredmenyMutat'</div></div>";
+        if(response.length>1){
+            response.reverse();
+        }
+        for (let i = 0; i < response.length; i++) {
+            let datum = response[i].datum.split('T')[0] +" "+ response[i].datum.split('T')[1].split('.')[0];
+            let Pontok = response[i].Epont +"/"+ response[i].Mpont;
+            let Szazalek = Math.floor(Number(response[i].Epont)/Number(response[i].Mpont) * 100);
+            let Jegy;
+            if(Szazalek <= 100 && Szazalek>=85){Jegy = "5"}
+            else if(Szazalek < 85 && Szazalek >= 70){Jegy = "4"}
+            else if(Szazalek < 70 && Szazalek >= 50){Jegy = "3"}
+            else if(Szazalek < 50 && Szazalek >= 30){Jegy = "2"}
+            else{Jegy = "1"}
+            let Ido = Number(response[i].TIdo) - Number(response[i].EIdo);
+            let Ora = Math.floor(Ido/3600);
+            let Min = Math.floor((Ido%3600)/60);
+            let Sec = Math.floor((Ido%3600)%60);
+            let ElteltIdo = (Ora>0?Ora+":":"")+((Min>0 || Ora>0)?Min+":":"")+((Min>0 || Ora>0)?Sec:Sec+" másodperc");
+            document.getElementById("EredmenyMutat").innerHTML += "<div class='EredmenyekDivek "+(response.length==1?"CsakEgyDogaDiv":"")+"'><p><b>Dolgozat leadva: </b>"+datum+"</p><p><b>Kategóriák: </b>"+response[i].katok+"</p><p><b>Pontszám: </b>"+Pontok+"</p><p><b>Kapott jegy: </b>"+Jegy+" - "+Szazalek+"%</p><p><b>Dogával eltöltött idő: </b>"+ElteltIdo+"</p></div>";
+        }
+    }
 }
 
 /* --------------------------------------------------------------- */

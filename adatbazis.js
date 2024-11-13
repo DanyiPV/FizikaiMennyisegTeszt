@@ -469,7 +469,7 @@ function OsztalyokLeker() {
 }
 
 function OsztalyEredmenyekLeker(osztaly) {
-    const data = { lekerdezes: "SELECT eredmenyek.user_id, users.nev FROM eredmenyek INNER JOIN users ON eredmenyek.user_id = users.id WHERE users.osztaly = '"+osztaly+"'"};
+    const data = { lekerdezes: "SELECT eredmenyek.user_id, users.nev FROM eredmenyek INNER JOIN users ON eredmenyek.user_id = users.id WHERE users.osztaly = '"+osztaly+"' and eredmenyek.fajta = 1"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST", 
         headers: {
@@ -488,8 +488,8 @@ function OsztalyEredmenyekLeker(osztaly) {
     });
 }
 
-function UserLegutobbiDolgozat(id) {
-    const data = { lekerdezes: "SELECT eredmenyek.*, users.nev FROM eredmenyek WHERE eredmenyek.user_id = "+id+""};
+function UserLegutobbiDolgozat(id,name) {
+    const data = { lekerdezes: "SELECT eredmenyek.* FROM eredmenyek WHERE eredmenyek.user_id = "+id+" ORDER BY eredmenyek.datum DESC LIMIT 1"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST", 
         headers: {
@@ -501,7 +501,27 @@ function UserLegutobbiDolgozat(id) {
         return response.json();
     })
     .then(function (data) {
-        DolgozatokMutat("Legutóbbi dolgozatok",data); 
+        DolgozatokMutat(name+" tanuló legutobbi dolgozata",data);
+    })
+    .catch(function (error) {
+        console.error('Hiba történt:', error);
+    });
+}
+
+function UserOsszesDolgozat(id,name) {
+    const data = { lekerdezes: "SELECT eredmenyek.* FROM eredmenyek WHERE eredmenyek.user_id = "+id+""};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST", 
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        DolgozatokMutat(name+" tanuló dolgozatai",data);
     })
     .catch(function (error) {
         console.error('Hiba történt:', error);
