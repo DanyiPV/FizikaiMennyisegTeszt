@@ -1816,18 +1816,27 @@ function OsztalyEredmenyekKiGen(response){
         document.getElementById("DiakEredmenyek").innerHTML += "<div class='EredmenyekGenDiv' id='EredmenyekGenDiv'></div>";
         document.getElementById("EredmenyekGenDiv").innerHTML += "<table class='DiakEredmenyekTabla' id='DiakEredmenyekTabla'><thead><tr><th>Név</th><th>Dolgozatok</th></tr></thead></table>";
         let TBody = document.createElement("tbody");
-        console.log(response);
+        TBody.id = "DiakEredmenyTBody";
         const getUniqueNames = (data) => {
-            const names = data.map(item => item.nev);  // Kiválasztja az összes nevet a tömbből
-            return [...new Set(names)];                // Eltávolítja a duplikátumokat, és egyedi neveket ad vissza tömbként
+            const names = data.map(item => item.nev);
+            const ids = data.map(item => item.user_id);
+            let NamesArray = Array.from(new Set(names));
+            let IdsArray = Array.from(new Set(ids));
+            let OsszArray = [];
+            for (let i = 0; i < NamesArray.length; i++) {
+                OsszArray.push({id: IdsArray[i], name: NamesArray[i]});
+            }
+            return [OsszArray];
         };
-        let Nevek = getUniqueNames(response);
+        let Nevek = getUniqueNames(response)[0];
         for (let i = 0; i < Nevek.length; i++) {
-            TBody.innerHTML += "<tr><td>"+Nevek[i]+"</td><td><button class='LegutobbiDolgozat'>Legutobbi</button><button class='OsszesDolgozat'>Összes</button></td></tr>";
+            TBody.innerHTML += "<tr><td><p class='DiakEredmenyNevek'>"+Nevek[i].name+"</p></td><td class='DiakEredmenyButtonTD'><button class='DiakEredmenyButton' id='LegutobbiDogaButton"+i+"' onclick='UserLegutobbiDolgozat("+Nevek[i].id+")'>Legutobbi</button><button class='DiakEredmenyButton' id='OsszesDogaButton"+i+"'  onclick='UserOsszesDolgozat("+Nevek[i].id+")'>Összes</button></td></tr>";
         }
         document.getElementById("DiakEredmenyekTabla").appendChild(TBody);
     }
 }
+
+function Dolgozatok
 
 /* --------------------------------------------------------------- */
 

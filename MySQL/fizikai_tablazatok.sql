@@ -305,9 +305,10 @@ INSERT INTO `users` (`id`, `email`, `nev`, `osztaly`, `jelszo`, `letrehozva`, `m
 
 CREATE TABLE `usersetting` (
   `id` int(11) NOT NULL,
-  `userid` int(11) NOT NULL DEFAULT 0,
+  `userid` int(11) NOT NULL,
   `drkmode` int(11) NOT NULL DEFAULT 0,
-  `private` int(11) NOT NULL DEFAULT 0
+  `private` int(11) NOT NULL DEFAULT 0,
+  `profPic` longblob NOT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

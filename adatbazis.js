@@ -469,7 +469,27 @@ function OsztalyokLeker() {
 }
 
 function OsztalyEredmenyekLeker(osztaly) {
-    const data = { lekerdezes: "SELECT eredmenyek.*, users.nev FROM eredmenyek INNER JOIN users ON eredmenyek.user_id = users.id WHERE users.osztaly = '"+osztaly+"'"};
+    const data = { lekerdezes: "SELECT eredmenyek.user_id, users.nev FROM eredmenyek INNER JOIN users ON eredmenyek.user_id = users.id WHERE users.osztaly = '"+osztaly+"'"};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST", 
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        OsztalyEredmenyekKiGen(data); 
+    })
+    .catch(function (error) {
+        console.error('Hiba történt:', error);
+    });
+}
+
+function OsztalyEredmenyekLeker(id) {
+    const data = { lekerdezes: "SELECT eredmenyek.user_id, users.nev FROM eredmenyek INNER JOIN users ON eredmenyek.user_id = users.id WHERE users.osztaly = '"+osztaly+"'"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST", 
         headers: {
