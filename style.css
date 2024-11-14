@@ -1853,6 +1853,19 @@ nav{
 .UresTesztEredmenyDiv p{
     margin: 0;
 }
+.EredmenyTobbInfo{
+    color: gray;
+    border: .1vw solid transparent;
+    transition: .3s;
+    padding: .5vw;
+    cursor: pointer;
+    height: 2.8vw;
+    border-radius: 50%;
+}
+.EredmenyTobbInfo:hover{
+    color: var(--text_color);
+    border: .1vw solid var(--modal_border) !important;
+}
 
 .DolgozatPubDivHeader{
     color: var(--text_color);

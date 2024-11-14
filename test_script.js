@@ -111,6 +111,12 @@ function DrkModeSwitch(value){
     color==1?document.getElementById("SideBarSwitchIMG").children[0].src = "ph/arrow_dark.png":document.getElementById("SideBarSwitchIMG").children[0].src = "ph/arrow_white.png";
     color==1?document.getElementById("FooldalBetoltDivIMG").children[0].src = "ph/home_dark.png":document.getElementById("FooldalBetoltDivIMG").children[0].src = "ph/home_white.png";
     color==1?document.getElementById("TestoldalBetoltDivIMG").children[0].src = "ph/test_dark.png":document.getElementById("TestoldalBetoltDivIMG").children[0].src = "ph/test_white.png";
+    if(document.getElementsByClassName("EredmenyTobbInfo").length != 0){
+        let InfoIMGS = document.getElementsByClassName("EredmenyTobbInfo");
+        for (let i = 0; i < InfoIMGS.length; i++) {
+            color==1?InfoIMGS[i].src = "ph/info_dark.png":InfoIMGS[i].src = "ph/info_white.png";
+        }
+    }
     if(document.getElementById("TestStartDiv")!=undefined && document.getElementById("TestStartDiv").classList.contains("TestStartDivActive")){
         color==1?document.getElementById("TestStartDiv").firstChild.src = "ph/start_dark.png":document.getElementById("TestStartDiv").firstChild.src = "ph/start_white.png";
     }
@@ -341,16 +347,16 @@ function EredmenyekKiGen(response){
         else if(Szazalek < 70 && Szazalek >= 50){Jegy = "3"}
         else if(Szazalek < 50 && Szazalek >= 30){Jegy = "2"}
         else{Jegy = "1"}
-        if(response[i].fajta == 0){
-            if(!TestGen){
-                TestGen = true;
-                TestHeaderGen("TesztEredmeny");
+        if(response[i].fajta == 1){
+            if(!DogaGen, response[i].fajta){
+                DogaGen = true;
+                TestHeaderGen("DogaEredmeny",response[i].fajta);
             }
         }
         else{
-            if(!DogaGen){
-                DogaGen = true;
-                TestHeaderGen("DogaEredmeny");
+            if(!TestGen){
+                TestGen = true;
+                TestHeaderGen("TesztEredmeny",response[i].fajta);
             }
         }
         document.getElementById(response[i].fajta == 0?"TesztEredmeny":"DogaEredmeny").appendChild(DivCreate((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"),"")); //TEredmenyDoga
@@ -366,59 +372,31 @@ function EredmenyekKiGen(response){
             document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div class='EredmenyEIdo'><p> "+(h>0?h+":":"")+(min>9?min:"0"+min)+":"+(sec>9?sec:"0"+sec)+"</p></div>";
         }
         else{document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div class='EredmenyEIdoNincs'><p>Nem volt beállítva idő!</p></div>"};
-        let KatArray = response[i].katok.split(',');
-        document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div class='EredmenyKatok'></div>";
-        const lastElement = document.getElementsByClassName("EredmenyKatok")[document.getElementsByClassName("EredmenyKatok").length - 1];
-        const button = document.createElement("button");
-        button.textContent = "ok";
-        button.onclick = function() {
-            KategoriakMegjelenit(KatArray);
-        };
-        lastElement.appendChild(button);
+        let TovabbKuldes = JSON.stringify(Object.entries(response[i]));
+        document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga"))[document.getElementsByClassName((response[i].fajta == 0?"TEredmeny":"TEredmenyDoga")).length-1].innerHTML += "<div class='EredmenyKatok'><img class='EredmenyTobbInfo' src='ph/info_white.png' data-tovabbkuldes='"+TovabbKuldes+"' onclick='KategoriakMegjelenit(this)'></img></div>";
     }
 }
 
-function KategoriakMegjelenit(KatArray) {
+function KategoriakMegjelenit(img) {
+    let TovabbKuldes = JSON.parse(img.getAttribute("data-tovabbkuldes"));
     const container = document.getElementById("EgyDivMindFelett");
     container.classList.add("kategoriamegjelenitstilus");
     container.classList.add("EgyDivMindFelettOpen");
     document.getElementById("BlackBG").classList.add("BlackBGOn");
-    document.getElementById("BlackBG").setAttribute("onclick", "CloseKategoriakMegjelenit()");
-
-    KatArray.forEach(function(kat) {
-        const katp = document.createElement("p");
-        katp.textContent = kat;
-        container.appendChild(katp);
-    });
-
-    let closeButton = document.createElement("button"); 
-    closeButton.innerText = "bezár";
-    closeButton.classList.add("bezarInfoButton");
-    closeButton.setAttribute("onclick", "CloseKategoriakMegjelenit()");
-    container.appendChild(closeButton);
+    document.getElementById("BlackBG").setAttribute("onclick", "EgyMindFelettClose()");
+    console.log(TovabbKuldes);
 }
 
-function CloseKategoriakMegjelenit() {
-    let md = document.getElementById("EgyDivMindFelett");
-    md.classList.remove("EgyDivMindFelettOpen");  // Close the div
-    document.getElementById("BlackBG").classList.remove("BlackBGOn"); // Remove the black background
-    
-    // Optionally clear all content (like paragraphs and buttons) inside the container:
-    md.innerHTML = '';  // Clear everything inside the container
-}
-
-
-
-function TestHeaderGen(id){
-    document.getElementById(id).appendChild(DivCreate("TesztEredmenyekNevek",""));
-    document.getElementsByClassName("TesztEredmenyekNevek")[document.getElementsByClassName("TesztEredmenyekNevek").length-1].innerHTML += "<p>"+(document.getElementsByClassName("TesztEredmenyekNevek").length==1?"Teszt":"Dolgozat")+"</p>";
-    document.getElementById(id).appendChild(DivCreate("EHeaderDiv",""));
-    document.getElementsByClassName("EHeaderDiv")[document.getElementsByClassName("EHeaderDiv").length-1].innerHTML += "<div class='EHeaderStyleDiv'><p>Dátum<p></div>";
-    document.getElementsByClassName("EHeaderDiv")[document.getElementsByClassName("EHeaderDiv").length-1].innerHTML += "<div class='EHeaderStyleDiv EHeaderJegy'><p>jegy</p></div>";//(document.getElementsByClassName("EHeaderDiv").length==1?"Láthatatlan":"Kapott")
-    document.getElementsByClassName("EHeaderDiv")[document.getElementsByClassName("EHeaderDiv").length-1].innerHTML += "<div class='EHeaderStyleDiv EHeaderSzazalek'><p>Százalék<p></div>";
-    document.getElementsByClassName("EHeaderDiv")[document.getElementsByClassName("EHeaderDiv").length-1].innerHTML += "<div class='EHeaderStyleDiv'><p>Nehézség<p></div>";
-    document.getElementsByClassName("EHeaderDiv")[document.getElementsByClassName("EHeaderDiv").length-1].innerHTML += "<div class='EHeaderStyleDiv'><p>Eltelt idő<p></div>";
-    document.getElementsByClassName("EHeaderDiv")[document.getElementsByClassName("EHeaderDiv").length-1].innerHTML += "<div class='EHeaderStyleDiv'><p>Kategóriák<p></div>";
+function TestHeaderGen(id, fajta){
+    document.getElementById(id).appendChild(DivCreate("TesztEredmenyekNevek",id+"nevek"));
+    document.getElementById(id+"nevek").innerHTML += "<p>"+(fajta==0?"Teszt":"Dolgozat")+"</p>";
+    document.getElementById(id).appendChild(DivCreate("EHeaderDiv",id+"eHeaderDiv"));
+    document.getElementById(id+"eHeaderDiv").innerHTML += "<div class='EHeaderStyleDiv'><p>Dátum<p></div>";
+    document.getElementById(id+"eHeaderDiv").innerHTML += "<div class='EHeaderStyleDiv EHeaderJegy'><p>jegy</p></div>";//(document.getElementsByClassName("EHeaderDiv").length==1?"Láthatatlan":"Kapott")
+    document.getElementById(id+"eHeaderDiv").innerHTML += "<div class='EHeaderStyleDiv EHeaderSzazalek'><p>Százalék<p></div>";
+    document.getElementById(id+"eHeaderDiv").innerHTML += "<div class='EHeaderStyleDiv'><p>Nehézség<p></div>";
+    document.getElementById(id+"eHeaderDiv").innerHTML += "<div class='EHeaderStyleDiv'><p>Eltelt idő<p></div>";
+    document.getElementById(id+"eHeaderDiv").innerHTML += "<div class='EHeaderStyleDiv'><p>Kategóriák<p></div>";
 }
 
 function AdatokKiitaras(){
@@ -649,7 +627,7 @@ function DogaTimerKiir(){
     if(ValasztottTime == 0){
         DogaLeadasa();
     }
-    if(ValasztottTime >= 0){
+    if(ValasztottTime > 0){
         let h = Math.floor(ValasztottTime/3600);
         let sec = h>0?Math.floor((ValasztottTime-h*3600)%60):Math.floor(ValasztottTime%60);
         let min = h>0?Math.floor((ValasztottTime-h*3600)/60):Math.floor(ValasztottTime/60);
@@ -1218,23 +1196,7 @@ function TestTimerKiir(){
     if(ValasztottTime == 0){
         TesztLeadasa();
     }
-    if(ValasztottTime >= 0){
-        let h = Math.floor(ValasztottTime/3600);
-        let sec = h>0?Math.floor((ValasztottTime-h*3600)%60):Math.floor(ValasztottTime%60);
-        let min = h>0?Math.floor((ValasztottTime-h*3600)/60):Math.floor(ValasztottTime/60);
-        document.getElementById("TestTimer").innerHTML = "<p>"+(h>0?h+":":"")+(min>9?min:"0"+min)+":"+(sec>9?sec:"0"+sec)+"</p>";
-        if(min == 0 && h == 0 && sec <= 30){
-            sec <= 10?document.getElementById("TestTimer").classList.add("TestTimerE"):document.getElementById("TestTimer").classList.add("TestTimerAE");
-        }
-        ValasztottTime = ValasztottTime -1;
-    }
-}
-
-function DogaTimerKiir(){
-    if(ValasztottTime == 0){
-        TesztLeadasa();
-    }
-    if(ValasztottTime >= 0){
+    if(ValasztottTime > 0){
         let h = Math.floor(ValasztottTime/3600);
         let sec = h>0?Math.floor((ValasztottTime-h*3600)%60):Math.floor(ValasztottTime%60);
         let min = h>0?Math.floor((ValasztottTime-h*3600)/60):Math.floor(ValasztottTime/60);

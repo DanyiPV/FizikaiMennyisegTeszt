@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Máj 29. 08:08
+-- Létrehozás ideje: 2024. Nov 14. 10:09
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -144,7 +144,7 @@ INSERT INTO `tablak` (`id`, `nev`, `jel`, `def`, `mert`, `alkat_id`) VALUES
 (19, 'Csúszási együttható', '`mu` (mű)', 'értéke táblázatban adott', 'nincs', 3),
 (20, 'Tapadási együttható', '`mu` (mű)', 'értéke táblázatban adott', 'nincs', 3),
 (21, 'Súrlódási erő', 'F<sub>s</sub>', '`mu*`F<sub>nyomó</sub>', 'Newton', 3),
-(22, 'Erőkar', 'k', 'A forgástengely távolsága az erő hatásvonalától', 'méter', 3),
+(22, 'Erőkar', 'k', 'A forgástengely távolsága az erő hatásvonalától', 'méter (m)', 3),
 (23, 'Perdület', 'N', '`Theta*omega`', '`kg^2*m/s`', 3),
 (24, 'Perdület változás', '`Delta`N', 'N<sub>2</sub>-N<sub>1</sub>', '`kg^2*m/s`', 3),
 (25, 'Forgatónyomaték', 'M', '`(DeltaN)/(Deltat)` - (`F*k`)', 'Newton`*`méter (Nm)', 3),
@@ -153,8 +153,8 @@ INSERT INTO `tablak` (`id`, `nev`, `jel`, `def`, `mert`, `alkat_id`) VALUES
 (28, 'Az erő munkája', 'W', 'F`*`s - (`F*Deltar`)', 'N`*`m=Joule(J)', 4),
 (29, 'Haladási energia', 'E<sub>h</sub>', '`1/2*m*v^2`', 'N`*`m=Joule(J)', 4),
 (30, 'Forgási energia', 'E<sub>forg</sub>', '`1/2*Theta*omega^2`', 'N`*`m=Joule(J)', 4),
-(31, 'Hosszúság', 'l', 'alapmennyiség', 'méter', 4),
-(32, 'Hosszváltozás (megnyúlás)', '`Deltal` (delta el)', 'l<sub>2</sub>-l<sub>1</sub>', 'méter', 4),
+(31, 'Hosszúság', 'l', 'alapmennyiség', 'méter (m)', 4),
+(32, 'Hosszváltozás (megnyúlás)', '`Deltal` (delta el)', 'l<sub>2</sub>-l<sub>1</sub>', 'méter (m)', 4),
 (33, 'Rugóenergia', 'E<sub>rugó</sub>', '`1/2*D*(Deltal)^2`', 'N`*`m=Joule(J)', 4),
 (34, 'Magasság', 'h', 'a nullszinttől mért függőleges távolság', 'méter (m)', 4),
 (35, 'Helyzeti energia(gravitációs potenciális energia)', 'E<sub>p</sub>', 'mg`*`h', 'N`*`m=Joule(J)', 4),
@@ -168,8 +168,8 @@ INSERT INTO `tablak` (`id`, `nev`, `jel`, `def`, `mert`, `alkat_id`) VALUES
 (43, 'Fordulatszám (frekvencia)', 'f,`nu`', '`1/T`', '`1/sec`=Hertz (Hz)', 6),
 (44, 'Hullámhossz', '`lambda` (lambda)', 'az azonos fázisú szomszédok távolsága', 'méter (m)', 6),
 (45, 'Terjedési sebesség', 'c', 'a rezgésállapot haladási sebessége', '`m/s`', 6),
-(46, 'Pillanatnyi kitérés', 'x,y', 'Az egyensúlyi helyzettől mért előjeles távolság', 'méter', 6),
-(47, 'Amplitúdó', 'A', 'Maximális kitérés', 'méter', 6),
+(46, 'Pillanatnyi kitérés', 'x,y', 'Az egyensúlyi helyzettől mért előjeles távolság', 'méter (m)', 6),
+(47, 'Amplitúdó', 'A', 'Maximális kitérés', 'méter (m)', 6),
 (48, 'Körfrekvencia', '`omega`', '`(2pi)/T`', '`(rad)/(sec)`', 6),
 (49, 'Keringési / körül fordulási idő', 'T', 'Egy teljes keringéshez / körül forduláshoz szükséges idő', 'secundum', 6),
 (50, 'Idő', 't', 'alapmennyiség', 'secundum', 6),
@@ -178,18 +178,18 @@ INSERT INTO `tablak` (`id`, `nev`, `jel`, `def`, `mert`, `alkat_id`) VALUES
 (53, 'Rezgésidő / Lengésidő', 'T', 'Egy teljes lengéshez / rezgéshez szükséges idő', 'secundum', 6),
 (54, 'Tömeg', 'm', 'alapmennyiség', 'kilogramm', 6),
 (55, 'Rugóállandó', 'D', '`F/(DeltaI)`', '`(N)/(méter)`', 6),
-(56, 'Hosszúság', 'I', 'alapmennyiség', 'méter', 6),
-(57, 'Megnyúlás', '`DeltaI`', 'I<sub>2</sub>-I<sub>1</sub>', 'méter', 6),
+(56, 'Hosszúság', 'I', 'alapmennyiség', 'méter (m)', 6),
+(57, 'Megnyúlás', '`DeltaI`', 'I<sub>2</sub>-I<sub>1</sub>', 'méter (m)', 6),
 (58, 'Nehézségi gyorsulás', 'g', 'A szabadon eső test sebességének változási gyorsasága', '`(méter)/sec^2`', 6),
 (59, 'A tömegközépponti tengelyre vonatkoztatott tehetetlenségi nyomaték', '`Theta`<sub>T</sub>', 'Képlete táblázatban', '`kg^2*m/s`', 6),
-(60, 'A tömegközéppont és a forgástengely távolsága', 's', 'alapmennyiség', 'méter', 6),
+(60, 'A tömegközéppont és a forgástengely távolsága', 's', 'alapmennyiség', 'méter (m)', 6),
 (61, 'Frekvencia', 'f', '`1/T`', '`1/sec`', 6),
-(62, 'Hullámhossz', '`lambda`', 'A szomszédos, azonos fázisú helyek távolsága', 'méter', 6),
-(63, 'A hullám pillanatnyi kitérése az x helyen, a t időpillanatban', 'y(x,t)', 'A`*`sin[`omega*`(t - x/c)]', 'méter', 6),
+(62, 'Hullámhossz', '`lambda`', 'A szomszédos, azonos fázisú helyek távolsága', 'méter (m)', 6),
+(63, 'A hullám pillanatnyi kitérése az x helyen, a t időpillanatban', 'y(x,t)', 'A`*`sin[`omega*`(t - x/c)]', 'méter (m)', 6),
 (64, 'Abszolút hőmérséklet', 'T', 'alapmennyiség', 'K (Kelvin)', 7),
 (65, 'Hőmérséklet', 't', 'T-273', '°C (Celsius fok)', 7),
 (66, 'Hőmérséklet változás', '`Deltat`,`DeltaT`', 't<sub>2</sub>-t<sub>1</sub>`-=T<sub>2</sub>-T<sub>1</sub>', '°C, K', 7),
-(67, 'Hosszúság, megnyúlás', 'l,`Delta`l', 'alapmennyiség, i<sub>2</sub>-i<sub>1</sub>', 'm (méter)', 7),
+(67, 'Hosszúság, megnyúlás', 'l,`Delta`l', 'alapmennyiség, i<sub>2</sub>-i<sub>1</sub>', 'méter (m)', 7),
 (68, 'Felszín, felszínváltozás', 'A,`Delta`A', 'alakfüggő,A<sub>2</sub>-A<sub>1</sub>', '`m^2` (négyzetméter)', 7),
 (69, 'Térfogat, térfogatváltozás', 'V,`Delta`V', 'alakfüggő,V<sub>2</sub>-V<sub>1</sub>', '`m^3` (köbméter)', 7),
 (70, 'Lineáris hőtágulási együttható', '`alpha`', '`(Deltal)/(l*Deltat)` (l<sub>0</sub>)', '`1/°C` vagy `1/K`', 7),
@@ -236,7 +236,7 @@ INSERT INTO `tablak` (`id`, `nev`, `jel`, `def`, `mert`, `alkat_id`) VALUES
 (111, 'Ohmikus ellenállás', 'R', '`rho*l/A`', 'Ohm (`Omega`)', 10),
 (112, 'Induktív ellenállás', 'X<sub>L</sub>', '`omega*`L', 'Ohm (`Omega`)', 10),
 (113, 'Kapacitív ellenállás', 'X<sub>C</sub>', '`1/(omega*C)`', 'Ohm (`Omega`)', 10),
-(144, 'Impedancia', 'Z', '`((X-X)^2+R^2)^½` (X<sub>L</sub>-X<sub>C</sub>)', 'Ohm (`Omega`)', 10);
+(114, 'Impedancia', 'Z', '`((X-X)^2+R^2)^½` (X<sub>L</sub>-X<sub>C</sub>)', 'Ohm (`Omega`)', 10);
 
 -- --------------------------------------------------------
 
@@ -308,17 +308,17 @@ CREATE TABLE `usersetting` (
   `userid` int(11) NOT NULL,
   `drkmode` int(11) NOT NULL DEFAULT 0,
   `private` int(11) NOT NULL DEFAULT 0,
-  `profPic` longblob NOT NULL DEFAULT 0,
+  `profPic` longblob NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `usersetting`
 --
 
-INSERT INTO `usersetting` (`id`, `userid`, `drkmode`, `private`) VALUES
-(1, 1, 0, 0, 0),
-(2, 2, 0, 0), 0,
-(3, 3, 0, 0, 0);
+INSERT INTO `usersetting` (`id`, `userid`, `drkmode`, `private`, `profPic`) VALUES
+(1, 1, 0, 0, 0x30),
+(2, 2, 0, 0, 0x30),
+(3, 3, 0, 0, 0x30);
 
 --
 -- Indexek a kiírt táblákhoz
