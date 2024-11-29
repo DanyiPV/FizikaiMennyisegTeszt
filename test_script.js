@@ -385,7 +385,7 @@ function KategoriakMegjelenit(img) {
     document.getElementById("BlackBG").classList.add("BlackBGOn");
     document.getElementById("BlackBG").setAttribute("onclick", "EgyMindFelettClose()");
     console.log(TovabbKuldes);
-}
+}   
 
 function TestHeaderGen(id, fajta){
     document.getElementById(id).appendChild(DivCreate("TesztEredmenyekNevek",id+"nevek"));
