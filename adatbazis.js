@@ -527,4 +527,42 @@ function UserOsszesDolgozat(id,name) {
         console.error('Hiba történt:', error);
     });
 }
-//Multer
+function ProfilkepFeltolt(base64Pic) {
+    const data = { lekerdezes: `UPDATE usersetting SET profPic = '${base64Pic}' WHERE id = ${sessionStorage.User}` }; // assuming id = 1, adjust as necessary
+    console.log("vloa")
+    if(base64Pic){
+        
+    }
+    console.log(data)
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data) 
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Successful update:", data);
+    })
+    .catch(error => {
+        console.error('Error occurred:', error);
+    });
+}
+async function ProfilkepLeszed() {
+    const data = { lekerdezes: `Select u.profPic from usersetting u where u.userid = ${sessionStorage.User}` };
+    try {
+        const response = await fetch("http://127.0.0.1:3000/lekerdezes", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        const profpic = await response.json();
+        console.log("Successful update:", profpic);
+        return profpic;
+    } catch (error) {
+        console.error('Error occurred:', error);
+    }
+}

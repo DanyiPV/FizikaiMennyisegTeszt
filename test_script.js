@@ -1837,30 +1837,52 @@ function DolgozatokMutat(text, response){
 
 /* --------------------------------------------------------------- */
 
-function importIMG() {
+async function importIMG() {
     let input = document.createElement('input');
     input.type = 'file';
-    var file;
-    var reader = new FileReader();
-    
-    input.onchange = _ => {
-        file = Array.from(input.files)[0];
-        reader.addEventListener(
-          "load",
-          () => {
-            console.log(reader.result);
-            UserSettingsChange("avatar = '"+reader.result+"'","userid = "+Tuser.id+"");
-            document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url(" + reader.result + ")";
-          },
-          false,
-        );
 
-        if (file) {
-          reader.readAsDataURL(file);
+    input.onchange = async () => {
+        let file = input.files[0];
+
+        if (!file) {
+            alert("No file selected.");
+            return;
+        }
+
+        if (!file.type.startsWith('image/')) {
+            alert("Please upload a valid image file.");
+            return;
+        }
+
+        try {
+            let base64Pic = await readFile(file);
+            document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url(" + base64Pic + ")";
+            ProfilkepFeltolt(base64Pic);
+        } catch (error) {
+            console.error("Error reading file:", error);
         }
     };
+
     input.click();
 }
+
+function readFile(file) {
+    return new Promise((resolve, reject) => {
+        var reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+        reader.readAsDataURL(file);
+    });
+}
+
+function UserAvatarLeker() {
+    ProfilkepLeszed().then(profpic => {
+            const base64String = profpic[0].profPic; 
+            document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url(" + base64String + ")";
+    });
+}
+
+
 /* --------------------------------------------------------------- */
 
 function hash(pw) {
