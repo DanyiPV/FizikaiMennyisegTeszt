@@ -602,3 +602,19 @@ async function ProfilkepLeszed() {
         console.error('Error occurred:', error);
     }
 }
+
+async function validateEmail(email) {
+    try {
+        const response = await fetch("http://127.0.0.1:3000/validate-email", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+            },
+            body: JSON.stringify({ email: email })
+        });
+        const valid = await response.json();
+        return valid;
+    } catch (error) {
+        console.error('Error occurred:', error);
+    }
+}

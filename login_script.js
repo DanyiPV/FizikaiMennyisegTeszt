@@ -180,8 +180,12 @@ function Register(){
     UserBetoltese(document.getElementById("input4").value,0,1,1);
 }
 
-function RegCheckFunction(email){
+async function RegCheckFunction(email){
     let igaze = true;
+    let result;
+    if(document.getElementById("input4").value.split("@")[1] == "ckik.hu" && document.getElementById("input4").value != ""){
+        result = await validateEmail(email);
+    }
     if(document.getElementById("input3").value == ""){
         igaze = false;
         FaultDivOpen("A regisztráláshoz írjon be egy felhasználó nevet!");
@@ -195,6 +199,11 @@ function RegCheckFunction(email){
     else if(document.getElementById("input4").value.split("@")[1] != "ckik.hu"){
         igaze = false;
         FaultDivOpen("Hibásan írta be az e-mail címet!");
+        WarningColorAdd(4);
+    }
+    else if(result.valid == false){
+        igaze = false;
+        FaultDivOpen("Az email cím nem létezik!");
         WarningColorAdd(4);
     }
     else if(email == document.getElementById("input4").value){

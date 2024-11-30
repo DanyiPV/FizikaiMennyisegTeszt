@@ -47,4 +47,26 @@ app.post("/lekerdezes", bodyParser.json(), function(req,res){
     connection.end();
 });
 
+const validator = require("email-validator");
+
+// Email validálás endpoint
+app.post("/validate-email", bodyParser.json(), function (req, res) {
+    var connection = getConnection();
+    connection.connect();
+
+    const email = req.body.email;
+
+    const isValid = validator.validate(email);
+
+    if (isValid) {
+        console.log('Email is valid:', email);
+        res.json({ valid: true });
+    } else {
+        console.log('Invalid email:', email);
+        res.json({ valid: false });
+    }
+
+    connection.end();
+});
+ 
 app.listen(3000);
