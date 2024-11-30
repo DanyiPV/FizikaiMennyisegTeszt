@@ -222,7 +222,6 @@ function UserAvatarLeker(userid){ //https://www.techieclues.com/blogs/converting
     })
     .then(function (response) {
         if (response.Error) {
-            conso
             console.log(response.Error);
         } else {
             AvatarBeallit(response[0].base64_data);
@@ -359,6 +358,44 @@ function ErtesitesekLeker(osztaly, nev, id){
     })
     .then(function (response) {
         NotifBetolt(response);
+        return response;
+    });
+}
+function NemMegjelenitettErtesitesekLeker(osztaly, nev, id){
+    const data = { lekerdezes: "select * from ertesitesek where (kinek = '"+osztaly+"' or kinek = '"+nev+"' or kinek = "+id+") and megjelenitve = 0"};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        if (!response.ok) {console.log("Nem jó válasz érekezett az adatbázisból");}
+        return response.json();
+    })
+    .then(function (response) {
+        UtolsoErtesitek(response);
+        if(response[0] != undefined){
+            UtolsoErtesitesMegjelenitAtvalt(response[0].id);
+        }
+        return response;
+    });
+}
+function UtolsoErtesitesMegjelenitAtvalt(id){
+    const data = { lekerdezes: "update ertesitesek set megjelenitve = 1 where id = "+id};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        if (!response.ok) {console.log("Nem jó válasz érekezett az adatbázisból");}
+        return response.json();
+    })
+    .then(function (response) {
         return response;
     });
 }
@@ -527,9 +564,8 @@ function UserOsszesDolgozat(id,name) {
         console.error('Hiba történt:', error);
     });
 }
-function ProfilkepFeltolt(base64Pic) {
-    const data = { lekerdezes: `UPDATE usersetting SET profPic = '${base64Pic}' WHERE id = ${sessionStorage.User}` }; // assuming id = 1, adjust as necessary
-    console.log("vloa")
+function ProfilkepFeltolt(base64Pic, id) {
+    const data = { lekerdezes: `UPDATE usersetting SET profPic = '${base64Pic}' WHERE id = ${id}` }; // assuming id = 1, adjust as necessary
     if(base64Pic){
         
     }
@@ -560,7 +596,7 @@ async function ProfilkepLeszed() {
             body: JSON.stringify(data)
         });
         const profpic = await response.json();
-        console.log("Successful update:", profpic);
+        //console.log("Successful update:", profpic);
         return profpic;
     } catch (error) {
         console.error('Error occurred:', error);

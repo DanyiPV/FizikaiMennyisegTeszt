@@ -20,10 +20,12 @@ var DogaTimer;
 var DogaKategTabla = [];
 var DogaTeljesTabla = [];
 var BetoltottNotif = [];
+var ErtesitekCheck;
 
 
 function SideBarOpen(){
     if(!TestActive){
+        UtolsoErtesitesBezar();
         document.getElementById("SideBarNav").classList.add("SideBarNavOpen");
         document.getElementById("BlackBG").classList.add("BlackBGOn");
         document.getElementById("BlackBG").setAttribute("onclick","SideBarClose()");
@@ -106,7 +108,7 @@ function DrkModeSwitch(value){
     color==1?document.getElementById("TestResultsDivIMG").children[0].src = "ph/notepad_dark.png":document.getElementById("TestResultsDivIMG").children[0].src = "ph/notepad_white.png";
     color==1?document.getElementById("DrkModeDivIMG").children[0].src = "ph/mode_dark.png":document.getElementById("DrkModeDivIMG").children[0].src = "ph/mode_white.png";
     color==1?document.getElementById("LogoutDivIMG").children[0].src = "ph/logout_dark.png":document.getElementById("LogoutDivIMG").children[0].src = "ph/logout_white.png";
-    color==1?document.getElementById("SignInIMG").children[0].src = "ph/user_dark.png":document.getElementById("SignInIMG").children[0].src = "ph/user_white.png";
+    document.getElementById("SignInIMG").children[0] != undefined ? color==1?document.getElementById("SignInIMG").children[0].src = "ph/user_dark.png":document.getElementById("SignInIMG").children[0].src = "ph/user_white.png": "";
     color==1?document.getElementById("SBCloseIMG").children[0].src = "ph/close_dark.png":document.getElementById("SBCloseIMG").children[0].src = "ph/close_white.png";
     color==1?document.getElementById("SideBarSwitchIMG").children[0].src = "ph/arrow_dark.png":document.getElementById("SideBarSwitchIMG").children[0].src = "ph/arrow_white.png";
     color==1?document.getElementById("FooldalBetoltDivIMG").children[0].src = "ph/home_dark.png":document.getElementById("FooldalBetoltDivIMG").children[0].src = "ph/home_white.png";
@@ -140,12 +142,12 @@ function Settings(){
         document.getElementById("OldalName").innerText = "Beállítások";
         document.getElementById("MainBody").appendChild(DivCreate("ProfilPicDiv","ProfilPicDiv"));
         document.getElementById("ProfilPicDiv").appendChild(DivCreate("ProfilPicDivIMG","ProfilPicDivIMG"));
-        //UserAvatarLeker(Tuser.id);
     
         document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url("+(usersetting.drkmode==1?"ph/user_dark.png":"ph/user_white.png")+")";
         document.getElementById("ProfilPicDiv").innerHTML += "<p>Profilkép megváltoztatás</p>";
         document.getElementById("ProfilPicDiv").setAttribute("onclick","importIMG()");
         PrivateModOn("load");
+        UserAvatarLeker();
     
         document.getElementById("MainBody").appendChild(DivCreate("TestGombDivek","TestGombDivek"));
         document.getElementById("TestGombDivek").appendChild(DivCreate("SettingsDiv","UNChangeDiv"));
@@ -378,13 +380,34 @@ function EredmenyekKiGen(response){
 }
 
 function KategoriakMegjelenit(img) {
-    let TovabbKuldes = JSON.parse(img.getAttribute("data-tovabbkuldes"));
-    const container = document.getElementById("EgyDivMindFelett");
-    container.classList.add("kategoriamegjelenitstilus");
-    container.classList.add("EgyDivMindFelettOpen");
-    document.getElementById("BlackBG").classList.add("BlackBGOn");
-    document.getElementById("BlackBG").setAttribute("onclick", "EgyMindFelettClose()");
-    console.log(TovabbKuldes);
+    let response = JSON.parse(img.getAttribute("data-tovabbkuldes"));
+    if(document.getElementById("EgyDivMindFelett").classList.contains("EgyDivMindFelettOpen")){
+        EgyMindFelettClose();
+    }
+    else{
+        document.getElementById("EgyDivMindFelett").classList.add("EgyDivMindFelettOpen");
+        document.getElementById("EgyDivMindFelett").classList.add("LegutobbiDolgozat");
+        document.getElementById("BlackBG").classList.add("BlackBGOn");
+        document.getElementById("BlackBG").setAttribute("onclick","EgyMindFelettClose()");
+        document.getElementById("EgyDivMindFelett").innerHTML += "<div class='DolgozatMutat' id='DolgozatMutat'><div class='EredmenyMutat' id='EredmenyMutat'</div></div>";
+        
+        let datum = String(response[5][1]).split('T')[0] +" "+ String(response[5][1]).split('T')[1].split('.')[0];
+        let Pontok = response[3][1] +"/"+ response[4][1];
+        let Szazalek = Math.floor(Number(response[3][1])/Number(response[4][1]) * 100);
+        let Jegy;
+        if(Szazalek <= 100 && Szazalek>=85){Jegy = "5"}
+        else if(Szazalek < 85 && Szazalek >= 70){Jegy = "4"}
+        else if(Szazalek < 70 && Szazalek >= 50){Jegy = "3"}
+        else if(Szazalek < 50 && Szazalek >= 30){Jegy = "2"}
+        else{Jegy = "1"}
+        let Ido = Number(response[10][1]) - Number(response[9][1]);
+        let Ora = Math.floor(Ido/3600);
+        let Min = Math.floor((Ido%3600)/60);
+        let Sec = Math.floor((Ido%3600)%60);
+        let ElteltIdo = (Ora>0?Ora+":":"")+((Min>0 || Ora>0)?Min+":":"")+((Min>0 || Ora>0)?Sec:Sec+" másodperc");
+        document.getElementById("EredmenyMutat").innerHTML += "<div class='EredmenyekDivek CsakEgyDogaDiv'><p><b>"+(
+            response[8][1] == 1? 'Dolgozat leadva: ':'Teszt leadva: ') +" </b>"+datum+"</p><p><b>Kategóriák: </b>"+response[6][1]+"</p><p><b>Pontszám: </b>"+Pontok+"</p><p><b>Kapott jegy: </b>"+Jegy+" - "+Szazalek+"%</p><p><b>Dogával eltöltött idő: </b>"+ElteltIdo+"</p></div>";
+    }
 }   
 
 function TestHeaderGen(id, fajta){
@@ -1856,8 +1879,14 @@ async function importIMG() {
 
         try {
             let base64Pic = await readFile(file);
+            ProfilkepFeltolt(base64Pic, Tuser.id);
             document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url(" + base64Pic + ")";
-            ProfilkepFeltolt(base64Pic);
+
+            document.getElementById("SignInIMG").style.backgroundImage = "url(" + base64Pic + ")";
+            if(document.getElementById("SignInIMG").children[0] != undefined){
+                document.getElementById("SignInIMG").removeChild(document.getElementById("SignInIMG").children[0]);
+                document.getElementById("SignInIMG").classList.add("SignInPfP");
+            }
         } catch (error) {
             console.error("Error reading file:", error);
         }
@@ -1877,8 +1906,17 @@ function readFile(file) {
 
 function UserAvatarLeker() {
     ProfilkepLeszed().then(profpic => {
-            const base64String = profpic[0].profPic; 
+        const alap = profpic[0].profPic;
+        if(alap.data.length > 1){
+            const base64String = alap.data.map(code => String.fromCharCode(code)).join('');
             document.getElementById("ProfilPicDivIMG").style.backgroundImage = "url(" + base64String + ")";
+            
+            document.getElementById("SignInIMG").style.backgroundImage = "url(" + base64String + ")";
+            if(document.getElementById("SignInIMG").children[0] != undefined){
+                document.getElementById("SignInIMG").removeChild(document.getElementById("SignInIMG").children[0]);
+                document.getElementById("SignInIMG").classList.add("SignInPfP");
+            }
+        }
     });
 }
 
@@ -1898,6 +1936,38 @@ function AlapBeallitasok(){
     document.getElementById("UserNameP").innerText = Tuser.nev;
     Tuser.osztaly != "T" && Tuser.osztaly != "A"?document.getElementById("SignInBody").classList.add("PanelElsoEltuntet"):"";
     Tuser.osztaly == "T"?document.getElementById("SignInBody").classList.add("PanelMasodikEltuntet"):"";
+
+    ProfilkepLeszed().then(profpic => {
+        const alap = profpic[0].profPic;
+        if(alap.data.length > 1){
+            const base64String = alap.data.map(code => String.fromCharCode(code)).join('');
+            document.getElementById("SignInIMG").style.backgroundImage = "url(" + base64String + ")";
+            document.getElementById("SignInIMG").removeChild(document.getElementById("SignInIMG").children[0]);
+            document.getElementById("SignInIMG").classList.add("SignInPfP");
+        }
+    });
+    NemMegjelenitettErtesitesekLeker(Tuser.osztaly, Tuser.nev, Tuser.id);
+    ErtesitekCheck = setInterval(ErtesitesekMegjelenites,1000);
+}
+
+function ErtesitesekMegjelenites(){
+    NemMegjelenitettErtesitesekLeker(Tuser.osztaly, Tuser.nev, Tuser.id);
+}
+
+function UtolsoErtesitek(response){
+    if(response[0] != undefined){
+        document.body.innerHTML += "<div class='ErtesitesekMegjelenitDiv'><p>"+response[0].message+"</p><div class='ErtesitesekMegjelenitDivTimer'></div></div>";
+        setTimeout(UtolsoErtesitesBezar,8800);
+    }
+}
+
+function UtolsoErtesitesBezar(){
+    document.getElementsByClassName("ErtesitesekMegjelenitDiv")[0].classList.add("ErtesitesekMegjelenitDivEltuntet");
+    setTimeout(UtolsoErtesitesTorol,650);
+}
+
+function UtolsoErtesitesTorol(){
+    document.body.removeChild(document.getElementsByClassName("ErtesitesekMegjelenitDiv")[0]);
 }
 
 function TeacherView() {
@@ -1936,4 +2006,4 @@ function Alapok(){
     }
 }
 Alapok();
-setTimeout(RemoveAnim,800);
+setTimeout(RemoveAnim,800);0

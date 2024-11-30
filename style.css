@@ -1,9 +1,9 @@
 body{
-    background-color: rgb(80, 80, 80);
+    background-image: linear-gradient(rgb(50, 50, 50), rgb(50, 50, 50), rgb(50, 50, 50), rgb(50, 50, 50),    rgb(211, 211, 211));
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     overflow-x: hidden !important;
     margin: 0;
-    background-image: url("ph/test_bg.jpg");
+    /*background-image: url("ph/test_bg.jpg");*/
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -76,6 +76,52 @@ nav{
     margin: 0;
 }
 
+.ErtesitesekMegjelenitDiv{
+    position: fixed;
+    top: 5vw;
+    right: -.1vw;
+    color: var(--text_color);
+    border-left: .2vw solid var(--modal_border);
+    padding: 0vw 1.2vw;
+    background-color: rgba(0, 0, 0, .3);
+    overflow: hidden;
+    animation-name: ErtesitesekMegjelenitDivAnim;
+    animation-duration: .6s;
+    animation-fill-mode: forwards;
+    transition: .6s !important;
+}
+@keyframes ErtesitesekMegjelenitDivAnim{
+    from {right: -50vw;}
+    to {right: -.1vw;}
+}
+
+.ErtesitesekMegjelenitDivTimer{
+    border-bottom: .2vw solid var(--modal_border);
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+    left: 0%;
+    animation-name: ErtesitesekMegjelenitDivTimerAnim;
+    animation-duration: 8s;
+    animation-fill-mode: forwards;
+    animation-delay: 1s;
+}
+@keyframes ErtesitesekMegjelenitDivTimerAnim{
+    from {left: 0%}
+    to {left: 100%}
+}
+
+.ErtesitesekMegjelenitDivEltuntet{
+    animation-name: ErtesitesekMegjelenitDivEltuntetAnim;
+    animation-duration: .6s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes ErtesitesekMegjelenitDivEltuntetAnim{
+    from {right: -.1vw}
+    to {right: -100%}
+}
+
 .SignIn, .SideBar{
     width: 3vw;
     height: 3vw;
@@ -99,7 +145,7 @@ nav{
     animation-fill-mode: forwards;
 }
 .SignInDivOpen{
-    left: 24.5vw;
+    left: 24.8vw;
     z-index: 3;
     border-bottom: .1vw solid var(--modal_border);
 }
@@ -119,6 +165,11 @@ nav{
     position: relative;
     left: .4vw;
     top: .2vw;
+}
+.SignInPfP{
+    width: 20vw;
+    background-position: center;
+    background-size: cover;
 }
 .SignInNav{
     position: fixed;
@@ -2379,7 +2430,7 @@ nav{
         align-items: center;
         justify-content: center;
     }
-    .PanelElsoEltuntet #ExamDiv, .PanelElsoEltuntet #AdminPanel{
+    .PanelElsoEltuntet #ExamDiv, .PanelElsoEltuntet #AdminPanel, .PanelElsoEltuntet #ResultDiakDiv{
         position: absolute;
     }
     .PanelMasodikEltuntet #AdminPanel{

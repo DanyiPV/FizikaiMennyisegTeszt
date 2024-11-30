@@ -100,7 +100,8 @@ CREATE TABLE `ertesitesek` (
   `datum` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `extra` varchar(255) NOT NULL,
   `kinek` varchar(255) DEFAULT NULL,
-  `lezarva` int(11) DEFAULT NULL
+  `lezarva` int(11) DEFAULT NULL,
+  `megjelenitve` tinyint DEFAULT 0,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

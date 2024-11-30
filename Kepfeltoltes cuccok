@@ -24,7 +24,6 @@ function importIMG() {
 }
 function UserAvatarLeker(){
     ProfilkepLeszed()[0].data;
-    console.log(ProfilkepLeszed().profPic.data);
 }
 
 //adatbazis.js:
