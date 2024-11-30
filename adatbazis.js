@@ -182,7 +182,7 @@ function UserSettings(id){
     });
 }
 function UserSettingsFeltolt(id){
-    const data =  { lekerdezes: "insert into usersetting values(null,'"+id+"',"+0+","+0+")"};
+    const data =  { lekerdezes: "insert into usersetting values(null,'"+id+"',"+0+","+0+",0x30)"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
         headers: {

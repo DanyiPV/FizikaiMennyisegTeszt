@@ -1938,12 +1938,14 @@ function AlapBeallitasok(){
     Tuser.osztaly == "T"?document.getElementById("SignInBody").classList.add("PanelMasodikEltuntet"):"";
 
     ProfilkepLeszed().then(profpic => {
-        const alap = profpic[0].profPic;
-        if(alap.data.length > 1){
-            const base64String = alap.data.map(code => String.fromCharCode(code)).join('');
-            document.getElementById("SignInIMG").style.backgroundImage = "url(" + base64String + ")";
-            document.getElementById("SignInIMG").removeChild(document.getElementById("SignInIMG").children[0]);
-            document.getElementById("SignInIMG").classList.add("SignInPfP");
+        if(profpic[0] != undefined){
+            const alap = profpic[0].profPic;
+            if(alap.data.length > 1){
+                const base64String = alap.data.map(code => String.fromCharCode(code)).join('');
+                document.getElementById("SignInIMG").style.backgroundImage = "url(" + base64String + ")";
+                document.getElementById("SignInIMG").removeChild(document.getElementById("SignInIMG").children[0]);
+                document.getElementById("SignInIMG").classList.add("SignInPfP");
+            }
         }
     });
     NemMegjelenitettErtesitesekLeker(Tuser.osztaly, Tuser.nev, Tuser.id);
