@@ -1962,8 +1962,10 @@ function UtolsoErtesitek(response){
 }
 
 function UtolsoErtesitesBezar(){
-    document.getElementsByClassName("ErtesitesekMegjelenitDiv")[0].classList.add("ErtesitesekMegjelenitDivEltuntet");
-    setTimeout(UtolsoErtesitesTorol,650);
+    if(document.getElementsByClassName("ErtesitesekMegjelenitDiv")[0] != undefined){
+        document.getElementsByClassName("ErtesitesekMegjelenitDiv")[0].classList.add("ErtesitesekMegjelenitDivEltuntet");
+        setTimeout(UtolsoErtesitesTorol,650);
+    }
 }
 
 function UtolsoErtesitesTorol(){
