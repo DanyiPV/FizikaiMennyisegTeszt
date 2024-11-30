@@ -184,7 +184,7 @@ async function RegCheckFunction(email){
     let igaze = true;
     let result;
     if(document.getElementById("input4").value.split("@")[1] == "ckik.hu" && document.getElementById("input4").value != ""){
-        result = await validateEmail(email);
+        result = await validateEmail(document.getElementById("input4").value);
     }
     if(document.getElementById("input3").value == ""){
         igaze = false;

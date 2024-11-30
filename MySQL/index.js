@@ -56,13 +56,11 @@ app.post("/validate-email", bodyParser.json(), function (req, res) {
 
     const email = req.body.email;
 
-    const isValid = validator.validate(email);
+     const isValid = validator.validate(email);
 
     if (isValid) {
-        console.log('Email is valid:', email);
         res.json({ valid: true });
     } else {
-        console.log('Invalid email:', email);
         res.json({ valid: false });
     }
 
