@@ -1,5 +1,5 @@
 body{
-    background-image: linear-gradient(rgb(50, 50, 50), rgb(50, 50, 50), rgb(50, 50, 50), rgb(50, 50, 50),    rgb(211, 211, 211));
+    background-image: linear-gradient(var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc2));
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     overflow-x: hidden !important;
     margin: 0;
@@ -27,6 +27,9 @@ html,body{
     --tablanev_bc: rgba(100,100,100);
     --tabla_bc: rgba(80,80,80);
     --kivettdiv: rgba(0, 0, 0, 0.4);
+    --ertesites_bc: rgba(15, 15, 15, 0.4);/*rgba(15, 15, 15, 0.4)*/
+    --alapbody_bc1: rgba(50, 50, 50);/*rgba(0, 0, 0, 0.4)*/
+    --alapbody_bc2: rgba(210, 210, 210);/*rgba(50, 50, 50, 0.4)*/
 }
 
 .BlackBG{
@@ -83,17 +86,31 @@ nav{
     color: var(--text_color);
     border-left: .2vw solid var(--modal_border);
     padding: 0vw 1.2vw;
-    background-color: rgba(0, 0, 0, .3);
+    background-color: var(--ertesites_bc);
     overflow: hidden;
-    max-width: 24vw;
+    max-width: 34vw;
     animation-name: ErtesitesekMegjelenitDivAnim;
     animation-duration: .8s;
     animation-fill-mode: forwards;
     transition: .6s !important;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-around;
 }
 @keyframes ErtesitesekMegjelenitDivAnim{
-    from {right: -25vw;}
+    from {right: -35vw;}
     to {right: -.1vw;}
+}
+
+.ErtesitesekMegjelenitDivIMG{
+    width: 2vw;
+    height: 2vw;
+    padding: .2vw;
+    margin-right: .8vw;
+}
+.ErtesitesekMegjelenitDivIMG img{
+    width: 100%;
 }
 
 .ErtesitesekMegjelenitDivTimer{
@@ -120,7 +137,7 @@ nav{
 
 @keyframes ErtesitesekMegjelenitDivEltuntetAnim{
     from {right: -.1vw}
-    to {right: -25vw}
+    to {right: -35vw}
 }
 
 .SignIn, .SideBar{
@@ -313,7 +330,7 @@ nav{
     font-size: 1.2vw;
 }
 
-.dropdown-content div:hover {
+.dropdown-content div:hover{
     background-color: var(--button_hover); /* Hover szín a linkeken */
     color: var(--text_color);
 }
@@ -2191,20 +2208,26 @@ nav{
     top: 50% !important;
     z-index: 3 !important;
     opacity: 1 !important;
+    padding: 4vw 4vw 2vw 4vw;
+    border-radius: .4vw;
+}
+.LegutobbiDolgozat{
+    padding: 1.2vw !important;
 }
 .PWChange,.UNChange{
     display: flex;
     flex-direction: column;
-    gap: 1vw;
+    gap: 1.3vw;
     color: var(--text_color);
-    padding: 1.5vw 1vw;
     border-radius: .4vw;
 }
 .PWChange form, .UNChange form{
     display: flex;
     justify-content: space-between;
-    gap: 2vw;
-    font-size: 1vw;
+    align-items: center;
+    align-content: center;
+    font-size: 1.4vw;
+    gap: 1.5vw;
 }
 .PWChange form label, .UNChange form label{
     text-transform: uppercase;
@@ -2214,25 +2237,27 @@ nav{
     outline: none;
     border: none;
     color: var(--text_color);
-    padding: .5vw;
-    border-radius: .8vw;
+    border-radius: .4vw;
     position: relative;
-    top: -.5vw;
+    font-size: 1.2vw;
+    max-width: 14vw;
+    height: 1.8vw;
+    padding: .5vw .7vw;
 }
 .UserNameMess{
-    margin: auto;
-    font-size: 1vw;
-    max-width: 20vw;
-    text-align: justify;
+    font-size: 1.3vw;
+    width: 36vw;
+    text-align: center;
 }
 #labelshowpw{
     cursor: pointer;
     position: relative;
-    left: 13vw;
+    left: 58%;
 }
 .PWChange form input[type=checkbox], .UNChange form input[type=checkbox]{
     position: relative;
-    top: -.2vw;
+    height: 1.3vw;
+    width: 1.3vw;
 }
 .PWchangeSubmit, .UNchangeSubmit{
     margin: auto;
@@ -2243,7 +2268,7 @@ nav{
     border-radius: .4vw;
     text-transform: uppercase;
     letter-spacing: .1vw;
-    font-size: 1vw;
+    font-size: 1.3vw;
 }
 .PWchangeSubmit:hover, .UNchangeSubmit:hover{
     background-color: var(--button_hover);

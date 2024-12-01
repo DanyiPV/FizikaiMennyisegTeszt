@@ -569,7 +569,7 @@ function ProfilkepFeltolt(base64Pic, id) {
     if(base64Pic){
         
     }
-    console.log(data)
+    //console.log(data)
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
         headers: {
@@ -578,9 +578,6 @@ function ProfilkepFeltolt(base64Pic, id) {
         body: JSON.stringify(data) 
     })
     .then(response => response.json())
-    .then(data => {
-        console.log("Successful update:", data);
-    })
     .catch(error => {
         console.error('Error occurred:', error);
     });

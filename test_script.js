@@ -24,7 +24,7 @@ var ErtesitekCheck;
 
 window.onload = function() {
     const state = sessionStorage.getItem('state');
-    console.log('STATE')
+    //console.log('STATE')
     if (state === 'main') {
     }
     else if (state === 'doga') {
@@ -123,6 +123,7 @@ function DrkModeSwitch(value){
     color==1?document.querySelector(':root').style.setProperty('--tabla_bc',"rgba(200, 200, 200, 1)"):document.querySelector(':root').style.setProperty('--tabla_bc',"rgba(80, 80, 80, 1)");
     color==1?document.querySelector(':root').style.setProperty('--dif_div_bc',"rgba(255, 255, 255, 0.4)"):document.querySelector(':root').style.setProperty('--dif_div_bc',"rgba(170, 170, 170, 0.4)");
     color==1?document.querySelector(':root').style.setProperty('--kivettdiv',"rgba(150, 150, 150, 0.6)"):document.querySelector(':root').style.setProperty('--kivettdiv',"rgba(0, 0, 0, 0.4)");
+    color==1?document.querySelector(':root').style.setProperty('--ertesites_bc',"rgba(240, 240, 240, 0.4)"):document.querySelector(':root').style.setProperty('--ertesites_bc',"rgba(15, 15, 15, 0.4)");
     color==1?document.getElementById("SettingsDivIMG").children[0].src = "ph/settings_dark.png":document.getElementById("SettingsDivIMG").children[0].src = "ph/settings_white.png";
     color==1?document.getElementById("TestResultsDivIMG").children[0].src = "ph/notepad_dark.png":document.getElementById("TestResultsDivIMG").children[0].src = "ph/notepad_white.png";
     color==1?document.getElementById("DrkModeDivIMG").children[0].src = "ph/mode_dark.png":document.getElementById("DrkModeDivIMG").children[0].src = "ph/mode_white.png";
@@ -143,6 +144,7 @@ function DrkModeSwitch(value){
     }
     document.getElementById("ValasztoTablakClose") != undefined?color==1?document.getElementById("ValasztoTablakClose").children[0].src = "ph/close_dark.png":document.getElementById("ValasztoTablakClose").children[0].src = "ph/close_white.png":"";
     document.getElementById("FelGorgetoDiv") != undefined?color==1?document.getElementById("FelGorgetoDiv").children[0].src = "ph/uparrow_dark.png":document.getElementById("FelGorgetoDiv").children[0].src = "ph/uparrow_white.png":"";
+    document.getElementById("ErtesitesekMegjelenitDivIMG") != undefined?color==1?document.getElementById("ErtesitesekMegjelenitDivIMG").children[0].src = "ph/notif_dark.png":document.getElementById("ErtesitesekMegjelenitDivIMG").children[0].src = "ph/notif_white.png":"";
     document.getElementById("NavSelectorFirst")!=undefined?color==1?document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>CKIK Fizika</p>"?"ph/test_dark.png":"ph/home_dark.png"):document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>CKIK Fizika</p>"?"ph/test_white.png":"ph/home_white.png"):"";
     document.getElementsByClassName("TimerIMGOn").length==1?document.getElementById("TimerIMG").firstChild.src = color==1?"ph/on_dark.png":"ph/on_white.png":"";
     document.getElementsByClassName("TimerIMGOn").length==1?document.getElementById("TimerSetIMG").firstChild.src = color==1?"ph/time_set_dark.png":"ph/time_set_white.png":"";
@@ -194,6 +196,10 @@ function UNChange(){
         EgyMindFelettClose();
     }
     else{
+        document.getElementById("EgyDivMindFelett").appendChild(DivCreate("ValasztoTablakClose","ValasztoTablakClose"));
+        document.getElementById("ValasztoTablakClose").appendChild(ImgCreate(usersetting.drkmode==1?"ph/close_dark.png":"ph/close_white.png"));
+        document.getElementById("ValasztoTablakClose").firstChild.setAttribute("onclick","EgyMindFelettClose()");
+        
         document.getElementById("EgyDivMindFelett").classList.add("EgyDivMindFelettOpen");
         document.getElementById("EgyDivMindFelett").classList.add("UNChange");
         document.getElementById("BlackBG").classList.add("BlackBGOn");
@@ -225,6 +231,10 @@ function PWChange(){
         EgyMindFelettClose();
     }
     else{
+        document.getElementById("EgyDivMindFelett").appendChild(DivCreate("ValasztoTablakClose","ValasztoTablakClose"));
+        document.getElementById("ValasztoTablakClose").appendChild(ImgCreate(usersetting.drkmode==1?"ph/close_dark.png":"ph/close_white.png"));
+        document.getElementById("ValasztoTablakClose").firstChild.setAttribute("onclick","EgyMindFelettClose()");
+
         document.getElementById("EgyDivMindFelett").classList.add("EgyDivMindFelettOpen");
         document.getElementById("EgyDivMindFelett").classList.add("PWChange");
         document.getElementById("BlackBG").classList.add("BlackBGOn");
@@ -1860,6 +1870,10 @@ function DolgozatokMutat(text, response){
         EgyMindFelettClose();
     }
     else{
+        document.getElementById("EgyDivMindFelett").appendChild(DivCreate("ValasztoTablakClose","ValasztoTablakClose"));
+        document.getElementById("ValasztoTablakClose").appendChild(ImgCreate(usersetting.drkmode==1?"ph/close_dark.png":"ph/close_white.png"));
+        document.getElementById("ValasztoTablakClose").firstChild.setAttribute("onclick","EgyMindFelettClose()");
+        
         document.getElementById("EgyDivMindFelett").classList.add("EgyDivMindFelettOpen");
         document.getElementById("EgyDivMindFelett").classList.add("LegutobbiDolgozat");
         document.getElementById("BlackBG").classList.add("BlackBGOn");
@@ -1988,7 +2002,7 @@ function ErtesitesekMegjelenites(){
 
 function UtolsoErtesitek(response){
     if(response[0] != undefined){
-        document.body.innerHTML += "<div class='ErtesitesekMegjelenitDiv'><p>"+response[0].message+"</p><div class='ErtesitesekMegjelenitDivTimer'></div></div>";
+        document.body.innerHTML += "<div class='ErtesitesekMegjelenitDiv'><div class='ErtesitesekMegjelenitDivIMG' id='ErtesitesekMegjelenitDivIMG'><img src="+(usersetting.drkmode == 1? "ph/notif_dark.png":"ph/notif_white.png")+" ></div><p>"+response[0].message+"</p><div class='ErtesitesekMegjelenitDivTimer'></div></div>";
         setTimeout(UtolsoErtesitesBezar,8800);
     }
 }
