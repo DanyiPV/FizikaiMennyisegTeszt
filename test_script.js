@@ -22,6 +22,25 @@ var DogaTeljesTabla = [];
 var BetoltottNotif = [];
 var ErtesitekCheck;
 
+window.onload = function() {
+    const state = sessionStorage.getItem('state');
+    console.log('STATE')
+    if (state === 'main') {
+    }
+    else if (state === 'doga') {
+        console.log(sessionStorage.getItem('TeljesTablak'))
+        setTimeout(DogaTablaBetoltesek, 700, 
+            JSON.parse(sessionStorage.getItem('TeljesTablak')), 
+            JSON.parse(sessionStorage.getItem('KivettErtekek'))
+        );
+        
+    } else if(state == 'teszt'){
+        setTimeout(TestTablaBetoltesek, 700, 
+            JSON.parse(sessionStorage.getItem('TeljesTablak')), 
+            JSON.parse(sessionStorage.getItem('KivettErtekek'))
+        );
+    }
+}
 
 function SideBarOpen(){
     if(!TestActive){
@@ -518,6 +537,7 @@ function DolgozatNotifBetolt(response, ResID, id, DogaDB){
 }
 
 function DolgaztMegkezdese(Gomb){
+    sessionStorage.setItem('state','doga')
     let TovabbKuldes = JSON.parse(Gomb.getAttribute("data-tovabbkuldes"));
     SignInClose();SideBarClose();SideBarNotif();
 
@@ -604,6 +624,9 @@ function DolgaztMegkezdese(Gomb){
     }
     KivettErtekekDB = KivettErtekek.length;
     ValasztottTime = TovabbKuldes[2][1];
+    console.log(TeljesTablak);
+    sessionStorage.setItem('TeljesTablak', JSON.stringify(TeljesTablak));
+    sessionStorage.setItem('KivettErtekek', JSON.stringify(KivettErtekek));
     setTimeout(DogaTablaBetoltesek,700,TeljesTablak,KivettErtekek);
 }
 
@@ -665,6 +688,7 @@ function DogaTimerKiir(){
 }
 
 function DogaLeadasa(){
+    sessionStorage.setItem('state','main')
     clearInterval(DogaTimer);
     let Pontok = 0;
     let ValaszArray = Array.from(document.getElementsByClassName("TablaBelsoErtekek"));
@@ -1033,6 +1057,7 @@ function TimerChanged(input){
 }
 
 function TestInditasa(){
+    sessionStorage.setItem('state','teszt')
     TestActive = true;
     Difficulty = document.getElementById("DifShowDiv").classList[1]=="DifShowDivEasy"?1:(document.getElementById("DifShowDiv").classList[1]=="DifShowDivNormal"?2:"R");
     let Sorok = Number(document.getElementById("inputTestSlider").value);
@@ -1103,6 +1128,8 @@ function TestInditasa(){
     }
     document.getElementById("TestSettingsDiv").classList.add("FeltolTestSettings");
     KivettErtekekDB = KivettErtekek.length
+    sessionStorage.setItem('TeljesTablak', JSON.stringify(TeljesTablak));
+    sessionStorage.setItem('KivettErtekek', JSON.stringify(KivettErtekek));
     setTimeout(TestTablaBetoltesek,700,TeljesTablak,KivettErtekek);
 }
 
@@ -1151,6 +1178,7 @@ function TestTablaBetoltesek(array,kivettarray){
 }
 
 function TesztLeadasa(){
+    sessionStorage.setItem('state','main')
     clearInterval(TestTimer);
     let Pontok = 0;
     let ValaszArray = Array.from(document.getElementsByClassName("TablaBelsoErtekek"));
