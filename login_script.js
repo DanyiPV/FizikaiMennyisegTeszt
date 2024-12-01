@@ -186,6 +186,7 @@ async function RegCheckFunction(email){
     if(document.getElementById("input4").value.split("@")[1] == "ckik.hu" && document.getElementById("input4").value != ""){
         result = await validateEmail(document.getElementById("input4").value);
     }
+    console.log(result.valid);
     if(document.getElementById("input3").value == ""){
         igaze = false;
         FaultDivOpen("A regisztráláshoz írjon be egy felhasználó nevet!");

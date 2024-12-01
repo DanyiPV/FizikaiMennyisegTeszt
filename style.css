@@ -85,13 +85,14 @@ nav{
     padding: 0vw 1.2vw;
     background-color: rgba(0, 0, 0, .3);
     overflow: hidden;
+    max-width: 24vw;
     animation-name: ErtesitesekMegjelenitDivAnim;
-    animation-duration: .6s;
+    animation-duration: .8s;
     animation-fill-mode: forwards;
     transition: .6s !important;
 }
 @keyframes ErtesitesekMegjelenitDivAnim{
-    from {right: -50vw;}
+    from {right: -25vw;}
     to {right: -.1vw;}
 }
 
@@ -113,13 +114,13 @@ nav{
 
 .ErtesitesekMegjelenitDivEltuntet{
     animation-name: ErtesitesekMegjelenitDivEltuntetAnim;
-    animation-duration: .6s;
+    animation-duration: 1s;
     animation-fill-mode: forwards;
 }
 
 @keyframes ErtesitesekMegjelenitDivEltuntetAnim{
     from {right: -.1vw}
-    to {right: -100%}
+    to {right: -25vw}
 }
 
 .SignIn, .SideBar{
