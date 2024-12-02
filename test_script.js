@@ -123,7 +123,7 @@ function DrkModeSwitch(value){
     color==1?document.querySelector(':root').style.setProperty('--tabla_bc',"rgba(200, 200, 200, 1)"):document.querySelector(':root').style.setProperty('--tabla_bc',"rgba(80, 80, 80, 1)");
     color==1?document.querySelector(':root').style.setProperty('--dif_div_bc',"rgba(255, 255, 255, 0.4)"):document.querySelector(':root').style.setProperty('--dif_div_bc',"rgba(170, 170, 170, 0.4)");
     color==1?document.querySelector(':root').style.setProperty('--kivettdiv',"rgba(150, 150, 150, 0.6)"):document.querySelector(':root').style.setProperty('--kivettdiv',"rgba(0, 0, 0, 0.4)");
-    color==1?document.querySelector(':root').style.setProperty('--ertesites_bc',"rgba(240, 240, 240, 0.4)"):document.querySelector(':root').style.setProperty('--ertesites_bc',"rgba(15, 15, 15, 0.4)");
+    color==1?document.querySelector(':root').style.setProperty('--ertesites_bc',"rgba(240, 240, 240, 0.4)"):document.querySelector(':root').style.setProperty('--ertesites_bc',"rgba(15, 15, 15,         0.4)");
     color==1?document.getElementById("SettingsDivIMG").children[0].src = "ph/settings_dark.png":document.getElementById("SettingsDivIMG").children[0].src = "ph/settings_white.png";
     color==1?document.getElementById("TestResultsDivIMG").children[0].src = "ph/notepad_dark.png":document.getElementById("TestResultsDivIMG").children[0].src = "ph/notepad_white.png";
     color==1?document.getElementById("DrkModeDivIMG").children[0].src = "ph/mode_dark.png":document.getElementById("DrkModeDivIMG").children[0].src = "ph/mode_white.png";
