@@ -637,6 +637,7 @@ function DolgaztMegkezdese(Gomb){
     console.log(TeljesTablak);
     sessionStorage.setItem('TeljesTablak', JSON.stringify(TeljesTablak));
     sessionStorage.setItem('KivettErtekek', JSON.stringify(KivettErtekek));
+    sessionStorage.setItem('TeljesTabla',(TeljesTablaUresekkel(TeljesTablak,KivettErtekek)));
     setTimeout(DogaTablaBetoltesek,700,TeljesTablak,KivettErtekek);
 }
 
@@ -1140,6 +1141,7 @@ function TestInditasa(){
     KivettErtekekDB = KivettErtekek.length
     sessionStorage.setItem('TeljesTablak', JSON.stringify(TeljesTablak));
     sessionStorage.setItem('KivettErtekek', JSON.stringify(KivettErtekek));
+    sessionStorage.setItem('TeljesTabla',(TeljesTablaUresekkel(TeljesTablak,KivettErtekek)));
     setTimeout(TestTablaBetoltesek,700,TeljesTablak,KivettErtekek);
 }
 
