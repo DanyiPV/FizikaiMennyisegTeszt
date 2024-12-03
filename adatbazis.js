@@ -453,7 +453,7 @@ function DolgozatFeltolt(adat){
         return response;
     });
 }
-function DolgozatLeker(osztaly,ResID, id, DogaDB){
+function DolgozatLeker(osztaly,ResID, id, DogaDB, Extra){
     const data =  { lekerdezes: "select * from dolgozatok where osztaly = '"+osztaly+"'"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
@@ -467,7 +467,25 @@ function DolgozatLeker(osztaly,ResID, id, DogaDB){
         return response.json();
     })
     .then(function (response) {
-        DolgozatNotifBetolt(response,ResID, id, DogaDB);
+        DolgozatNotifBetolt(response,ResID, id, DogaDB, Extra);
+        return response;
+    });
+}
+function DolgozatLezar(id,user_id){
+    console.log("update ertesitesek SET extra = CONCAT(extra, '"+user_id+",')  where id = "+id);
+    const data =  { lekerdezes: "update ertesitesek SET extra = CONCAT(extra, '"+user_id+",')  where id = "+id};
+    fetch("http://127.0.0.1:3000/lekerdezes", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function (response) {
+        if (!response.ok) {console.log("Nem jó válasz érekezett az adatbázisból");}
+        return response.json();
+    })
+    .then(function (response) {
         return response;
     });
 }
@@ -569,7 +587,7 @@ function ProfilkepFeltolt(base64Pic, id) {
     if(base64Pic){
         
     }
-    //console.log(data)
+    //3console.log(data)
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
         headers: {

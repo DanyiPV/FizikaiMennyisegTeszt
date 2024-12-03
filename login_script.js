@@ -148,6 +148,18 @@ function Login(){
     UserBetoltese(document.getElementById("input1").value,0,0,1);
 }
 
+document.getElementById("input1").addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        Login();
+    }
+});
+
+document.getElementById("input2").addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        Login();
+    }
+});
+
 function LogCheckFunction(){
     let igaze = true;
     if(document.getElementById("input1").value == ""){

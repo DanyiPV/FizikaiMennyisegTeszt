@@ -29,13 +29,13 @@ window.onload = function() {
     }
     else if (state === 'doga') {
         console.log(sessionStorage.getItem('TeljesTablak'))
-        setTimeout(DogaTablaBetoltesek, 700, 
+        setTimeout(DogaTablaBetoltesek, 300, 
             JSON.parse(sessionStorage.getItem('TeljesTablak')), 
             JSON.parse(sessionStorage.getItem('KivettErtekek'))
         );
         
     } else if(state == 'teszt'){
-        setTimeout(TestTablaBetoltesek, 700, 
+        setTimeout(TestTablaBetoltesek, 300, 
             JSON.parse(sessionStorage.getItem('TeljesTablak')), 
             JSON.parse(sessionStorage.getItem('KivettErtekek'))
         );
@@ -504,7 +504,7 @@ function NotifBetolt(response){
                     document.getElementById("NotifElfogadDiv"+i).firstChild.setAttribute("onclick","KerelemElfogadas("+ResArray[i].id+",true,"+i+","+ResArray[i].user_id+",'"+Extra[0]+"',0)");
                 }
             }else if(ResArray[i].message == "A felhasználónak új dolgozat lett kiírva!"){
-                DolgozatLeker(Tuser.osztaly,ResArray[i].id, i, DogaDB++);
+                DolgozatLeker(Tuser.osztaly,ResArray[i].id, i, DogaDB++, ResArray[i].extra);
                 if(!BetoltottNotif.includes(ResArray[i].id)){
                     document.getElementsByClassName("NotifKiirDiv")[document.getElementsByClassName("NotifKiirDiv").length-1].innerHTML += "<div class='DolgozatKezdetIdo' id='DolgozatKezdetIdo"+i+"'><p>Vége: </p></div>";
                 }
@@ -516,9 +516,10 @@ function NotifBetolt(response){
     }
 }
 
-function DolgozatNotifBetolt(response, ResID, id, DogaDB){
+function DolgozatNotifBetolt(response, ResID, id, DogaDB, Extra){
     let ResArray = Array.from(response).reverse()[DogaDB];
     let kezdDatum = ResArray.kezdet.split(',');
+    let Leadtak = Extra.split(",");
     let DogVeg = Number(kezdDatum[3]) * 3600 + Number(kezdDatum[4])*60 + ResArray.ido;
     let datum = kezdDatum[0]+"."+(Number(kezdDatum[1]) < 10 ? "0"+kezdDatum[1]:kezdDatum[1])+"."+(Number(kezdDatum[2]) < 10 ? "0"+kezdDatum[2]:kezdDatum[2])+". " +(Math.floor(DogVeg/3600) < 10 ? +"0"+Math.floor(DogVeg/3600):Math.floor(DogVeg/3600)) + ":"+(Math.floor((DogVeg%3600)/60) < 10? "0"+Math.floor((DogVeg%3600)/60):Math.floor((DogVeg%3600)/60)) +":"+(((DogVeg%3600)%60 < 10 ? + "0"+String((DogVeg%3600)%60):(DogVeg%3600)%60));
     if(!BetoltottNotif.includes(ResID) || document.getElementById("DolgozatKezdetIdo"+id).firstChild.innerText == "Vége:"){
@@ -529,11 +530,11 @@ function DolgozatNotifBetolt(response, ResID, id, DogaDB){
     }
     let CurTime = new Date();
     if((CurTime.getFullYear() >= Number(kezdDatum[0]) && CurTime.getMonth()+1 >= Number(kezdDatum[1]) && CurTime.getDate() >= Number(kezdDatum[2]) && (Number(CurTime.getHours())*3600 + Number(CurTime.getMinutes())*60 + Number(CurTime.getSeconds())) > DogVeg) ||
-        (CurTime.getFullYear() >= Number(kezdDatum[0]) && CurTime.getMonth()+1 != Number(kezdDatum[1]) && CurTime.getDate() != Number(kezdDatum[2]))){
+        (CurTime.getFullYear() >= Number(kezdDatum[0]) && CurTime.getMonth()+1 != Number(kezdDatum[1]) && CurTime.getDate() != Number(kezdDatum[2])) || Leadtak.includes(String(Tuser.id))){
         document.getElementById("NotifDatum"+id).classList.add("DogaNemIrhato");
         document.getElementById("DogaMegkezdes"+ResID).classList.add("DogaMegkezdesNemLehetséges");
     }
-    else if(CurTime.getFullYear() == Number(kezdDatum[0]) && CurTime.getMonth()+1 == Number(kezdDatum[1]) && CurTime.getDate() == Number(kezdDatum[2]) && (Number(kezdDatum[3])*3600 + Number(kezdDatum[4])*60) <= (CurTime.getHours()*3600 + CurTime.getMinutes()*60 + CurTime.getSeconds()) && (CurTime.getHours()*3600 + CurTime.getMinutes()*60 + CurTime.getSeconds()) <= DogVeg){
+    else if(CurTime.getFullYear() == Number(kezdDatum[0]) && CurTime.getMonth()+1 == Number(kezdDatum[1]) && CurTime.getDate() == Number(kezdDatum[2]) && (Number(kezdDatum[3])*3600 + Number(kezdDatum[4])*60) <= (CurTime.getHours()*3600 + CurTime.getMinutes()*60 + CurTime.getSeconds()) && (CurTime.getHours()*3600 + CurTime.getMinutes()*60 + CurTime.getSeconds()) <= DogVeg && !Leadtak.includes(String(Tuser.id))){
         document.getElementById("NotifDatum"+id).classList.add("DogaIrhato");
         document.getElementById("DogaMegkezdes"+ResID).classList.remove("DogaMegkezdesNemLehetséges");
         document.getElementById("DogaMegkezdes"+ResID).classList.add("DogaMegkezdesLehetséges");
@@ -547,71 +548,51 @@ function DolgozatNotifBetolt(response, ResID, id, DogaDB){
 }
 
 function DolgaztMegkezdese(Gomb){
-    sessionStorage.setItem('state','doga')
-    let TovabbKuldes = JSON.parse(Gomb.getAttribute("data-tovabbkuldes"));
-    SignInClose();SideBarClose();SideBarNotif();
-
-    document.getElementById("MainBody").innerHTML = "";
-    document.getElementById("OldalName").innerHTML = "<p>Dolgozat</p>";
-    var IdCheck;
-    if(document.getElementById("NavSelectorFoDiv") != undefined){
-        document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
-    }
-    if(document.getElementById("TablaValasztoDiv") != undefined){
-        document.body.removeChild(document.getElementById("TablaValasztoDiv"));
-    }
-    TestActive = true;
-    Difficulty = TovabbKuldes[4][1] == 1?1:TovabbKuldes[4][1]==2?2:"R";
-    let Sorok = TovabbKuldes[6][1];
-    let TablaID = TovabbKuldes[5][1].split(',')
-    EredetiKivalasztottTablak =TovabbKuldes[5][1].split(',');
-    EredetiValasztottTime = TovabbKuldes[2][1];
-    for (let i = 0; i < TablaID.length; i++) {
-        KivalasztottTablak.push(Alkategoriak[TablaID[i]-1].nev);
-    }
-    let ValasztottSorok = [];
-    for (let i = 0; i < KivalasztottTablak.length; i++) {
-        Tablak.filter(x=>x.alkat_id == Alkategoriak.filter(c=>c.nev==KivalasztottTablak[i])[0].id).forEach(k=>ValasztottSorok.push(k));
-    }
-    let RandomArray = [];
-    while(RandomArray.length < Sorok){
-        let random = Math.floor(Math.random()*ValasztottSorok.length);
-        !RandomArray.includes(random)?RandomArray.push(random):"";
-    }
-    KivalasztottTablak = [];
-    for (let i = 0; i < RandomArray.length; i++) {
-        KivalasztottTablak.push(ValasztottSorok[RandomArray[i]]);
-    }
-    let TeljesTablak = [];
-    let KivettErtekek = [];
-    for (let i = 0; i < KivalasztottTablak.length; i++) {
-        let SorokArray = [KivalasztottTablak[i].nev,KivalasztottTablak[i].jel,KivalasztottTablak[i].def,KivalasztottTablak[i].mert,KivalasztottTablak[i].id];
-        if(Difficulty != "R"){
-            RandomArray = [Math.floor(Math.random()*4)];
-            if(Difficulty == 2){
-                while(RandomArray.length < 2){
-                    let random = Math.floor(Math.random()*4);
-                    !RandomArray.includes(random)?RandomArray.push(random):"";
-                }
-            }
-            let BA = [];
-            for (let i = 0; i < SorokArray.length; i++) {
-                if(!RandomArray.includes(i)){
-                    BA.push(SorokArray[i])
-                }else{
-                    KivettErtekek.push({nev:SorokArray[i], id: SorokArray[4]});
-                    BA.push("");
-                }
-            }
-            TeljesTablak.push(BA);
-        }else{
-            let random = RandomGen();
-            if(random != 3){
+    if(Gomb.classList.contains("DogaMegkezdesLehetséges")){
+        sessionStorage.setItem('state','doga');
+        let TovabbKuldes = JSON.parse(Gomb.getAttribute("data-tovabbkuldes"));
+        DolgozatLezar(TovabbKuldes[0][1], Tuser.id);
+        SignInClose();SideBarClose();SideBarNotif();
+        document.getElementById("MainBody").innerHTML = "";
+        document.getElementById("OldalName").innerHTML = "<p>Dolgozat</p>";
+        if(document.getElementById("NavSelectorFoDiv") != undefined){
+            document.body.removeChild(document.getElementById("NavSelectorFoDiv"));
+        }
+        if(document.getElementById("TablaValasztoDiv") != undefined){
+            document.body.removeChild(document.getElementById("TablaValasztoDiv"));
+        }
+        TestActive = true;
+        Difficulty = TovabbKuldes[4][1] == 1?1:TovabbKuldes[4][1]==2?2:"R";
+        let Sorok = TovabbKuldes[6][1];
+        let TablaID = TovabbKuldes[5][1].split(',')
+        EredetiKivalasztottTablak =TovabbKuldes[5][1].split(',');
+        EredetiValasztottTime = TovabbKuldes[2][1];
+        for (let i = 0; i < TablaID.length; i++) {
+            KivalasztottTablak.push(Alkategoriak[TablaID[i]-1].nev);
+        }
+        let ValasztottSorok = [];
+        for (let i = 0; i < KivalasztottTablak.length; i++) {
+            Tablak.filter(x=>x.alkat_id == Alkategoriak.filter(c=>c.nev==KivalasztottTablak[i])[0].id).forEach(k=>ValasztottSorok.push(k));
+        }
+        let RandomArray = [];
+        while(RandomArray.length < Sorok){
+            let random = Math.floor(Math.random()*ValasztottSorok.length);
+            !RandomArray.includes(random)?RandomArray.push(random):"";
+        }
+        KivalasztottTablak = [];
+        for (let i = 0; i < RandomArray.length; i++) {
+            KivalasztottTablak.push(ValasztottSorok[RandomArray[i]]);
+        }
+        let TeljesTablak = [];
+        let KivettErtekek = [];
+        for (let i = 0; i < KivalasztottTablak.length; i++) {
+            let SorokArray = [KivalasztottTablak[i].nev,KivalasztottTablak[i].jel,KivalasztottTablak[i].def,KivalasztottTablak[i].mert,KivalasztottTablak[i].id];
+            if(Difficulty != "R"){
                 RandomArray = [Math.floor(Math.random()*4)];
-                if(random > 1){
+                if(Difficulty == 2){
                     while(RandomArray.length < 2){
-                        let random1 = Math.floor(Math.random()*4);
-                        !RandomArray.includes(random1)?RandomArray.push(random1):"";
+                        let random = Math.floor(Math.random()*4);
+                        !RandomArray.includes(random)?RandomArray.push(random):"";
                     }
                 }
                 let BA = [];
@@ -623,22 +604,43 @@ function DolgaztMegkezdese(Gomb){
                         BA.push("");
                     }
                 }
-                BA.push(KivalasztottTablak[i].id);
+                TeljesTablak.push(BA);
             }else{
-                TeljesTablak.push([SorokArray[0],"","",""]);
-                KivettErtekek.push({nev:SorokArray[1], id: SorokArray[4]});
-                KivettErtekek.push({nev:SorokArray[2], id: SorokArray[4]});
-                KivettErtekek.push({nev:SorokArray[3], id: SorokArray[4]});
+                let random = RandomGen();
+                if(random != 3){
+                    RandomArray = [Math.floor(Math.random()*4)];
+                    if(random > 1){
+                        while(RandomArray.length < 2){
+                            let random1 = Math.floor(Math.random()*4);
+                            !RandomArray.includes(random1)?RandomArray.push(random1):"";
+                        }
+                    }
+                    let BA = [];
+                    for (let i = 0; i < SorokArray.length; i++) {
+                        if(!RandomArray.includes(i)){
+                            BA.push(SorokArray[i])
+                        }else{
+                            KivettErtekek.push({nev:SorokArray[i], id: SorokArray[4]});
+                            BA.push("");
+                        }
+                    }
+                    BA.push(KivalasztottTablak[i].id);
+                }else{
+                    TeljesTablak.push([SorokArray[0],"","",""]);
+                    KivettErtekek.push({nev:SorokArray[1], id: SorokArray[4]});
+                    KivettErtekek.push({nev:SorokArray[2], id: SorokArray[4]});
+                    KivettErtekek.push({nev:SorokArray[3], id: SorokArray[4]});
+                }
             }
         }
+        KivettErtekekDB = KivettErtekek.length;
+        ValasztottTime = TovabbKuldes[2][1];
+        console.log(TeljesTablak);
+        sessionStorage.setItem('TeljesTablak', JSON.stringify(TeljesTablak));
+        sessionStorage.setItem('KivettErtekek', JSON.stringify(KivettErtekek));
+        sessionStorage.setItem('TeljesTabla',(TeljesTablaUresekkel(TeljesTablak,KivettErtekek)));
+        setTimeout(DogaTablaBetoltesek,700,TeljesTablak,KivettErtekek);
     }
-    KivettErtekekDB = KivettErtekek.length;
-    ValasztottTime = TovabbKuldes[2][1];
-    console.log(TeljesTablak);
-    sessionStorage.setItem('TeljesTablak', JSON.stringify(TeljesTablak));
-    sessionStorage.setItem('KivettErtekek', JSON.stringify(KivettErtekek));
-    sessionStorage.setItem('TeljesTabla',(TeljesTablaUresekkel(TeljesTablak,KivettErtekek)));
-    setTimeout(DogaTablaBetoltesek,700,TeljesTablak,KivettErtekek);
 }
 
 function DogaTablaBetoltesek(array,kivettarray){
