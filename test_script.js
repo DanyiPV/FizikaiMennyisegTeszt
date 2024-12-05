@@ -28,17 +28,61 @@ window.onload = function() {
     if (state === 'main') {
     }
     else if (state === 'doga') {
-        console.log(sessionStorage.getItem('TeljesTablak'))
         setTimeout(DogaTablaBetoltesek, 300, 
-            JSON.parse(sessionStorage.getItem('TeljesTablak')), 
-            JSON.parse(sessionStorage.getItem('KivettErtekek'))
+            JSON.parse(sessionStorage.getItem('TeljesTablak')).ures, 
+            JSON.parse(sessionStorage.getItem('TeljesTablak')).kivett
         );
         
     } else if(state == 'teszt'){
         setTimeout(TestTablaBetoltesek, 300, 
-            JSON.parse(sessionStorage.getItem('TeljesTablak')), 
-            JSON.parse(sessionStorage.getItem('KivettErtekek'))
+            JSON.parse(sessionStorage.getItem('TeljesTablak')).ures, 
+            JSON.parse(sessionStorage.getItem('TeljesTablak')).kivett
         );
+    }
+}
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'F5') {
+        event.preventDefault();
+        TablakOsszegyujtes();
+    }
+});
+
+function TablakOsszegyujtes() {
+    const state = sessionStorage.getItem('state');
+    if(state != 'main'){
+        event.preventDefault();
+        let uresA = JSON.parse(sessionStorage.getItem('TeljesTablak')).ures;
+        let kivettA = JSON.parse(sessionStorage.getItem('TeljesTablak')).kivett;
+        let BetettDivek = document.getElementsByClassName("TablaBelsoErtekek");
+        for (let i = 1; i < BetettDivek.length; i++) {
+            for (let j = 0; j < BetettDivek[i].children.length; j++){
+                let elem = BetettDivek[i].children[j].firstChild;
+                if(elem.id != ""){
+                    let id = elem.id;
+                    let oszlop = elem.dataset.oszlop;
+                    let ertek = kivettA.find(c=> c.id == id && c.oszlop == oszlop);
+                    uresA[i-1][j] = ertek;
+                }
+                else if(BetettDivek[i].children[j].innerHTML == "<p></p>"){
+                    uresA[i-1][j] = "";
+                }
+            }
+        }
+        let MaradtKivettek = document.getElementsByClassName("KEDivek");
+        let maradtKivett = [];
+        for (let i = 0; i < MaradtKivettek.length; i++) {
+            for (let j = 0; j < MaradtKivettek[i].children.length; j++){
+                console.log(MaradtKivettek[i].children[j]);
+                let elem = MaradtKivettek[i].children[j];
+                let id = elem.id;
+                let oszlop = elem.dataset.oszlop;
+                let ertek = kivettA.find(c=> c.id == id && c.oszlop == oszlop);
+                maradtKivett.push(ertek);
+            }
+        }
+        let TeljesTablak = {ures: uresA, kivett: maradtKivett};
+        sessionStorage.setItem('TeljesTablak',JSON.stringify(TeljesTablak));
     }
 }
 
@@ -145,7 +189,7 @@ function DrkModeSwitch(value){
     document.getElementById("ValasztoTablakClose") != undefined?color==1?document.getElementById("ValasztoTablakClose").children[0].src = "ph/close_dark.png":document.getElementById("ValasztoTablakClose").children[0].src = "ph/close_white.png":"";
     document.getElementById("FelGorgetoDiv") != undefined?color==1?document.getElementById("FelGorgetoDiv").children[0].src = "ph/uparrow_dark.png":document.getElementById("FelGorgetoDiv").children[0].src = "ph/uparrow_white.png":"";
     document.getElementById("ErtesitesekMegjelenitDivIMG") != undefined?color==1?document.getElementById("ErtesitesekMegjelenitDivIMG").children[0].src = "ph/notif_dark.png":document.getElementById("ErtesitesekMegjelenitDivIMG").children[0].src = "ph/notif_white.png":"";
-    document.getElementById("NavSelectorFirst")!=undefined?color==1?document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>CKIK Fizika</p>"?"ph/test_dark.png":"ph/home_dark.png"):document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>CKIK Fizika</p>"?"ph/test_white.png":"ph/home_white.png"):"";
+    document.getElementById("NavSelectorFirst")!=undefined?color==1?document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>CKIK Fizika</p>"?"ph/home_dark.png":"ph/test_dark.png"):document.getElementById("NavSelectorFirst").children[0].src = (document.getElementById("OldalName").innerHTML =="<p>CKIK Fizika</p>"?"ph/home_white.png":"ph/test_white.png"):"";
     document.getElementsByClassName("TimerIMGOn").length==1?document.getElementById("TimerIMG").firstChild.src = color==1?"ph/on_dark.png":"ph/on_white.png":"";
     document.getElementsByClassName("TimerIMGOn").length==1?document.getElementById("TimerSetIMG").firstChild.src = color==1?"ph/time_set_dark.png":"ph/time_set_white.png":"";
     Tuser.osztaly == "T" || Tuser.osztaly == "A"?color==1?document.getElementById("ExamDivIMG").children[0].src = "ph/plus_dark.png":document.getElementById("ExamDivIMG").children[0].src = "ph/plus_white.png":"";
@@ -466,13 +510,13 @@ function AdatokKiitaras(){
     document.getElementById("FooldalBetolt").appendChild(DivCreate("NavGombIMG","FooldalBetoltDivIMG"));
     document.getElementById("FooldalBetoltDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/home_dark.png":"ph/home_white.png"));
     document.getElementById("FooldalBetolt").innerHTML += "<p>főoldal</p>";
-
+    
     document.getElementById("TestoldalNav").appendChild(DivCreate("NavGomb","TestoldalBetolt"));
     document.getElementById("TestoldalBetolt").setAttribute("onclick","TestoldalBetoltese('default')");
     document.getElementById("TestoldalBetolt").appendChild(DivCreate("NavGombIMG","TestoldalBetoltDivIMG"));
     document.getElementById("TestoldalBetoltDivIMG").appendChild(ImgCreate(usersetting.drkmode==1?"ph/test_dark.png":"ph/test_white.png"));
     document.getElementById("TestoldalBetolt").innerHTML += "<p>teszt oldal</p>";
-
+    
     for (let i = 0; i < EgyediKat.length; i++) {
         for (let j = 0; j < Teljeskategoriak.length; j++) {
             document.getElementById(EgyediKat[i].rendel).appendChild(DivCreate("NavGomb",Teljeskategoriak[j].nev+EgyediKat[i].id));
@@ -635,10 +679,8 @@ function DolgaztMegkezdese(Gomb){
         }
         KivettErtekekDB = KivettErtekek.length;
         ValasztottTime = TovabbKuldes[2][1];
-        console.log(TeljesTablak);
-        sessionStorage.setItem('TeljesTablak', JSON.stringify(TeljesTablak));
-        sessionStorage.setItem('KivettErtekek', JSON.stringify(KivettErtekek));
-        sessionStorage.setItem('TeljesTabla',(TeljesTablaUresekkel(TeljesTablak,KivettErtekek)));
+        let SessionTeljesTablak = {ures: TeljesTablak, kivett: KivettErtekek};
+        sessionStorage.setItem('TeljesTablak',JSON.stringify(SessionTeljesTablak));
         setTimeout(DogaTablaBetoltesek,700,TeljesTablak,KivettErtekek);
     }
 }
@@ -655,9 +697,13 @@ function DogaTablaBetoltesek(array,kivettarray){
         TablaSorokCreate("TestDivKiiras",array[i][0],array[i][1],array[i][2],array[i][3]);
         let UtolsoChild = document.getElementById("TestDivKiiras").lastChild.children;
         for (let j = 0; j <UtolsoChild.length; j++) {
-            if(UtolsoChild[j].firstChild.innerText == ""){
+            if(UtolsoChild[j].firstChild.innerText == "" || UtolsoChild[j].firstChild.dataset.oszlop != undefined){
                 UtolsoChild[j].classList.add("KivettValaszDivek");
                 UtolsoChild[j].dataset.sorid = array[i][4];
+                if(UtolsoChild[j].firstChild.dataset.oszlop != undefined){
+                    UtolsoChild[j].classList.add("CserelhetoValasz");
+                    UtolsoChild[j].setAttribute("onclick","ValaszBetevese(this,'csere')");
+                }
             }
         }
     }
@@ -1070,7 +1116,7 @@ function TimerChanged(input){
 }
 
 function TestInditasa(){
-    sessionStorage.setItem('state','teszt')
+    sessionStorage.setItem('state','teszt');
     TestActive = true;
     Difficulty = document.getElementById("DifShowDiv").classList[1]=="DifShowDivEasy"?1:(document.getElementById("DifShowDiv").classList[1]=="DifShowDivNormal"?2:"R");
     let Sorok = Number(document.getElementById("inputTestSlider").value);
@@ -1091,6 +1137,7 @@ function TestInditasa(){
     }
     let TeljesTablak = [];
     let KivettErtekek = [];
+    let oszlopNevek = ["nev", "jel", "def", "mert"];
     for (let i = 0; i < KivalasztottTablak.length; i++) {
         let SorokArray = [KivalasztottTablak[i].nev,KivalasztottTablak[i].jel,KivalasztottTablak[i].def,KivalasztottTablak[i].mert,KivalasztottTablak[i].id];
         if(Difficulty != "R"){
@@ -1106,7 +1153,7 @@ function TestInditasa(){
                 if(!RandomArray.includes(i)){
                     BA.push(SorokArray[i])
                 }else{
-                    KivettErtekek.push({nev:SorokArray[i], id: SorokArray[4]});
+                    KivettErtekek.push({nev:SorokArray[i], id: SorokArray[4], oszlop: oszlopNevek[i]});
                     BA.push("");
                 }
             }
@@ -1126,24 +1173,23 @@ function TestInditasa(){
                     if(!RandomArray.includes(i)){
                         BA.push(SorokArray[i])
                     }else{
-                        KivettErtekek.push({nev:SorokArray[i], id: SorokArray[4]});
+                        KivettErtekek.push({nev:SorokArray[i], id: SorokArray[4], oszlop: oszlopNevek[i]});
                         BA.push("");
                     }
                 }
                 BA.push(KivalasztottTablak[i].id);
             }else{
                 TeljesTablak.push([SorokArray[0],"","",""]);
-                KivettErtekek.push({nev:SorokArray[1], id: SorokArray[4]});
-                KivettErtekek.push({nev:SorokArray[2], id: SorokArray[4]});
-                KivettErtekek.push({nev:SorokArray[3], id: SorokArray[4]});
+                KivettErtekek.push({nev:SorokArray[1], id: SorokArray[4], oszlop: oszlopNevek[1]});
+                KivettErtekek.push({nev:SorokArray[2], id: SorokArray[4], oszlop: oszlopNevek[2]});
+                KivettErtekek.push({nev:SorokArray[3], id: SorokArray[4], oszlop: oszlopNevek[3]});
             }
         }
     }
     document.getElementById("TestSettingsDiv").classList.add("FeltolTestSettings");
-    KivettErtekekDB = KivettErtekek.length
-    sessionStorage.setItem('TeljesTablak', JSON.stringify(TeljesTablak));
-    sessionStorage.setItem('KivettErtekek', JSON.stringify(KivettErtekek));
-    sessionStorage.setItem('TeljesTabla',(TeljesTablaUresekkel(TeljesTablak,KivettErtekek)));
+    KivettErtekekDB = KivettErtekek.length;
+    let SessionTeljesTablak = {ures: TeljesTablak, kivett: KivettErtekek};
+    sessionStorage.setItem('TeljesTablak',JSON.stringify(SessionTeljesTablak));
     setTimeout(TestTablaBetoltesek,700,TeljesTablak,KivettErtekek);
 }
 
@@ -1157,12 +1203,18 @@ function TestTablaBetoltesek(array,kivettarray){
     document.getElementById("TestTablaDiv").appendChild(DivCreate("TablaNevekKiiras","TestDivKiiras"));
     TablaSorokCreate("TestDivKiiras","Név","Jele","Definíció","Mértékegység");
     for (let i = 0; i < array.length; i++) {
+        console.log(array[i][0],array[i][1],array[i][2],array[i][3]);
         TablaSorokCreate("TestDivKiiras",array[i][0],array[i][1],array[i][2],array[i][3]);
+
         let UtolsoChild = document.getElementById("TestDivKiiras").lastChild.children;
         for (let j = 0; j <UtolsoChild.length; j++) {
-            if(UtolsoChild[j].firstChild.innerText == ""){
+            if(UtolsoChild[j].firstChild.innerText == "" || UtolsoChild[j].firstChild.dataset.oszlop != undefined){
                 UtolsoChild[j].classList.add("KivettValaszDivek");
                 UtolsoChild[j].dataset.sorid = array[i][4];
+                if(UtolsoChild[j].firstChild.dataset.oszlop != undefined){
+                    UtolsoChild[j].classList.add("CserelhetoValasz");
+                    UtolsoChild[j].setAttribute("onclick","ValaszBetevese(this,'csere')");
+                }
             }
         }
     }
@@ -1175,7 +1227,7 @@ function TestTablaBetoltesek(array,kivettarray){
     for (let i = 0; i < ra.length; i++) {
         document.getElementById("KivettErtekek").appendChild(DivCreate("KEDivek",""));
         let elem = document.getElementsByClassName("KEDivek")[document.getElementsByClassName("KEDivek").length-1];
-        elem.innerHTML = "<p id='"+kivettarray[ra[i]].id+"' >"+kivettarray[ra[i]].nev+"</p>";
+        elem.innerHTML = "<p id='"+kivettarray[ra[i]].id+"'data-oszlop='"+kivettarray[ra[i]].oszlop+"' >"+kivettarray[ra[i]].nev+"</p>";
         elem.setAttribute("onclick","KivettErtekek(this,'KivettErtek')");
     }
     if(timeractive){
@@ -1771,6 +1823,20 @@ function TetejereGorgetShow(value){
 
 function TablaSorokCreate(id,nev,jel,def,mert){
     document.getElementById(id).innerHTML += "<div class='TablaBelsoErtekek'> <div class='NevBelsoDiv'><p>"+nev+"</p></div> <div class='JelBelsoDiv'><p>"+jel+"</p></div> <div class='DefBelsoDiv'><p>"+def+"</p></div> <div class='MertBelsoDiv'><p>"+mert+"</p></div> </div>";
+
+    if(typeof nev === "object"){
+        document.getElementsByClassName("NevBelsoDiv")[document.getElementsByClassName("NevBelsoDiv").length-1].innerHTML = "<p id='"+nev.id+"'data-oszlop='"+nev.oszlop+"' >"+nev.nev+"</p>";
+    }
+    if(typeof jel === "object"){
+        document.getElementsByClassName("JelBelsoDiv")[document.getElementsByClassName("JelBelsoDiv").length-1].innerHTML = "<p id='"+jel.id+"'data-oszlop='"+jel.oszlop+"' >"+jel.nev+"</p>";
+    }
+    if(typeof def === "object"){
+        document.getElementsByClassName("DefBelsoDiv")[document.getElementsByClassName("DefBelsoDiv").length-1].innerHTML = "<p id='"+def.id+"'data-oszlop='"+def.oszlop+"' >"+def.nev+"</p>";
+    }
+    if(typeof mert === "object"){
+        document.getElementsByClassName("MertBelsoDiv")[document.getElementsByClassName("MertBelsoDiv").length-1].innerHTML = "<p id='"+mert.id+"'data-oszlop='"+mert.oszlop+"' >"+mert.nev+"</p>";
+    }
+
 }
 
 function AdminPanel(){
@@ -2058,4 +2124,4 @@ function Alapok(){
     }
 }
 Alapok();
-setTimeout(RemoveAnim,800);0
+setTimeout(RemoveAnim,800);

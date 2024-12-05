@@ -1,5 +1,6 @@
 body{
-    background-image: linear-gradient(var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc2));
+    background: linear-gradient(var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc2));
+    background: -webkit-linear-gradient(var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc1), var(--alapbody_bc2));
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     overflow-x: hidden !important;
     margin: 0;
