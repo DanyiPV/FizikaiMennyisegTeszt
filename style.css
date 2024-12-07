@@ -1738,24 +1738,24 @@ nav{
     flex-direction: column;
     overflow: hidden;
     align-items: center;
+    align-content: center;
     justify-content: center;
-    min-height: 70vh;
-    padding: 2rem; 
+    padding: 2.5vw 0vw;
+    position: relative;
 }
 
 .KiertekelesDiv div {
-    padding: 1rem;
     border-bottom: 1px solid var(--modal_border);
     position: relative;
     animation-name: KiertekelesDivekLoad;
     animation-duration: .7s;
     animation-fill-mode: forwards;
-    margin: 0.5rem 0;
     color: var(--text_color);
-    font-size: 1.2rem;
+    font-size: 1.5vw !important;
     text-align: center;
+    height: 25%;
+    padding: 2.5vw 1vw;
     width: 80%;
-    padding-bottom: 1rem;
 }
 
 .KiertekelesDiv div:last-child {
@@ -1766,29 +1766,31 @@ nav{
     margin: 0;
 }
 
-
-@media (min-width: 768px) {
-    .KiertekelesDiv div {
-        width: 70%;
-        font-size: 1.4rem;
-        padding: 0.8rem;
-    }
+.KiertekelesGombok{
+    display: flex;
+    gap: 2vw;
+    align-items: center;
+    align-content: center;
 }
 
-@media (min-width: 1024px) {
-    .KiertekelesDiv div {
-        width: 60%;
-        font-size: 1.5rem;
-        padding: 1rem;
-    }
+.KiertekelesGombok div{
+    border: .1vw solid var(--modal_border) !important;
+    border-radius: .5vw;
+    transition: .3s;
+    cursor: pointer;
+    height: 100%;
+    padding: 1.5vw 0;
 }
 
-@media (min-width: 1440px) {
-    .KiertekelesDiv div {
-        width: 50%;
-        font-size: 1.5vw;
-    }
+.KiertekelesGombok div:hover{
+    border: .1vw solid transparent !important;
+    background-color: var(--button_hover);
 }
+
+.KiertekelesGombok div p{
+    margin: 0;
+}
+
 
 .JegyDiv{
     font-size: 3vw;
@@ -2222,6 +2224,9 @@ nav{
     border-radius: .4vw;
 }
 .LegutobbiDolgozat{
+    padding: 1.2vw !important;
+}
+.KiertekelesClass{
     padding: 1.2vw !important;
 }
 .PWChange,.UNChange{
