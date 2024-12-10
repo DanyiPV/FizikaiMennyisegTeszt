@@ -738,7 +738,7 @@ nav{
 .DogaDivGomb div p{
     margin: 0;
 }
-.DogaMorInfo:hover, .DogaMegkezdesLehetséges:hover{
+.DogaMoreInfo:hover, .DogaMegkezdesLehetséges:hover{
     background-color: var(--button_hover);
     color: var(--text_color);
     border: .1vw solid transparent;
@@ -2245,12 +2245,37 @@ nav{
     opacity: 1 !important;
     padding: 4vw 4vw 2vw 4vw;
     border-radius: .4vw;
+    color: var(--text_color) !important;
 }
 .LegutobbiDolgozat{
     padding: 1.2vw !important;
 }
 .KiertekelesClass{
     padding: 1.2vw !important;
+}
+.DogaMoreInfoStyle{
+    padding: 2.5vw 1vw 2vw 1vw;
+    width: 40% !important;
+}
+.DogaMoreInfoStyle p{
+    color: var(--text_color) ;
+}
+.DogaMoreInfoStyle div{
+    margin: auto;
+}
+.DogaMoreInfoStyle div div{
+    text-align: center;
+}
+.DogaMoreInfoDiv{
+    width: 80%;
+}
+.DogaMoreInfoDiv div h1{
+   font-size: 2.2vw;
+}
+.DogaMoreInfoDiv p{
+    color: var(--text_color) !important;
+    margin: .5vw 1.5vw;
+    font-size: 1.2vw;
 }
 .PWChange,.UNChange{
     display: flex;

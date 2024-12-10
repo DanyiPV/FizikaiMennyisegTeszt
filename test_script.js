@@ -578,7 +578,7 @@ function DolgozatNotifBetolt(response, ResID, id, DogaDB, Extra){
         document.getElementById("NotifDatum"+id).firstChild.innerText = kezdDatum[0]+"."+(Number(kezdDatum[1]) < 10 ? "0"+kezdDatum[1]:kezdDatum[1])+"."+(Number(kezdDatum[2]) < 10 ? "0"+kezdDatum[2]:kezdDatum[2])+". " + (Number(kezdDatum[3]) < 10 ? "0"+kezdDatum[3]:kezdDatum[3]) + ":"+ (Number(kezdDatum[4]) < 10? "0"+Number(kezdDatum[4]):kezdDatum[4]);
         document.getElementById("DolgozatKezdetIdo"+id).innerText += " "+ datum;
         let TovabbKuldes = JSON.stringify(Object.entries(ResArray));
-        document.getElementsByClassName("NotifKiirDiv")[id].innerHTML += "<div class='DogaDivGomb'><div class='DogaMegkezdes' data-tovabbkuldes='"+TovabbKuldes+"' id='DogaMegkezdes"+ResID+"' onclick='DolgaztMegkezdese(this)'><p>Megkezdése</p></div><div class='DogaMorInfo' id='DogaMorInfo"+ResID+"'><p>Dolgozatról</p></div></div>";
+        document.getElementsByClassName("NotifKiirDiv")[id].innerHTML += "<div class='DogaDivGomb'><div class='DogaMegkezdes' data-tovabbkuldes='"+TovabbKuldes+"' id='DogaMegkezdes"+ResID+"' onclick='DolgaztMegkezdese(this)'><p>Megkezdése</p></div><div class='DogaMoreInfo' data-tovabbkuldes='"+TovabbKuldes+"' onclick='DogaMoreInfo(this)' id='DogaMoreInfo"+ResID+"'><p>Dolgozatról</p></div></div>";
     }
     let CurTime = new Date();
     if((CurTime.getFullYear() >= Number(kezdDatum[0]) && CurTime.getMonth()+1 >= Number(kezdDatum[1]) && CurTime.getDate() >= Number(kezdDatum[2]) && (Number(CurTime.getHours())*3600 + Number(CurTime.getMinutes())*60 + Number(CurTime.getSeconds())) > DogVeg) ||
@@ -596,6 +596,44 @@ function DolgozatNotifBetolt(response, ResID, id, DogaDB, Extra){
         document.getElementById("NotifDatum"+id).classList.remove("DogaNemIrhato");
         document.getElementById("DogaMegkezdes"+ResID).classList.add("DogaMegkezdesNemLehetséges");
         document.getElementById("DogaMegkezdes"+ResID).classList.remove("DogaMegkezdesLehetséges");
+    }
+}
+
+function DogaMoreInfo(Gomb){
+    SignInClose();SideBarClose();
+    if(document.getElementById("EgyDivMindFelett").classList.contains("EgyDivMindFelettOpen")){
+        EgyMindFelettClose();
+    }
+    else{
+        document.getElementById("EgyDivMindFelett").appendChild(DivCreate("ValasztoTablakClose","ValasztoTablakClose"));
+        document.getElementById("ValasztoTablakClose").appendChild(ImgCreate(usersetting.drkmode==1?"ph/close_dark.png":"ph/close_white.png"));
+        document.getElementById("ValasztoTablakClose").firstChild.setAttribute("onclick","EgyMindFelettClose()");
+
+        document.getElementById("EgyDivMindFelett").classList.add("EgyDivMindFelettOpen");
+        document.getElementById("EgyDivMindFelett").classList.add("DogaMoreInfoStyle");
+
+        document.getElementById("BlackBG").classList.add("BlackBGOn");
+        document.getElementById("BlackBG").setAttribute("onclick","EgyMindFelettClose()");
+        document.getElementById("EgyDivMindFelett").innerHTML += "<div class='DogaMoreInfoDiv' id='DogaMoreInfoDiv'><div><h1>Dolgozatról információk</h1></div></div>";
+        
+        let TovabbKuldes = JSON.parse(Gomb.getAttribute("data-tovabbkuldes"));
+        let Nehezseg = TovabbKuldes[4][1] == 1?"Könnyű":TovabbKuldes[4][1]==2?"Normál":"Nehéz";
+        let Sorok = TovabbKuldes[6][1];
+        let TablaID = TovabbKuldes[5][1].split(',')
+        let ValasztottIdo = TovabbKuldes[2][1];
+        let ValasztottTablak = []
+        for (let i = 0; i < TablaID.length; i++) {
+            ValasztottTablak.push(Alkategoriak[TablaID[i]-1].nev);
+        }
+
+        let DogaMoreInfoDiv = document.getElementById("DogaMoreInfoDiv");
+        DogaMoreInfoDiv.innerHTML += "<p><b>Ennyi sorból fog állni</b>: "+Sorok+"</p>";
+        let h = Math.floor(ValasztottIdo/3600);
+        let sec = h>0?Math.floor((ValasztottIdo-h*3600)%60):Math.floor(ValasztottIdo%60);
+        let min = h>0?Math.floor((ValasztottIdo-h*3600)/60):Math.floor(ValasztottIdo/60);
+        DogaMoreInfoDiv.innerHTML += "<p><b>Ennyi idő lesz rá</b>: "+(h>0?h+":":"")+(min>9?min:"0"+min)+":"+(sec>9?sec:"0"+sec)+"</p>";
+        DogaMoreInfoDiv.innerHTML += "<p><b>Ezekből a táblákból lesz</b>: "+ValasztottTablak+"</p>";
+        DogaMoreInfoDiv.innerHTML += "<p><b>Ennyire lesz nehéz</b>: "+Nehezseg+"</p>";
     }
 }
 
