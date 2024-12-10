@@ -400,7 +400,7 @@ function UtolsoErtesitesMegjelenitAtvalt(id){
     });
 }
 function ErtesitesFeltoltese(adat){
-    const data =  { lekerdezes: "insert into ertesitesek values(null,'"+adat.id+"','"+adat.message+"',null,'"+adat.extra+"','"+adat.kinek+"', '"+adat.lezarva+"')"};
+    const data =  { lekerdezes: "insert into ertesitesek values(null,'"+adat.id+"','"+adat.message+"',null,'"+adat.extra+"','"+adat.kinek+"', '"+adat.lezarva+"', 0)"};
     fetch("http://127.0.0.1:3000/lekerdezes", {
         method: "POST",
         headers: {

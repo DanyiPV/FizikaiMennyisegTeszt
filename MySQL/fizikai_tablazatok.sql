@@ -294,9 +294,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `nev`, `osztaly`, `jelszo`, `letrehozva`, `modositva`) VALUES
-(1, 'admin@ckik.hu', 'admin', 'A', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '2024-02-29', '2024-02-29 08:35:40'),
-(2, 'szab.eman@ckik.hu', 'Szabó Emánuel', 'T', '3233971a59d7704e5fed8c9af5ca6934221c189a1e716dff1d850dddd8b97cf64f20c92b848133072bc8af19e224715bc094f4369014a16c608f98f37ba8489c', '2024-03-05', '2024-03-05 09:58:14'),
-(3, 'pintea.roland@ckik.hu', 'Pintea Dániel', '12/C', '8567e08f59f544199c9bfe735aa534a301f5a5228d7a2b73036478e21b5de735c45eb92bac773ebcbf0c3fbf0cd9ebb688b02553938fb14f93bbce3b6d11fceb', '2024-03-05', '2024-03-05 09:59:13');
+(1, 'admin@ckik.hu', 'admin', 'A', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '2024-02-29', '2024-02-29 08:35:40');
 
 -- --------------------------------------------------------
 
@@ -317,9 +315,7 @@ CREATE TABLE `usersetting` (
 --
 
 INSERT INTO `usersetting` (`id`, `userid`, `drkmode`, `private`, `profPic`) VALUES
-(1, 1, 0, 0, 0x30),
-(2, 2, 0, 0, 0x30),
-(3, 3, 0, 0, 0x30);
+(1, 1, 0, 0, 0x30);
 
 --
 -- Indexek a kiírt táblákhoz
