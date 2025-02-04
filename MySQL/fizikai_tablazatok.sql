@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Nov 14. 10:09
+-- Létrehozás ideje: 2025. Feb 04. 09:17
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `fizikai_tablazatok`
 --
+CREATE DATABASE IF NOT EXISTS `fizikai_tablazatok` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `fizikai_tablazatok`;
 
 -- --------------------------------------------------------
 
@@ -101,7 +103,7 @@ CREATE TABLE `ertesitesek` (
   `extra` varchar(255) NOT NULL,
   `kinek` varchar(255) DEFAULT NULL,
   `lezarva` int(11) DEFAULT NULL,
-  `megjelenitve` tinyint DEFAULT 0,
+  `megjelenitve` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
