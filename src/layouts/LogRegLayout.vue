@@ -106,6 +106,26 @@
         v-if="route.name == 'login'"
       ></v-checkbox>
 
+      <div class="d-flex ga-2 mt-4">
+        <v-combobox
+          v-model="selectedYear"
+          label="Évfolyam"
+          :items="['9', '10', '11']"
+          variant="outlined"
+          style="width: 100%;"
+          hide-details
+        ></v-combobox>
+  
+        <v-combobox
+          v-model="selectedClass"
+          label="Osztály"
+          :items="['A', 'B', 'C', 'K']"
+          variant="outlined"
+          style="width: 100%;"
+          hide-details
+        ></v-combobox>
+      </div>
+
       <v-btn
         class="mb-4 mt-4"
         color="blue"
@@ -258,6 +278,9 @@
   var SuccessText = ref("");
   var SuccessMessage = ref("");
   var SuccessOpen = ref(false);
+
+  const selectedYear = ref(9);
+  const selectedClass = ref('A');
 
   const LoginPushHandler = () =>{
     SuccessOpen.value = false;
