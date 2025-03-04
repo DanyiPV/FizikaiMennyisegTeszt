@@ -3,6 +3,13 @@ import HomeView from '../views/HomeView.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import LogRegLayout from '@/layouts/LogRegLayout.vue'
 
+// Segédfüggvény a cookie olvasásához
+function getCookie(name: string){
+  const cookies = document.cookie.split('; ');
+  const userCookie = cookies.find(row => row.startsWith(name + '='));
+  return userCookie ? userCookie.split('=')[1] : null;
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -10,7 +17,7 @@ const router = createRouter({
       path: '/',
       name: 'logreg-layout',
       component: LogRegLayout,
-      redirect: {name: "login"},
+      redirect: { name: "login" },
       children: [
         {
           path: '/login',
@@ -33,21 +40,28 @@ const router = createRouter({
       path: '/',
       name: 'default-layout',
       component: DefaultLayout,
-      redirect: {name: "home"},
+      redirect: { name: "home" },
       children: [
         {
           path: '/',
           name: 'home',
           component: () => import('../views/HomeView.vue'),
-        },
-        {
-          path: '/about',
-          name: 'about',
-          component: () => import('../views/AboutView.vue')
-        },
+        }
       ]
     },
   ]
 })
 
-export default router
+// **Navigációs őr hozzáadása**
+router.beforeEach((to, from, next) => {
+  const user = getCookie('user'); // Ellenőrizzük, hogy van-e 'user' cookie
+
+  // Ha van 'user' cookie és a felhasználó a login vagy register oldalon van, akkor dobjuk át a home-ra
+  if (user && (to.name === 'login' || to.name === 'register')) {
+    next({ name: 'home' });
+  } else {
+    next(); // Engedélyezzük a navigációt
+  }
+});
+
+export default router;

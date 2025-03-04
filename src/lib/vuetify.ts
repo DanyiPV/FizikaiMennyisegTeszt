@@ -33,6 +33,12 @@ const vuetify = createVuetify({
           cards_text_color: colors.grey.lighten5,
           text_color: colors.grey.darken4,
           default_btn_bc: colors.grey.darken4,
+          icon_color: colors.grey.darken4,
+
+          nav_bc: colors.grey.lighten1,
+          nav_drawer_bc: colors.grey.lighten2,
+
+          main_bc: colors.grey.lighten3,
         },
       },
       darkTheme: {
@@ -47,6 +53,12 @@ const vuetify = createVuetify({
           secondary: colors.indigo.darken3,
           text_color: colors.grey.lighten5,
           default_btn_bc: colors.grey.lighten5,
+          icon_color: colors.grey.lighten5,
+          
+          nav_bc: colors.grey.darken3,
+          nav_drawer_bc: colors.grey.darken2,
+
+          main_bc: colors.grey.darken1,
         },
       },
     },

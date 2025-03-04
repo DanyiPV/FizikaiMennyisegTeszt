@@ -22,7 +22,7 @@ exports.registerUser = async (req, res, next) =>
         user_role: "student",
         osztaly: osztaly,
         admin: false,
-        activated: 0,
+        activated: true,
     }
 
     const user_check = await logregServices.checkUser(email, user_name);

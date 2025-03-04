@@ -12,10 +12,8 @@ const errorHandler = require("./api/middleware/errorHandler");
 
 const db = require("./api/database/dbContext");
 
-app.use(cors());
-
 app.use(cors({
-  origin: 'http://localhost:5173'
+  origin: 'http://localhost:5174'
 }));
 
 const logregRoute = require("./api/routes/logregRoute")

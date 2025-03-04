@@ -18,12 +18,14 @@ export default defineConfig({
     },
   },
   server: {
+    port: 5173,
+    strictPort: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:3000', // Express API portja
+        target: 'http://localhost:3000',
         changeOrigin: true,
       },
     },
-    open: '/', // Automatikusan a /1 oldalra navigál, amikor elindítod a szervert
+    open: '/',
   },
 })

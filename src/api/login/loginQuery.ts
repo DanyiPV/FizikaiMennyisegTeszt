@@ -1,10 +1,9 @@
 import axiosClient from '../../lib/axios'
 import { useMutation } from '@tanstack/vue-query'
-import type { LoginData } from './login'
 
-const loginUser = async (data: LoginData) => {
+const loginUser = async (data: {email: string, password: string, rememberMe: boolean}) => {
   const response = await axiosClient.post('http://localhost:3000/login', data); 
-  return response.data; // Sikeres válasz
+  return response.data;
 }
 
 export const useLoginUser = () => {
