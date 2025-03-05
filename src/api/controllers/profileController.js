@@ -7,8 +7,6 @@ exports.changeDarkmode = async (req,res,next) =>{
     const token = req.headers.token;
     const { type } = req.body;
 
-    console.log(type);
-
     try{
         var decoded = null;
     
@@ -38,7 +36,7 @@ exports.changeDarkmode = async (req,res,next) =>{
     }
 }
 
-exports.getDarkmode = async (req,res,next) =>{
+exports.getUser = async (req,res,next) =>{
     const token = req.headers.token;
 
     try{
@@ -54,17 +52,17 @@ exports.getDarkmode = async (req,res,next) =>{
             throw error;
         }
 
-        const darkmode_get = await profileService.getDarkmode(decoded.id);
+        const get_user = await profileService.getUser(decoded.id);
     
-        if(!darkmode_get){
-            const error = new Error('Nem sikerült a sötét mód megváltoztatása!');
+        if(!get_user){
+            const error = new Error('Nem sikerült lekérni a felhasználó adatait!');
 
             error.status = 400;
 
             throw error;
         }
 
-        res.status(200).send(darkmode_get);
+        res.status(200).send(get_user);
     }catch(error){
         next(error);
     }    

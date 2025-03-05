@@ -28,13 +28,16 @@ class logregRepository
         return 'OK';
     }
 
-    async getDarkmode(id)
+
+    async getUser(id)
     {
-        return await this.Usersettings.findOne({
+        return await this.Users.findOne({
             where :{
-                user_id: id
+                id: id
             },
-            attributes:['darkmode']
+            include:{
+                model:  this.Usersettings,
+            }
         });
     }
 }

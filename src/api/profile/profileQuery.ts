@@ -25,8 +25,8 @@ export const useChangeDarkmode = () => {
     });
 }
 
-const getDarkmode = async (token: string) => {
-    const response = await axiosClient.get('http://localhost:3000/get-darkmode',{
+const getProfil = async (token: string) => {
+    const response = await axiosClient.get('http://localhost:3000/get-user',{
         headers: {
             token: token,
         }
@@ -34,9 +34,9 @@ const getDarkmode = async (token: string) => {
     return response.data;
 };
 
-export const useGetDarkmode = () => {
+export const useGetProfil = () => {
     return useMutation({
-        mutationFn: getDarkmode,
+        mutationFn: getProfil,
         onSuccess: (response) => {
 
         },

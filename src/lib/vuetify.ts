@@ -38,6 +38,8 @@ const vuetify = createVuetify({
           nav_bc: colors.grey.lighten1,
           nav_drawer_bc: colors.grey.lighten2,
 
+          settings_drawer_bc: colors.grey.lighten2,
+
           main_bc: colors.grey.lighten3,
         },
       },
@@ -57,6 +59,8 @@ const vuetify = createVuetify({
           
           nav_bc: colors.grey.darken3,
           nav_drawer_bc: colors.grey.darken2,
+
+          settings_drawer_bc: colors.grey.darken2,
 
           main_bc: colors.grey.darken1,
         },

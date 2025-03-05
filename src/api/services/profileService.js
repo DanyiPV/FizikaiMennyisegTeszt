@@ -6,10 +6,9 @@ class porfileService
     {
         return await profileRepository.changeDarkmode(id,type);
     }
-    
-    async getDarkmode(id)
-    {
-        return await profileRepository.getDarkmode(id);
+
+    async getUser(id){
+        return await profileRepository.getUser(id);
     }
 }
 
