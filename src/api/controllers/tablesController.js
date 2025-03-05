@@ -1,5 +1,4 @@
 const tablesService = require("../services/tablesService");
-require("dotenv").config();
 
 exports.fullCategories = async (req,res,next) =>{
     const categories = await tablesService.fullCategories();

@@ -1,6 +1,6 @@
 const db = require("../database/dbContext");
 
-const { Op, where } = require('sequelize');
+const { Op } = require('sequelize');
 
 const { Sequelize, DataTypes } = require('sequelize');
 

@@ -279,7 +279,6 @@ function setPersistentCookie(name, value) {
   document.cookie = `${name}=${value}; path=/`;
 }
 
-
 function getCookie(name){
   const cookies = document.cookie.split('; ');
   for (const cookie of cookies) {

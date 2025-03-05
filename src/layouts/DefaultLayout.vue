@@ -43,8 +43,8 @@
 
                 <v-spacer></v-spacer>
 
-                <v-btn icon><v-icon color="icon_color">{{ DarkmodeChange ? 'mdi-weather-sunny' : 'mdi-weather-night' }}</v-icon></v-btn>
-                <v-btn icon><v-icon color="error" @click="deleteCookie('user')">mdi-logout</v-icon></v-btn>
+                <v-btn icon @click="HandleChangeDarkmode()" ><v-icon color="icon_color">{{ DarkmodeChange ? 'mdi-weather-sunny' : 'mdi-weather-night' }}</v-icon></v-btn>
+                <v-btn icon @click="deleteCookie('user')"><v-icon color="error">mdi-logout</v-icon></v-btn>
             </v-app-bar>
 
             <v-navigation-drawer
@@ -93,19 +93,19 @@
                 </v-list>
             </v-navigation-drawer>
 
-            <v-main style="height: 100vh; background-color: rgb(var(--v-theme-main_bc));">
+            <v-main style="height: 100vh; background-color: rgb(var(--v-theme-background));">
                 <RouterView></RouterView>
             </v-main>
         </v-layout>
     </v-card>
 </template>
+
 <script setup>
 import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, inject, onMounted } from 'vue'
 import { useDisplay } from 'vuetify';
 import { useTheme } from 'vuetify';
-import { useRegisterUser } from '@/api/register/registerQuery';
-import { useLoginUser } from '@/api/login/loginQuery';
+import { useChangeDarkmode, useGetDarkmode } from '@/api/profile/profileQuery';
 
 const showError = inject("showError");
 const showSucces = inject("showSucces");
@@ -113,6 +113,7 @@ const showSucces = inject("showSucces");
 const { mobile } = useDisplay();
 const isMobile = computed(() => mobile.value);
 
+const get_token = getCookie("user");
 const route = useRoute();
 const router = useRouter();
 const theme = useTheme();
@@ -132,9 +133,64 @@ const color = computed(() => {
   }
 });
 
+const {mutate: getDarkmode} = useGetDarkmode();
+
+onMounted(async () => {
+  if(get_token){
+    await getDarkmode(get_token, {
+      onSuccess: (darkmode) => {
+        DarkmodeChange.value = darkmode.darkmode;
+        theme.global.name.value = DarkmodeChange.value ? 'darkTheme' : 'lightTheme';
+      },
+      onError: (error) => {
+        if (showError) {
+          showError(error.response.data);
+        }else{
+          console.log(error.response.data);
+        }
+      },
+    });
+  }
+});
+
+const {mutate: ChangeDarkmode} = useChangeDarkmode();
+
+const HandleChangeDarkmode = async ()=>{
+  if(get_token != null){
+    await ChangeDarkmode({token: get_token, type: !DarkmodeChange.value },{
+      onSuccess: (response) =>{
+        DarkmodeChange.value = !DarkmodeChange.value;
+        theme.global.name.value = DarkmodeChange.value ? 'darkTheme' : 'lightTheme';
+        if (showSucces) {
+          showSucces(response);
+        }else{
+          console.log(response);
+        }
+      },
+      onError: (error) => {
+        if (showError) {
+          showError(error.response.data);
+        }else{
+          console.log(error.response.data);
+        }
+      }
+    });
+  }
+}
+
+function getCookie(name){
+  const cookies = document.cookie.split('; ');
+  for (const cookie of cookies) {
+    const [key, value] = cookie.split('=');
+    if (key === name) {
+      return decodeURIComponent(value);
+    }
+  }
+  return null;
+}
+
 function deleteCookie(name) {
   document.cookie += `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-  router.push({name: 'login'});
 }
 </script>
 
