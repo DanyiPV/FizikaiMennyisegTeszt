@@ -128,6 +128,7 @@ class logregRepository
             where: {
                 [Op.or]: [
                     { email: email },
+                    { user_name: email },
                     { id: id }
                 ]
             }

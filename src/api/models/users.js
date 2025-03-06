@@ -27,11 +27,11 @@ module.exports = (sequelize, DataTypes) => {
             },
             user_role: {
                 type: DataTypes.CHAR(15),
-                defaultValue: "member",
+                defaultValue: "student",
             },
             osztaly: {
                 type: DataTypes.CHAR(4),
-                allowNull: false,
+                allowNull: true,
             },
             admin: {
                 type: DataTypes.BOOLEAN,
