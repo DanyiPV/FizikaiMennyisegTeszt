@@ -6,7 +6,6 @@
         mode="shift"
         mandatory
       >
-
         <v-btn>
           <v-icon>mdi-home</v-icon>
   
@@ -20,17 +19,28 @@
         </v-btn>
   
         <v-btn>
-          <v-icon>mdi-file-document-edit-outline</v-icon>
+          <v-icon>mdi-file-document-edit</v-icon>
   
           <span>Dolgozat</span>
         </v-btn>
 
         <v-btn>
-          <v-icon>mdi-school-outline</v-icon>
+          <v-icon>mdi-school</v-icon>
   
           <span>Tanulás</span>
         </v-btn>
 
+        <v-btn>
+          <v-icon>mdi-chart-bar</v-icon>
+  
+          <span>Eredmény</span>
+        </v-btn>
+
+        <v-btn v-if="get_fullUser && ((get_fullUser.osztaly == 'T' && get_fullUser.user_role == 'teacher') || (get_fullUser.osztaly == 'A' && get_fullUser.user_role == 'admin'))">
+          <v-icon>mdi-book-plus</v-icon>
+  
+          <span>Kiírás</span>
+        </v-btn>
       </v-bottom-navigation>
     </v-layout>
 
@@ -40,7 +50,7 @@
                 <v-app-bar-nav-icon variant="text" v-if="!isMobile" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
                 <v-toolbar-title style="font-family: 'Orbitron', sans-serif;">
-                    <h2>Gravitas</h2>
+                  <h2>Gravitas</h2>
                 </v-toolbar-title>
 
                 <v-spacer></v-spacer>
@@ -75,58 +85,86 @@
                 <v-list class="d-flex flex-column ga-2">
                     
                     <v-list-item class="pa-0 px-2">
-                        <v-btn
-                        style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
-                        class="justify-center rounded cursor-pointer py-2 px-0 w-100"
-                        >
-                            <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
-                                <v-icon size="30" class="ml-4">mdi-home</v-icon>
-                                <h1 style="text-transform: uppercase; width: 100%;">Főoldal</h1>
-                            </div>
-                        </v-btn>
+                      <v-btn
+                      style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
+                      class="justify-center rounded cursor-pointer py-2 px-0 w-100"
+                      >
+                          <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
+                              <v-icon size="30" class="ml-4">mdi-home</v-icon>
+                              <h1 style="text-transform: uppercase; width: 100%;">Főoldal</h1>
+                          </div>
+                      </v-btn>
                     </v-list-item>
 
                     <v-list-item class="pa-0 px-2">
-                        <v-btn
-                        style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
-                        class="justify-center rounded cursor-pointer py-2 px-0 w-100"
-                        >
-                            <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
-                                <v-icon size="30" class="ml-4">mdi-book-open-variant</v-icon>
-                                <h1 style="text-transform: uppercase; width: 100%;">Gyakorlás</h1>
-                            </div>
-                        </v-btn>
+                      <v-btn
+                      style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
+                      class="justify-center rounded cursor-pointer py-2 px-0 w-100"
+                      >
+                          <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
+                              <v-icon size="30" class="ml-4">mdi-book-open-variant</v-icon>
+                              <h1 style="text-transform: uppercase; width: 100%;">Gyakorlás</h1>
+                          </div>
+                      </v-btn>
                     </v-list-item>
 
                     <v-list-item class="pa-0 px-2">
-                        <v-btn
-                        style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
-                        class="justify-center rounded cursor-pointer py-2 px-0 w-100"
-                        >
-                            <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
-                                <v-icon size="30" class="ml-4">mdi-file-document-edit-outline</v-icon>
-                                <h1 style="text-transform: uppercase; width: 100%;">Dolgozat</h1>
-                            </div>
-                        </v-btn>
+                      <v-btn
+                      style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
+                      class="justify-center rounded cursor-pointer py-2 px-0 w-100"
+                      >
+                          <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
+                              <v-icon size="30" class="ml-4">mdi-file-document-edit-outline</v-icon>
+                              <h1 style="text-transform: uppercase; width: 100%;">Dolgozat</h1>
+                          </div>
+                      </v-btn>
                     </v-list-item>
 
                     <v-list-item class="pa-0 px-2">
-                        <v-btn
-                        style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
-                        class="justify-center rounded cursor-pointer py-2 px-0 w-100"
-                        >
-                            <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
-                                <v-icon size="30" class="ml-4">mdi-school-outline</v-icon>
-                                <h1 style="text-transform: uppercase; width: 100%;">Tanulás</h1>
-                            </div>
-                        </v-btn>
+                      <v-btn
+                      style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
+                      class="justify-center rounded cursor-pointer py-2 px-0 w-100"
+                      >
+                          <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
+                              <v-icon size="30" class="ml-4">mdi-school-outline</v-icon>
+                              <h1 style="text-transform: uppercase; width: 100%;">Tanulás</h1>
+                          </div>
+                      </v-btn>
+                    </v-list-item>
+
+                    <v-list-item class="pa-0 px-2">
+                      <v-btn
+                      style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
+                      class="justify-center rounded cursor-pointer py-2 px-0 w-100"
+                      >
+                          <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
+                              <v-icon size="30" class="ml-4">mdi-chart-bar</v-icon>
+                              <h1 style="text-transform: uppercase; width: 100%;">Eredmény</h1>
+                          </div>
+                      </v-btn>
+                    </v-list-item>
+
+                    <v-list-item class="pa-0 px-2" v-if="get_fullUser && ((get_fullUser.osztaly == 'T' && get_fullUser.user_role == 'teacher') || (get_fullUser.osztaly == 'A' && get_fullUser.user_role == 'admin'))">
+                      <v-btn
+                      style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
+                      class="justify-center rounded cursor-pointer py-2 px-0 w-100"
+                      >
+                          <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
+                              <v-icon size="30" class="ml-4">mdi-book-plus</v-icon>
+                              <h1 style="text-transform: uppercase; width: 100%;">Kiírás</h1>
+                          </div>
+                      </v-btn>
                     </v-list-item>
 
                 </v-list>
             </v-navigation-drawer>
 
-            <v-main style="height: 100vh; background-color: rgb(var(--v-theme-background));">
+            <v-main style="min-height: 100vh; background-color: rgb(var(--v-theme-background));">
                 <RouterView></RouterView>
+
+                <div v-if="isMobile" class="mb-14">
+
+                </div>
             </v-main>
         </v-layout>
     </v-card>
@@ -772,8 +810,7 @@
 <script setup>
 import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, inject, onMounted, watch } from 'vue'
-import { useDisplay } from 'vuetify';
-import { useTheme } from 'vuetify';
+import { useDisplay, useTheme } from 'vuetify';
 import { useChangeDarkmode, useGetProfil } from '@/api/profile/profileQuery';
 import { useGetSettingsConfirm, useSetSettings, useProfilePicUpload, useGetAllUser, useSetUserNewSettings, useSetUserRoles, usesetNewClass } from '@/api/settingsConfirms/settingsConfrimQuery';
 import imageCompression from 'browser-image-compression';
@@ -1137,6 +1174,7 @@ const editPicActive = async() =>{
   ConfirmCode.value = false;
   loading.value = false;
 }
+
 const { mutate: ProfilePicUpload } = useProfilePicUpload();
 
 const handleProfPicUpload = async (event) => {
