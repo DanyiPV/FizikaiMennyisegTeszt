@@ -23,7 +23,7 @@ exports.fullTables = async (req,res,next) =>{
 }
 
 exports.allTables = async (req,res,next) =>{
-    const categories = await tablesService.allTables();
+    const allTable = await tablesService.allTables();
 
-    res.status(200).send(categories);
+    res.status(200).send(allTable);
 }

@@ -1,44 +1,40 @@
 <template>
     <v-layout class="overflow-visible" v-if="isMobile">
       <v-bottom-navigation
-        v-model="value"
-        :bg-color="color"
+        v-model="colorStore.value"
+        :bg-color="color_BottomNav"
         mode="shift"
         mandatory
       >
         <v-btn>
           <v-icon>mdi-home</v-icon>
-  
           <span>Főoldal</span>
-        </v-btn>
-  
-        <v-btn>
-          <v-icon>mdi-book-open-variant</v-icon>
-  
-          <span>Gyakorlás</span>
-        </v-btn>
-  
-        <v-btn>
-          <v-icon>mdi-file-document-edit</v-icon>
-  
-          <span>Dolgozat</span>
         </v-btn>
 
         <v-btn>
+          <v-icon>mdi-book-open-variant</v-icon>
+          <span>Gyakorlás</span>
+        </v-btn>
+
+        <v-btn>
+          <v-icon>mdi-file-document-edit</v-icon>
+          <span>Dolgozat</span>
+        </v-btn>
+
+        <v-btn @click="router.push({name: 'learning'})">
           <v-icon>mdi-school</v-icon>
-  
           <span>Tanulás</span>
         </v-btn>
 
         <v-btn>
           <v-icon>mdi-chart-bar</v-icon>
-  
           <span>Eredmény</span>
         </v-btn>
 
-        <v-btn v-if="get_fullUser && ((get_fullUser.osztaly == 'T' && get_fullUser.user_role == 'teacher') || (get_fullUser.osztaly == 'A' && get_fullUser.user_role == 'admin'))">
+        <v-btn
+          v-if="get_fullUser && ((get_fullUser.osztaly == 'T' && get_fullUser.user_role == 'teacher') || (get_fullUser.osztaly == 'A' && get_fullUser.user_role == 'admin'))"
+        >
           <v-icon>mdi-book-plus</v-icon>
-  
           <span>Kiírás</span>
         </v-btn>
       </v-bottom-navigation>
@@ -124,6 +120,7 @@
                       <v-btn
                       style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
                       class="justify-center rounded cursor-pointer py-2 px-0 w-100"
+                      @click="router.push({name: 'learning'}); colorStore.value = 3"
                       >
                           <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
                               <v-icon size="30" class="ml-4">mdi-school-outline</v-icon>
@@ -814,6 +811,7 @@ import { useDisplay, useTheme } from 'vuetify';
 import { useChangeDarkmode, useGetProfil } from '@/api/profile/profileQuery';
 import { useGetSettingsConfirm, useSetSettings, useProfilePicUpload, useGetAllUser, useSetUserNewSettings, useSetUserRoles, usesetNewClass } from '@/api/settingsConfirms/settingsConfrimQuery';
 import imageCompression from 'browser-image-compression';
+import { useColorStore } from '../stores/bottomNav';
 
 const showError = inject("showError");
 const showSucces = inject("showSucces");
@@ -823,6 +821,9 @@ const isMobile = computed(() => mobile.value);
 watch(isMobile, async (newValue) => {
   SettingsMenu.value = newValue;
 });
+
+const colorStore = useColorStore();
+const color_BottomNav = computed(() => colorStore.color); 
 
 const get_token = getCookie("user");
 const route = useRoute();

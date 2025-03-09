@@ -75,7 +75,7 @@
             <v-card-actions class="align-center d-flex justify-center">
               <v-btn 
               style="width: 60%; border: .1vw solid rgb(var(--v-theme-text_color));"
-              class="rounded-lg text-center">
+              class="rounded-lg text-center" @click="router.push({name: 'learning'})">
                 Ugrás a felületre
               </v-btn>
             </v-card-actions>
@@ -146,15 +146,19 @@ import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, inject, onMounted, watch } from 'vue';
 import { useDisplay, useTheme } from 'vuetify';
 import { useGetProfil } from '@/api/profile/profileQuery';
+import { useColorStore } from '../stores/bottomNav';
 
 const showError = inject("showError");
 const showSucces = inject("showSucces");
 
 const { mobile } = useDisplay();
 const isMobile = computed(() => mobile.value);
+const router = useRouter();
 
 const get_token = getCookie("user");
 const get_fullUser = ref(null);
+
+const colorStore = useColorStore();
 
 const {mutate: getProfil} = useGetProfil();
 
