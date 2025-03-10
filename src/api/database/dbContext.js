@@ -41,7 +41,7 @@ const initializeDatabase = async () => {
         // Get the query interface from sequelize
         const queryInterface = sequelize.getQueryInterface();
 
-        await sequelize.sync({ force: false });
+        await sequelize.sync({ force: true });
         console.log('Database connected and models synchronized.');
 
         await db.Tkat.initializeTkats();
