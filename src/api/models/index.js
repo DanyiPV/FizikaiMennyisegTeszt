@@ -6,12 +6,20 @@ module.exports = (sequelize, DataTypes) => {
     const Notification = require("./notifications")(sequelize, DataTypes);
     const Tkat = require("./tkat")(sequelize, DataTypes);
     const Alkat = require("./alkat")(sequelize, DataTypes);
+    const Validation = require("./validation")(sequelize, DataTypes);
 
     // Kapcsolatok
     Users.hasOne(Usersettings, {
         foreignKey: "user_id",
     });
     Usersettings.belongsTo(Users, {
+        foreignKey: "user_id",
+    });
+
+    Users.hasOne(Validation, {
+        foreignKey: "user_id",
+    });
+    Validation.belongsTo(Users, {
         foreignKey: "user_id",
     });
 
@@ -50,6 +58,7 @@ module.exports = (sequelize, DataTypes) => {
         Alkat,
         Tables,
         Tkat,
+        Validation,
         ExamAlkat
     };
 };

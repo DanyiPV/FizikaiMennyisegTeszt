@@ -39,6 +39,9 @@ const vuetify = createVuetify({
           nav_drawer_bc: colors.grey.lighten2,
 
           settings_drawer_bc: colors.grey.lighten2,
+          admin_bc: colors.lightBlue.lighten3,
+          teacher_bc: colors.orange.accent2,
+          student_bc: colors.blueGrey.lighten3,
 
           main_bc: colors.grey.lighten3,
         },
@@ -61,6 +64,9 @@ const vuetify = createVuetify({
           nav_drawer_bc: colors.grey.darken2,
 
           settings_drawer_bc: colors.grey.darken2,
+          admin_bc: colors.lightBlue.lighten3,
+          teacher_bc: colors.orange.accent2,
+          student_bc: colors.blueGrey.lighten3,
 
           main_bc: colors.grey.darken1,
         },

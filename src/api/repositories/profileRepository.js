@@ -31,14 +31,29 @@ class logregRepository
 
     async getUser(id)
     {
-        return await this.Users.findOne({
+        const user = await this.Users.findOne({
             where :{
                 id: id
             },
             include:{
                 model:  this.Usersettings,
+                attributes: ['darkmode', 'profPic']
             }
         });
+
+        if (user && user.Usersetting && user.Usersetting.profPic) {
+            const profileProfPicBuffer = user.Usersetting.profPic;
+        
+            const profileProfPicMimeType = user.Usersetting.profType || 'image/jpeg'; // Alapértelmezett MIME típus
+
+            if (profileProfPicBuffer) {
+                // Blob fájl átalakítása Base64 formátumba
+                const base64Image = Buffer.from(profileProfPicBuffer).toString('base64');
+                user.Usersetting.profPic = `data:${profileProfPicMimeType};base64,${base64Image}`;
+            }
+        }
+        
+        return user;
     }
 }
 

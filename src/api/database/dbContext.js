@@ -1,8 +1,7 @@
 require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
-const mysql = require('mysql2/promise');
 
-// Create Sequelize instance
+// Sequelize adatbázis kapcsolat
 const sequelize = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USERNAME,
@@ -10,56 +9,52 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST,
         dialect: process.env.DB_DIALECT || 'mysql',
-        logging: false, // Set to true for debugging SQL queries
-    },
+        port: 3306,
+        logging: false,  // Itt javítottam a 'loging' elírást
+    }
 );
 
-// Import models and pass Sequelize instance
-const models = require("../models/index")(sequelize, DataTypes);
+const models = require("../models/index")(sequelize, DataTypes); // Betöltöd az index.js-t
 
-// Export sequelize instance and models
 const db = {
     sequelize,
     Sequelize,
-    ...models,
+    ...models // A modellek beillesztése a db objektumba
 };
 
-// Initialize database and tables
+// Inicializálás és események beállítása
 const initializeDatabase = async () => {
     try {
-        // Create the database if it does not exist
-        const connection = await mysql.createConnection({
-            host: process.env.DB_HOST,
-            user: process.env.DB_USERNAME,
-            password: process.env.DB_PASSWORD,
-        });
+        console.log("\n--- Új log ---");
+        console.log('Starting database authentication...');
 
-        await connection.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.DB_NAME}\`;`);
-        console.log(`Database "${process.env.DB_NAME}" created or already exists.`);
-        await connection.end();
+        await sequelize.authenticate()
+            .then(() => {
+                console.log('Database connected successfully.');
+            })
+            .catch((error) => {
+                console.error('Unable to connect to the database:', error.message);
+            });
+      
+        await sequelize.sync({ force: false })
+            .then(() => {
+                console.log('Database synchronized.');
+            })
+            .catch((error) => {
+                console.error('Error syncing database:', error.message);
+            });
 
-        // Get the query interface from sequelize
-        const queryInterface = sequelize.getQueryInterface();
-
-        await sequelize.sync({ force: true });
-        console.log('Database connected and models synchronized.');
-
-        await db.Tkat.initializeTkats();
+            
+        /*await db.Tkat.initializeTkats();
 
         await db.Alkat.initializeAlkats();
 
-        await db.Tables.initializeTable();
-
-        // Enable foreign key checks back on
-        await queryInterface.sequelize.query("SET FOREIGN_KEY_CHECKS = 1;");
-
-        console.log('Database connected and tables created.');
+        await db.Tables.initializeTable();*/
     } catch (error) {
         console.error('Error initializing database:', error);
     }
 };
-// Run database initialization
+
 initializeDatabase();
 
-// Export db object for further use
 module.exports = db;

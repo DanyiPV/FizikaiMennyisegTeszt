@@ -252,11 +252,12 @@ const handleLogin = async () =>{
       }
 
       if (rememberMe) {
-          setCookieWithExpiry('user', token, 1);
-        } else {
-          setPersistentCookie('user', token);
-        }
-        router.push({ name: 'home' });
+        setCookieWithExpiry('user', token, 1);
+      } else {
+        setPersistentCookie('user', token);
+      }
+      router.push({ name: 'home' });
+      loading.value = false;
     },
     onError: (error) => {
       if (showError) {
@@ -264,6 +265,7 @@ const handleLogin = async () =>{
       }else{
         console.log(error.response.data);
       }
+      loading.value = false;
     }
   });
   },1000);

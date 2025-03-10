@@ -7,6 +7,8 @@ const salt = 10;
 
 const jwt = require("jsonwebtoken");
 
+const validator = require("email-validator");
+
 //const nodemailer = require('nodemailer'); ?? kérdéses hogy ez legyen-e
 
 exports.registerUser = async (req, res, next) =>
@@ -45,105 +47,20 @@ exports.registerUser = async (req, res, next) =>
             }
         }
 
+        const isValid = validator.validate(email);
         
-        try{
-            const result = await logregServices.registerUser(newUser);
-            
-            /*if(result && result.id != null)
-            {
-                // token generálás
-                const token = jwt.sign(
-                    { email: email },
-                    process.env.JWT_KEY,
-                    { expiresIn: '1h' }
-                );
-                // Verifikációs token
-                const newToken =
-                {
-                    token: token,
-                    type: "regisztrálás",
-                    user_id: result.id,
-                }
+        if(!isValid){
+            const error = new Error("Ilyen email cím nem található!");
 
-                const token_result = await logregServices.uploadToken(newToken);
-                
-                // Verifikációs link
-                const verificationLink = `http://localhost:5173/success-register?token=${token_result.token}`;
+            error.status = 404;
+
+            throw error;
+        }
         
-                // Email küldése
-                const transporter = nodemailer.createTransport({
-                    service: 'gmail',
-                    auth: {
-                        user: 'mathsolve597@gmail.com',
-                        pass: 'awsm uhrf dsrd xqcz',
-                    },
-                });
+        const result = await logregServices.registerUser(newUser);
 
-                const mailOptions = {
-                    from: '"Math Solve" <mathsolve597@gmail.com>',
-                    to: email,
-                    subject: 'Email megerősítés',
-                    html: `
-                        <div style="
-                            max-width: 500px;
-                            margin: 0 auto;
-                            padding: 20px;
-                            background-color: #ffffff;
-                            border-radius: 12px;
-                            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-                            text-align: center;
-                            font-family: Arial, sans-serif;
-                        ">
-                            <table role="presentation" width="100%" style="position: relative;">
-                                <tr>
-                                    <td style="position: relative; text-align: center;">
-                                        <img src="https://drive.google.com/uc?export=view&id=1kLXvCwA1hF9wACP8NPjqUsHrzcSDy8Gk" 
-                                            alt="Header background image" 
-                                            style="width: 100%; height: auto; border-radius: 12px 12px 0 0;">
-                                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                            <img src="https://drive.google.com/uc?export=view&id=1DVnRCatLIPKwrInPc62RLg89gBR1wJJG" 
-                                                alt="Header logo Image" 
-                                                style="width: 100px; height: auto;">
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <h1 style="color: #333;">Hello ${user_name}!</h1>
-                            <p style="color: #555; font-size: 16px;">Az alábbi gombra kattintva jóváhagyhatja a fiókja regisztrálását:</p>
-                            
-                            <a href="${verificationLink}" style="
-                                display: inline-block;
-                                background-color: #007BFF;
-                                color: white;
-                                padding: 12px 24px;
-                                border-radius: 8px;
-                                font-size: 16px;
-                                text-decoration: none;
-                                font-weight: bold;
-                                margin-top: 10px;
-                                transition: background 0.3s;
-                            " onmouseover="this.style.background='#0056b3'" onmouseout="this.style.background='#007BFF'">
-                                Megerősítés
-                            </a>
-                        </div>`
-                };
 
-                //console.log("Email küldésére kész:", mailOptions);
-            const email_send = await transporter.sendMail(mailOptions);
-                            
-            if(!email_send){
-                const error = new Error("Hiba törént az email küldése közbe!");
-
-                error.status = 400;
-    
-                throw error;
-            }*/
-
-            res.status(201).json(result);
-        }
-        catch(error){
-            next(error);
-        }
+        res.status(201).json(result);
     }
     catch(error){
         next(error);
@@ -217,8 +134,6 @@ exports.loginUser = async (req, res, next) =>
 
             throw error;
         }
-
-        const user_activated = await logregServices.activateUser(user.id);
 
         const token = jwt.sign(
             { id: user.id },

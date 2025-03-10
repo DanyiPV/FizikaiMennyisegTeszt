@@ -22,11 +22,15 @@ const tablesRoute = require("./api/routes/tablesRoute")
 
 const profileRoute = require("./api/routes/profileRoute")
 
+const settingsConfirmRoute = require("./api/routes/settingsConfirmRoute")
+
 app.use('/',logregRoute);
 
 app.use('/',tablesRoute);
 
 app.use('/',profileRoute);
+
+app.use('/',settingsConfirmRoute);
 
 app.use(errorHandler.notFoundError);
 

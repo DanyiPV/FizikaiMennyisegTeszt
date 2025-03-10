@@ -40,7 +40,14 @@ class logregRepository
     }
 
     async allTables(){
-        return await this.Tables.findAll();
+        return await this.Tkat.findAll({
+            include:{
+                model: this.Alkat,
+                include:{
+                    model: this.Tables,
+                }
+            }
+        });
     }
 }
 
