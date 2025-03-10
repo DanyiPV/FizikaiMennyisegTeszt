@@ -24,6 +24,7 @@
     "jose": "^5.9.6",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
+    "mathjax": "^3.2.2",
     "pinia": "^2.2.6",
     "qs": "^6.14.0",
     "vue": "^3.5.13",
@@ -38,6 +39,7 @@
     "@types/jsdom": "^21.1.7",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/lodash": "^4.17.15",
+    "@types/mathjax": "^0.0.40",
     "@types/node": "^22.9.3",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vitejs/plugin-vue-jsx": "^4.1.1",
@@ -50,6 +52,7 @@
     "vite": "^6.0.7",
     "vite-plugin-vue-devtools": "^7.6.5",
     "vitest": "^3.0.7",
+    "vue-mathjax": "^0.0.11",
     "vue-tsc": "^2.1.10"
   }
 }

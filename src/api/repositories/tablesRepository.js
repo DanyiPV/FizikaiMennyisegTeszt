@@ -20,18 +20,29 @@ class logregRepository
     }
 
     async fullSubcategories(idList){
-        console.log(idList);
         var SubcategoriesArray = [];
 
-        for(const id of idList){
-           SubcategoriesArray.push(await this.Alkat.findAll(
-                {
-                    where:{
-                        tkat_id: id
+        for (const id of idList) {
+            const subcategories = await this.Alkat.findAll({
+                where: {
+                    tkat_id: id
+                },
+                include: [
+                    {
+                        model: this.Tables, // A Tables modell kapcsolata
+                        attributes: [] // Nem kérjük le a konkrét adatokat, csak a darabszám kell
                     }
-                }
-            ))
+                ],
+                attributes: [
+                    'id', 'nev', 'tkat_id',
+                    [Sequelize.fn('COUNT', Sequelize.col('Tables.id')), 'tablesCount'] // Összeszámolja a kapcsolódó Tables bejegyzéseket
+                ],
+                group: ['Alkat.id'] // Csoportosítás az Alkat id alapján, hogy a COUNT jól működjön
+            });
+        
+            SubcategoriesArray.push(subcategories);
         }
+        
 
         return SubcategoriesArray;
     }

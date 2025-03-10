@@ -28,4 +28,7 @@ export default defineConfig({
     },
     open: '/',
   },
+  optimizeDeps: {
+    exclude: ['mathjax/es5/tex-svg.js'] // Exclude MathJax from optimization
+  }
 })

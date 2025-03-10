@@ -22,9 +22,6 @@ const upload = multer({
         if(file != null){
             const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
             // Ellenőrzés
-
-            console.log(file.mimetype);
-            
             if (allowedMimeTypes.includes(file.mimetype)) {
                 return cb(null, true); // Elfogadott fájl
             } else {
