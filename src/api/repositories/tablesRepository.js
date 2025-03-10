@@ -19,14 +19,21 @@ class logregRepository
         return await this.Tkat.findAll();
     }
 
-    async fullSubcategories(id){
-        return await this.Alkat.findAll(
-            {
-                where:{
-                    tkat_id: id
+    async fullSubcategories(idList){
+        console.log(idList);
+        var SubcategoriesArray = [];
+
+        for(const id of idList){
+           SubcategoriesArray.push(await this.Alkat.findAll(
+                {
+                    where:{
+                        tkat_id: id
+                    }
                 }
-            }
-        )
+            ))
+        }
+
+        return SubcategoriesArray;
     }
 
     async fullTables(id){

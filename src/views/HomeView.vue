@@ -159,6 +159,7 @@ const get_token = getCookie("user");
 const get_fullUser = ref(null);
 
 const colorStore = useColorStore();
+colorStore.value = 0;
 
 const {mutate: getProfil} = useGetProfil();
 

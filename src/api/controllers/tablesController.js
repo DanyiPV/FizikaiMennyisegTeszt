@@ -7,9 +7,11 @@ exports.fullCategories = async (req,res,next) =>{
 }
 
 exports.fullSubcategories = async (req,res,next) =>{
-    const id = req.query.id;
+    const idList = req.body;
 
-    const subcategories = await tablesService.fullSubcategories(id);
+    console.log(idList);
+
+    const subcategories = await tablesService.fullSubcategories(idList);
 
     res.status(200).send(subcategories);
 }

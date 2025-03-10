@@ -5,7 +5,7 @@ const tablesController = require('../controllers/tablesController');
 
 route.get('/full-categories', tablesController.fullCategories);
 
-route.get('/full-subcategories', tablesController.fullSubcategories);
+route.post('/full-subcategories', tablesController.fullSubcategories);
 
 route.get('/full-tables', tablesController.fullTables);
 

@@ -16,3 +16,35 @@ export const useGetAllTables = () => {
         }
     })
 }
+
+const getCategories = async () => {
+    const response = await axiosClient.get('http://localhost:3000/full-categories');
+    return response.data
+}
+
+export const useGetCategories = () => {
+    return useMutation({
+        mutationFn: getCategories,
+        onSuccess: (response) => {
+        },
+        onError: (error) => {
+
+        }
+    })
+}
+
+const getSubcategories = async (idList: Array<number>) => {
+    const response = await axiosClient.post('http://localhost:3000/full-subcategories', idList);
+    return response.data
+}
+
+export const useGetSubcategories = () => {
+    return useMutation({
+        mutationFn: getSubcategories,
+        onSuccess: (response) => {
+        },
+        onError: (error) => {
+
+        }
+    })
+}
