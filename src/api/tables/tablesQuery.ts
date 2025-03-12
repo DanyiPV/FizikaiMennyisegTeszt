@@ -48,3 +48,19 @@ export const useGetSubcategories = () => {
         }
     })
 }
+
+const getTraningTables = async (settings: {alkatIds: Array<number>, sorok: number, diff: number}) => {
+    const response = await axiosClient.post('http://localhost:3000/traning-tables', settings);
+    return response.data
+}
+
+export const useGetTraningTables = () => {
+    return useMutation({
+        mutationFn: getTraningTables,
+        onSuccess: (response) => {
+        },
+        onError: (error) => {
+
+        }
+    })
+}

@@ -21,6 +21,11 @@ class logregService
     {
         return await tablesRepository.allTables();
     }
+
+    async getRandomRows(alkatIds, sorok)
+    {
+        return await tablesRepository.getRandomRows(alkatIds, sorok);
+    }
 }
 
 module.exports = new logregService();

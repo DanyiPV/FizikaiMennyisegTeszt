@@ -11,4 +11,6 @@ route.get('/full-tables', tablesController.fullTables);
 
 route.get('/all-tables', tablesController.allTables);
 
+route.post('/traning-tables', tablesController.getTraningTables);
+
 module.exports = route;

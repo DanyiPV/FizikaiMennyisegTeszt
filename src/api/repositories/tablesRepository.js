@@ -67,6 +67,20 @@ class logregRepository
             }
         });
     }
+
+    async getRandomRows(alkatIds, sorok) {
+        const rows = await this.Tables.findAll({
+            where: {
+                alkat_id: {
+                    [Op.in]: alkatIds,
+                },
+            },
+            order: db.sequelize.random(),
+            limit: sorok,
+        });
+    
+        return rows;        
+    }
 }
 
 module.exports = new logregRepository(db);
