@@ -20,7 +20,8 @@
             <v-card-actions class="align-center d-flex justify-center">
               <v-btn 
               style="width: 60%; border: .1vw solid rgb(var(--v-theme-text_color));"
-              class="rounded-lg align-center">
+              class="rounded-lg align-center"
+              @click="router.push({name: 'training'})">
                 Ugrás a felületre
               </v-btn>
             </v-card-actions>
@@ -102,7 +103,8 @@
             <v-card-actions class="align-center d-flex justify-center">
               <v-btn 
               style="width: 60%; border: .1vw solid rgb(var(--v-theme-text_color));"
-              class="rounded-lg text-center">
+              class="rounded-lg text-center"
+              @click="router.push({name: 'results'})">
                 Ugrás a felületre
               </v-btn>
             </v-card-actions>

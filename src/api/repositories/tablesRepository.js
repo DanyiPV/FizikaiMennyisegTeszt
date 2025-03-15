@@ -1,6 +1,6 @@
 const db = require("../database/dbContext");
 
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 
 const { Sequelize, DataTypes } = require('sequelize');
 
@@ -13,6 +13,10 @@ class logregRepository
         this.Alkat = db.Alkat;
 
         this.Tables = db.Tables;
+
+        this.Users = db.Users;
+
+        this.Results = db.Results;
     }
 
     async fullCategories() {
@@ -79,7 +83,68 @@ class logregRepository
             limit: sorok,
         });
     
-        return rows;        
+        return rows;
+    }
+
+    async getOsztaly(user_id) {
+        return await this.Users.findOne({
+            where:{
+                id : user_id
+            },
+            attributes: ["osztaly"]
+        })
+    }
+
+    async getAchivedPoints(tablak){
+        var achivedPoints = 0;
+        for (const item of tablak) {
+            const dbData = await this.Tables.findOne({ where: { id: item.id } });
+            
+            if (!dbData) {
+                console.warn(`Nincs találat az adatbázisban id: ${item.id}`);
+                continue;
+            }
+
+            const fieldsToCheck = ['nev', 'jel', 'def', 'mer'];
+
+            for (const field of fieldsToCheck) {
+                if (typeof item[field] === 'object' && item[field] !== null) {
+                    if (item[field].value === dbData[field]) {
+                        achivedPoints++;
+                    }
+                }
+            }
+        }
+
+        return achivedPoints;
+    }
+
+    async uploadResult(newResult){
+        const result = await this.Results.build(newResult);
+
+        await result.save();
+
+        return 'OK'
+    }
+
+    async getUserResults(id){
+        return await this.Results.findAll({
+            where:{
+                users_id: id
+            }
+        })
+    }
+
+    async getOsztalyok(){
+        return await this.Users.findAll({
+            attributes: ["osztaly"],
+            distinct: true,
+            where:{
+                osztaly: {
+                    [Op.notIn]: ['A', 'T']
+                }
+            }
+        })
     }
 }
 

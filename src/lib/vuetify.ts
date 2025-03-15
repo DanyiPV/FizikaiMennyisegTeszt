@@ -44,6 +44,11 @@ const vuetify = createVuetify({
           student_bc: colors.blueGrey.lighten3,
 
           main_bc: colors.grey.lighten3,
+
+          kivett_elem_bc: colors.grey.lighten1,
+          kivett_adatok_bc: colors.grey.lighten2,
+
+          result_div_bc: colors.grey.lighten1,
         },
       },
       darkTheme: {
@@ -69,6 +74,11 @@ const vuetify = createVuetify({
           student_bc: colors.blueGrey.lighten3,
 
           main_bc: colors.grey.darken1,
+
+          kivett_elem_bc: colors.grey.darken4,
+          kivett_adatok_bc: colors.grey.darken3,
+
+          result_div_bc: colors.grey.darken2,
         },
       },
     },

@@ -64,3 +64,59 @@ export const useGetTraningTables = () => {
         }
     })
 }
+
+const getFinalStats = async (stats: {tables: Array<object>, tablak: string , time: number, diff: number, def_time: number, tpont: number, exam_id: number | null, token: string}) => {
+    const response = await axiosClient.post('http://localhost:3000/get-final-stats', stats);
+    return response.data
+}
+
+export const useGetFinalStats = () => {
+    return useMutation({
+        mutationFn: getFinalStats,
+        onSuccess: (response) => {
+        },
+        onError: (error) => {
+
+        }
+    })
+}
+
+const getResults = async (token: string) => {
+    const response = await axiosClient.get('http://localhost:3000/get-results',{
+        headers:{
+            token: token
+        }
+    });
+    return response.data
+}
+
+export const useGetResults = () => {
+    return useMutation({
+        mutationFn: getResults,
+        onSuccess: (response) => {
+        },
+        onError: (error) => {
+
+        }
+    })
+}
+
+const getOsztalyok = async (token: string) => {
+    const response = await axiosClient.get('http://localhost:3000/get-osztalyok',{
+        headers:{
+            token: token
+        }
+    });
+    return response.data
+}
+
+export const useGetOsztalyok = () => {
+    return useMutation({
+        mutationFn: getOsztalyok,
+        onSuccess: (response) => {
+        },
+        onError: (error) => {
+
+        }
+    })
+}

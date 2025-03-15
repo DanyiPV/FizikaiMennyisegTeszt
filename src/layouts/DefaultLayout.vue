@@ -26,7 +26,7 @@
           <span>Tanulás</span>
         </v-btn>
 
-        <v-btn>
+        <v-btn @click="router.push({name: 'results'})">
           <v-icon>mdi-chart-bar</v-icon>
           <span>Eredmény</span>
         </v-btn>
@@ -72,11 +72,11 @@
             </v-app-bar>
 
             <v-navigation-drawer
-                v-if="!isMobile"
-                v-model="drawer"
-                :location="isMobile ? 'left' : undefined"
-                temporary
-                color="nav_bc"
+              v-if="!isMobile"
+              v-model="drawer"
+              :location="isMobile ? 'left' : undefined"
+              temporary
+              color="nav_bc"
             >
                 <v-list class="d-flex flex-column ga-2">
                     
@@ -122,7 +122,7 @@
                       <v-btn
                       style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
                       class="justify-center rounded cursor-pointer py-2 px-0 w-100"
-                      @click="router.push({name: 'learning'}); colorStore.value = 3"
+                      @click="router.push({name: 'learning'});"
                       >
                           <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
                               <v-icon size="30" class="ml-4">mdi-school-outline</v-icon>
@@ -135,6 +135,7 @@
                       <v-btn
                       style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
                       class="justify-center rounded cursor-pointer py-2 px-0 w-100"
+                       @click="router.push({name: 'results'})"
                       >
                           <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
                               <v-icon size="30" class="ml-4">mdi-chart-bar</v-icon>

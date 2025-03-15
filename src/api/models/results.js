@@ -11,7 +11,11 @@ module.exports = (sequelize, DataTypes) => {
                 autoIncrement: true,
                 allowNull:false
             },
-            class: {
+            tablak:{
+                type: DataTypes.CHAR(255),
+                allowNull: false,
+            },
+            osztaly: {
                 type: DataTypes.CHAR(4),
                 allowNull: false,
             },
@@ -31,17 +35,13 @@ module.exports = (sequelize, DataTypes) => {
                     max: 2
                 }
             },
-            tabla_sorok:{
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
             Eido:{
                 type: DataTypes.INTEGER,
-                allowNull: false,
+                allowNull: true,
             },
             Tido:{
                 type: DataTypes.INTEGER,
-                allowNull: false,
+                allowNull: true,
             },
             datum: {
                 type: DataTypes.DATE,
@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
             sequelize,
             modelName: 'Results',
             tableName: 'results',
-            timestamps: true,
+            timestamps: false,
         }
     );
 

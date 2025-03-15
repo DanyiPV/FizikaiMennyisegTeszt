@@ -26,6 +26,29 @@ class logregService
     {
         return await tablesRepository.getRandomRows(alkatIds, sorok);
     }
+
+    async getOsztaly(user_id)
+    {
+        return await tablesRepository.getOsztaly(user_id);
+    }
+
+    async getAchivedPoints(tablak)
+    {
+        return await tablesRepository.getAchivedPoints(tablak);
+    }
+
+    async uploadResult(newResult)
+    {
+        return await tablesRepository.uploadResult(newResult);
+    }
+
+    async getUserResults(id){
+        return await tablesRepository.getUserResults(id);
+    }
+
+    async getOsztalyok(){
+        return await tablesRepository.getOsztalyok();
+    }
 }
 
 module.exports = new logregService();

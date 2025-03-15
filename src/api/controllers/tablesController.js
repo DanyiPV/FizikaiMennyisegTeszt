@@ -1,4 +1,9 @@
 const tablesService = require("../services/tablesService");
+const settingsConfirmService = require("../services/settingsConfirmService");
+
+const jwt = require("jsonwebtoken");
+
+const salt = 10;
 
 exports.fullCategories = async (req,res,next) =>{
     const categories = await tablesService.fullCategories();
@@ -31,20 +36,18 @@ exports.allTables = async (req,res,next) =>{
 exports.getTraningTables = async (req, res, next) => {
     try {
         const { alkatIds, sorok, diff } = req.body;
-        console.log(alkatIds, sorok, diff);
 
         const parsedAlkatIds = alkatIds;
         const parsedSorok = Number(sorok);
         const parsedDiff = Number(diff);
-
+        
         const randomRows = await tablesService.getRandomRows(parsedAlkatIds, parsedSorok);
 
         const { kivettAdatok, maradekAdatok } = randomFieldSelection(randomRows, parsedDiff);
 
         res.status(200).send({ kivettAdatok, maradekAdatok });
     } catch (error) {
-        console.error("Hiba történt:", error);
-        res.status(500).send({ error: "Belső szerverhiba történt." });
+        next(error);
     }
 };
 
@@ -83,4 +86,135 @@ function randomFieldSelection(data, diff) {
     });
 
     return { kivettAdatok, maradekAdatok };
+}
+
+exports.getFinalStats = async (req, res, next) => {
+    const {tables, tablak , time, diff, def_time, tpont, exam_id, token} = req.body;
+    //console.log(tables, tablak , time, diff, def_time, tpont, exam_id);
+
+    const secretKey = process.env.JWT_KEY;
+
+    var decoded = null;
+        
+    try{
+        
+        if(token){
+            decoded = jwt.verify(token, secretKey, { algorithms: ['HS256'] });
+        }else{
+            const error = new Error("Valami hiba történt a felhasználó igazolásában!");
+
+            error.status = 500;
+
+            throw error;
+        }
+
+        const get_osztaly = await tablesService.getOsztaly(decoded.id);
+
+        if(!get_osztaly){
+            const error = new Error("Valami hiba történt az osztály lekérése közben!");
+
+            error.status = 500;
+
+            throw error;
+        }
+
+        const getAchivedPoints = await tablesService.getAchivedPoints(tables);
+
+        if(!getAchivedPoints){
+            const error = new Error("Valami hiba történt az ellenörzés közben!");
+
+            error.status = 500;
+
+            throw error;
+        }
+
+        const newResult = {
+            id: null,
+            osztaly: get_osztaly.dataValues.osztaly,
+            tablak: tablak,
+            Mpont: tpont,
+            Epont: getAchivedPoints,
+            dif: diff,
+            Eido: time,
+            Tido: def_time,
+            exam_id: exam_id,
+            users_id: decoded.id
+        }
+
+        const uploadResult = await tablesService.uploadResult(newResult);
+
+        if(!uploadResult){
+            const error = new Error("Nem sikerült feltölteni az új eredményt!");
+
+            error.status = 400;
+
+            throw error;
+        }
+
+        res.status(201).json(getAchivedPoints);
+    }catch(error){
+        next(error);
+    }
+}
+
+exports.getResults = async (req, res, next) => {
+    const token = req.headers.token;
+
+    const secretKey = process.env.JWT_KEY;
+
+    try{
+        var decoded = null;
+
+        if(token){
+            decoded = jwt.verify(token, secretKey, { algorithms: ['HS256'] });
+        }else{
+            const error = new Error("Valami hiba történt a felhasználó igazolásában!");
+
+            error.status = 500;
+
+            throw error;
+        }
+
+        const getResults = await tablesService.getUserResults(decoded.id);
+
+        res.status(200).send(getResults);
+    }catch(error){
+        next(error);
+    }
+}
+
+exports.getOsztalyok = async (req,res,next) =>{
+    const token = req.headers.token;
+
+    const secretKey = process.env.JWT_KEY;
+
+    try{
+        var decoded = null;
+
+        if(token){
+            decoded = jwt.verify(token, secretKey, { algorithms: ['HS256'] });
+        }else{
+            const error = new Error("Valami hiba történt a felhasználó igazolásában!");
+
+            error.status = 500;
+
+            throw error;
+        }
+
+        const adminCheck = await settingsConfirmService.getElseUserById(decoded.id);
+        
+        if(!adminCheck){
+            const error = new Error("A felhasználónak nincs ehhez joga!");
+    
+            error.status = 400;
+    
+            throw error;
+        }
+
+        const getOsztalyok = await tablesService.getOsztalyok();
+
+        res.status(200).send(getOsztalyok);
+    }catch(error){
+        next(error);
+    }
 }

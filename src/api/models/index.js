@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     const Tkat = require("./tkat")(sequelize, DataTypes);
     const Alkat = require("./alkat")(sequelize, DataTypes);
     const Validation = require("./validation")(sequelize, DataTypes);
+    const Results = require("./results")(sequelize, DataTypes);
 
     // Kapcsolatok
     Users.hasOne(Usersettings, {
@@ -44,6 +45,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "alkat_id",
     });
 
+    Users.hasMany(Results, {
+        foreignKey: "users_id"
+    });
+
+    Exams.hasMany(Results, {
+        foreignKey: 'exam_id'
+    });
+    
+
     // Kapcsolótábla létrehozása Many-to-Many kapcsolat számára
     const ExamAlkat = sequelize.define('ExamAlkat', {}, { timestamps: false });
 
@@ -59,6 +69,7 @@ module.exports = (sequelize, DataTypes) => {
         Tables,
         Tkat,
         Validation,
+        Results,
         ExamAlkat
     };
 };

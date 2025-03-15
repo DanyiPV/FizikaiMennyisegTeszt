@@ -41,7 +41,9 @@ const initializeDatabase = async () => {
         // Get the query interface from sequelize
         const queryInterface = sequelize.getQueryInterface();
 
-        await sequelize.sync({ force: false });
+        await sequelize.query('SET FOREIGN_KEY_CHECKS = 0', { raw: true });
+
+        await sequelize.sync({ force: true });
         console.log('Database connected and models synchronized.');
 
         await db.Tkat.initializeTkats();
@@ -62,7 +64,8 @@ const initializeDatabase = async () => {
 
         await sequelize.query(createValidationDeleteEventQuery);
         console.log('Event for automatic confirm codes deletion created.');
-        
+
+        await sequelize.query('SET FOREIGN_KEY_CHECKS = 1', { raw: true });
 
         console.log('Database connected and tables created.');
     } catch (error) {
