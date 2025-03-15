@@ -30,8 +30,8 @@ exports.sendConfirmCode = async (req, res, next) =>
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'mathsolve597@gmail.com',
-                pass: 'awsm uhrf dsrd xqcz',
+                user: 'gravitasnoreply@gmail.com',
+                pass: 'vwuy eckc shar hlgm',
             },
         });
 
@@ -40,7 +40,7 @@ exports.sendConfirmCode = async (req, res, next) =>
         const RandomDigits = randomSixDigitNumber();
 
         const mailOptions = {
-            from: '"Gravitas" <mathsolve597@gmail.com>',
+            from: '"Gravitas" <gravitasnoreply@gmail.com>',
             to: email,
             subject: 'Megerősítő kód',
             html: `
@@ -61,7 +61,7 @@ exports.sendConfirmCode = async (req, res, next) =>
                                     alt="Header background image" 
                                     style="width: 100%; height: auto; border-radius: 12px 12px 0 0;">
                                 <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                    <img src="https://drive.google.com/uc?export=view&id=1DVnRCatLIPKwrInPc62RLg89gBR1wJJG" 
+                                    <img src="https://drive.google.com/uc?export=view&id=1gPPeI6lsViQSMuigrZifAA-vKbyjV7b9" 
                                         alt="Header logo Image" 
                                         style="width: 100px; height: auto;">
                                 </div>
@@ -73,6 +73,8 @@ exports.sendConfirmCode = async (req, res, next) =>
                     <div><p style="color: black; font-size: 16px;">Megerősítő kód: </p> <p style="color: black; font-size: 45px;">${RandomDigits}</p> </div>
                 </div>`
         };
+
+        console.log(mailOptions);
 
         const newCode =
         {

@@ -128,11 +128,30 @@ class logregRepository
     }
 
     async getUserResults(id){
-        return await this.Results.findAll({
+        const results = await this.Results.findAll({
+            order: [['datum', 'DESC']],
             where:{
-                users_id: id
-            }
+                users_id: id,
+            },
+            include: [
+                {
+                    model: this.Users,
+                    attributes: ["user_name"],
+                },
+            ],
         })
+
+        var resultWithUser = [];
+
+        for (let i = 0; i < results.length; i++) {
+            const result = { ...results[i].dataValues, ...results[i].dataValues.User.dataValues };
+        
+            delete result.User;
+        
+            resultWithUser.push(result);
+        }
+
+        return resultWithUser;
     }
 
     async getOsztalyok(){
@@ -145,6 +164,53 @@ class logregRepository
                 }
             }
         })
+    }
+
+    async getUsersResults(search, osztaly, last){
+        const whereClause = {};
+    
+        if (search && search != "") {
+            whereClause.user_name = { [Sequelize.Op.like]: `%${search}%` };
+        }
+    
+        if (osztaly) {
+            whereClause.osztaly = osztaly;
+        }
+
+        const users = await this.Users.findAll(
+            { 
+                where: whereClause,
+                attributes: ['user_name'],
+                include: [
+                    {
+                        model: this.Results,
+                        required: true,
+                        limit: last === 1 ? 1 : undefined,
+                        order: [['datum', 'DESC']],
+                    },
+                ],
+            }
+        );
+
+       
+        var usersWithResults = [];
+
+        for (let i = 0; i < users.length; i++) {
+
+            delete users[i].dataValues.id
+
+            if (users[i].dataValues.Results && users[i].dataValues.Results[0]) {
+
+                const values = users[i].dataValues.Results.map(c => c.dataValues);
+                
+                const user_name = users[i].dataValues.user_name;
+                for (let j = 0; j < values.length; j++) {
+                    usersWithResults.unshift({ ...values[j], user_name});
+                }
+            }
+        }
+
+        return usersWithResults;
     }
 }
 

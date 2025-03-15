@@ -218,3 +218,39 @@ exports.getOsztalyok = async (req,res,next) =>{
         next(error);
     }
 }
+
+exports.getUsersResult = async (req,res,next) =>{
+    const {search, osztaly, token, last} = req.body;
+
+    const secretKey = process.env.JWT_KEY;
+
+    try{
+        var decoded = null;
+
+        if(token){
+            decoded = jwt.verify(token, secretKey, { algorithms: ['HS256'] });
+        }else{
+            const error = new Error("Valami hiba történt a felhasználó igazolásában!");
+
+            error.status = 500;
+
+            throw error;
+        }
+
+        const adminCheck = await settingsConfirmService.getElseUserById(decoded.id);
+        
+        if(!adminCheck){
+            const error = new Error("A felhasználónak nincs ehhez joga!");
+    
+            error.status = 400;
+    
+            throw error;
+        }
+
+        const getUserResults = await tablesService.getUsersResults(search, osztaly, last);
+
+        res.status(200).send(getUserResults);
+    }catch(error){
+        next(error);
+    }
+}

@@ -1,7 +1,7 @@
 <template>
     <v-container style="background-color: rgb(var(--v-theme-primary));" class="rounded mt-2 pa-0" :class="{ 'pt-1': (get_fullUser && (get_fullUser.admin && (get_fullUser.user_role == 'admin' && get_fullUser.osztaly == 'A') || (!get_fullUser.admin && get_fullUser.user_role == 'teacher' && get_fullUser.osztaly == 'T'))) }">
         <v-row v-if="get_fullUser && (get_fullUser.admin && (get_fullUser.user_role == 'admin' && get_fullUser.osztaly == 'A') || (!get_fullUser.admin && get_fullUser.user_role == 'teacher' && get_fullUser.osztaly == 'T'))" 
-        class="my-2 mx-3 py-3 px-4 d-flex rounded justify-space-around"
+        class="my-2 mx-3 py-2 px-4 d-flex rounded justify-space-around"
         style="background-color: rgb(var(--v-theme-result_div_bc));">
             <v-col cols="12" md="5">
                 <v-text-field
@@ -34,7 +34,7 @@
             </v-col>
         </v-row>
 
-        <div v-if="gyakArray.length == 0 && dogArray.length == 0" class="d-flex justify-center py-4">
+        <div v-if="!isResultsArray && selectedClass == null && searchQuery == ''" class="d-flex justify-center py-4">
             <h1>Még egy eredményed sincs!</h1>
         </div>
         <div v-else>
@@ -50,22 +50,24 @@
                 <v-card-text>
                 <v-tabs-window v-model="ResultTabs">
                     <v-tabs-window-item value="Gyak">
-                        <div v-if="dogArray.length > 0 && gyakArray.length == 0">
-                            <h2>Még nincs egy eredményed se a gyaklorlatokról!</h2>
+                        <div v-if="ResultsArray.length == 0" class="d-flex justify-center">
+                            <h2>{{selectedClass != null || searchQuery != '' ? ( selectedClass != null ? 'Még nincs egy eredménye a gyaklorlatokról ebből az osztályból!' : 'Még nincs egy eredménye a gyaklorlatokról a felhasználónak!') : 'Még nincs egy eredményed se a gyaklorlatokról!'}}</h2>
                         </div>
                         <v-table v-else class="table-fixed rounded" style="background-color: rgb(var(--v-theme-primary));">
                             <thead>
                                 <tr>
                                     <th class="text-center" style="width: 40%;"><h2>Befejezve</h2></th>
-                                    <th class="text-center" style="width: 10%;"><h2>Százalék</h2></th>
+                                    <th v-if="ResultsArray && get_fullUser && ResultsArray[0].user_name == get_fullUser.user_name"  class="text-center" style="width: 10%;"><h2>Százalék</h2></th>
+                                    <th v-else class="text-center" style="width: 10%;"><h2>Név</h2></th>
                                     <th class="text-center" style="width: 30%;"><h2>Láthatatlan jegy</h2></th>
                                     <th class="text-center" style="width: 15%;"><h2>Továbbiak</h2></th>
                                 </tr>
                             </thead>
                             <tbody style="max-width: 100%;">
-                                <tr v-for="result in gyakArray">
+                                <tr v-for="result in ResultsArray">
                                     <td class="text-center" style="width: 40%;"><h2>{{ displayDatum(result.datum) }}</h2></td>
-                                    <td class="text-center" style="width: 10%;"><h2 style="font-family: 'Orbitron', sans-serif;">{{ Math.floor(result.Epont / result.Mpont * 100) }}%</h2></td>
+                                    <td v-if="result && get_fullUser && result.user_name == get_fullUser.user_name" class="text-center" style="width: 10%;"><h2 style="font-family: 'Orbitron', sans-serif;">{{ Math.floor(result.Epont / result.Mpont * 100) }}%</h2></td>
+                                    <td v-else class="text-center" style="width: 10%;"><h2>{{ result.user_name }}</h2></td>
                                     <td class="text-center" style="width: 30%;"><h2 style="font-family: 'Orbitron', sans-serif;">{{ showGrade(Math.floor(result.Epont / result.Mpont * 100)) }}</h2></td>
                                     <td class="text-center" style="width: 15%;">
                                         <v-btn
@@ -80,8 +82,8 @@
                         </v-table>
                     </v-tabs-window-item>
                     <v-tabs-window-item value="Dog">
-                        <div v-if="dogArray.length == 0 && gyakArray.length > 0">
-                            <h2>Még nincs egy eredményed se a dolgozatokról!</h2>
+                        <div v-if="ResultsArray.length == 0" class="d-flex justify-center">
+                            <h2>{{selectedClass != null || searchQuery != '' ? ( selectedClass != null ? 'Még nincs egy eredménye a dolgozatról ebből az osztályból!' : 'Még nincs egy eredménye a dolgozatról a felhasználónak!') : 'Még nincs egy eredményed se a dolgozatról!'}}</h2>
                         </div>
                         <v-table v-else class="table-fixed rounded" style="background-color: rgb(var(--v-theme-primary));">
                             <thead>
@@ -93,7 +95,7 @@
                                 </tr>
                             </thead>
                             <tbody style="max-width: 100%;">
-                                    <tr v-for="result in dogArray">
+                                    <tr v-for="result in ResultsArray">
                                     <td class="text-center" style="width: 40%;"><h2>{{ displayDatum(result.datum) }}</h2></td>
                                     <td class="text-center" style="width: 10%;"><h2 style="font-family: 'Orbitron', sans-serif;">{{ Math.floor(result.Epont / result.Mpont * 100) }}%</h2></td>
                                     <td class="text-center" style="width: 30%;"><h2 style="font-family: 'Orbitron', sans-serif;">{{ showGrade(Math.floor(result.Epont / result.Mpont * 100)) }}</h2></td>
@@ -180,7 +182,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, inject, onMounted, watch, onBeforeUnmount } from 'vue';
 import { useDisplay, useTheme } from 'vuetify';
 import { useColorStore } from '../stores/bottomNav';
-import { useGetResults, useGetOsztalyok } from '@/api/tables/tablesQuery';
+import { useGetResults, useGetOsztalyok, usGetUserResults } from '@/api/tables/tablesQuery';
 import { useGetProfil } from '@/api/profile/profileQuery';
 
 const showError = inject("showError");
@@ -196,8 +198,8 @@ const get_fullUser = ref(null);
 const colorStore = useColorStore();
 colorStore.value = 4;
 
-const gyakArray = ref([]);
-const dogArray = ref([]);
+const ResultsArray = ref([]);
+const isResultsArray = ref(false);
 const ResultTabs = ref('Gyak');
 const dialogShow = ref(false);
 const dialog_Points = ref(null);
@@ -210,6 +212,7 @@ const searchQuery = ref('');
 const selectedClass = ref(null);
 const comboOsztalyok = ref(null);
 const lastExams = ref(true);
+var timeout = null;
 
 function dialogOpen(result){
     dialogShow.value = true;
@@ -249,6 +252,161 @@ function showGrade(grade){
   return return_grade;
 }
 
+const {mutate: getUserResults} = usGetUserResults();
+
+watch(lastExams, async (newValue) => {
+    if(searchQuery.value || selectedClass.value){
+        await getUserResults({
+                search: searchQuery.value,
+                osztaly: selectedClass.value,
+                token: get_token,
+                last: newValue ? 1 : 0
+            }, 
+            {
+            onSuccess: (response) => {
+                isResultsArray.value = response.length > 0;
+                ResultsArray.value = ResultTabs.value == 'Gyak' ? response.filter(c=> c.exam_id == null) : response.filter(c=> c.exam_id != null);
+            }
+        })
+    }else{
+        await getResults(get_token, {
+            onSuccess: (response) => {
+                isResultsArray.value = response.length > 0;
+                ResultsArray.value = ResultTabs.value == 'Gyak' ? response.filter(c=> c.exam_id == null) : response.filter(c=> c.exam_id != null);
+            },
+            onError: (error) => {
+            if (showError) {
+                showError(error.response.data);
+            }else{
+                console.log(error.response.data);
+            }},
+        });
+    }
+})
+
+watch(ResultTabs, async (newValue) => {
+    if(searchQuery.value || selectedClass.value){
+        await getUserResults({
+                search: searchQuery.value,
+                osztaly: selectedClass.value,
+                token: get_token,
+                last: lastExams.value ? 1 : 0
+            }, 
+            {
+            onSuccess: (response) => {
+                isResultsArray.value = response.length > 0;
+                ResultsArray.value = ResultTabs.value == 'Gyak' ? response.filter(c=> c.exam_id == null) : response.filter(c=> c.exam_id != null);
+            }
+        })
+    }else{
+        await getResults(get_token, {
+            onSuccess: (response) => {
+                isResultsArray.value = response.length > 0;
+                ResultsArray.value = ResultTabs.value == 'Gyak' ? response.filter(c=> c.exam_id == null) : response.filter(c=> c.exam_id != null);
+            },
+            onError: (error) => {
+            if (showError) {
+                showError(error.response.data);
+            }else{
+                console.log(error.response.data);
+            }},
+        });
+    }
+})
+
+watch(searchQuery, async (newValue) => {
+  clearTimeout(timeout);
+  
+  if (newValue && newValue !== "") {
+      timeout = setTimeout( async () => {
+        await getUserResults({
+            search: newValue,
+            osztaly: selectedClass.value,
+            token: get_token,
+            last: lastExams.value ? 1 : 0
+        }, 
+        {
+        onSuccess: (response) => {
+            isResultsArray.value = response.length > 0;
+            ResultsArray.value = ResultTabs.value == 'Gyak' ? response.filter(c=> c.exam_id == null) : response.filter(c=> c.exam_id != null);
+        }})
+    }, 300);
+  }else{
+    if(selectedClass.value != null){
+        timeout = setTimeout( async () => {
+            await getUserResults({
+                search: null,
+                osztaly: selectedClass.value,
+                token: get_token,
+                last: lastExams.value ? 1 : 0
+            }, 
+            {
+            onSuccess: (response) => {
+                isResultsArray.value = response.length > 0;
+                ResultsArray.value = ResultTabs.value == 'Gyak' ? response.filter(c=> c.exam_id == null) : response.filter(c=> c.exam_id != null);
+            }})
+        }, 300);
+    }else{
+        await getResults(get_token, {
+            onSuccess: (response) => {
+                ResultsArray.value = ResultTabs.value == 'Gyak' ? response.filter(c=> c.exam_id == null) : response.filter(c=> c.exam_id != null);
+            },
+            onError: (error) => {
+            if (showError) {
+                showError(error.response.data);
+            }else{
+                console.log(error.response.data);
+            }},
+        });
+    }
+  }
+});
+
+watch(selectedClass, async (newValue) => {
+    if (newValue != null && newValue !== "") {
+        await getUserResults({
+            search: searchQuery.value,
+            osztaly: newValue,
+            token: get_token,
+            last: lastExams.value ? 1 : 0
+        }, 
+        {
+            onSuccess: (response) => {
+                isResultsArray.value = response.length > 0;
+                ResultsArray.value = ResultTabs.value == 'Gyak' ? response.filter(c=> c.exam_id == null) : response.filter(c=> c.exam_id != null);
+            }
+        })
+    }else{
+        if(searchQuery.value != ''){
+            await getUserResults({
+            search: searchQuery.value,
+            osztaly: null,
+            token: get_token,
+            last: lastExams.value ? 1 : 0
+            }, 
+            {
+                onSuccess: (response) => {
+                    isResultsArray.value = response.length > 0;
+                    ResultsArray.value = ResultTabs.value == 'Gyak' ? response.filter(c=> c.exam_id == null) : response.filter(c=> c.exam_id != null);
+                }
+            })
+        }else{
+            await getResults(get_token, {
+                onSuccess: (response) => {
+                    isResultsArray.value = response.length > 0;
+                    ResultsArray.value = ResultTabs.value == 'Gyak' ? response.filter(c=> c.exam_id == null) : response.filter(c=> c.exam_id != null);
+                },
+                onError: (error) => {
+                if (showError) {
+                    showError(error.response.data);
+                }else{
+                    console.log(error.response.data);
+                }},
+            });
+        }
+    }
+});
+
 const {mutate: getResults} = useGetResults();
 const {mutate: getProfil} = useGetProfil();
 const {mutate: getOsztalyok} = useGetOsztalyok();
@@ -256,8 +414,8 @@ const {mutate: getOsztalyok} = useGetOsztalyok();
 onMounted(async () => {
   await getResults(get_token, {
     onSuccess: (response) => {
-        gyakArray.value = response.filter(c=> c.exam_id == null);
-        dogArray.value = response.filter(c=> c.exam_id != null);
+        isResultsArray.value = response.length > 0;
+        ResultsArray.value = ResultTabs.value == 'Gyak' ? response.filter(c=> c.exam_id == null) : response.filter(c=> c.exam_id != null);
     },
     onError: (error) => {
     if (showError) {

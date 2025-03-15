@@ -21,4 +21,6 @@ route.get('/get-results', tablesController.getResults);
 
 route.get('/get-osztalyok', [ profileAuth.verifyToken ], tablesController.getOsztalyok);
 
+route.post('/get-user-result', [ profileAuth.verifyToken ], tablesController.getUsersResult);
+
 module.exports = route;

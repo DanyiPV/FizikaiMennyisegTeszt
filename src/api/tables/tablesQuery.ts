@@ -120,3 +120,23 @@ export const useGetOsztalyok = () => {
         }
     })
 }
+
+const getUserResults = async (data: {search: string | null, osztaly: string | null, token: string, last: number}) => {
+    const response = await axiosClient.post('http://localhost:3000/get-user-result', data, {
+        headers:{
+            token: data.token
+        }
+    });
+    return response.data
+}
+
+export const usGetUserResults = () => {
+    return useMutation({
+        mutationFn: getUserResults,
+        onSuccess: (response) => {
+        },
+        onError: (error) => {
+
+        }
+    })
+}

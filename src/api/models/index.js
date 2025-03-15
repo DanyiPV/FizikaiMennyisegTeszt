@@ -45,9 +45,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "alkat_id",
     });
 
-    Users.hasMany(Results, {
-        foreignKey: "users_id"
-    });
+    Users.hasMany(Results, { foreignKey: "users_id" });
+    Results.belongsTo(Users, { foreignKey: "users_id" });
 
     Exams.hasMany(Results, {
         foreignKey: 'exam_id'

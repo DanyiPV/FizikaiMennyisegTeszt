@@ -49,6 +49,10 @@ class logregService
     async getOsztalyok(){
         return await tablesRepository.getOsztalyok();
     }
+
+    async getUsersResults(search, osztaly, last){
+        return await tablesRepository.getUsersResults(search, osztaly, last);
+    }
 }
 
 module.exports = new logregService();
