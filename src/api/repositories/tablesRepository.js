@@ -212,6 +212,17 @@ class logregRepository
 
         return usersWithResults;
     }
+
+    async getCheckedUser(id){
+        const user = await this.Users.findOne(
+        {
+            where: {
+                id: id,
+            }
+        });
+
+        return (user.osztaly == "A" && user.user_role == "admin" && user.admin == 1) || (user.osztaly == "T" && user.user_role == "teacher" && user.admin == 0)
+    }
 }
 
 module.exports = new logregRepository(db);

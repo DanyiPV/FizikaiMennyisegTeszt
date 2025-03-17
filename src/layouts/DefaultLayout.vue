@@ -117,8 +117,8 @@
                 </v-list>
             </v-navigation-drawer>
 
-            <v-main style="min-height: 100vh; background-color: rgb(var(--v-theme-background));">
-                <RouterView></RouterView>
+            <v-main style="min-height: 100vh; background-color: rgb(var(--v-theme-background));" :style="{height: isMobile && drawer ? '100vh' : 'auto'}">
+              <RouterView></RouterView>
             </v-main>
         </v-layout>
     </v-card>

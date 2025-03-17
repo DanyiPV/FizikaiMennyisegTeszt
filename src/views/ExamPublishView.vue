@@ -52,44 +52,46 @@
             </div>
         </v-row>
 
-        <v-row class="ga-5 align-center justify-space-around">
-            <v-col cols="12" md="3" class="d-flex justify-center">
+        <v-row class="ga-5 align-center justify-space-around ma-auto" style="width: 90%;">
+            <v-col cols="12" md="5" class="d-flex justify-center">
                 <div class="d-flex ga-2 rounded-pill pa-2 px-6" style="background-color: rgb(var(--v-theme-background)); width: max-content;">
-                <div>
-                    <v-text-field 
-                    variant="outlined" 
-                    v-model="minuteTimer" 
-                    :disabled="!timerSwitch"
-                    hide-details
-                    min="0"
-                    max="60"
-                    type="number"
-                    style="text-align: center;">
-                    </v-text-field>
-                </div>
-                <div>
-                    <v-text-field 
-                    variant="outlined" 
-                    v-model="secondTimer" 
-                    :disabled="!timerSwitch"
-                    hide-details
-                    min="0"
-                    max="60"
-                    type="number"
-                    style="text-align: center;">
-                    </v-text-field>
-                </div>
-                <div>
-                    <v-switch
-                    v-model="timerSwitch"
-                    hide-details
-                    inset
-                    ></v-switch>
-                </div>
+                  <div>
+                      <v-text-field 
+                      variant="outlined" 
+                      v-model="minuteTimer" 
+                      :disabled="!timerSwitch"
+                      hide-details
+                      min="0"
+                      max="60"
+                      type="number"
+                      style="text-align: center;">
+                      </v-text-field>
+                  </div>
+
+                  <div>
+                      <v-text-field 
+                      variant="outlined" 
+                      v-model="secondTimer" 
+                      :disabled="!timerSwitch"
+                      hide-details
+                      min="0"
+                      max="60"
+                      type="number"
+                      style="text-align: center;">
+                      </v-text-field>
+                  </div>
+
+                  <div>
+                      <v-switch
+                      v-model="timerSwitch"
+                      hide-details
+                      inset
+                      ></v-switch>
+                  </div>
                 </div>
             </v-col>
 
-            <v-col cols="5" md="3">
+            <v-col cols="12" md="5">
                 <v-select
                 v-model="diffSelect"
                 label="Nehézség"
@@ -98,53 +100,70 @@
                 hide-details
                 ></v-select>
             </v-col>
-
-
-            <v-col cols="5" md="3" class="d-flex justify-center">
-            <div style="width: max-content;" @click="StartTraning()">
-                    <v-btn
-                    icon
-                    elevation="0"
-                    style="width: max-content; height: max-content;"
-                    :disabled="!AlkatSelect || AlkatSelect.length == 0"
-                    >
-                        <v-icon size="60">mdi-play-circle</v-icon>
-                    </v-btn>
-                    <h2 style="font-weight: normal;" class="cursor-pointer" :style="{color: !AlkatSelect || AlkatSelect.length == 0 ? 'grey' : 'rgb(var(--v-theme-text_color))'}">Indítás</h2>
-                    </div>
-            </v-col>
         </v-row>
 
-        <v-row justify="space-around">
-            <v-date-picker
-                color="date_picker"
-                :min="new Date().toISOString().substr(0, 10)"
-                v-model="selectedDate"
-            ></v-date-picker>
+        <v-row justify="space-around" style="width: 90%;" class="ma-auto mt-2">
+            <v-col
+            cols="12"
+            sm="6"
+            class="d-flex justify-center"
+            >
+              <v-date-picker
+                  color="date_picker"
+                  :min="new Date().toISOString().substr(0, 10)"
+                  v-model="selectedDate"
+                  title="Időpont kiválasztás"
+                  show-week
+                  first-day-of-week="1"
+                  :allowed-dates="allowedDates"
+                  header="Dátum választás"
+              ></v-date-picker>
+            </v-col>
 
             <v-col
-            cols="11"
-            sm="5"
+            cols="12"
+            sm="6"
+            class="d-flex flex-column align-center"
             >
-                <v-text-field
-                v-model="time"
-                :active="modal"
-                :focused="modal"
-                label="Dolgozat kezdete"
-                prepend-icon="mdi-clock-time-four-outline"
-                readonly
-                >
-                <v-dialog
-                    v-model="modal"
-                    activator="parent"
-                    width="auto"
-                >
-                    <v-time-picker
-                    v-if="modal"
+                <div style="width: 100%;" class="mb-2">
+                    <v-text-field
                     v-model="time"
-                    ></v-time-picker>
-                </v-dialog>
-                </v-text-field>
+                    :active="modal"
+                    :focused="modal"
+                    label="Dolgozat kezdete"
+                    prepend-icon="mdi-clock-time-four-outline"
+                    variant="outlined"
+                    readonly
+                    hide-details
+                    >
+                        <v-dialog
+                        v-model="modal"
+                        activator="parent"
+                        width="auto"
+                        >
+                            <v-time-picker
+                            v-if="modal"
+                            v-model="time"
+                            theme="dark"
+                            title="Dolgozat kezdetének ideje"
+                            ></v-time-picker>
+                        </v-dialog>
+                    </v-text-field>
+                </div>
+                <div style="width: max-content;" @click="StartTraning()" class="d-flex flex-column">
+                    <div class="ma-auto">
+                        <v-btn
+                        icon
+                        elevation="0"
+                        style="width: max-content; height: max-content;"
+                        :disabled="!AlkatSelect || AlkatSelect.length == 0"
+                        class="pa-2"
+                        >
+                          <v-icon size="40">mdi-pencil</v-icon>
+                        </v-btn>
+                    </div>
+                    <h2 style="font-weight: normal;" class="cursor-pointer" :style="{color: !AlkatSelect || AlkatSelect.length == 0 ? 'grey' : 'rgb(var(--v-theme-text_color))'}">Dolgozat kiírás</h2>
+                </div>
             </v-col>
         </v-row>
     </v-container>
@@ -183,8 +202,13 @@ const timerSwitch = ref(false);
 const diffSelect = ref('Könnyű');
 const selectedDate = ref(null);
 const selectedTime = ref(null);
-const time =  ref(null)
-const modal = ref(false)
+const time =  ref(null);
+const modal = ref(false);
+
+const allowedDates = (date) => {
+  const day = new Date(date).getDay();
+  return day >= 1 && day <= 5;
+};
 
 const {mutate: getCategories} = useGetCategories();
 

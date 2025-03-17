@@ -236,9 +236,9 @@ exports.getUsersResult = async (req,res,next) =>{
             throw error;
         }
 
-        const adminCheck = await settingsConfirmService.getElseUserById(decoded.id);
+        const user_Check = await tablesService.getCheckedUser(decoded.id);
         
-        if(!adminCheck){
+        if(!user_Check){
             const error = new Error("A felhasználónak nincs ehhez joga!");
     
             error.status = 400;

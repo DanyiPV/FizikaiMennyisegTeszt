@@ -54,7 +54,7 @@ const vuetify = createVuetify({
 
           result_div_bc: colors.grey.lighten1,
 
-          date_picker: colors.lightBlue.base,
+          date_picker: colors.grey.darken1,
         },
       },
       darkTheme: {
@@ -86,7 +86,7 @@ const vuetify = createVuetify({
 
           result_div_bc: colors.grey.darken2,
 
-          date_picker: colors.lightBlue.base,
+          date_picker: colors.grey.darken1,
         },
       },
     },
