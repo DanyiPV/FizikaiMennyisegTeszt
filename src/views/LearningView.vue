@@ -29,21 +29,21 @@
                       <v-container
                           v-for="alkat in tkat.Alkats"
                           :key="alkat.id"
-                          style="background-color: rgb(var(--v-theme-background));"
-                          class="rounded"
+                          style="background-color: transparent"
+                          class="pa-0 ma-0 mb-2"
                           v-if="tab === tkat.id"
                       >
-                          <div class="d-flex justify-center">
+                          <div class="d-flex justify-center text-center rounded-lg mb-2 py-2 px-3" style="background-color: rgb(var(--v-theme-background)); width: 100%; margin: auto;">
                               <h1>{{ alkat.nev }}</h1>
                           </div>
 
-                          <v-table class="table-fixed">
+                          <v-table class="table-fixed rounded-lg" style="background-color: rgb(var(--v-theme-background))">
                               <thead>
                                   <tr>
-                                      <th class="text-center" style="width: 20%;"><h2>Név</h2></th>
-                                      <th class="text-center" style="width: 20%;"><h2>Jel</h2></th>
-                                      <th class="text-center" style="width: 35%;"><h2>Definíció</h2></th>
-                                      <th class="text-center" style="width: 25%;"><h2>Mértékegység</h2></th>
+                                      <th class="text-center" style="width: 20%;">Név</th>
+                                      <th class="text-center" style="width: 20%;">Jel</th>
+                                      <th class="text-center" style="width: 35%;">Definíció</th>
+                                      <th class="text-center" style="width: 25%;">Mértékegység</th>
                                   </tr>
                               </thead>
                               <tbody style="max-width: 100%;">
@@ -68,7 +68,6 @@ import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, inject, onMounted, watch, nextTick  } from 'vue';
 import { useDisplay, useTheme } from 'vuetify';
 import { useGetAllTables } from '@/api/tables/tablesQuery';
-import { useColorStore } from '../stores/bottomNav';
 
 const showError = inject("showError");
 const showSucces = inject("showSucces");
@@ -77,15 +76,10 @@ const { mobile } = useDisplay();
 const isMobile = computed(() => mobile.value);
 const router = useRouter();
 
-const colorStore = useColorStore();
-colorStore.value = 3;
-
 const AllTables = ref(null);
 const tab = ref(1)
 
 const {mutate: getAllTables} = useGetAllTables();
-
-const latexExpression = ref("$\E = mc^2$");
 
 onMounted(async () => {
   await getAllTables(undefined, {

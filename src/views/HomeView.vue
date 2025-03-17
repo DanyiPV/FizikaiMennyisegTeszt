@@ -148,7 +148,6 @@ import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, inject, onMounted, watch } from 'vue';
 import { useDisplay, useTheme } from 'vuetify';
 import { useGetProfil } from '@/api/profile/profileQuery';
-import { useColorStore } from '../stores/bottomNav';
 
 const showError = inject("showError");
 const showSucces = inject("showSucces");
@@ -159,9 +158,6 @@ const router = useRouter();
 
 const get_token = getCookie("user");
 const get_fullUser = ref(null);
-
-const colorStore = useColorStore();
-colorStore.value = 0;
 
 const {mutate: getProfil} = useGetProfil();
 

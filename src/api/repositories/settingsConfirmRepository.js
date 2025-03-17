@@ -205,6 +205,7 @@ class logregRepository
         }
         else if(type == 4){
             user.user_role = 'admin';
+            user.osztaly = 'A';
             user.admin = 1;
         }
         else if(type == 5){

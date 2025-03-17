@@ -52,7 +52,7 @@
       </v-row>
 
       <v-row class="ga-5 align-center justify-space-around">
-        <v-col cols="5" md="3" class="d-flex justify-center">
+        <v-col cols="12" md="3" class="d-flex justify-center">
           <div class="d-flex ga-2 rounded-pill pa-2 px-6" style="background-color: rgb(var(--v-theme-background)); width: max-content;">
             <div>
               <v-text-field 
@@ -345,7 +345,6 @@
 import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, inject, onMounted, watch, onBeforeUnmount } from 'vue';
 import { useDisplay, useTheme } from 'vuetify';
-import { useColorStore } from '../stores/bottomNav';
 import { useGetCategories, useGetSubcategories, useGetTraningTables, useGetFinalStats } from '@/api/tables/tablesQuery';
 
 const showError = inject("showError");
@@ -357,9 +356,6 @@ const router = useRouter();
 
 const get_token = getCookie("user");
 const get_fullUser = ref(null);
-
-const colorStore = useColorStore();
-colorStore.value = 1;
 
 const TkatSelect = ref(null);
 const AlkatSelect = ref(null);

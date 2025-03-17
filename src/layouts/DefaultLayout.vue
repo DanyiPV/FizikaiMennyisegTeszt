@@ -1,55 +1,13 @@
 <template>
-    <v-layout class="overflow-visible" v-if="isMobile">
-      <v-bottom-navigation
-        v-model="colorStore.value"
-        :bg-color="color_BottomNav"
-        mode="shift"
-        mandatory
-      >
-        <v-btn @click="router.push({name: 'home'})">
-          <v-icon>mdi-home</v-icon>
-          <span>Főoldal</span>
-        </v-btn>
-
-        <v-btn @click="router.push({name: 'training'})">
-          <v-icon>mdi-book-open-variant</v-icon>
-          <span>Gyakorlás</span>
-        </v-btn>
-
-        <v-btn>
-          <v-icon>mdi-file-document-edit</v-icon>
-          <span>Dolgozat</span>
-        </v-btn>
-
-        <v-btn @click="router.push({name: 'learning'})">
-          <v-icon>mdi-school</v-icon>
-          <span>Tanulás</span>
-        </v-btn>
-
-        <v-btn @click="router.push({name: 'results'})">
-          <v-icon>mdi-chart-bar</v-icon>
-          <span>Eredmény</span>
-        </v-btn>
-
-        <v-btn
-          v-if="get_fullUser && ((get_fullUser.osztaly == 'T' && get_fullUser.user_role == 'teacher') || (get_fullUser.osztaly == 'A' && get_fullUser.user_role == 'admin'))"
-        >
-          <v-icon>mdi-book-plus</v-icon>
-          <span>Kiírás</span>
-        </v-btn>
-      </v-bottom-navigation>
-    </v-layout>
-
     <v-card>
         <v-layout>
             <v-app-bar color="nav_bc" elevation="0">
-                <v-app-bar-nav-icon variant="text" v-if="!isMobile" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+                <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
                 <v-toolbar-title style="font-family: 'Orbitron', sans-serif;">
                   <h2>Gravitas</h2>
                 </v-toolbar-title>
 
-                <v-spacer></v-spacer>
                 <div class="d-flex ga-2">
                     <v-btn icon @click="dialog = true" v-if="get_fullUser">
                       <v-avatar size="40">
@@ -72,7 +30,6 @@
             </v-app-bar>
 
             <v-navigation-drawer
-              v-if="!isMobile"
               v-model="drawer"
               :location="isMobile ? 'left' : undefined"
               temporary
@@ -161,10 +118,6 @@
 
             <v-main style="min-height: 100vh; background-color: rgb(var(--v-theme-background));">
                 <RouterView></RouterView>
-
-                <div v-if="isMobile" class="mb-14">
-
-                </div>
             </v-main>
         </v-layout>
     </v-card>
@@ -548,7 +501,7 @@
                                 }"
                                 :style="{top: !isMobile ? '-1rem' : ''}">
                                 <div 
-                                :style="{width: isMobile ? '50%' : ''}"
+                                :style="{width: isMobile ? '80%' : ''}"
                                 :class="{
                                   'mr-3': !isMobile, 
                                 }">
@@ -652,7 +605,10 @@
                                         <v-btn variant="flat" @click="setNewSetting(user,user.id, users_UserPassword, 3)" :disabled="!users_UserPassword">változtatás</v-btn>
                                       </div>
 
-                                      <div class="d-flex flex-column align-start" style="width: 30%;" v-if="user.osztaly == null && user.user_role == 'student'">
+                                      <div 
+                                      class="d-flex flex-column align-start" 
+                                      :style="{width: isMobile ? '100%': '30%'}"
+                                      v-if="user.osztaly == null && user.user_role == 'student'">
                                         <div class="d-flex ga-2 mt-4 mb-2" style="width: 100%;">
                                           <v-combobox
                                             v-model="selectedYear"
@@ -747,7 +703,7 @@
 
                                         <v-tooltip location="right">
                                           <template v-slot:activator="{ props }">
-                                            <div v-if="user.admin && user.osztaly != null && user.osztaly == 'A'" v-bind="props">
+                                            <div v-if="user.admin && user.osztaly == 'A'" v-bind="props">
                                               <v-btn variant="flat" @click="setUserRoles(user, user.id, 5)">
                                                 <v-icon size="25">mdi-key-remove</v-icon>
                                               </v-btn>
@@ -814,7 +770,6 @@ import { useDisplay, useTheme } from 'vuetify';
 import { useChangeDarkmode, useGetProfil } from '@/api/profile/profileQuery';
 import { useGetSettingsConfirm, useSetSettings, useProfilePicUpload, useGetAllUser, useSetUserNewSettings, useSetUserRoles, usesetNewClass } from '@/api/settingsConfirms/settingsConfrimQuery';
 import imageCompression from 'browser-image-compression';
-import { useColorStore } from '../stores/bottomNav';
 
 const showError = inject("showError");
 const showSucces = inject("showSucces");
@@ -824,9 +779,6 @@ const isMobile = computed(() => mobile.value);
 watch(isMobile, async (newValue) => {
   SettingsMenu.value = newValue;
 });
-
-const colorStore = useColorStore();
-const color_BottomNav = computed(() => colorStore.color); 
 
 const get_token = getCookie("user");
 const route = useRoute();
