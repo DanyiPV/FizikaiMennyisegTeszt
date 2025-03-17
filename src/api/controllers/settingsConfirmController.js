@@ -74,8 +74,6 @@ exports.sendConfirmCode = async (req, res, next) =>
                 </div>`
         };
 
-        console.log(mailOptions);
-
         const newCode =
         {
             code: RandomDigits,

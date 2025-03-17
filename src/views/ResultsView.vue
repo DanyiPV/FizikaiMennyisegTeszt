@@ -195,9 +195,6 @@ const router = useRouter();
 const get_token = getCookie("user");
 const get_fullUser = ref(null);
 
-const colorStore = useColorStore();
-colorStore.value = 4;
-
 const ResultsArray = ref([]);
 const isResultsArray = ref(false);
 const ResultTabs = ref('Gyak');

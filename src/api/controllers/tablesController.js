@@ -90,7 +90,6 @@ function randomFieldSelection(data, diff) {
 
 exports.getFinalStats = async (req, res, next) => {
     const {tables, tablak , time, diff, def_time, tpont, exam_id, token} = req.body;
-    //console.log(tables, tablak , time, diff, def_time, tpont, exam_id);
 
     const secretKey = process.env.JWT_KEY;
 

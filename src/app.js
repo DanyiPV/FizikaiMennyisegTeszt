@@ -13,7 +13,7 @@ const errorHandler = require("./api/middlewares/errorHandler");
 const db = require("./api/database/dbContext");
 
 app.use(cors({
-  origin: 'http://localhost:5173'
+  origin: '*',
 }));
 
 const logregRoute = require("./api/routes/logregRoute")
