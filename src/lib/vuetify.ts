@@ -6,9 +6,13 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import '@mdi/font/css/materialdesignicons.css'
 import { type ThemeDefinition } from 'vuetify'
 import colors from 'vuetify/util/colors'
+import { VTimePicker } from 'vuetify/labs/VTimePicker'
 
 const vuetify = createVuetify({
-  components,
+  components: {
+    ...components,
+    VTimePicker,
+  },
   directives,
   icons: {
     defaultSet: 'mdi',
@@ -49,6 +53,8 @@ const vuetify = createVuetify({
           kivett_adatok_bc: colors.grey.lighten2,
 
           result_div_bc: colors.grey.lighten1,
+
+          date_picker: colors.lightBlue.base,
         },
       },
       darkTheme: {
@@ -79,6 +85,8 @@ const vuetify = createVuetify({
           kivett_adatok_bc: colors.grey.darken3,
 
           result_div_bc: colors.grey.darken2,
+
+          date_picker: colors.lightBlue.base,
         },
       },
     },

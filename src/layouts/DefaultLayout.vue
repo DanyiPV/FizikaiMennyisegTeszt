@@ -105,6 +105,7 @@
                       <v-btn
                       style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
                       class="justify-center rounded cursor-pointer py-2 px-0 w-100"
+                       @click="router.push({name: 'exam-publish'});"
                       >
                           <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
                               <v-icon size="30" class="ml-4">mdi-book-plus</v-icon>

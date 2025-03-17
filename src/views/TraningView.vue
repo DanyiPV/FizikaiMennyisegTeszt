@@ -116,20 +116,20 @@
   <v-slide-y-transition mode="in-out">
     <v-container fluid v-if="MaradekAdatok && !traningEnd" class="position-relative">
       <div class="d-flex justify-center">
-          <h1 style="background-color: rgb(var(--v-theme-primary));" class="px-6 py-1 mb-2 rounded-pill">Gyakorlás</h1>
+          <h2 style="background-color: rgb(var(--v-theme-primary));" class="px-6 py-1 mb-2 rounded-pill">Gyakorlás</h2>
       </div>
 
-      <div v-if="timerShow" class="position-absolute text-center px-4 py-1 d-flex ga-1 rounded-pill" style="right: 1.3em; top: 2em; background-color: rgb(var(--v-theme-primary)); font-family: 'Orbitron', sans-serif;">
+      <div v-if="timerShow" class="position-absolute text-center px-4 py-1 d-flex ga-1 rounded-pill" style="right: 1.3em; background-color: rgb(var(--v-theme-primary)); font-family: 'Orbitron', sans-serif;" :style="{top: isMobile ? '1.3em' : '2em'}">
         <h2>{{ minuteTimer }}</h2>
         <h2>:</h2>
         <h2>{{ secondTimer < 10 ? '0' + secondTimer : secondTimer }}</h2>
       </div>
 
-      <div class="position-absolute text-center rounded-pill" style="left: 1.3em; top: 2em; background-color: rgb(var(--v-theme-primary));">
+      <div class="position-absolute text-center rounded-pill" style="left: 1.3em; background-color: rgb(var(--v-theme-primary));" :style="{top: isMobile ? '1.3em' : '2em'}">
         <v-btn 
         elevation="0" 
-        class="px-6 py-1 rounded-pill"
-        style="font-size: 1.2em;"
+        class="px-3 py-1 rounded-pill"
+        style="font-size: 1em;"
         @click="Befejezes()"
         >Befejezés</v-btn>
       </div>
@@ -232,9 +232,7 @@
 
   <!-- Kivett adatok -->
   <div class="position-absolute d-flex flex-column justify-center rounded-lg"
-  style="width: 90%; left: 50%; transform: translate(-50%,0%); background-color: rgb(var(--v-theme-primary)); 
-  overflow-x: auto;" 
-  :style="{bottom: isMobile ? '5.5em' : '2em'}"
+  style="width: 90%; left: 50%; transform: translate(-50%,0%); background-color: rgb(var(--v-theme-primary)); overflow-x: auto; bottom: 2em;"
   @dragover.prevent="allowDrop" 
   @drop.prevent="allowDrop"
   v-if="KivettAdatok && KivettAdatok.length != 0 && !traningEnd">
@@ -261,7 +259,7 @@
 
   <v-slide-y-transition mode="in-out">
     <v-container v-if="achivedPoint" style="background-color: rgb(var(--v-theme-primary));" class="rounded-lg pa-2 d-flex justify-center mt-2">
-      <div style="width: 80%;" class="d-flex flex-column justify-center">
+      <div class="d-flex flex-column justify-center" :style="{width: isMobile ? '100%' : '80%'}">
         <div class="d-flex justify-center">
           <h1>Gyakorlás befejezve!</h1>
         </div>
@@ -290,7 +288,7 @@
             <div v-if="timerSwitch" class="d-flex pl-2">
               <h3 style="font-weight: normal;">Eltelt idő</h3>
               <v-divider vertical class="mx-2"></v-divider>
-              <h3 style="font-weight: normal;">{{ def_minuteTimer - minuteTimer }} : {{ def_secondTimer - secondTimer }}</h3>
+              <h3 style="font-weight: normal;">{{ (def_secondTimer - secondTimer) == -1 ? (def_minuteTimer - minuteTimer - 1) : (def_minuteTimer - minuteTimer)}} : {{ (def_secondTimer - secondTimer) == -1 ? 59 : (def_secondTimer - secondTimer) }}</h3>
             </div>
             <div v-else class="pl-2 align-center">
               <h3 style="font-weight: normal;">Nem volt beállítva idő!</h3>

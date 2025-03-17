@@ -20,17 +20,18 @@
       <v-card-text>
           <v-tabs-window v-model="tab">
               <v-tabs-window-item
-                  v-for="tkat in AllTables"
-                  :key="tkat.id"
-                  :value="tkat.id"
-                  class="d-flex flex-column ga-2"
+                v-for="tkat in AllTables"
+                :key="tkat.id"
+                :value="tkat.id"
+                class="d-flex flex-column ga-2 ma-auto"
+                style="width: 80%;"
               >
                   <transition-group>
                       <v-container
                           v-for="alkat in tkat.Alkats"
                           :key="alkat.id"
                           style="background-color: transparent"
-                          class="pa-0 ma-0 mb-2"
+                          class="pa-0 ma-auto mb-2"
                           v-if="tab === tkat.id"
                       >
                           <div class="d-flex justify-center text-center rounded-lg mb-2 py-2 px-3" style="background-color: rgb(var(--v-theme-background)); width: 100%; margin: auto;">
@@ -40,10 +41,10 @@
                           <v-table class="table-fixed rounded-lg" style="background-color: rgb(var(--v-theme-background))">
                               <thead>
                                   <tr>
-                                      <th class="text-center" style="width: 20%;">Név</th>
-                                      <th class="text-center" style="width: 20%;">Jel</th>
-                                      <th class="text-center" style="width: 35%;">Definíció</th>
-                                      <th class="text-center" style="width: 25%;">Mértékegység</th>
+                                      <th class="text-center" style="width: 20%; font-weight: bold;">Név</th>
+                                      <th class="text-center" style="width: 20%; font-weight: bold;">Jel</th>
+                                      <th class="text-center" style="width: 35%; font-weight: bold;">Definíció</th>
+                                      <th class="text-center" style="width: 25%; font-weight: bold;">Mértékegység</th>
                                   </tr>
                               </thead>
                               <tbody style="max-width: 100%;">
