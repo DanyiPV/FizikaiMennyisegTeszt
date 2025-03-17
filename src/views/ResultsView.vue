@@ -181,7 +181,6 @@
 import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, inject, onMounted, watch, onBeforeUnmount } from 'vue';
 import { useDisplay, useTheme } from 'vuetify';
-import { useColorStore } from '../stores/bottomNav';
 import { useGetResults, useGetOsztalyok, usGetUserResults } from '@/api/tables/tablesQuery';
 import { useGetProfil } from '@/api/profile/profileQuery';
 
@@ -194,9 +193,6 @@ const router = useRouter();
 
 const get_token = getCookie("user");
 const get_fullUser = ref(null);
-
-const colorStore = useColorStore();
-colorStore.value = 4;
 
 const ResultsArray = ref([]);
 const isResultsArray = ref(false);
