@@ -1,6 +1,6 @@
 <template>
 <v-slide-y-transition mode="in-out" hide-on-leave>
-    <v-container style="background-color: rgb(var(--v-theme-primary));" class="mt-1 rounded-lg">
+    <v-container style="background-color: rgb(var(--v-theme-primary));" class="mt-2 rounded-lg">
         <v-row>
             <v-col cols="12" md="6">
             <v-select
@@ -125,45 +125,45 @@
             sm="6"
             class="d-flex flex-column align-center"
             >
-                <div style="width: 100%;" class="mb-2">
-                    <v-text-field
+              <div style="width: 100%;" class="mb-2">
+                <v-text-field
+                v-model="time"
+                :active="modal"
+                :focused="modal"
+                label="Dolgozat kezdete"
+                prepend-icon="mdi-clock-time-four-outline"
+                variant="outlined"
+                readonly
+                hide-details
+                >
+                  <v-dialog
+                  v-model="modal"
+                  activator="parent"
+                  width="auto"
+                  >
+                    <v-time-picker
+                    v-if="modal"
                     v-model="time"
-                    :active="modal"
-                    :focused="modal"
-                    label="Dolgozat kezdete"
-                    prepend-icon="mdi-clock-time-four-outline"
-                    variant="outlined"
-                    readonly
-                    hide-details
+                    theme="dark"
+                    title="Dolgozat kezdetének ideje"
+                    ></v-time-picker>
+                  </v-dialog>
+                </v-text-field>
+              </div>
+              <div style="width: max-content;" @click="StartTraning()" class="d-flex flex-column mt-3">
+                <div class="ma-auto">
+                    <v-btn
+                    icon
+                    elevation="0"
+                    style="width: max-content; height: max-content;"
+                    :disabled="!AlkatSelect || AlkatSelect.length == 0 || !time || !selectedDate"
+                    class="pa-2"
                     >
-                        <v-dialog
-                        v-model="modal"
-                        activator="parent"
-                        width="auto"
-                        >
-                            <v-time-picker
-                            v-if="modal"
-                            v-model="time"
-                            theme="dark"
-                            title="Dolgozat kezdetének ideje"
-                            ></v-time-picker>
-                        </v-dialog>
-                    </v-text-field>
+                      <v-icon size="40">mdi-pencil</v-icon>
+                    </v-btn>
                 </div>
-                <div style="width: max-content;" @click="StartTraning()" class="d-flex flex-column">
-                    <div class="ma-auto">
-                        <v-btn
-                        icon
-                        elevation="0"
-                        style="width: max-content; height: max-content;"
-                        :disabled="!AlkatSelect || AlkatSelect.length == 0"
-                        class="pa-2"
-                        >
-                          <v-icon size="40">mdi-pencil</v-icon>
-                        </v-btn>
-                    </div>
-                    <h2 style="font-weight: normal;" class="cursor-pointer" :style="{color: !AlkatSelect || AlkatSelect.length == 0 ? 'grey' : 'rgb(var(--v-theme-text_color))'}">Dolgozat kiírás</h2>
-                </div>
+                <h2 style="font-weight: normal;" class="cursor-pointer" :style="{color: !AlkatSelect || AlkatSelect.length == 0 || !time || !selectedDate ? 'grey' : 'rgb(var(--v-theme-text_color))'}">Dolgozat kiírás</h2>
+              </div>
             </v-col>
         </v-row>
     </v-container>
