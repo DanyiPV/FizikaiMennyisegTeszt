@@ -140,3 +140,23 @@ export const usGetUserResults = () => {
         }
     })
 }
+
+const setNewExam = async (data: {tableidList: Array<object>, tablak: string, time: number, diff: number, osztaly: string, kezdet: string, token: string}) => {
+    const response = await axiosClient.post('http://localhost:3000/set-new-exam', data, {
+        headers:{
+            token: data.token
+        }
+    });
+    return response.data
+}
+
+export const useSetNewExam = () => {
+    return useMutation({
+        mutationFn: setNewExam,
+        onSuccess: (response) => {
+        },
+        onError: (error) => {
+
+        }
+    })
+}

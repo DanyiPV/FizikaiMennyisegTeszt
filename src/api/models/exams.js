@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
             },
             ido:{
                 type: DataTypes.INTEGER,
-                allowNull: true,
+                allowNull: false,
+            },
+            sorok:{
+                type: DataTypes.INTEGER,
+                allowNull: false,
             },
             kezdet:{
                 type: DataTypes.TEXT,

@@ -67,48 +67,6 @@ exports.registerUser = async (req, res, next) =>
     }
 }
 
-exports.successRegister = async (req,res,next) =>{
-    const { token } = req.body;
-
-    token_result = token != 'null' ? await logregServices.getToken(token) : null;
-
-    try{
-        if(token_result == null){
-            const error = new Error("Nem megfelelő a token vagy már nem létezik!");
-            
-            error.status = 404;
-
-            throw error;
-        }
-
-        const user = await logregServices.getUser(null,token_result.user_id);
-
-        if(user.activated == 1){
-            const error = new Error("A felhasználó már aktiválva lett!");
-            
-            error.status = 400;
-            
-            throw error;
-        }
-
-        const user_activated = await logregServices.activateUser(token_result.user_id);
-
-        
-        if(user_activated == false){
-            const error = new Error("Nem lehetett a felhasználót aktiválni!");
-            
-            error.status = 500;
-            
-            throw error;
-        }
-
-        res.status(200).send("A felhasználó sikeresen aktiválva lett!");
-    }
-    catch(error){
-        next(error);
-    }
-}
-    
 exports.loginUser = async (req, res, next) =>
 {
     const { email, password, rememberMe } = req.body;
@@ -126,9 +84,9 @@ exports.loginUser = async (req, res, next) =>
             throw error;
         }
 
-        if(user != null && user.activated == 0)
+        if(user != null && user.activated == 2)
         {
-            const error = new Error("A profil nincs aktiválva!");
+            const error = new Error("A felhasználó ki lett tíltva az oldalról!");
 
             error.status = 400;
 
@@ -179,16 +137,20 @@ exports.forgetPassword = async (req, res, next) =>{
         }
 
         const token_result = await logregServices.uploadToken(newToken);
+
+        const symbols = Object.getOwnPropertySymbols(req);
+        const headersSymbol = symbols.find(sym => sym.toString() === 'Symbol(kHeaders)');
+        const headers = req[headersSymbol];
         
         // Verifikációs link
-        const verificationLink = `http://localhost:5173/set-new-password?token=${token_result.token}`;
+        const verificationLink = `${headers.referer}set-new-password?token=${token_result.token}`;
         
         // Email küldése
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'mathsolve597@gmail.com',
-                pass: 'awsm uhrf dsrd xqcz',
+                user: 'gravitasnoreply@gmail.com',
+                pass: 'vwuy eckc shar hlgm',
             },
             // UTF-8 támogatás biztosítása
             tls: {
@@ -199,7 +161,7 @@ exports.forgetPassword = async (req, res, next) =>{
         
         // Email megjelenése
         const mailOptions = {
-            from: '"Math Solve" <mathsolve597@gmail.com>',
+            from: '"Gravitas" <gravitasnoreply@gmail.com>',
             to: email,
             subject: 'Email Verification',
             html: `

@@ -1,31 +1,31 @@
 <template>
 <v-slide-y-transition mode="in-out" hide-on-leave>
     <v-container style="background-color: rgb(var(--v-theme-primary));" class="mt-2 rounded-lg">
-        <v-row>
-            <v-col cols="12" md="6">
-            <v-select
-                v-model="TkatSelect"
-                clearable
-                chips
-                label="Kategóriák"
-                :items="TkatItems"
-                multiple
-                variant="outlined"
-            ></v-select>
-            </v-col>
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-select
+          v-model="TkatSelect"
+          clearable
+          chips
+          label="Kategóriák"
+          :items="TkatItems"
+          multiple
+          variant="outlined"
+          ></v-select>
+        </v-col>
 
         <v-col cols="12" md="6">
-        <v-select
-        v-model="AlkatSelect"
-        :disabled="AlkatItems.length == 0"
-        clearable
-        chips
-        label="Táblák"
-        :items="AlkatItems"
-        multiple
-        variant="outlined"
-        class="selectScroll"
-        ></v-select>
+          <v-select
+          v-model="AlkatSelect"
+          :disabled="AlkatItems.length == 0"
+          clearable
+          chips
+          label="Táblák"
+          :items="AlkatItems"
+          multiple
+          variant="outlined"
+          class="selectScroll"
+          ></v-select>
         </v-col>
       </v-row>
 
@@ -42,13 +42,13 @@
         color="text_color"
         ></v-slider>
         <div style="width: 7em;" class="mr-3">
-        <v-text-field 
-        variant="outlined" 
-        v-model="sliderValue" 
-        :disabled="!AlkatSelect || AlkatSelect.length == 0"
-        type="number"
-        style="text-align: center;">
-        </v-text-field>
+          <v-text-field 
+          variant="outlined" 
+          v-model="sliderValue" 
+          :disabled="!AlkatSelect || AlkatSelect.length == 0"
+          type="number"
+          style="text-align: center;">
+          </v-text-field>
         </div>
       </v-row>
 
@@ -108,82 +108,79 @@
         sm="6"
         class="d-flex justify-center"
         >
-          <v-date-picker
-              color="date_picker"
-              :min="new Date().toISOString().substr(0, 10)"
-              v-model="selectedDate"
-              title="Időpont kiválasztás"
-              show-week
-              first-day-of-week="1"
-              :allowed-dates="allowedDates"
-              header="Dátum választás"
-          ></v-date-picker>
+        <v-date-picker
+        color="date_picker"
+        :min="new Date().toISOString().substr(0, 10)"
+        v-model="selectedDate"
+        title="Időpont kiválasztás"
+        show-week
+        first-day-of-week="1"
+        :allowed-dates="allowedDates"
+        header="Dátum választás"
+        ></v-date-picker>
         </v-col>
 
-        <v-row justify="space-around" style="width: 90%;" class="ma-auto mt-2">
-            <v-col
-            cols="12"
-            sm="6"
-            class="d-flex justify-center"
+        <v-col
+        cols="12"
+        sm="6"
+        class="d-flex flex-column align-center"
+        >
+          <div style="width: 100%;" class="mb-2">
+            <v-text-field
+            v-model="time"
+            :active="modal"
+            :focused="modal"
+            label="Dolgozat kezdete"
+            prepend-icon="mdi-clock-time-four-outline"
+            variant="outlined"
+            readonly
+            hide-details
             >
-            <v-date-picker
-                color="date_picker"
-                :min="new Date().toISOString().substr(0, 10)"
-                v-model="selectedDate"
-                title="Időpont kiválasztás"
-                show-week
-                first-day-of-week="1"
-                :allowed-dates="allowedDates"
-                header="Dátum választás"
-            ></v-date-picker>
-            </v-col>
-
-            <v-col
-            cols="12"
-            sm="6"
-            class="d-flex flex-column align-center"
-            >
-              <div style="width: 100%;" class="mb-2">
-                <v-text-field
+              <v-dialog
+              v-model="modal"
+              activator="parent"
+              width="auto"
+              >
+                <v-time-picker
+                v-if="modal"
                 v-model="time"
-                :active="modal"
-                :focused="modal"
-                label="Dolgozat kezdete"
-                prepend-icon="mdi-clock-time-four-outline"
-                variant="outlined"
-                readonly
-                hide-details
+                theme="dark"
+                title="Dolgozat kezdetének ideje"
+                ></v-time-picker>
+              </v-dialog>
+            </v-text-field>
+          </div>
+          <div style="width: 100%;" class="my-2">
+            <v-combobox
+            v-if="comboOsztalyok && comboOsztalyok.length > 0"
+            v-model="selectedClass"
+            label="Osztály"
+            :items="comboOsztalyok"
+            variant="outlined"
+            hide-details
+            clearable
+            ></v-combobox>
+          </div>
+          <div style="width: max-content;" @click="StartTraning()" class="d-flex flex-column mt-3">
+            <div class="ma-auto">
+                <v-btn
+                icon
+                elevation="0"
+                style="width: max-content; height: max-content;"
+                :disabled="!AlkatSelect || AlkatSelect.length == 0 || !time || !selectedDate || !selectedClass"
+                class="pa-2"
+                @click="ExamPublish()"
                 >
-                  <v-dialog
-                  v-model="modal"
-                  activator="parent"
-                  width="auto"
-                  >
-                    <v-time-picker
-                    v-if="modal"
-                    v-model="time"
-                    theme="dark"
-                    title="Dolgozat kezdetének ideje"
-                    ></v-time-picker>
-                  </v-dialog>
-                </v-text-field>
-              </div>
-              <div style="width: max-content;" @click="StartTraning()" class="d-flex flex-column mt-3">
-                <div class="ma-auto">
-                    <v-btn
-                    icon
-                    elevation="0"
-                    style="width: max-content; height: max-content;"
-                    :disabled="!AlkatSelect || AlkatSelect.length == 0 || !time || !selectedDate"
-                    class="pa-2"
-                    >
-                      <v-icon size="40">mdi-pencil</v-icon>
-                    </v-btn>
-                </div>
-                <h2 style="font-weight: normal;" class="cursor-pointer" :style="{color: !AlkatSelect || AlkatSelect.length == 0 || !time || !selectedDate ? 'grey' : 'rgb(var(--v-theme-text_color))'}">Dolgozat kiírás</h2>
-              </div>
-            </v-col>
-        </v-row>
+                  <v-icon size="40">mdi-pencil</v-icon>
+                </v-btn>
+            </div>
+            <h2 
+            @click="ExamPublish()"
+            style="font-weight: normal;" 
+            class="cursor-pointer" :style="{color: !AlkatSelect || AlkatSelect.length == 0 || !time || !selectedDate || !selectedClass ? 'grey' : 'rgb(var(--v-theme-text_color))'}">Dolgozat kiírás</h2>
+          </div>
+        </v-col>
+      </v-row>
     </v-container>
   </v-slide-y-transition>
 </template>
@@ -192,7 +189,8 @@
 import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, inject, onMounted, watch, onBeforeUnmount } from 'vue';
 import { useDisplay, useTheme } from 'vuetify';
-import { useGetCategories, useGetSubcategories } from '@/api/tables/tablesQuery';
+import { useGetCategories, useGetSubcategories, useGetOsztalyok } from '@/api/tables/tablesQuery';
+import { useGetProfil } from '@/api/profile/profileQuery';
 
 const showError = inject("showError");
 const showSucces = inject("showSucces");
@@ -212,23 +210,28 @@ const AlkatItems = ref([]);
 const AlkatArray = ref([]);
 const sliderMax = ref(null)
 const sliderValue = ref(5);
-const minuteTimer = ref(2);
-const def_minuteTimer = ref(2);
-const secondTimer = ref(30);
-const def_secondTimer = ref(30);
+const minuteTimer = ref(45);
+const secondTimer = ref(0);
 const timerSwitch = ref(false);
 const diffSelect = ref('Könnyű');
 const selectedDate = ref(null);
-const selectedTime = ref(null);
 const time =  ref(null);
 const modal = ref(false);
+const comboOsztalyok = ref(null);
+const selectedClass = ref(null);
 
 const allowedDates = (date) => {
   const day = new Date(date).getDay();
   return day >= 1 && day <= 5;
 };
 
+const ExamPublish = async () =>{
+  
+}
+
 const {mutate: getCategories} = useGetCategories();
+const {mutate: getProfil} = useGetProfil();
+const {mutate: getOsztalyok} = useGetOsztalyok();
 
 onMounted(async () => {
   await getCategories(undefined, {
@@ -243,6 +246,38 @@ onMounted(async () => {
         console.log(error.response.data);
     }},
   });
+
+  if(get_token){
+    await getProfil(get_token, {
+      onSuccess: async (load_user) => {
+        get_fullUser.value = load_user;
+
+        if((get_fullUser.value.admin && get_fullUser.value.user_role == 'admin' && get_fullUser.value.osztaly == 'A') || (!get_fullUser.value.admin && get_fullUser.value.user_role == 'teacher' && get_fullUser.value.osztaly == 'T')){
+            await getOsztalyok(get_token, {
+                onSuccess: (response) => {
+                    comboOsztalyok.value = response.map(c => c.osztaly);
+                },
+                onError: (error) => {
+                if (showError) {
+                    showError(error.response.data);
+                }else{
+                    console.log(error.response.data);
+                }},
+            });
+        }
+      },
+      onError: (error) => {
+        if (showError) {
+          showError(error.response.data);
+        }else{
+          console.log(error.response.data);
+        }
+
+        deleteCookie('user');
+        router.push({name : 'login'})
+      },
+    });
+  }
 });
 
 watch(sliderValue, async (newValue)=>{

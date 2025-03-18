@@ -52,40 +52,105 @@ exports.getTraningTables = async (req, res, next) => {
 };
 
 function randomFieldSelection(data, diff) {
-    let kivettAdatok = [];
-    let maradekAdatok = JSON.parse(JSON.stringify(data));
+let kivettAdatok = [];
+// Mélymásolat, hogy a maradékAdatok módosítása ne érintse az eredeti data-t
+let maradekAdatok = JSON.parse(JSON.stringify(data));
+const n = maradekAdatok.length;
 
-    maradekAdatok.forEach((obj) => {
-        let lehetsegesMezok = ["nev", "jel", "def", "mer"];
-        let kiválasztottMezok = [];
-
-        let mezokSzama;
-        if (diff === 1) {
-            mezokSzama = 1;
-        } else if (diff === 2) {
-            mezokSzama = Math.random() < 0.7 ? 2 : 1;
-        } else if (diff === 3) {
-            mezokSzama = Math.random() < 0.5 ? 3 : Math.random() < 0.7 ? 2 : 1;
-        }
-
-        if (mezokSzama === 3) {
-            lehetsegesMezok = ["jel", "def", "mer"];
-        }
-
-        while (kiválasztottMezok.length < mezokSzama) {
-            let randomMezo = lehetsegesMezok[Math.floor(Math.random() * lehetsegesMezok.length)];
-            if (!kiválasztottMezok.includes(randomMezo)) {
-                kiválasztottMezok.push(randomMezo);
-            }
-        }
-
-        kiválasztottMezok.forEach((mezo) => {
-            kivettAdatok.push(obj[mezo]);
-            obj[mezo] = { value: null, takeable: true };
-        });
+if (diff === 1) {
+    // Minden sorból 1 cellát veszünk (véletlenszerűen a 4 mezőből)
+    maradekAdatok.forEach(obj => {
+    const allowedFields = ["nev", "jel", "def", "mer"];
+    const randomField = allowedFields[Math.floor(Math.random() * allowedFields.length)];
+    kivettAdatok.push(obj[randomField]);
+    obj[randomField] = { value: null, takeable: true };
     });
+} else if (diff === 2) {
+    // Összesen: Math.floor(n * 1.5) cella
+    // Minden sorból alapból 1 cella, plusz extra: extraCount sorból plusz 1 cella (így azokból 2 cella lesz)
+    const extraCount = Math.floor(n * 1.5) - n; // hány sor kapjon plusz cellát
+    // Minden sorhoz alapértelmezett 1 cella
+    const fieldCounts = Array(n).fill(1);
 
-    return { kivettAdatok, maradekAdatok };
+    // Véletlenszerűen kiválasztjuk azokat a sorszámokat, amelyekből 2 cellát veszünk
+    const indices = [...Array(n).keys()];
+    // Fisher-Yates keverés
+    for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+    }
+    for (let i = 0; i < extraCount; i++) {
+    fieldCounts[indices[i]] = 2;
+    }
+
+    // A kiválasztás: minden sorból véletlenszerűen veszünk annyi cellát, amennyit a fieldCounts határoz meg
+    maradekAdatok.forEach((obj, idx) => {
+    const allowedFields = ["nev", "jel", "def", "mer"];
+    const selectedFields = [];
+    // Biztosítjuk, hogy ne ismétlődjön mező (a lista véges méretű, így a while nem akad be)
+    while (selectedFields.length < fieldCounts[idx]) {
+        const randomField = allowedFields[Math.floor(Math.random() * allowedFields.length)];
+        if (!selectedFields.includes(randomField)) {
+        selectedFields.push(randomField);
+        }
+    }
+    selectedFields.forEach(field => {
+        kivettAdatok.push(obj[field]);
+        obj[field] = { value: null, takeable: true };
+    });
+    });
+} else if (diff === 3) {
+    // Összesen: 2 * n cella
+    // Alapból minden sorból 2 cellát veszünk,
+    // majd minden 5 sorhoz hozzárendelünk egy 3-as és egy 1-es kivételt,
+    // így a sorok összességében 2 cella = 3 + 1 vagy 2 cella kimenet.
+    const fieldCounts = Array(n).fill(2);
+    const groups = Math.floor(n / 5); // hány csoport van, ahol speciális elosztás történik
+
+    // Véletlenszerű sorrend a sorok között
+    const indices = [...Array(n).keys()];
+    for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+    }
+    // Az első 'groups' sorból 3 cellát veszünk: ezeknél kizárólag ["jel", "def", "mer"]
+    for (let i = 0; i < groups; i++) {
+    fieldCounts[indices[i]] = 3;
+    }
+    // A következő 'groups' sorból 1 cellát veszünk, hogy az összeg maradjon 2*n (mivel 3+1=4 helyett 2+2=4)
+    let count = 0;
+    for (let i = groups; i < indices.length && count < groups; i++) {
+    fieldCounts[indices[i]] = 1;
+    count++;
+    }
+
+    maradekAdatok.forEach((obj, idx) => {
+    if (fieldCounts[idx] === 3) {
+        // 3 cella: mindig a "nev" kivételével, azaz ["jel", "def", "mer"]
+        const fieldsToTake = ["jel", "def", "mer"];
+        fieldsToTake.forEach(field => {
+        kivettAdatok.push(obj[field]);
+        obj[field] = { value: null, takeable: true };
+        });
+    } else {
+        // 1 vagy 2 cella: a teljes készletből (["nev", "jel", "def", "mer"]) veszünk véletlenszerűen
+        const allowedFields = ["nev", "jel", "def", "mer"];
+        const selectedFields = [];
+        while (selectedFields.length < fieldCounts[idx]) {
+        const randomField = allowedFields[Math.floor(Math.random() * allowedFields.length)];
+        if (!selectedFields.includes(randomField)) {
+            selectedFields.push(randomField);
+        }
+        }
+        selectedFields.forEach(field => {
+        kivettAdatok.push(obj[field]);
+        obj[field] = { value: null, takeable: true };
+        });
+    }
+    });
+}
+
+return { kivettAdatok, maradekAdatok };
 }
 
 exports.getFinalStats = async (req, res, next) => {
@@ -247,6 +312,76 @@ exports.getUsersResult = async (req,res,next) =>{
         }
 
         const getUserResults = await tablesService.getUsersResults(search, osztaly, last);
+
+        res.status(200).send(getUserResults);
+    }catch(error){
+        next(error);
+    }
+}
+
+exports.getUsersResult = async (req,res,next) =>{
+    const {search, osztaly, token, last} = req.body;
+
+    const secretKey = process.env.JWT_KEY;
+
+    try{
+        var decoded = null;
+
+        if(token){
+            decoded = jwt.verify(token, secretKey, { algorithms: ['HS256'] });
+        }else{
+            const error = new Error("Valami hiba történt a felhasználó igazolásában!");
+
+            error.status = 500;
+
+            throw error;
+        }
+
+        const user_Check = await tablesService.getCheckedUser(decoded.id);
+        
+        if(!user_Check){
+            const error = new Error("A felhasználónak nincs ehhez joga!");
+    
+            error.status = 400;
+    
+            throw error;
+        }
+
+        const getUserResults = await tablesService.getUsersResults(search, osztaly, last);
+
+        res.status(200).send(getUserResults);
+    }catch(error){
+        next(error);
+    }
+}
+
+exports.setNewExam = async (req,res,next) =>{
+    const {tableidList, tablak , time, diff, osztaly, kezdet, token} = req.body;
+
+    const secretKey = process.env.JWT_KEY;
+
+    try{
+        var decoded = null;
+
+        if(token){
+            decoded = jwt.verify(token, secretKey, { algorithms: ['HS256'] });
+        }else{
+            const error = new Error("Valami hiba történt a felhasználó igazolásában!");
+
+            error.status = 500;
+
+            throw error;
+        }
+
+        const user_Check = await tablesService.getCheckedUser(decoded.id);
+        
+        if(!user_Check){
+            const error = new Error("A felhasználónak nincs ehhez joga!");
+    
+            error.status = 400;
+    
+            throw error;
+        }
 
         res.status(200).send(getUserResults);
     }catch(error){

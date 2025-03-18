@@ -23,4 +23,6 @@ route.get('/get-osztalyok', [ profileAuth.verifyToken ], tablesController.getOsz
 
 route.post('/get-user-result', [ profileAuth.verifyToken ], tablesController.getUsersResult);
 
+route.post('/set-new-exam', [ profileAuth.verifyToken ], tablesController.setNewExam);
+
 module.exports = route;

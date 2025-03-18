@@ -157,12 +157,13 @@ class logregRepository
     async getOsztalyok(){
         return await this.Users.findAll({
             attributes: ["osztaly"],
-            distinct: true,
-            where:{
+            where: {
                 osztaly: {
                     [Op.notIn]: ['A', 'T']
                 }
-            }
+            },
+            group: ["osztaly"],
+            raw: true
         })
     }
 

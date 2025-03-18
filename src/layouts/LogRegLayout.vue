@@ -1,13 +1,13 @@
 /* log-reg layout */
 <template>
-  <div style="overflow: hidden; height: 100vh; filter: blur(4px);">
+  <div style="overflow: hidden; max-height: 100vh; filter: blur(4px);">
     <video autoplay loop muted playsinline>
       <source src="../components/background/logreg_background.mp4" type="video/mp4" />
     </video>
     <div style="position: absolute; top: 0; left: 0; background-color: rgb(0, 0, 0 ,.4); height: 100%; width: 100%;"></div>
   </div>
 
-  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 500px; height: auto; max-height: 80vh;">
+  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); height: auto; max-height: 80vh;">
     <div class="text-center mb-2" style="color: white;">
       <h1 class="text" style="font-size: 5em; font-family: 'Orbitron', sans-serif;">Gravitas</h1>
       <h4 class="text" style="font-size: 1.5em;font-weight: normal;">Üdvözli önt az oldal!</h4>
@@ -17,19 +17,19 @@
       class="mx-auto pa-12 pb-8"
       elevation="4"
       max-width="600"
-      min-width="450"
+      :min-width="isMobile ? '400' : '500'"
       rounded="lg"
     >
-    <div class="text-subtitle-1 text-medium-emphasis">Fiók</div>
+      <div class="text-subtitle-1 text-medium-emphasis">Fiók</div>
 
       <v-text-field
-        density="compact"
-        placeholder="email cím"
-        prepend-inner-icon="mdi-email-outline"
-        variant="outlined"
-        v-model="emailValue"
-        :rules="[
-          (v) => !!v || 'Kötelező ezt a mezőt kitölteni', (v) => (v && v.length <= 35) || 'Maximum 35 karakter lehet.']" 
+      density="compact"
+      placeholder="email cím"
+      prepend-inner-icon="mdi-email-outline"
+      variant="outlined"
+      v-model="emailValue"
+      :rules="[
+        (v) => !!v || 'Kötelező ezt a mezőt kitölteni', (v) => (v && v.length <= 35) || 'Maximum 35 karakter lehet.']" 
       ></v-text-field>
 
       <div class="text-subtitle-1 text-medium-emphasis" v-if="route.name == 'register'">Fiók név</div>
@@ -93,23 +93,23 @@
       ></v-checkbox>
 
       <div class="d-flex ga-2 mt-4" v-if="route.name == 'register' ">
-        <v-combobox
+        <v-select
           v-model="selectedYear"
           label="Évfolyam"
           :items="['9', '10', '11']"
           variant="outlined"
           style="width: 100%;"
           hide-details
-        ></v-combobox>
-  
-        <v-combobox
+        ></v-select>
+
+        <v-select
           v-model="selectedClass"
           label="Osztály"
           :items="['A', 'B', 'C', 'K']"
           variant="outlined"
           style="width: 100%;"
           hide-details
-        ></v-combobox>
+        ></v-select>
       </div>
 
       <v-btn
@@ -138,6 +138,20 @@
           :loading="loading"
           >
           {{ RegBtnValue }}
+      </v-btn>
+
+      <v-btn
+        class="mb-4 mt-4"
+        color="blue"
+        size="large"
+        variant="tonal"
+        block
+        v-if="route.name == 'forget-password'"
+        :disabled="!emailValue"
+        @click="handleForgetPassword"
+        :loading="loading"
+        >
+        {{ ForgetBtnValue }}
       </v-btn>
 
       <v-card-text class="text-center" @click="router.push({name: 'register'})" v-if="route.name == 'login'">
@@ -173,10 +187,15 @@ import { useDisplay } from 'vuetify';
 import { useTheme } from 'vuetify';
 import { useRegisterUser } from '@/api/register/registerQuery';
 import { useLoginUser } from '@/api/login/loginQuery';
+import { useForgetPassword } from '@/api/forget-password/ForgetPasswordQuery'
+import { useSetNewPassword } from '@/api/set-new-password/SetNewPasswordQuery'
 
 if(getCookie('user') != null){
   deleteCookie('user');
 }
+
+const { mobile } = useDisplay();
+const isMobile = computed(() => mobile.value);
 
 const showError = inject("showError");
 const showSucces = inject("showSucces");
@@ -195,6 +214,32 @@ const confirmPassword = ref('');
 const selectedClass = ref('A');
 const selectedYear = ref('9');
 const RegBtnValue = ref('Regisztrálás');
+const ForgetBtnValue = ref("Email küldése");
+
+const { mutate: forgetPassword} = useForgetPassword(loading, ForgetBtnValue) //, isPending
+
+const handleForgetPassword = async () => {
+  loading.value = true;
+  forgetPassword(emailValue.value, {
+      onSuccess: (response) =>{
+        if (showSucces) {
+          showSucces('Ez email sikeresen el lett küldve az eamil címre!');
+        }else{
+          console.log('Ez email sikeresen el lett küldve az eamil címre!');
+        }
+        loading.value = false;
+      },
+      onError: (error) => {
+        if (showError) {
+          showError(error.response.data);
+        }else{
+          console.log(error.response.data);
+        }
+        loading.value = false;
+      },
+    }
+  );
+};
 
 const {mutate: registerUser} = useRegisterUser(loading, RegBtnValue);
 

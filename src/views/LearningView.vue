@@ -25,6 +25,7 @@
                 :value="tkat.id"
                 class="d-flex flex-column ga-2 ma-auto"
                 style="width: 80%;"
+                :style="{width: isMobile ? '100%' : '80%'}"
               >
                   <transition-group>
                       <v-container
@@ -35,7 +36,7 @@
                           v-if="tab === tkat.id"
                       >
                           <div class="d-flex justify-center text-center rounded-lg mb-2 py-2 px-3" style="background-color: rgb(var(--v-theme-background)); width: 100%; margin: auto;">
-                              <h1>{{ alkat.nev }}</h1>
+                              <h2>{{ alkat.nev }}</h2>
                           </div>
 
                           <v-table class="table-fixed rounded-lg" style="background-color: rgb(var(--v-theme-background))">
@@ -49,10 +50,10 @@
                               </thead>
                               <tbody style="max-width: 100%;">
                                   <tr v-for="table in alkat.Tables" :key="table.id">
-                                    <td class="text-center" style="width: 20%;" v-mathjax="table.nev"></td>
-                                    <td class="text-center" style="width: 20%;" v-mathjax="table.jel"></td>
-                                    <td class="text-center" style="width: 35%;" v-mathjax="table.def"></td>
-                                    <td class="text-center" style="width: 25%;" v-mathjax="table.mer"></td>
+                                    <td class="text-center pa-1" style="width: 20%; font-size: 1em;" v-mathjax="table.nev"></td>
+                                    <td class="text-center pa-1" style="width: 20%; font-size: 1em;" v-mathjax="table.jel"></td>
+                                    <td class="text-center pa-1" style="width: 35%; font-size: 1em;" v-mathjax="table.def"></td>
+                                    <td class="text-center pa-1" style="width: 25%; font-size: 1em;" v-mathjax="table.mer"></td>
                                   </tr>
                               </tbody>
                           </v-table>

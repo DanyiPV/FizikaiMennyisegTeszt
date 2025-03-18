@@ -119,13 +119,13 @@
           <h2 style="background-color: rgb(var(--v-theme-primary));" class="px-6 py-1 mb-2 rounded-pill">Gyakorlás</h2>
       </div>
 
-      <div v-if="timerShow" class="position-absolute text-center px-4 py-1 d-flex ga-1 rounded-pill" style="right: 1.3em; background-color: rgb(var(--v-theme-primary)); font-family: 'Orbitron', sans-serif;" :style="{top: isMobile ? '1.3em' : '2em'}">
+      <div v-if="timerShow" class="position-absolute text-center px-4 py-1 d-flex ga-1 rounded-pill" style="right: 1.3em; background-color: rgb(var(--v-theme-primary)); font-family: 'Orbitron', sans-serif; top: 1.9vh;">
         <h2>{{ minuteTimer }}</h2>
         <h2>:</h2>
         <h2>{{ secondTimer < 10 ? '0' + secondTimer : secondTimer }}</h2>
       </div>
 
-      <div class="position-absolute text-center rounded-pill" style="left: 1.3em; background-color: rgb(var(--v-theme-primary));" :style="{top: isMobile ? '1.3em' : '2em'}">
+      <div class="position-absolute text-center rounded-pill" style="left: 1.3em; background-color: rgb(var(--v-theme-primary)); top: 1.9vh;">
         <v-btn 
         elevation="0" 
         class="px-3 py-1 rounded-pill"
@@ -146,7 +146,7 @@
         <tbody style="max-width: 100%;">
           <tr v-for="table in MaradekAdatok" :key="table.id">
             <!-- Név oszlop -->
-            <td v-if="typeof table.nev === 'string'" class="text-center" style="width: 20%; font-size: 1.3em;" v-mathjax="table.nev">
+            <td v-if="typeof table.nev === 'string'" class="text-center pa-1" style="width: 20%; font-size: 1.3em;" v-mathjax="table.nev">
             </td>
             <td v-else class="text-center droppable" style="width: 20%;" 
                 :data-field="'nev'" 
@@ -166,7 +166,7 @@
             </td>
 
             <!-- Jel oszlop -->
-            <td v-if="typeof table.jel === 'string'" class="text-center" style="width: 20%; font-size: 1.3em;" v-mathjax="table.jel">
+            <td v-if="typeof table.jel === 'string'" class="text-center pa-1" style="width: 20%; font-size: 1.3em;" v-mathjax="table.jel">
             </td>
             <td v-else class="text-center droppable" style="width: 20%;" 
                 :data-field="'jel'" 
@@ -186,7 +186,7 @@
             </td>
 
             <!-- Definíció oszlop -->
-            <td v-if="typeof table.def === 'string'" class="text-center" style="width: 20%; font-size: 1.3em;" v-mathjax="table.def">
+            <td v-if="typeof table.def === 'string'" class="text-center pa-1" style="width: 20%; font-size: 1.3em;" v-mathjax="table.def">
             </td>
             <td v-else class="text-center droppable" style="width: 20%;" 
                 :data-field="'def'" 
@@ -206,9 +206,9 @@
             </td>
 
             <!-- Mértékegység oszlop -->
-            <td v-if="typeof table.mer === 'string'" class="text-center" style="width: 20%; font-size: 1.3em;" v-mathjax="table.mer">
+            <td v-if="typeof table.mer === 'string'" class="text-center pa-1" style="width: 20%; font-size: 1.3em;" v-mathjax="table.mer">
             </td>
-            <td v-else class="text-center droppable" style="width: 20%;" 
+            <td v-else class="text-center droppable" style="width: 20%;"
                 :data-field="'mer'" 
                 :data-id="table.id"
                 @dragover.prevent="allowDrop" 
@@ -232,7 +232,7 @@
 
   <!-- Kivett adatok -->
   <div class="position-absolute d-flex flex-column justify-center rounded-lg"
-  style="width: 90%; left: 50%; transform: translate(-50%,0%); background-color: rgb(var(--v-theme-primary)); overflow-x: auto; bottom: 2em;"
+  style="max-width: 90%; left: 50%; transform: translate(-50%,0%); background-color: rgb(var(--v-theme-primary)); overflow-x: auto; bottom: 2em;"
   @dragover.prevent="allowDrop" 
   @drop.prevent="allowDrop"
   v-if="KivettAdatok && KivettAdatok.length != 0 && !traningEnd">
@@ -311,29 +311,39 @@
             </div>
           </div>
         </div>
-        <div class="mb-2 mt-6 d-flex justify-center ga-4">
-          <div>
+        <v-row class="mb-2 mt-6 justify-center">
+          <v-col
+          cols="12"
+          sm="6"
+          class="d-flex justify-center"
+          >
             <v-btn
             elevation="0"
             @click="router.push({name : 'home'})"
             variant="outlined"
+            style="width: 25em;"
             >
               <v-icon class="mr-1" size="25">mdi-home</v-icon>
               <h2>Főoldal</h2>
             </v-btn>
-          </div>
+          </v-col>
           
-          <div>
+          <v-col
+          cols="12"
+          sm="6"
+          class="d-flex justify-center"
+          >
             <v-btn
             elevation="0"
             variant="outlined"
             @click="reTryTraining()"
+            style="width: 25em;"
             >
               <v-icon class="mr-1" size="25">mdi-reload</v-icon>
               <h2>Újra próbálkozás</h2>
             </v-btn>
-          </div>
-        </div>
+          </v-col>
+        </v-row >
       </div>
     </v-container>
   </v-slide-y-transition>
@@ -662,6 +672,7 @@ const StartTraning = async () =>{
     onSuccess: (response) => {
       KivettAdatok.value = response.kivettAdatok;
       MaradekAdatok.value = response.maradekAdatok;
+      console.log(response);
       fullPoint.value = KivettAdatok.value.length;
       if(timerSwitch.value){
         def_minuteTimer.value = minuteTimer.value;
