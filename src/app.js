@@ -12,12 +12,9 @@ const errorHandler = require("./api/middlewares/errorHandler");
 
 const db = require("./api/database/dbContext");
 
-app.use('/',(req,res,next)=>{
-  next()
-});
-
-app.use(cors());
-app.options('*', cors());
+app.use(cors({
+  origin: "*",
+}));
 
 const logregRoute = require("./api/routes/logregRoute")
 

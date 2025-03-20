@@ -63,10 +63,24 @@
                       </v-btn>
                     </v-list-item>
 
-                    <v-list-item class="pa-0 px-2">
+                    <v-list-item class="pa-0 px-2" v-if="get_fullUser && ((get_fullUser.osztaly == 'T' && get_fullUser.user_role == 'teacher') || (get_fullUser.osztaly == 'A' && get_fullUser.user_role == 'admin'))">
                       <v-btn
                       style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
                       class="justify-center rounded cursor-pointer py-2 px-0 w-100"
+                       @click="router.push({name: 'exam-publish'});"
+                      >
+                          <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
+                              <v-icon size="30" class="ml-4">mdi-book-plus</v-icon>
+                              <h1 style="text-transform: uppercase; width: 100%;">Kiírás</h1>
+                          </div>
+                      </v-btn>
+                    </v-list-item>
+
+                    <v-list-item class="pa-0 px-2" v-else>
+                      <v-btn
+                      style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
+                      class="justify-center rounded cursor-pointer py-2 px-0 w-100"
+                      @click="router.push({name: 'exam'})"
                       >
                           <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
                               <v-icon size="30" class="ml-4">mdi-file-document-edit-outline</v-icon>
@@ -100,20 +114,7 @@
                           </div>
                       </v-btn>
                     </v-list-item>
-
-                    <v-list-item class="pa-0 px-2" v-if="get_fullUser && ((get_fullUser.osztaly == 'T' && get_fullUser.user_role == 'teacher') || (get_fullUser.osztaly == 'A' && get_fullUser.user_role == 'admin'))">
-                      <v-btn
-                      style="border: .1vw solid rgb(var(--v-theme-text_color)); height: max-content; width: 100%; display: block; align-items: center; justify-content: center; background-color: transparent;"
-                      class="justify-center rounded cursor-pointer py-2 px-0 w-100"
-                       @click="router.push({name: 'exam-publish'});"
-                      >
-                          <div class="d-flex align-center ga-3 w-100" style="width: 100%; height: 100%;">
-                              <v-icon size="30" class="ml-4">mdi-book-plus</v-icon>
-                              <h1 style="text-transform: uppercase; width: 100%;">Kiírás</h1>
-                          </div>
-                      </v-btn>
-                    </v-list-item>
-
+                    
                 </v-list>
             </v-navigation-drawer>
 
@@ -124,8 +125,8 @@
     </v-card>
 
     <v-dialog
-        v-model="dialog"
-        max-width="1200"
+      v-model="dialog"
+      max-width="1200"
     >
         <v-card style="display: flex; flex-direction: column; height: auto; overflow: hidden;">
             <v-layout>
@@ -320,7 +321,7 @@
                                     />
                                   </template>
                                   <template v-else>
-                                    <img src="/src/components/background/test_profile.jpg"  alt="" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;">
+                                    <img src="../../public/none_profile.jpg"  alt="" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;">
                                   </template>
                                 </v-btn>
                                 
@@ -538,7 +539,7 @@
                                               >
                                               <div>
                                                 <img 
-                                                  :src="user.Usersetting.profPic == null ? '/src/components/background/test_profile.jpg' : user.Usersetting.profPic"  
+                                                  :src="user.Usersetting.profPic == null ? '../../public/none_profile.jpg' : user.Usersetting.profPic"
                                                   alt="" 
                                                   style="height: 3rem; width: 3rem; border-radius: 50%;" 
                                                   class="mr-3"

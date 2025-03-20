@@ -1,121 +1,123 @@
 <template>
-    <v-container style="background-color: rgb(var(--v-theme-primary));" class="rounded mt-2 pa-0" :class="{ 'pt-1': (get_fullUser && (get_fullUser.admin && (get_fullUser.user_role == 'admin' && get_fullUser.osztaly == 'A') || (!get_fullUser.admin && get_fullUser.user_role == 'teacher' && get_fullUser.osztaly == 'T'))) }">
-        <v-row v-if="get_fullUser && (get_fullUser.admin && (get_fullUser.user_role == 'admin' && get_fullUser.osztaly == 'A') || (!get_fullUser.admin && get_fullUser.user_role == 'teacher' && get_fullUser.osztaly == 'T'))" 
-        class="my-2 mx-3 py-2 px-4 d-flex rounded justify-space-around"
-        style="background-color: rgb(var(--v-theme-result_div_bc));">
-            <v-col cols="12" md="5">
-                <v-text-field
-                    v-model="searchQuery"
-                    label="Keresés"
-                    clearable
-                    hide-details
-                    icon="mdi-magnify"
+    <v-slide-y-transition mode="in-out">
+        <v-container style="background-color: rgb(var(--v-theme-primary));" class="rounded mt-2 pa-0" :class="{ 'pt-1': (get_fullUser && (get_fullUser.admin && (get_fullUser.user_role == 'admin' && get_fullUser.osztaly == 'A') || (!get_fullUser.admin && get_fullUser.user_role == 'teacher' && get_fullUser.osztaly == 'T'))) }">
+            <v-row v-if="get_fullUser && (get_fullUser.admin && (get_fullUser.user_role == 'admin' && get_fullUser.osztaly == 'A') || (!get_fullUser.admin && get_fullUser.user_role == 'teacher' && get_fullUser.osztaly == 'T'))" 
+            class="my-2 mx-3 py-2 px-4 d-flex rounded justify-space-around"
+            style="background-color: rgb(var(--v-theme-result_div_bc));">
+                <v-col cols="12" md="5">
+                    <v-text-field
+                        v-model="searchQuery"
+                        label="Keresés"
+                        clearable
+                        hide-details
+                        icon="mdi-magnify"
+                        variant="outlined"
+                    >
+                    </v-text-field>
+                </v-col>
+                <v-col cols="12" md="4">
+                    <v-combobox
+                    v-if="comboOsztalyok && comboOsztalyok.length > 0"
+                    v-model="selectedClass"
+                    label="Osztály"
+                    :items="comboOsztalyok"
                     variant="outlined"
-                >
-                </v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-                <v-combobox
-                v-if="comboOsztalyok && comboOsztalyok.length > 0"
-                v-model="selectedClass"
-                label="Osztály"
-                :items="comboOsztalyok"
-                variant="outlined"
-                hide-details
-                clearable
-                ></v-combobox>
-            </v-col>
-            <v-col cols="12" md="2" class="d-flex justify-center align-center">
-                <div class="d-flex ga-1 align-center">
-                    <v-btn elevation="0" @click="lastExams = true" style="width: 48%;" :style="{backgroundColor: lastExams ? 'gray' : 'transparent'}"><h3>legutobbi</h3></v-btn>
-                    <v-divider vertical class="mx-1"></v-divider>
-                    <v-btn elevation="0" @click="lastExams = false" style="width: 48%;" :style="{backgroundColor: !lastExams ? 'gray' : 'transparent'}"><h3>összes</h3></v-btn>
-                </div>
-            </v-col>
-        </v-row>
+                    hide-details
+                    clearable
+                    ></v-combobox>
+                </v-col>
+                <v-col cols="12" md="2" class="d-flex justify-center align-center">
+                    <div class="d-flex ga-1 align-center">
+                        <v-btn elevation="0" @click="lastExams = true" style="width: 48%;" :style="{backgroundColor: lastExams ? 'gray' : 'transparent'}"><h3>legutobbi</h3></v-btn>
+                        <v-divider vertical class="mx-1"></v-divider>
+                        <v-btn elevation="0" @click="lastExams = false" style="width: 48%;" :style="{backgroundColor: !lastExams ? 'gray' : 'transparent'}"><h3>összes</h3></v-btn>
+                    </div>
+                </v-col>
+            </v-row>
 
-        <div v-if="!isResultsArray && selectedClass == null && searchQuery == ''" class="d-flex justify-center py-4">
-            <h1>Még egy eredményed sincs!</h1>
-        </div>
-        <div v-else>
-            <v-card>
-                <v-tabs
-                v-model="ResultTabs"
-                bg-color="primary"
-                >
-                <v-tab value="Gyak" style="width: 50%;">Gyakorlás</v-tab>
-                <v-tab value="Dog" style="width: 50%;">Dolgozat</v-tab>
-                </v-tabs>
+            <div v-if="!isResultsArray && selectedClass == null && searchQuery == ''" class="d-flex justify-center py-4">
+                <h1>Még egy eredményed sincs!</h1>
+            </div>
+            <div v-else>
+                <v-card>
+                    <v-tabs
+                    v-model="ResultTabs"
+                    bg-color="primary"
+                    >
+                    <v-tab value="Gyak" style="width: 50%;">Gyakorlás</v-tab>
+                    <v-tab value="Dog" style="width: 50%;">Dolgozat</v-tab>
+                    </v-tabs>
 
-                <v-card-text>
-                <v-tabs-window v-model="ResultTabs">
-                    <v-tabs-window-item value="Gyak">
-                        <div v-if="ResultsArray.length == 0" class="d-flex justify-center">
-                            <h2>{{selectedClass != null || searchQuery != '' ? ( selectedClass != null ? 'Még nincs egy eredménye a gyaklorlatokról ebből az osztályból!' : 'Még nincs egy eredménye a gyaklorlatokról a felhasználónak!') : 'Még nincs egy eredményed se a gyaklorlatokról!'}}</h2>
-                        </div>
-                        <v-table v-else class="table-fixed rounded" style="background-color: rgb(var(--v-theme-primary));">
-                            <thead>
-                                <tr>
-                                    <th class="text-center" style="width: 40%;"><h2>Befejezve</h2></th>
-                                    <th v-if="ResultsArray && get_fullUser && ResultsArray[0].user_name == get_fullUser.user_name"  class="text-center" style="width: 10%;"><h2>Százalék</h2></th>
-                                    <th v-else class="text-center" style="width: 10%;"><h2>Név</h2></th>
-                                    <th class="text-center" style="width: 30%;"><h2>Láthatatlan jegy</h2></th>
-                                    <th class="text-center" style="width: 15%;"><h2>Továbbiak</h2></th>
-                                </tr>
-                            </thead>
-                            <tbody style="max-width: 100%;">
-                                <tr v-for="result in ResultsArray">
-                                    <td class="text-center" style="width: 40%;"><h2>{{ displayDatum(result.datum) }}</h2></td>
-                                    <td v-if="result && get_fullUser && result.user_name == get_fullUser.user_name" class="text-center" style="width: 10%;"><h2 style="font-family: 'Orbitron', sans-serif;">{{ Math.floor(result.Epont / result.Mpont * 100) }}%</h2></td>
-                                    <td v-else class="text-center" style="width: 10%;"><h2>{{ result.user_name }}</h2></td>
-                                    <td class="text-center" style="width: 30%;"><h2 style="font-family: 'Orbitron', sans-serif;">{{ showGrade(Math.floor(result.Epont / result.Mpont * 100)) }}</h2></td>
-                                    <td class="text-center" style="width: 15%;">
-                                        <v-btn
-                                            elevation="0"
-                                            @click="dialogOpen(result)"
-                                        >
-                                            Megtekintés
-                                        </v-btn>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </v-table>
-                    </v-tabs-window-item>
-                    <v-tabs-window-item value="Dog">
-                        <div v-if="ResultsArray.length == 0" class="d-flex justify-center">
-                            <h2>{{selectedClass != null || searchQuery != '' ? ( selectedClass != null ? 'Még nincs egy eredménye a dolgozatról ebből az osztályból!' : 'Még nincs egy eredménye a dolgozatról a felhasználónak!') : 'Még nincs egy eredményed se a dolgozatról!'}}</h2>
-                        </div>
-                        <v-table v-else class="table-fixed rounded" style="background-color: rgb(var(--v-theme-primary));">
-                            <thead>
-                                <tr>
-                                    <th class="text-center" style="width: 40%;"><h2>Befejezve</h2></th>
-                                    <th class="text-center" style="width: 10%;"><h2>Százalék</h2></th>
-                                    <th class="text-center" style="width: 30%;"><h2>Jegy</h2></th>
-                                    <th class="text-center" style="width: 15%;"><h2>Továbbiak</h2></th>
-                                </tr>
-                            </thead>
-                            <tbody style="max-width: 100%;">
+                    <v-card-text>
+                    <v-tabs-window v-model="ResultTabs">
+                        <v-tabs-window-item value="Gyak">
+                            <div v-if="ResultsArray.length == 0" class="d-flex justify-center">
+                                <h2>{{selectedClass != null || searchQuery != '' ? ( selectedClass != null ? 'Még nincs egy eredménye a gyaklorlatokról ebből az osztályból!' : 'Még nincs egy eredménye a gyaklorlatokról a felhasználónak!') : 'Még nincs egy eredményed se a gyaklorlatokról!'}}</h2>
+                            </div>
+                            <v-table v-else class="table-fixed rounded" style="background-color: rgb(var(--v-theme-primary));">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 40%;"><h2>Befejezve</h2></th>
+                                        <th v-if="ResultsArray && get_fullUser && ResultsArray[0].user_name == get_fullUser.user_name"  class="text-center" style="width: 10%;"><h2>Százalék</h2></th>
+                                        <th v-else class="text-center" style="width: 10%;"><h2>Név</h2></th>
+                                        <th class="text-center" style="width: 30%;"><h2>Láthatatlan jegy</h2></th>
+                                        <th class="text-center" style="width: 15%;"><h2>Továbbiak</h2></th>
+                                    </tr>
+                                </thead>
+                                <tbody style="max-width: 100%;">
                                     <tr v-for="result in ResultsArray">
-                                    <td class="text-center" style="width: 40%;"><h2>{{ displayDatum(result.datum) }}</h2></td>
-                                    <td class="text-center" style="width: 10%;"><h2 style="font-family: 'Orbitron', sans-serif;">{{ Math.floor(result.Epont / result.Mpont * 100) }}%</h2></td>
-                                    <td class="text-center" style="width: 30%;"><h2 style="font-family: 'Orbitron', sans-serif;">{{ showGrade(Math.floor(result.Epont / result.Mpont * 100)) }}</h2></td>
-                                    <td class="text-center" style="width: 15%;">
-                                        <v-btn
-                                            elevation="0"
-                                            @click="dialogOpen(result)"
-                                        >
-                                            Megtekintés
-                                        </v-btn>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </v-table>
-                    </v-tabs-window-item>
-                </v-tabs-window>
-                </v-card-text>
-            </v-card>
-        </div>
-    </v-container>
+                                        <td class="text-center" style="width: 40%;"><h2>{{ displayDatum(result.datum) }}</h2></td>
+                                        <td v-if="result && get_fullUser && result.user_name == get_fullUser.user_name" class="text-center" style="width: 10%;"><h2 style="font-family: 'Orbitron', sans-serif;">{{ Math.floor(result.Epont / result.Mpont * 100) }}%</h2></td>
+                                        <td v-else class="text-center" style="width: 10%;"><h2>{{ result.user_name }}</h2></td>
+                                        <td class="text-center" style="width: 30%;"><h2 style="font-family: 'Orbitron', sans-serif;">{{ showGrade(Math.floor(result.Epont / result.Mpont * 100)) }}</h2></td>
+                                        <td class="text-center" style="width: 15%;">
+                                            <v-btn
+                                                elevation="0"
+                                                @click="dialogOpen(result)"
+                                            >
+                                                Megtekintés
+                                            </v-btn>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </v-table>
+                        </v-tabs-window-item>
+                        <v-tabs-window-item value="Dog">
+                            <div v-if="ResultsArray.length == 0" class="d-flex justify-center">
+                                <h2>{{selectedClass != null || searchQuery != '' ? ( selectedClass != null ? 'Még nincs egy eredménye a dolgozatról ebből az osztályból!' : 'Még nincs egy eredménye a dolgozatról a felhasználónak!') : 'Még nincs egy eredményed se a dolgozatról!'}}</h2>
+                            </div>
+                            <v-table v-else class="table-fixed rounded" style="background-color: rgb(var(--v-theme-primary));">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 40%;"><h2>Befejezve</h2></th>
+                                        <th class="text-center" style="width: 10%;"><h2>Százalék</h2></th>
+                                        <th class="text-center" style="width: 30%;"><h2>Jegy</h2></th>
+                                        <th class="text-center" style="width: 15%;"><h2>Továbbiak</h2></th>
+                                    </tr>
+                                </thead>
+                                <tbody style="max-width: 100%;">
+                                        <tr v-for="result in ResultsArray">
+                                        <td class="text-center" style="width: 40%;"><h2>{{ displayDatum(result.datum) }}</h2></td>
+                                        <td class="text-center" style="width: 10%;"><h2 style="font-family: 'Orbitron', sans-serif;">{{ Math.floor(result.Epont / result.Mpont * 100) }}%</h2></td>
+                                        <td class="text-center" style="width: 30%;"><h2 style="font-family: 'Orbitron', sans-serif;">{{ showGrade(Math.floor(result.Epont / result.Mpont * 100)) }}</h2></td>
+                                        <td class="text-center" style="width: 15%;">
+                                            <v-btn
+                                                elevation="0"
+                                                @click="dialogOpen(result)"
+                                            >
+                                                Megtekintés
+                                            </v-btn>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </v-table>
+                        </v-tabs-window-item>
+                    </v-tabs-window>
+                    </v-card-text>
+                </v-card>
+            </div>
+        </v-container>
+    </v-slide-y-transition>
 
     <v-dialog max-width="800" v-model="dialogShow">
         <v-card>

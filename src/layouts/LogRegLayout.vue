@@ -44,14 +44,13 @@
         :rules="[(v) => !!v || 'Kötelező ezt a mezőt kitölteni', (v) => (v && v.length <= 24) || 'Maximum 24 karakter lehet.', (v) => v.length >= 6 || 'Minimum 6 karakteres név kell.']"
       ></v-text-field>
 
-      <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between" v-if="route.name == 'login' || route.name == 'register'">
+      <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between" v-if="route.name == 'login'">
         Jelszó
           <a
             class="text-caption text-decoration-none text-blue"
-            href="#"
             rel="noopener noreferrer"
             v-if="route.name == 'login'"
-            @click.prevent="router.push({ name: 'forget-password' })"
+            @click="forgetPasswordLog()"
           >
             Elfelejtette jelszavát?</a>
       </div>
@@ -140,20 +139,6 @@
           {{ RegBtnValue }}
       </v-btn>
 
-      <v-btn
-        class="mb-4 mt-4"
-        color="blue"
-        size="large"
-        variant="tonal"
-        block
-        v-if="route.name == 'forget-password'"
-        :disabled="!emailValue"
-        @click="handleForgetPassword"
-        :loading="loading"
-        >
-        {{ ForgetBtnValue }}
-      </v-btn>
-
       <v-card-text class="text-center" @click="router.push({name: 'register'})" v-if="route.name == 'login'">
         <a
           class="text-blue text-decoration-none"
@@ -187,8 +172,6 @@ import { useDisplay } from 'vuetify';
 import { useTheme } from 'vuetify';
 import { useRegisterUser } from '@/api/register/registerQuery';
 import { useLoginUser } from '@/api/login/loginQuery';
-import { useForgetPassword } from '@/api/forget-password/ForgetPasswordQuery'
-import { useSetNewPassword } from '@/api/set-new-password/SetNewPasswordQuery'
 
 if(getCookie('user') != null){
   deleteCookie('user');
@@ -214,32 +197,14 @@ const confirmPassword = ref('');
 const selectedClass = ref('A');
 const selectedYear = ref('9');
 const RegBtnValue = ref('Regisztrálás');
-const ForgetBtnValue = ref("Email küldése");
 
-const { mutate: forgetPassword} = useForgetPassword(loading, ForgetBtnValue) //, isPending
-
-const handleForgetPassword = async () => {
-  loading.value = true;
-  forgetPassword(emailValue.value, {
-      onSuccess: (response) =>{
-        if (showSucces) {
-          showSucces('Ez email sikeresen el lett küldve az eamil címre!');
-        }else{
-          console.log('Ez email sikeresen el lett küldve az eamil címre!');
-        }
-        loading.value = false;
-      },
-      onError: (error) => {
-        if (showError) {
-          showError(error.response.data);
-        }else{
-          console.log(error.response.data);
-        }
-        loading.value = false;
-      },
-    }
-  );
-};
+function forgetPasswordLog(){
+  if (showSucces) {
+    showSucces('Jelszó váltást az oldal moderátorától kérhet!');
+  }else{
+    console.log('Jelszó váltást az oldal moderátorától kérhet!');
+  }
+}
 
 const {mutate: registerUser} = useRegisterUser(loading, RegBtnValue);
 
@@ -287,8 +252,7 @@ const {mutate: loginUser} = useLoginUser(loading, RegBtnValue);
 
 const handleLogin = async () =>{
   loading.value = true;
-  setTimeout(async () => {
-    await loginUser({email: emailValue.value, password: passwordValue.value, rememberMe: rememberMe.value},{
+  await loginUser({email: emailValue.value, password: passwordValue.value, rememberMe: rememberMe.value},{
     onSuccess: (token) => {
       if (showSucces) {
         showSucces('Sikeres bejelentkezés!');
@@ -313,7 +277,6 @@ const handleLogin = async () =>{
       loading.value = false;
     }
   });
-  },1000);
 }
 
 function setCookieWithExpiry(name, value, day) {

@@ -51,13 +51,12 @@ module.exports = (sequelize, DataTypes) => {
     Exams.hasMany(Results, {
         foreignKey: 'exam_id'
     });
-    
 
     // Kapcsolótábla létrehozása Many-to-Many kapcsolat számára
-    const ExamAlkat = sequelize.define('ExamAlkat', {}, { timestamps: false });
+    const ExamAlkat = sequelize.define('ExamTableId', {}, { timestamps: false });
 
-    Exams.belongsToMany(Alkat, { through: ExamAlkat, foreignKey: "exam_id" });
-    Alkat.belongsToMany(Exams, { through: ExamAlkat, foreignKey: "alkat_id" });
+    Exams.belongsToMany(Alkat, { through: ExamAlkat, foreignKey: "exam_id", as: 'alkats' });
+    Alkat.belongsToMany(Exams, { through: ExamAlkat, foreignKey: "alkat_id", as: 'exams' });
 
     return {
         Users,

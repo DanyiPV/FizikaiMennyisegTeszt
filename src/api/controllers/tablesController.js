@@ -182,6 +182,8 @@ exports.getFinalStats = async (req, res, next) => {
             throw error;
         }
 
+        console.log(tables);
+
         const getAchivedPoints = await tablesService.getAchivedPoints(tables);
 
         if(!getAchivedPoints){
@@ -356,7 +358,7 @@ exports.getUsersResult = async (req,res,next) =>{
 }
 
 exports.setNewExam = async (req,res,next) =>{
-    const {tableidList, tablak , time, diff, osztaly, kezdet, token} = req.body;
+    const {tableidList, message, sorok , time, diff, osztaly, kezdet, token} = req.body;
 
     const secretKey = process.env.JWT_KEY;
 
@@ -383,7 +385,55 @@ exports.setNewExam = async (req,res,next) =>{
             throw error;
         }
 
-        res.status(200).send(getUserResults);
+        const newExam = {
+            id: null,
+            ido: time,
+            sorok: sorok,
+            kezdet: kezdet,
+            osztaly: osztaly,
+            dif: diff,
+            nev: message
+        }
+
+        const addExam = await tablesService.addNewExam(newExam);
+  
+        if(!addExam){
+            const error = new Error("Nem sikerült közzétenni a dolgozatot!");
+    
+            error.status = 400;
+    
+            throw error;
+        }
+
+        const addTables = await tablesService.addExamTables(tableidList, addExam);
+
+        res.status(200).send(addTables);
+    }catch(error){
+        next(error);
+    }
+}
+
+exports.getExams = async (req,res,next) =>{
+    const { token } = req.query;
+
+    const secretKey = process.env.JWT_KEY;
+
+    try{
+        var decoded = null;
+
+        if(token){
+            decoded = jwt.verify(token, secretKey, { algorithms: ['HS256'] });
+        }else{
+            const error = new Error("Valami hiba történt a felhasználó igazolásában!");
+
+            error.status = 500;
+
+            throw error;
+        }
+
+        const getExams = await tablesService.getExams(decoded.id);
+
+        res.status(200).send(getExams);
     }catch(error){
         next(error);
     }

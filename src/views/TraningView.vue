@@ -1,6 +1,10 @@
 <template>
+  <div class="d-flex justify-center">
+    <v-progress-circular indeterminate v-if="MaradekAdatok && traningEnd && !achivedPoint"></v-progress-circular>
+  </div>
+
   <v-slide-y-transition mode="in-out" hide-on-leave>
-    <v-container style="background-color: rgb(var(--v-theme-primary));" class="mt-1 rounded-lg" v-if="!MaradekAdatok">
+    <v-container style="background-color: rgb(var(--v-theme-primary));" class="mt-1 rounded-lg" v-if="MaradekAdatok === null">
       <v-row>
         <v-col cols="12" md="6">
           <v-select
@@ -146,7 +150,7 @@
         <tbody style="max-width: 100%;">
           <tr v-for="table in MaradekAdatok" :key="table.id">
             <!-- Név oszlop -->
-            <td v-if="typeof table.nev === 'string'" class="text-center pa-1" style="width: 20%; font-size: 1.3em;" v-mathjax="table.nev">
+            <td v-if="typeof table.nev === 'string'" class="text-center pa-1" style="width: 20%; font-size: 1rem;"v-mathjax="table.nev">
             </td>
             <td v-else class="text-center droppable" style="width: 20%;" 
                 :data-field="'nev'" 
@@ -158,7 +162,7 @@
                   class="draggable" draggable="true"
                   @dragstart="handleDragStart($event, table.nev, 'nev', table)"
                   @touchstart="handleTouchStart($event, table.nev, 'nev', table)">
-                <span v-mathjax="typeof table.nev === 'object' ? table.nev.value : table.nev" style="font-size: 1.3em;"></span>
+                <span v-mathjax="typeof table.nev === 'object' ? table.nev.value : table.nev" style="font-size: 1rem;"></span>
               </div>
               <div v-else class="empty-cell">
                 <span class="placeholder">--</span>
@@ -166,7 +170,7 @@
             </td>
 
             <!-- Jel oszlop -->
-            <td v-if="typeof table.jel === 'string'" class="text-center pa-1" style="width: 20%; font-size: 1.3em;" v-mathjax="table.jel">
+            <td v-if="typeof table.jel === 'string'" class="text-center pa-1" style="width: 20%; font-size: 1rem;" v-mathjax="table.jel">
             </td>
             <td v-else class="text-center droppable" style="width: 20%;" 
                 :data-field="'jel'" 
@@ -178,7 +182,7 @@
                   class="draggable" draggable="true"
                   @dragstart="handleDragStart($event, table.jel, 'jel', table)"
                   @touchstart="handleTouchStart($event, table.jel, 'jel', table)">
-                <span v-mathjax="typeof table.jel === 'object' ? table.jel.value : table.jel" style="font-size: 1.3em;"></span>
+                <span v-mathjax="typeof table.jel === 'object' ? table.jel.value : table.jel" style="font-size: 1rem;"></span>
               </div>
               <div v-else class="empty-cell">
                 <span class="placeholder">--</span>
@@ -186,7 +190,7 @@
             </td>
 
             <!-- Definíció oszlop -->
-            <td v-if="typeof table.def === 'string'" class="text-center pa-1" style="width: 20%; font-size: 1.3em;" v-mathjax="table.def">
+            <td v-if="typeof table.def === 'string'" class="text-center pa-1" style="width: 20%; font-size: 1rem;" v-mathjax="table.def">
             </td>
             <td v-else class="text-center droppable" style="width: 20%;" 
                 :data-field="'def'" 
@@ -198,7 +202,7 @@
                   class="draggable" draggable="true"
                   @dragstart="handleDragStart($event, table.def, 'def', table)"
                   @touchstart="handleTouchStart($event, table.def, 'def', table)">
-                <span v-mathjax="typeof table.def === 'object' ? table.def.value : table.def" style="font-size: 1.3em;"></span>
+                <span v-mathjax="typeof table.def === 'object' ? table.def.value : table.def" style="font-size: 1rem;"></span>
               </div>
               <div v-else class="empty-cell">
                 <span class="placeholder">--</span>
@@ -206,7 +210,7 @@
             </td>
 
             <!-- Mértékegység oszlop -->
-            <td v-if="typeof table.mer === 'string'" class="text-center pa-1" style="width: 20%; font-size: 1.3em;" v-mathjax="table.mer">
+            <td v-if="typeof table.mer === 'string'" class="text-center pa-1" style="width: 20%; font-size: 1rem;" v-mathjax="table.mer">
             </td>
             <td v-else class="text-center droppable" style="width: 20%;"
                 :data-field="'mer'" 
@@ -218,7 +222,7 @@
                   class="draggable" draggable="true"
                   @dragstart="handleDragStart($event, table.mer, 'mer', table)"
                   @touchstart="handleTouchStart($event, table.mer, 'mer', table)">
-                <span v-mathjax="typeof table.mer === 'object' ? table.mer.value : table.mer" style="font-size: 1.3em;"></span>
+                <span v-mathjax="typeof table.mer === 'object' ? table.mer.value : table.mer" style="font-size: 1rem;"></span>
               </div>
               <div v-else class="empty-cell">
                 <span class="placeholder">--</span>
@@ -230,9 +234,13 @@
     </v-container>
   </v-slide-y-transition>
 
+  <div v-if="!achivedPoint" style="width: 100%; height: 6rem;">
+
+  </div>
+
   <!-- Kivett adatok -->
-  <div class="position-absolute d-flex flex-column justify-center rounded-lg"
-  style="max-width: 90%; left: 50%; transform: translate(-50%,0%); background-color: rgb(var(--v-theme-primary)); overflow-x: auto; bottom: 2em;"
+  <div class="position-fixed d-flex flex-column justify-center rounded-lg kivettAdatok"
+  style="max-width: 90%; left: 50%; transform: translate(-50%,0%); background-color: rgb(var(--v-theme-background), .5); overflow-x: auto; bottom: 1em;"
   @dragover.prevent="allowDrop" 
   @drop.prevent="allowDrop"
   v-if="KivettAdatok && KivettAdatok.length != 0 && !traningEnd">
@@ -672,7 +680,6 @@ const StartTraning = async () =>{
     onSuccess: (response) => {
       KivettAdatok.value = response.kivettAdatok;
       MaradekAdatok.value = response.maradekAdatok;
-      console.log(response);
       fullPoint.value = KivettAdatok.value.length;
       if(timerSwitch.value){
         def_minuteTimer.value = minuteTimer.value;
@@ -718,12 +725,14 @@ onMounted(async () => {
 });
 
 watch(sliderValue, async (newValue)=>{
-  if(newValue < 5){
-    sliderValue.value = 5;
-  }
-
-  if(newValue > sliderMax.value){
-    sliderValue.value = sliderMax.value;
+  if(!achivedPoint.value){
+    if(newValue < 5){
+      sliderValue.value = 5;
+    }
+  
+    if(newValue > sliderMax.value){
+      sliderValue.value = sliderMax.value;
+    }
   }
 })
 
@@ -774,22 +783,22 @@ function deleteCookie(name) {
 </script>
 
 <style>
-.v-overlay-container::-webkit-scrollbar, .adminNotif::-webkit-scrollbar {
+.v-overlay-container::-webkit-scrollbar, .kivettAdatok::-webkit-scrollbar {
   width: 4px; /* Görgetősáv szélessége */
   height: 7px;
 }
 
-.v-overlay-container::-webkit-scrollbar-track, .adminNotif::-webkit-scrollbar-track {
+.v-overlay-container::-webkit-scrollbar-track, .kivettAdatok::-webkit-scrollbar-track {
   background: transparent !important; /* Háttérszín */
   border-radius: 10px !important;
 }
 
-.v-overlay-container::-webkit-scrollbar-thumb, .adminNotif::-webkit-scrollbar-thumb {
+.v-overlay-container::-webkit-scrollbar-thumb, .kivettAdatok::-webkit-scrollbar-thumb {
   background: rgb(var(--v-theme-settings_drawer_bc)) !important; /* Görgetősáv színe */
   border-radius: 10px !important;
 }
 
-.v-overlay-container::-webkit-scrollbar-thumb:hover ,  .adminNotif::-webkit-scrollbar-thumb:hover {
+.v-overlay-container::-webkit-scrollbar-thumb:hover ,  .kivettAdatok::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.7) !important;
 }
 

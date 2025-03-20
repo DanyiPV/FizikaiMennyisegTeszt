@@ -141,7 +141,7 @@ export const usGetUserResults = () => {
     })
 }
 
-const setNewExam = async (data: {tableidList: Array<object>, tablak: string, time: number, diff: number, osztaly: string, kezdet: string, token: string}) => {
+const setNewExam = async (data: {tableidList: Array<number>, message: string, sorok: number, time: number, diff: number, osztaly: string, kezdet: string, token: string}) => {
     const response = await axiosClient.post('http://localhost:3000/set-new-exam', data, {
         headers:{
             token: data.token
@@ -153,6 +153,24 @@ const setNewExam = async (data: {tableidList: Array<object>, tablak: string, tim
 export const useSetNewExam = () => {
     return useMutation({
         mutationFn: setNewExam,
+        onSuccess: (response) => {
+        },
+        onError: (error) => {
+
+        }
+    })
+}
+
+const getExams = async (token: string) => {
+    const response = await axiosClient.get('http://localhost:3000/get-exam', {
+        params: { token }
+    });
+    return response.data
+}
+
+export const useGetExams = () => {
+    return useMutation({
+        mutationFn: getExams,
         onSuccess: (response) => {
         },
         onError: (error) => {

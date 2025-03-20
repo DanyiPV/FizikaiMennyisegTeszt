@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
                 autoIncrement: true,
                 allowNull:false
             },
+            nev:{
+                type: DataTypes.TEXT,
+                allowNull: false,
+            },
             ido:{
                 type: DataTypes.INTEGER,
                 allowNull: false,
@@ -20,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
             },
             kezdet:{
+                type: DataTypes.TEXT,
+                allowNull: false,
+            },
+            osztaly:{
                 type: DataTypes.TEXT,
                 allowNull: false,
             },

@@ -59,7 +59,6 @@
               <v-text-field 
               variant="outlined" 
               v-model="minuteTimer" 
-              :disabled="!timerSwitch"
               hide-details
               min="0"
               max="60"
@@ -72,21 +71,12 @@
               <v-text-field 
               variant="outlined" 
               v-model="secondTimer" 
-              :disabled="!timerSwitch"
               hide-details
               min="0"
               max="60"
               type="number"
               style="text-align: center;">
               </v-text-field>
-            </div>
-
-            <div>
-              <v-switch
-              v-model="timerSwitch"
-              hide-details
-              inset
-              ></v-switch>
             </div>
           </div>
         </v-col>
@@ -108,16 +98,16 @@
         sm="6"
         class="d-flex justify-center"
         >
-        <v-date-picker
-        color="date_picker"
-        :min="new Date().toISOString().substr(0, 10)"
-        v-model="selectedDate"
-        title="Időpont kiválasztás"
-        show-week
-        first-day-of-week="1"
-        :allowed-dates="allowedDates"
-        header="Dátum választás"
-        ></v-date-picker>
+          <v-date-picker
+          color="date_picker"
+          :min="new Date().toISOString().substr(0, 10)"
+          v-model="selectedDate"
+          title="Időpont kiválasztás"
+          show-week
+          first-day-of-week="1"
+          :allowed-dates="allowedDates"
+          header="Dátum választás"
+          ></v-date-picker>
         </v-col>
 
         <v-col
@@ -158,16 +148,30 @@
             :items="comboOsztalyok"
             variant="outlined"
             hide-details
-            clearable
+            :filter="() => false"
             ></v-combobox>
+            <div v-if="comboOsztalyok && comboOsztalyok.length == 0">
+              <h2>Nincs még egy osztály se!</h2>
+            </div>
           </div>
-          <div style="width: max-content;" @click="StartTraning()" class="d-flex flex-column mt-3">
+          <div style="width: 100%;" class="my-2">
+            <v-text-field
+            v-model="message"
+            label="Dolgozat neve"
+            variant="outlined"
+            clearable
+            ></v-text-field>
+            <div v-if="comboOsztalyok && comboOsztalyok.length == 0">
+              <h2>Nincs még egy osztály se!</h2>
+            </div>
+          </div>
+          <div style="width: max-content;" class="d-flex flex-column mt-3">
             <div class="ma-auto">
                 <v-btn
                 icon
                 elevation="0"
                 style="width: max-content; height: max-content;"
-                :disabled="!AlkatSelect || AlkatSelect.length == 0 || !time || !selectedDate || !selectedClass"
+                :disabled="!AlkatSelect || AlkatSelect.length == 0 || !time || !selectedDate || !selectedClass || !message"
                 class="pa-2"
                 @click="ExamPublish()"
                 >
@@ -177,7 +181,7 @@
             <h2 
             @click="ExamPublish()"
             style="font-weight: normal;" 
-            class="cursor-pointer" :style="{color: !AlkatSelect || AlkatSelect.length == 0 || !time || !selectedDate || !selectedClass ? 'grey' : 'rgb(var(--v-theme-text_color))'}">Dolgozat kiírás</h2>
+            class="cursor-pointer" :style="{color: !AlkatSelect || AlkatSelect.length == 0 || !time || !selectedDate || !selectedClass || !message ? 'grey' : 'rgb(var(--v-theme-text_color))'}">Dolgozat kiírás</h2>
           </div>
         </v-col>
       </v-row>
@@ -189,7 +193,7 @@
 import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, inject, onMounted, watch, onBeforeUnmount } from 'vue';
 import { useDisplay, useTheme } from 'vuetify';
-import { useGetCategories, useGetSubcategories, useGetOsztalyok } from '@/api/tables/tablesQuery';
+import { useGetCategories, useGetSubcategories, useGetOsztalyok, useSetNewExam } from '@/api/tables/tablesQuery';
 import { useGetProfil } from '@/api/profile/profileQuery';
 
 const showError = inject("showError");
@@ -212,21 +216,49 @@ const sliderMax = ref(null)
 const sliderValue = ref(5);
 const minuteTimer = ref(45);
 const secondTimer = ref(0);
-const timerSwitch = ref(false);
 const diffSelect = ref('Könnyű');
 const selectedDate = ref(null);
 const time =  ref(null);
 const modal = ref(false);
 const comboOsztalyok = ref(null);
 const selectedClass = ref(null);
+const message = ref(null);
 
 const allowedDates = (date) => {
   const day = new Date(date).getDay();
   return day >= 1 && day <= 5;
 };
 
+function formattedDateTime() {
+  if (!selectedDate.value || !time.value) return '';
+
+  const year = selectedDate.value.getFullYear();
+  const month = String(selectedDate.value.getMonth() + 1).padStart(2, '0');
+  const day = String(selectedDate.value.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${time.value}`;
+}
+
+const {mutate: setNewExam} = useSetNewExam();
+
 const ExamPublish = async () =>{
-  
+  const idLista = TkatSelect.value.map(obj => TkatArray.value.filter(c => c.nev === obj).map(c => c.id)).flat().sort();
+  await setNewExam({tableidList: idLista, message: message.value, sorok: sliderValue.value, time: (minuteTimer.value * 60 + secondTimer.value), diff: (diffSelect.value == 'Könnyű' ? 1 : (diffSelect.value == 'Normál' ? 2 : 3)), osztaly: selectedClass.value, kezdet: formattedDateTime(), token: get_token},{
+    onSuccess: () =>{
+      if (showSucces) {
+        showSucces("Sikerült a dolgozat feltöltése!");
+      }else{
+        console.log("Sikerült a dolgozat feltöltése!");
+      }
+    },
+    onError: () =>{
+      if (showError) {
+        showError(error.response.data);
+      }else{
+        console.log(error.response.data);
+      }
+    }
+  })
 }
 
 const {mutate: getCategories} = useGetCategories();
@@ -240,11 +272,11 @@ onMounted(async () => {
       TkatArray.value = response;
     },
     onError: (error) => {
-    if (showError) {
+      if (showError) {
         showError(error.response.data);
-    }else{
+      }else{
         console.log(error.response.data);
-    }},
+      }},
   });
 
   if(get_token){
@@ -255,7 +287,7 @@ onMounted(async () => {
         if((get_fullUser.value.admin && get_fullUser.value.user_role == 'admin' && get_fullUser.value.osztaly == 'A') || (!get_fullUser.value.admin && get_fullUser.value.user_role == 'teacher' && get_fullUser.value.osztaly == 'T')){
             await getOsztalyok(get_token, {
                 onSuccess: (response) => {
-                    comboOsztalyok.value = response.map(c => c.osztaly);
+                  comboOsztalyok.value = response.map(c => c.osztaly);
                 },
                 onError: (error) => {
                 if (showError) {

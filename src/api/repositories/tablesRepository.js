@@ -17,6 +17,10 @@ class logregRepository
         this.Users = db.Users;
 
         this.Results = db.Results;
+
+        this.Exams = db.Exams;
+
+        this.ExamAlkat = db.ExamAlkat;
     }
 
     async fullCategories() {
@@ -33,15 +37,15 @@ class logregRepository
                 },
                 include: [
                     {
-                        model: this.Tables, // A Tables modell kapcsolata
-                        attributes: [] // Nem kérjük le a konkrét adatokat, csak a darabszám kell
+                        model: this.Tables,
+                        attributes: []
                     }
                 ],
                 attributes: [
                     'id', 'nev', 'tkat_id',
-                    [Sequelize.fn('COUNT', Sequelize.col('Tables.id')), 'tablesCount'] // Összeszámolja a kapcsolódó Tables bejegyzéseket
+                    [Sequelize.fn('COUNT', Sequelize.col('Tables.id')), 'tablesCount'] 
                 ],
-                group: ['Alkat.id'] // Csoportosítás az Alkat id alapján, hogy a COUNT jól működjön
+                group: ['Alkat.id']
             });
         
             SubcategoriesArray.push(subcategories);
@@ -108,7 +112,7 @@ class logregRepository
             const fieldsToCheck = ['nev', 'jel', 'def', 'mer'];
 
             for (const field of fieldsToCheck) {
-                if (typeof item[field] === 'object' && item[field] !== null) {
+                if (typeof item[field] === 'object' && item[field] !== null && item[field].value !== null) {
                     if (item[field].value === dbData[field]) {
                         achivedPoints++;
                     }
@@ -224,6 +228,57 @@ class logregRepository
 
         return (user.osztaly == "A" && user.user_role == "admin" && user.admin == 1) || (user.osztaly == "T" && user.user_role == "teacher" && user.admin == 0)
     }
+
+    async addNewExam(newExam){
+        const exam = await this.Exams.build(newExam);
+
+        await exam.save();
+
+        return exam.id;
+    }
+
+    async addExamTables(tableidList, addExam){
+        for(const id of tableidList){
+            const examAlkat = await this.ExamAlkat.build({exam_id: addExam, alkat_id: id});
+
+            await examAlkat.save();
+        }
+
+        return 'OK'
+    }
+
+    async getExams(userId) {
+        const user = await this.Users.findOne({
+          where: { id: userId },
+          attributes: ['osztaly']
+        });
+      
+        const exams = await this.Exams.findAll({
+          where: { osztaly: user.osztaly },
+          include: [
+            {
+              model: this.Results,
+              required: false,
+              where: { users_id: userId }
+            },
+            {
+              model: this.Alkat,
+              as: 'alkats',
+              attributes: ["id","nev"],
+              required: false,
+              through: { attributes: [] }
+            }
+          ]
+        });
+      
+        const formattedExams = exams.map(exam => {
+          const closed = exam.results && exam.results.length > 0;
+          const alkats = exam.alkats ? exam.alkats : [];
+          return { ...exam.dataValues, closed, alkats };
+        });
+      
+        return formattedExams;
+      }
 }
 
 module.exports = new logregRepository(db);

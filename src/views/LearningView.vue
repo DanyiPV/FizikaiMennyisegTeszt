@@ -1,23 +1,26 @@
 <template>
   <v-card class="ma-4 scrollView">
       <v-tabs
-          v-model="tab"
-          bg-color="primary"
-          class="d-flex"
-          style="width: 100%;"
+        v-model="tab"
+        bg-color="primary"
+        class="d-flex"
+        style="width: 100%;"
       >
           <v-tab
-              :value="tkat.id"
-              v-for="tkat in AllTables"
-              :key="tkat.id"
-              class="d-flex justify-center"
-              style="flex-grow: 1; text-align: center;"
+            :value="tkat.id"
+            v-for="tkat in AllTables"
+            :key="tkat.id"
+            class="d-flex justify-center"
+            style="flex-grow: 1; text-align: center;"
           >
-              {{ tkat.nev }}
+            {{ tkat.nev }}
           </v-tab>
       </v-tabs>
 
       <v-card-text>
+        <div class="d-flex justify-center">
+          <v-progress-circular indeterminate v-if="!AllTables"></v-progress-circular>
+        </div>
           <v-tabs-window v-model="tab">
               <v-tabs-window-item
                 v-for="tkat in AllTables"

@@ -57,6 +57,18 @@ class logregService
     async getCheckedUser(id){
         return await tablesRepository.getCheckedUser(id);
     }
+
+    async addNewExam(newExam){
+        return await tablesRepository.addNewExam(newExam);
+    }
+
+    async addExamTables(tableidList, addExam){
+        return await tablesRepository.addExamTables(tableidList, addExam);
+    }
+
+    async getExams(id){
+        return await tablesRepository.getExams(id);
+    }
 }
 
 module.exports = new logregService();

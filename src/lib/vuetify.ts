@@ -81,7 +81,7 @@ const vuetify = createVuetify({
 
           main_bc: colors.grey.darken1,
 
-          kivett_elem_bc: colors.grey.darken4,
+          kivett_elem_bc: colors.grey.darken2,
           kivett_adatok_bc: colors.grey.darken3,
 
           result_div_bc: colors.grey.darken2,

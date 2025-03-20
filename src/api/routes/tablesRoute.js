@@ -25,4 +25,6 @@ route.post('/get-user-result', [ profileAuth.verifyToken ], tablesController.get
 
 route.post('/set-new-exam', [ profileAuth.verifyToken ], tablesController.setNewExam);
 
+route.get('/get-exam', tablesController.getExams);
+
 module.exports = route;
