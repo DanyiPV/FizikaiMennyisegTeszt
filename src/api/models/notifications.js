@@ -19,36 +19,26 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.TEXT,
                 allowNull: true,
             },
-            closed:{
-                type: DataTypes.BOOLEAN,
-                allowNull:false,
-                validate: {
-                    min: 0,
-                    max: 1,
-                },
-                defaultValue: 0,
-            },
-            megjelenitve:{
-                type: DataTypes.BOOLEAN,
-                allowNull:false,
-                validate: {
-                    min: 0,
-                    max: 1,
-                },
-                defaultValue: 0,
-            },
             datum:{
                 type: DataTypes.DATE,
                 allowNull: false,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
                 onUpdate: Sequelize.literal('CURRENT_TIMESTAMP'),
+            },
+            type:{
+                type: DataTypes.INTEGER,
+                allowNull:false
+            },
+            osztaly:{
+                type: DataTypes.TEXT,
+                allowNull:false
             }
         },
         {
             sequelize,
             modelName: 'Notifications',
             tableName: 'notifications',
-            timestamps: true,
+            timestamps: false,
         }
     );
 

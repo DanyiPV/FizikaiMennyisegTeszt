@@ -165,45 +165,25 @@ const { mobile } = useDisplay();
 const isMobile = computed(() => mobile.value);
 const router = useRouter();
 
-const get_token = getCookie("user");
 const get_fullUser = ref(null);
 
 const {mutate: getProfil} = useGetProfil();
 
 onMounted(async () => {
-  if(get_token){
-    await getProfil(get_token, {
-      onSuccess: (load_user) => {
-        get_fullUser.value = load_user;
-      },
-      onError: (error) => {
-        if (showError) {
-          showError(error.response.data);
-        }else{
-          console.log(error.response.data);
-        }
+  await getProfil(undefined,{
+    onSuccess: (load_user) => {
+      get_fullUser.value = load_user;
+    },
+    onError: (error) => {
+      if (showError) {
+        showError(error.response.data);
+      }else{
+        console.log(error.response.data);
+      }
 
-        deleteCookie('user');
-        router.push({name : 'login'})
-      },
-    });
-  }
+      deleteCookie('user');
+      router.push({name : 'login'})
+    },
+  });
 });
-
-function getCookie(name){
-  const cookies = document.cookie.split('; ');
-  for (const cookie of cookies) {
-    const [key, value] = cookie.split('=');
-    if (key === name) {
-      return decodeURIComponent(value);
-    }
-  }
-  return null;
-}
-
-function deleteCookie(name) {
-  document.cookie += `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-  theme.global.name.value = 'lightTheme';
-  router.push('login')
-}
 </script>

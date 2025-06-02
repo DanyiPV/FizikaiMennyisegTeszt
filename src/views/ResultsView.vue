@@ -15,7 +15,7 @@
                     >
                     </v-text-field>
                 </v-col>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="3">
                     <v-combobox
                     v-if="comboOsztalyok && comboOsztalyok.length > 0"
                     v-model="selectedClass"
@@ -423,37 +423,35 @@ onMounted(async () => {
     }},
   });
 
-  if(get_token){
-    await getProfil(get_token, {
-      onSuccess: async (load_user) => {
-        get_fullUser.value = load_user;
+await getProfil(undefined,{
+    onSuccess: async (load_user) => {
+    get_fullUser.value = load_user;
 
-        if((get_fullUser.value.admin && get_fullUser.value.user_role == 'admin' && get_fullUser.value.osztaly == 'A') || (!get_fullUser.value.admin && get_fullUser.value.user_role == 'teacher' && get_fullUser.value.osztaly == 'T')){
-            await getOsztalyok(get_token, {
-                onSuccess: (response) => {
-                    comboOsztalyok.value = response.map(c => c.osztaly);
-                },
-                onError: (error) => {
-                if (showError) {
-                    showError(error.response.data);
-                }else{
-                    console.log(error.response.data);
-                }},
-            });
-        }
-      },
-      onError: (error) => {
-        if (showError) {
-          showError(error.response.data);
-        }else{
-          console.log(error.response.data);
-        }
+    if((get_fullUser.value.admin && get_fullUser.value.user_role == 'admin' && get_fullUser.value.osztaly == 'A') || (!get_fullUser.value.admin && get_fullUser.value.user_role == 'teacher' && get_fullUser.value.osztaly == 'T')){
+        await getOsztalyok({
+            onSuccess: (response) => {
+                comboOsztalyok.value = response.map(c => c.osztaly);
+            },
+            onError: (error) => {
+            if (showError) {
+                showError(error.response.data);
+            }else{
+                console.log(error.response.data);
+            }},
+        });
+    }
+    },
+    onError: (error) => {
+    if (showError) {
+        showError(error.response.data);
+    }else{
+        console.log(error.response.data);
+    }
 
-        deleteCookie('user');
-        router.push({name : 'login'})
-      },
-    });
-  }
+    deleteCookie('user');
+    router.push({name : 'login'})
+    },
+});
 });
 
 function getCookie(name){

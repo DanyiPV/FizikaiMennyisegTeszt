@@ -33,6 +33,9 @@ exports.sendConfirmCode = async (req, res, next) =>
                 user: 'gravitasnoreply@gmail.com',
                 pass: 'vwuy eckc shar hlgm',
             },
+            tls: {
+                ciphers: 'SSLv3',
+            },
         });
 
         const randomSixDigitNumber = () => Math.floor(100000 + Math.random() * 900000); 
@@ -77,6 +80,7 @@ exports.sendConfirmCode = async (req, res, next) =>
         const newCode =
         {
             code: RandomDigits,
+            type: 1,
             user_id: id,
         }
 
@@ -190,7 +194,9 @@ exports.profilPicUpload = async (req, res, next) => {
 };
 
 exports.getAllUser = async (req,res,next) =>{
-    const {name, activated_type, admin, token} = req.query;
+    const {name, activated_type, admin} = req.query;
+
+    const token = req.cookies.token;
 
     const secretKey = process.env.JWT_KEY;
 
@@ -235,7 +241,9 @@ exports.getAllUser = async (req,res,next) =>{
 }
 
 exports.setUserSettings = async (req,res,next) =>{
-    const {content, id, type, token} = req.body;
+    const {content, id, type} = req.body;
+
+    const token = req.cookies.token;
 
     const secretKey = process.env.JWT_KEY;
 
@@ -273,7 +281,9 @@ exports.setUserSettings = async (req,res,next) =>{
 
 
 exports.setUserRoles = async (req,res,next) =>{
-    const {id, type, token} = req.body;
+    const {id, type} = req.body;
+
+    const token = req.cookies.token;
 
     const secretKey = process.env.JWT_KEY;
 
@@ -310,7 +320,9 @@ exports.setUserRoles = async (req,res,next) =>{
 }
 
 exports.setNewClass = async (req,res,next) =>{
-    const {osztaly, id, token} = req.body;
+    const {osztaly, id} = req.body;
+
+    const token = req.cookies.token;
 
     const secretKey = process.env.JWT_KEY;
 

@@ -2,14 +2,9 @@ import axiosClient from '../../lib/axios'
 import { useMutation } from '@tanstack/vue-query'
 import { ref } from 'vue'
 
-const ChangeDarkmode = async (data: { token: string; type: boolean }) => {
-    const response = await axiosClient.post('http://localhost:3000/change-darkmode',{
-        type: data.type,
-    }, 
-    {
-        headers: {
-            token: data.token,
-        }
+const ChangeDarkmode = async (type: boolean ) => {
+    const response = await axiosClient.post('/change-darkmode',{
+        type,
     });
     return response.data;
 };
@@ -25,18 +20,46 @@ export const useChangeDarkmode = () => {
     });
 }
 
-const getProfil = async (token: string) => {
-    const response = await axiosClient.get('http://localhost:3000/get-user',{
-        headers: {
-            token: token,
-        }
-    });
+const getProfil = async () => {
+    const response = await axiosClient.get('/get-user');
     return response.data;
 };
 
 export const useGetProfil = () => {
     return useMutation({
         mutationFn: getProfil,
+        onSuccess: (response) => {
+
+        },
+        onError: (error: any) => {
+        },
+    });
+}
+
+const checkCookie = async () => {
+    const response = await axiosClient.get('/check-cookie');
+    return response.data;
+};
+
+export const useCheckCookie = () => {
+    return useMutation({
+        mutationFn: checkCookie,
+        onSuccess: (response) => {
+
+        },
+        onError: (error: any) => {
+        },
+    });
+}
+
+const clearCookie = async () => {
+    const response = await axiosClient.get('/clear-cookie');
+    return response.data;
+};
+
+export const useClearCookie = () => {
+    return useMutation({
+        mutationFn: clearCookie,
         onSuccess: (response) => {
 
         },

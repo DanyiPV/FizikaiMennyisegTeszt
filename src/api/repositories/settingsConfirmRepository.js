@@ -17,7 +17,7 @@ class logregRepository
 
     async setConfirmCode(newCode){
         const existingCode = await this.Validation.findOne({
-            where: { user_id: newCode.user_id }
+            where: { user_id: newCode.user_id, type: 1 }
         });
 
         if (existingCode) {

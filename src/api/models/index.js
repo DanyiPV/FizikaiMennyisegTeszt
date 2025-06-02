@@ -31,6 +31,45 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "user_id",
     });
 
+    const UserNotification = sequelize.define('UserNotification', {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+            allowNull: false    
+        },
+        user_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        notification_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        status: {
+            type: DataTypes.ENUM("shown", "read"),
+            allowNull: false
+        }
+        }, {
+        timestamps: false
+    });
+
+
+    Users.belongsToMany(Notification, {
+        through: UserNotification,
+        foreignKey: "user_id",
+        otherKey: "notification_id",
+        as: 'notifications'  // alias az asszociációra
+    });
+
+    Notification.belongsToMany(Users, {
+        through: UserNotification,
+        foreignKey: "notification_id",
+        otherKey: "user_id",
+        as: 'users'  // alias az asszociációra
+    });
+    UserNotification.belongsTo(Notification, { foreignKey: 'notification_id', as: 'notification' });
+
     Tkat.hasMany(Alkat, {
         foreignKey: "tkat_id",
     });
@@ -68,6 +107,7 @@ module.exports = (sequelize, DataTypes) => {
         Tkat,
         Validation,
         Results,
-        ExamAlkat
+        ExamAlkat,
+        UserNotification
     };
 };

@@ -4,7 +4,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 exports.changeDarkmode = async (req,res,next) =>{
-    const token = req.headers.token;
+    const token = req.cookies.token;
     const { type } = req.body;
 
     try{
@@ -37,7 +37,7 @@ exports.changeDarkmode = async (req,res,next) =>{
 }
 
 exports.getUser = async (req,res,next) =>{
-    const token = req.headers.token;
+    const token = req.cookies.token;
 
     try{
         var decoded = null;
@@ -66,4 +66,30 @@ exports.getUser = async (req,res,next) =>{
     }catch(error){
         next(error);
     }    
+}
+
+exports.checkCookie = (req,res,next) =>{
+    const token = req.cookies.token;
+    
+    if (!token) {
+        return res.status(200).json({ valid: false });
+    }
+
+    jwt.verify(token, process.env.JWT_KEY, (error, decoded) => {
+        if (error || !decoded) {
+        return res.status(200).json({ valid: false });
+        }
+
+        return res.status(200).json({ valid: true });
+    });
+}
+
+exports.clearCookie = (req,res,next) =>{
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'Lax',
+        path: '/',
+    });
+    res.status(200).send({ message: 'Logged out' });
 }

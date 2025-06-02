@@ -2,6 +2,6 @@
 
 </script>
 
-/* Reg */
+/* Forget Password */
 <template>
 </template>

@@ -350,9 +350,7 @@ const { mobile } = useDisplay();
 const isMobile = computed(() => mobile.value);
 const router = useRouter();
 
-const get_token = getCookie("user");
 const get_fullUser = ref(null);
-
 const examStarted = ref(false);
 const examEnd = ref(false);
 const KivettAdatok = ref(null);
@@ -374,30 +372,28 @@ const interval = ref(null);
 const Exams = ref([]);
 
 const backToExams = async () =>{
-    KivettAdatok.value = null;
-    MaradekAdatok.value = null;
-    fullPoint.value = null;
-    minuteTimer.value = null;
-    secondTimer.value = null;
-    examProperties.value = null;
-    achivedPoint.value = null;
-    examStarted.value = false;
-    examEnd.value = false;
+  KivettAdatok.value = null;
+  MaradekAdatok.value = null;
+  fullPoint.value = null;
+  minuteTimer.value = null;
+  secondTimer.value = null;
+  examProperties.value = null;
+  achivedPoint.value = null;
+  examStarted.value = false;
+  examEnd.value = false;
 
-    if(get_token){
-        await getExams(get_token,{
-            onSuccess: (response) =>{
-                Exams.value = response
-            },
-            onError: (response) =>{
-                if (showError) {
-                    showError(error.response.data);
-                }else{
-                    console.log(error.response.data);
-                }
-            }
-        });
+  await getExams(undefined,{
+    onSuccess: (response) =>{
+        Exams.value = response
+    },
+    onError: (response) =>{
+      if (showError) {
+          showError(error.response.data);
+      }else{
+          console.log(error.response.data);
+      }
     }
+  });
 }
 
 function endFormat(exam){
@@ -685,7 +681,7 @@ const Befejezes = async () =>{
   clearInterval(timerShow.value);
   timerShow.value = null;
   examEnd.value = true;
-  await getFinalStats({tables: MaradekAdatok.value, tablak: examProperties.value.alkats.map(c=>c.nev).join(', ') , time: minuteTimer.value * 60 + secondTimer.value, diff: examProperties.value.dif, def_time: examProperties.value.ido, tpont: fullPoint.value, exam_id: examProperties.value.id, token: get_token},{
+  await getFinalStats({tables: MaradekAdatok.value, tablak: examProperties.value.alkats.map(c=>c.nev).join(', ') , time: minuteTimer.value * 60 + secondTimer.value, diff: examProperties.value.dif, def_time: examProperties.value.ido, tpont: fullPoint.value, exam_id: examProperties.value.id},{
     onSuccess: (response) =>{
       achivedPoint.value = response;
     },
@@ -702,20 +698,18 @@ const Befejezes = async () =>{
 const {mutate: getExams} = useGetExams();
 
 onMounted(async () => {
-    if(get_token){
-        await getExams(get_token,{
-            onSuccess: (response) =>{
-                Exams.value = response;
-            },
-            onError: (response) =>{
-                if (showError) {
-                    showError(error.response.data);
-                }else{
-                    console.log(error.response.data);
-                }
-            }
-        });
-    }
+  await getExams(undefined,{
+      onSuccess: (response) =>{
+          Exams.value = response;
+      },
+      onError: (response) =>{
+          if (showError) {
+              showError(error.response.data);
+          }else{
+              console.log(error.response.data);
+          }
+      }
+  });
 
   const interval = setInterval(() => {
     currentTime.value = new Date();
@@ -737,23 +731,6 @@ const isExamActive = (exam) => {
 const isExamClosed = (exam) => {
   return currentTime.value > new Date(endFormat(exam));
 };
-
-function getCookie(name){
-  const cookies = document.cookie.split('; ');
-  for (const cookie of cookies) {
-    const [key, value] = cookie.split('=');
-    if (key === name) {
-      return decodeURIComponent(value);
-    }
-  }
-  return null;
-}
-
-function deleteCookie(name) {
-  document.cookie += `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-  theme.global.name.value = 'lightTheme';
-  router.push('login')
-}
 </script>
 
 <style>

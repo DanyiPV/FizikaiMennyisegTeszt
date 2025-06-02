@@ -1,14 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import DefaultLayout from '../layouts/DefaultLayout.vue'
 import LogRegLayout from '../layouts/LogRegLayout.vue'
-
-// Segédfüggvény a cookie olvasásához
-function getCookie(name: string){
-  const cookies = document.cookie.split('; ');
-  const userCookie = cookies.find(row => row.startsWith(name + '='));
-  return userCookie ? userCookie.split('=')[1] : null;
-}
+import axiosClient from '@/lib/axios'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,6 +21,16 @@ const router = createRouter({
           path: '/register',
           name: 'register',
           component: () => import('../views/RegView.vue')
+        },
+        {
+          path: '/forget-password',
+          name: 'forget-password',
+          component: () => import('../views/ForgetPassword.vue')
+        },
+        {
+          path: '/set-new-password',
+          name: 'set-new-password',
+          component: () => import('../views/SetNewPasswordView.vue')
         }
       ]
     },
@@ -73,14 +76,24 @@ const router = createRouter({
 })
 
 // **Navigációs őr hozzáadása**
-router.beforeEach((to, from, next) => {
-  const user = getCookie('user'); // Ellenőrizzük, hogy van-e 'user' cookie
+const publicPages = ['login', 'register', 'forget-password', 'set-new-password'];
 
-  // Ha van 'user' cookie és a felhasználó a login vagy register oldalon van, akkor dobjuk át a home-ra
-  if (user && (to.name === 'login' || to.name === 'register')) {
-    next({ name: 'home' });
-  } else {
-    next(); // Engedélyezzük a navigációt
+router.beforeEach(async (to, from, next) => {
+  try {
+    const res = await axiosClient.get('/check-cookie');
+
+    if (!res.data.valid && !publicPages.includes(to.name as string)) {
+      return next({ name: 'login' });
+    }
+
+    if (res.data.valid && publicPages.includes(to.name as string)) {
+      return next({ name: 'home' });
+    }
+
+    next();
+  } catch (err) {
+    console.error("Hiba a cookie ellenőrzés során:", err);
+    next();
   }
 });
 

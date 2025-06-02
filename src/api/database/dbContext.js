@@ -1,6 +1,8 @@
 require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
+const mysql = require('mysql2/promise');
 
+// Create Sequelize instance
 const sequelize = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USERNAME,
@@ -8,51 +10,70 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST,
         dialect: process.env.DB_DIALECT || 'mysql',
-        port: 3306,
-        logging: false,
-    }
+        logging: false, // Set to true for debugging SQL queries
+    },
 );
 
+// Import models and pass Sequelize instance
 const models = require("../models/index")(sequelize, DataTypes);
 
+// Export sequelize instance and models
 const db = {
     sequelize,
     Sequelize,
-    ...models
+    ...models,
 };
 
+// Initialize database and tables
 const initializeDatabase = async () => {
     try {
-        console.log("\n--- Új log ---");
-        console.log('Starting database authentication...');
-
-        await sequelize.authenticate()
-        .then(() => {
-            console.log('Database connected successfully.');
-        })
-        .catch((error) => {
-            console.error('Unable to connect to the database:', error.message);
-        });
-      
-        await sequelize.sync({ force: true })
-        .then(() => {
-            console.log('Database synchronized.');
-        })
-        .catch((error) => {
-            console.error('Error syncing database:', error.message);
+        // Create the database if it does not exist
+        const connection = await mysql.createConnection({
+            host: process.env.DB_HOST,
+            user: process.env.DB_USERNAME,
+            password: process.env.DB_PASSWORD,
         });
 
-            
+        await connection.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.DB_NAME}\`;`);
+        console.log(`Database "${process.env.DB_NAME}" created or already exists.`);
+        await connection.end();
+
+        // Get the query interface from sequelize
+        const queryInterface = sequelize.getQueryInterface();
+
+        await sequelize.query('SET FOREIGN_KEY_CHECKS = 0', { raw: true });
+
+        await sequelize.sync({ alter: true });
+        console.log('Database connected and models synchronized.');
+
         await db.Tkat.initializeTkats();
 
         await db.Alkat.initializeAlkats();
 
         await db.Tables.initializeTable();
+
+        // Enable foreign key checks back on
+        await queryInterface.sequelize.query("SET FOREIGN_KEY_CHECKS = 1;");
+
+        const createValidationDeleteEventQuery = `
+            CREATE EVENT IF NOT EXISTS delete_expired_codes
+            ON SCHEDULE EVERY 3 SECOND
+            DO
+                DELETE FROM Validation
+                WHERE expires <= DATE_SUB(NOW(), INTERVAL 15 MINUTE);`;
+
+        await sequelize.query(createValidationDeleteEventQuery);
+        console.log('Event for automatic confirm codes deletion created.');
+
+        await sequelize.query('SET FOREIGN_KEY_CHECKS = 1', { raw: true });
+
+        console.log('Database connected and tables created.');
     } catch (error) {
         console.error('Error initializing database:', error);
     }
 };
-
+// Run database initialization
 initializeDatabase();
 
+// Export db object for further use
 module.exports = db;

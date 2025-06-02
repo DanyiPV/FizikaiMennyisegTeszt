@@ -5,7 +5,3 @@
 /* Log */
 <template>
 </template>
-
-<script>
-  
-</script>

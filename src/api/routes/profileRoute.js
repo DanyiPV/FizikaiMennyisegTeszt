@@ -9,4 +9,8 @@ route.post('/change-darkmode', profileController.changeDarkmode);
 
 route.get('/get-user', [ profileAuth.verifyToken ], profileController.getUser);
 
+route.get('/check-cookie', profileController.checkCookie);
+
+route.get('/clear-cookie', profileController.clearCookie);
+
 module.exports = route;

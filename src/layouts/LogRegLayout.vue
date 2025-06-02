@@ -20,7 +20,7 @@
       :min-width="isMobile ? '400' : '500'"
       rounded="lg"
     >
-      <div class="text-subtitle-1 text-medium-emphasis">Fiók</div>
+      <div class="text-subtitle-1 text-medium-emphasis" v-if="route.name != 'set-new-password'">Fiók</div>
 
       <v-text-field
       density="compact"
@@ -28,6 +28,7 @@
       prepend-inner-icon="mdi-email-outline"
       variant="outlined"
       v-model="emailValue"
+      v-if="route.name != 'set-new-password'"
       :rules="[
         (v) => !!v || 'Kötelező ezt a mezőt kitölteni', (v) => (v && v.length <= 35) || 'Maximum 35 karakter lehet.']" 
       ></v-text-field>
@@ -44,15 +45,15 @@
         :rules="[(v) => !!v || 'Kötelező ezt a mezőt kitölteni', (v) => (v && v.length <= 24) || 'Maximum 24 karakter lehet.', (v) => v.length >= 6 || 'Minimum 6 karakteres név kell.']"
       ></v-text-field>
 
-      <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between" v-if="route.name == 'login'">
-        Jelszó
-          <a
-            class="text-caption text-decoration-none text-blue"
-            rel="noopener noreferrer"
-            v-if="route.name == 'login'"
-            @click="forgetPasswordLog()"
-          >
-            Elfelejtette jelszavát?</a>
+      <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between" v-if="route.name == 'login' || route.name == 'register' || route.name == 'set-new-password'">
+        {{ PasswordValue }}
+        <router-link
+          class="text-caption text-decoration-none text-blue"
+          v-if="route.name === 'login'"
+          :to="{ name: 'forget-password' }"
+        >
+          Elfelejtette jelszavát?
+        </router-link>
       </div>
 
       <v-text-field
@@ -69,7 +70,7 @@
       ></v-text-field>
 
       <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between" v-if="route.name == 'register' || route.name == 'set-new-password'">
-        Jelszó megerősítés
+         {{ ConfPasswordValue }}
       </div>
 
       <v-text-field
@@ -89,6 +90,7 @@
         v-model="rememberMe"
         :label="`Maradjak bejelentkezve`"
         v-if="route.name == 'login'"
+        hide-details
       ></v-checkbox>
 
       <div class="d-flex ga-2 mt-4" v-if="route.name == 'register' ">
@@ -126,6 +128,34 @@
       </v-btn>
 
       <v-btn
+        class="mb-4 mt-4"
+        color="blue"
+        size="large"
+        variant="tonal"
+        block
+        v-if="route.name == 'forget-password'"
+        :disabled="!emailValue"
+        @click="handleForgetPassword"
+        :loading="loading"
+        >
+        {{ ForgetBtnValue }}
+      </v-btn>
+
+      <v-btn
+          class="mb-4 mt-4"
+          color="blue"
+          size="large"
+          variant="tonal"
+          block
+          v-if="route.name == 'set-new-password'"
+          :disabled="!passwordValue || !confirmPassword"
+          @click="handSetNewPassword"
+          :loading="loading"
+          >
+          {{ SetBtnValue }}
+      </v-btn>
+
+      <v-btn
           class="my-4"
           color="blue"
           size="large"
@@ -160,6 +190,16 @@
         </a>
       </v-card-text>
 
+      <v-card-text class="text-center" @click="router.push({name: 'login'})" v-if="route.name == 'forget-password' || route.name == 'set-new-password'">
+        <a
+          class="text-blue text-decoration-none"
+          rel="noopener noreferrer"
+          :style="{ cursor: 'pointer' }"
+        >
+        <v-icon icon="mdi-chevron-left"></v-icon> Bejelentkezés
+        </a>
+      </v-card-text>
+
     </v-card>
 
   </div>
@@ -172,10 +212,12 @@ import { useDisplay } from 'vuetify';
 import { useTheme } from 'vuetify';
 import { useRegisterUser } from '@/api/register/registerQuery';
 import { useLoginUser } from '@/api/login/loginQuery';
+import { useUserStore } from '../stores/userStore';
+import { useForgetPassword, useSetNewPassword } from '@/api/new-password/NewPasswordQuery'
 
-if(getCookie('user') != null){
-  deleteCookie('user');
-}
+const userStore = useUserStore();
+
+userStore.unreadNotifs = 0;
 
 const { mobile } = useDisplay();
 const isMobile = computed(() => mobile.value);
@@ -196,15 +238,38 @@ const passwordValue = ref('');
 const confirmPassword = ref('');
 const selectedClass = ref('A');
 const selectedYear = ref('9');
+const PasswordValue = ref("Jelszó");
+const ConfPasswordValue = ref("Jelszó megerősítése");
 const RegBtnValue = ref('Regisztrálás');
+const ForgetBtnValue = ref('Email küldése');
+const SetBtnValue = ref("Új jelszó beállítás");
+const isSetNewPassword = route.name === 'set-new-password';
+PasswordValue.value = isSetNewPassword ? "Új jelszó" : "Jelszó";
+ConfPasswordValue.value = isSetNewPassword ? "Új jelszó megerősítése" : "Jelszó megerősítése";
 
-function forgetPasswordLog(){
-  if (showSucces) {
-    showSucces('Jelszó váltást az oldal moderátorától kérhet!');
-  }else{
-    console.log('Jelszó váltást az oldal moderátorától kérhet!');
+const { mutate: forgetPassword } = useForgetPassword(loading, ForgetBtnValue)
+
+const { mutate: setNewPassword } = useSetNewPassword(loading, SetBtnValue)
+
+const handleForgetPassword = async () => {
+  if (emailValue?.value) {
+    loading.value = true;
+    forgetPassword({email: emailValue.value}, {
+      onSuccess: () => {showSucces ? showSucces("Email elküldve!") : console.log("Email elküldve!")},
+      onError: (err) => {showError ? showError(err.response.data) : console.log(err.response.data)}
+    });
   }
-}
+};
+
+const handSetNewPassword = () => {
+  if (passwordValue?.value) {
+    loading.value = true;
+    setNewPassword({password: passwordValue.value, token: String(route.query.token)}, {
+      onSuccess: () => {showSucces ? showSucces("Sikeresen be lett állítva az új jelszó!") : console.log("Sikeresen be lett állítva az új jelszó!")},
+      onError: (err) => showError ? showError(err.response.data) : console.log(err.response.data),
+    });
+  }
+};
 
 const {mutate: registerUser} = useRegisterUser(loading, RegBtnValue);
 
@@ -253,17 +318,11 @@ const {mutate: loginUser} = useLoginUser(loading, RegBtnValue);
 const handleLogin = async () =>{
   loading.value = true;
   await loginUser({email: emailValue.value, password: passwordValue.value, rememberMe: rememberMe.value},{
-    onSuccess: (token) => {
+    onSuccess: (response) => {
       if (showSucces) {
         showSucces('Sikeres bejelentkezés!');
       }else{
         console.log('Sikeres bejelentkezés!');
-      }
-
-      if (rememberMe) {
-        setCookieWithExpiry('user', token, 1);
-      } else {
-        setPersistentCookie('user', token);
       }
       router.push({ name: 'home' });
       loading.value = false;
@@ -277,31 +336,6 @@ const handleLogin = async () =>{
       loading.value = false;
     }
   });
-}
-
-function setCookieWithExpiry(name, value, day) {
-    const date = new Date();
-    date.setDate(date.getDate() + day); 
-    document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/`;
-}
-
-function setPersistentCookie(name, value) {
-  document.cookie = `${name}=${value}; path=/`;
-}
-
-function getCookie(name){
-  const cookies = document.cookie.split('; ');
-  for (const cookie of cookies) {
-    const [key, value] = cookie.split('=');
-    if (key === name) {
-      return decodeURIComponent(value);
-    }
-  }
-  return null;
-}
-
-function deleteCookie(name) {
-  document.cookie += `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
 </script>
 

@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 
 const registerUser = async (data: {email: string, user_name: string, password: string, osztaly: string}) => {
-  const response = await axiosClient.post('http://localhost:3000/register', data)
+  const response = await axiosClient.post('/register', data)
   return response.data
 }
 
@@ -28,7 +28,7 @@ export const useRegisterUser = (loading: Ref<boolean, boolean>,  RegBtnValue: Re
 }
 
 const UserActivation = async (token: object) => { 
-  const response = await axiosClient.post('http://localhost:3000/success-register', token)
+  const response = await axiosClient.post('/success-register', token)
   return response.data
 }
 

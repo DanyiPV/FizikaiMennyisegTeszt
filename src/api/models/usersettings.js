@@ -36,14 +36,6 @@ module.exports = (sequelize, DataTypes) => {
             profType:{
                 type: DataTypes.TEXT,
                 allowNull: true,
-            },
-            backPic:{
-                type: DataTypes.BLOB('long'),
-                allowNull: true,
-            },
-            backType:{
-                type: DataTypes.TEXT,
-                allowNull: true,
             }
         },
         {

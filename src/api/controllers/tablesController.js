@@ -1,5 +1,6 @@
 const tablesService = require("../services/tablesService");
 const settingsConfirmService = require("../services/settingsConfirmService");
+const notifService = require("../services/notifService");
 
 const jwt = require("jsonwebtoken");
 
@@ -154,7 +155,9 @@ return { kivettAdatok, maradekAdatok };
 }
 
 exports.getFinalStats = async (req, res, next) => {
-    const {tables, tablak , time, diff, def_time, tpont, exam_id, token} = req.body;
+    const {tables, tablak , time, diff, def_time, tpont, exam_id} = req.body;
+
+    const token = req.cookies.token;
 
     const secretKey = process.env.JWT_KEY;
 
@@ -224,7 +227,7 @@ exports.getFinalStats = async (req, res, next) => {
 }
 
 exports.getResults = async (req, res, next) => {
-    const token = req.headers.token;
+    const token = req.cookies.token;
 
     const secretKey = process.env.JWT_KEY;
 
@@ -250,7 +253,7 @@ exports.getResults = async (req, res, next) => {
 }
 
 exports.getOsztalyok = async (req,res,next) =>{
-    const token = req.headers.token;
+    const token = req.cookies.token;
 
     const secretKey = process.env.JWT_KEY;
 
@@ -286,7 +289,9 @@ exports.getOsztalyok = async (req,res,next) =>{
 }
 
 exports.getUsersResult = async (req,res,next) =>{
-    const {search, osztaly, token, last} = req.body;
+    const {search, osztaly, last} = req.body;
+
+    const token = req.cookies.token;
 
     const secretKey = process.env.JWT_KEY;
 
@@ -322,7 +327,9 @@ exports.getUsersResult = async (req,res,next) =>{
 }
 
 exports.getUsersResult = async (req,res,next) =>{
-    const {search, osztaly, token, last} = req.body;
+    const {search, osztaly, last} = req.body;
+
+    const token = req.cookies.token;
 
     const secretKey = process.env.JWT_KEY;
 
@@ -358,7 +365,9 @@ exports.getUsersResult = async (req,res,next) =>{
 }
 
 exports.setNewExam = async (req,res,next) =>{
-    const {tableidList, message, sorok , time, diff, osztaly, kezdet, token} = req.body;
+    const {tableidList, message, sorok , time, diff, osztaly, kezdet} = req.body;
+
+    const token = req.cookies.token;
 
     const secretKey = process.env.JWT_KEY;
 
@@ -407,14 +416,16 @@ exports.setNewExam = async (req,res,next) =>{
 
         const addTables = await tablesService.addExamTables(tableidList, addExam);
 
-        res.status(200).send(addTables);
+        const sendNotif = await notifService.newNotif({message: "Új dolgozat lett kiírva!",extra:"dolgozat", type: 0, osztaly: osztaly, user_id: decoded.id})
+
+        res.status(200).json(addExam);
     }catch(error){
         next(error);
     }
 }
 
 exports.getExams = async (req,res,next) =>{
-    const { token } = req.query;
+    const token = req.cookies.token;
 
     const secretKey = process.env.JWT_KEY;
 

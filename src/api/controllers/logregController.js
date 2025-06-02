@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 
 const validator = require("email-validator");
 
-//const nodemailer = require('nodemailer'); ?? kérdéses hogy ez legyen-e
+const nodemailer = require('nodemailer');
 
 exports.registerUser = async (req, res, next) =>
 {
@@ -99,7 +99,136 @@ exports.loginUser = async (req, res, next) =>
             rememberMe ? {} : { expiresIn: '1d' }
         );
 
-        res.status(200).send(token);
+        const cookieOptions = {
+            httpOnly: true,
+            secure: false,          // fejlesztés alatt false, HTTPS nélkül
+            sameSite: 'Lax',        // fejlesztéshez ajánlott
+            path: '/',
+        };
+
+        if (!rememberMe) {
+            cookieOptions.maxAge = 24 * 60 * 60 * 1000;
+        }
+        res.cookie('token', token, cookieOptions);
+
+        res.status(200).send({ success: true });
+    }
+    catch(error)
+    {
+        next(error);
+    }
+}
+
+exports.forgetPassword = async (req, res, next) =>{
+    const { email } = req.body;
+
+    const user = await logregServices.getUser(email, null);
+    try{
+        if(user == null){
+            const error = new Error("Ilyen felhasználó nem létezik!");
+
+            error.status = 404;
+
+            throw error;
+        }
+
+
+        // token generálás
+        const token = jwt.sign(
+            { email: email },
+            process.env.JWT_KEY,
+            { expiresIn: '1h' }
+        );
+
+        // Verifikációs token
+        const newToken =
+        {
+            code: token,
+            type: 0,
+            user_id: user.id,
+        }        
+
+        const token_result = await logregServices.uploadToken(newToken);
+        
+        // Verifikációs link
+        const verificationLink = `${req.headers.origin}/set-new-password?token=${token_result.code}`;
+        
+        // Email küldése
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'gravitasnoreply@gmail.com',
+                pass: 'vwuy eckc shar hlgm',
+            },
+            // UTF-8 támogatás biztosítása
+            tls: {
+                ciphers: 'SSLv3',
+            },
+        });
+
+        
+        // Email megjelenése
+        const mailOptions = {
+            from: '"Gravitas" <mathsolve597@gmail.com>',
+            to: email,
+            subject: 'Email Verification',
+            html: `
+            <h1>Hello ${user.user_name},</h1>
+            <p>Az alábbi linkre kattintva tudod módosítani a jelszavadat:</p>
+            <a href="${verificationLink}">${verificationLink}</a>
+            `,
+        };
+
+        await transporter.sendMail(mailOptions);
+        res.status(200).send('Új jelszó kérelem el lett küldve a emailre!');
+    }
+    catch(error){
+        next(error);
+    }
+}
+    
+exports.setNewPassword = async (req, res, next) =>{
+    const { token, password } = req.body;
+
+    try
+    {
+        if(token == 'null' || token == null)
+        {
+            const error = new Error("Rossz az elérési útvonal!");
+            
+            error.status = 400;
+            
+            throw error;
+        }
+        
+        const token_result = await logregServices.getUseridThroughToken(token);
+
+        if(token_result.user_id == null)
+        {
+            const error = new Error("A felhasználó nem létezik!");
+
+            error.status = 400;
+
+            throw error;
+        }
+
+        if(token_result.type != 0)
+        {
+            const error = new Error("Rossz token lett használva!");
+
+            error.status = 400;
+
+            throw error;
+        }
+
+        const hashed_password = await bcrypt.hash(password, salt);
+
+        const password_change_result = await logregServices.SetNewPassword(token_result.user_id, hashed_password);
+        if(password_change_result.success){
+            res.status(200).send(password_change_result.message)
+        }else{
+            res.status(400).send(password_change_result.message)
+        }
     }
     catch(error)
     {

@@ -9,6 +9,7 @@
                 </v-toolbar-title>
 
                 <div class="d-flex ga-2">
+                  <v-badge :content="(userStore.unreadNotifs.normal + userStore.unreadNotifs.admin) == 0 ? null : (userStore.unreadNotifs.normal + userStore.unreadNotifs.admin)" :color="(userStore.unreadNotifs.normal + userStore.unreadNotifs.admin) == 0 ? 'transparent' :'error'">
                     <v-btn icon @click="dialog = true" v-if="get_fullUser">
                       <v-avatar size="40">
                         <template v-if="get_fullUser.Usersetting.profPic">
@@ -22,10 +23,11 @@
                         </template>
                       </v-avatar>
                     </v-btn>
+                  </v-badge>
 
                     
                     <v-btn icon @click="HandleChangeDarkmode()" ><v-icon color="icon_color">{{ DarkmodeChange ? 'mdi-weather-sunny' : 'mdi-weather-night' }}</v-icon></v-btn>
-                    <v-btn icon @click="deleteCookie('user')"><v-icon color="error">mdi-logout</v-icon></v-btn>
+                    <v-btn icon @click="LogOut()"><v-icon color="error">mdi-logout</v-icon></v-btn>
                 </div>
             </v-app-bar>
 
@@ -221,6 +223,28 @@
                           </v-slide-x-reverse-transition>
                         </div>
                       </v-expand-transition>
+                      
+                      <v-divider inset color="default_btn_bc" style="transition: .3s;"></v-divider>
+
+                      <v-expand-transition>
+                        <div class="rounded-0 w-100 d-flex align-center pa-2 pl-4 cursor-pointer position-relativ custom-drawer-btn" @click="NotifDrawActive()">
+                            <v-badge :content="userStore.unreadNotifs.normal == 0 ? null : userStore.unreadNotifs.normal" :color="userStore.unreadNotifs.normal == 0 ? 'transparent' :'error'">
+                              <v-icon style="flex: 0; text-align: center;" size="20">mdi-bell</v-icon>
+                            </v-badge>  
+                            <h4 style="flex: 1; text-align: center; margin: 0; text-transform: capitalize; font-weight: normal;">
+                              Értesítések
+                            </h4>
+                          <v-slide-x-reverse-transition hide-on-leave>
+                            <div 
+                            v-if="NotifDraw" 
+                            style="background-color: rgb(var(--v-theme-surface)); position: absolute; max-width: 2rem; max-height: 2rem; width: 100%; height: 100%; right: 0; border-top-left-radius: 20px; border-bottom-left-radius: 20px; transition: .3s;"
+                            class="d-flex align-center"
+                            >
+                              <v-icon color="custom_drawer_icon" class="ml-1">mdi-radiobox-marked</v-icon>
+                            </div>
+                          </v-slide-x-reverse-transition>
+                        </div>
+                      </v-expand-transition>
 
                       <v-divider color="default_btn_bc" style="transition: .3s;"></v-divider>
                       
@@ -245,7 +269,7 @@
                             style="background-color: rgb(var(--v-theme-surface)); position: absolute; max-width: 2rem; max-height: 2rem; width: 100%; height: 100%; right: 0; border-top-left-radius: 20px; border-bottom-left-radius: 20px; transition: .3s;"
                             class="d-flex align-center"
                             >
-                              <v-icon color="custom_drawer_icon" class="ml-1"  size="20">mdi-radiobox-marked</v-icon>
+                              <v-icon color="custom_drawer_icon" class="ml-1" size="20">mdi-radiobox-marked</v-icon>
                             </div>
                           </v-slide-x-reverse-transition>
                         </div>
@@ -255,7 +279,9 @@
 
                       <v-expand-transition>
                         <div class="w-100 d-flex align-center pa-2 pl-4 cursor-pointer position-relativ custom-drawer-btn" style="border-radius: 0;" @click="AdminNotifActive" v-if="get_fullUser.admin && get_fullUser.user_role == 'admin' && get_fullUser.osztaly == 'A'">
-                          <v-icon style="flex: 0; text-align: center;">mdi-alert-circle</v-icon>
+                          <v-badge :content="userStore.unreadNotifs.admin == 0 ? null : userStore.unreadNotifs.admin" :color="userStore.unreadNotifs.admin == 0 ? 'transparent' :'error'">
+                            <v-icon style="flex: 0; text-align: center;">mdi-alert-circle</v-icon>
+                          </v-badge>  
                           <h4
                             style="flex: 1; text-align: center; margin: 0; text-transform: capitalize; font-weight: normal;"
                           >
@@ -478,6 +504,65 @@
                         </v-fade-transition>
 
                         <v-fade-transition mode="out-in">
+                          <div v-if="activePanel == 'notif'" class="d-flex flex-column justify-center">
+                            <h1 class="text-center">Értesítések</h1>
+                            <div style="border: .1vw solid rgb(var(--v-theme-text_color)); height: auto; min-height: 40vh; max-height: 40vh; overflow: auto;" class="rounded mb-5 mt-2 pt-2 px-2 d-flex flex-column adminUsers">
+                              <div v-for="(notif, index) in AllNotifs" 
+                              style="background-color: rgb(var(--v-theme-background));"
+                              :class="[
+                                'my-1 pa-4 rounded d-flex ga-2 align-center position-relative',
+                                isMobile ? 'flex-column align-start' : 'flex-row align-center'
+                              ]"
+                              v-if="AllNotifs.length > 0">
+                                <div style="min-width: max-content; max-width: 25rem;" class="d-flex ga-1">
+                                  <v-icon>mdi-bullhorn</v-icon>
+                                  <h4 style="font-weight: 600;">Üzenet:</h4> <h4 style="font-weight: normal;">{{ notif.message  }}</h4>
+                                </div>
+                                <v-divider vertical v-if="!isMobile"></v-divider>
+                                <v-divider inset v-if="isMobile"></v-divider>
+                                <div style="min-width: max-content; max-width: 15rem;" class="d-flex ga-1">
+                                  <h5 style="font-weight: normal;">{{ displayDatum(notif.datum) }}</h5>
+                                </div>
+                                <v-divider vertical v-if="!isMobile && notif.extra == 'dolgozat'"></v-divider>
+                                <v-divider inset v-if="isMobile"></v-divider>
+                                <v-btn text elevation="0" @click="OpenSite(notif)" v-if="notif.extra == 'dolgozat'">
+                                  <v-icon size="20" class="mr-2">mdi-open-in-new</v-icon>
+                                  <h4 style="font-weight: normal;">megnyitás</h4>
+                                </v-btn>
+                                <v-tooltip location="left">
+                                  <template v-slot:activator="{ props }">
+                                    <div class="position-absolute" style="right: 0.5rem; top: 50%; transform: translate(0%,-50%);">
+                                      <div 
+                                        v-bind="props" 
+                                        class="d-flex flex-row align-center rounded-pill" 
+                                        style="width: max-content; cursor: pointer; background-color: rgb(var(--v-theme-primary));"
+                                      >
+                                        <v-avatar size="40">
+                                          <template v-if="notif.User.Usersetting.profPic">
+                                            <img
+                                              :src="notif.User.Usersetting.profPic"
+                                              style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;"
+                                            />
+                                          </template>
+                                          <template v-else>
+                                            <v-icon size="25" color="icon_color">mdi-account</v-icon>
+                                          </template>
+                                        </v-avatar>
+                                      </div>
+                                    </div>
+                                  </template>
+                                  <span>{{ notif.User.user_name }}</span>
+                                </v-tooltip>
+                                
+                              </div>
+                              <div v-else class="text-center">
+                                <h2>Még nincs egy értesítésed se!</h2>
+                              </div>
+                            </div>
+                          </div>
+                        </v-fade-transition>
+
+                        <v-fade-transition mode="out-in">
                           <div v-if="activePanel == 'users'" class="w-100 h-100">
                             <h1 class="text-center mb-2">Felhasználók</h1>
                               <div 
@@ -537,14 +622,14 @@
                                                 class="d-flex flex-row align-center pa-1 pr-3 rounded-pill" 
                                                 style="width: max-content; cursor: pointer; background-color: rgb(var(--v-theme-primary));"
                                               >
-                                              <div>
-                                                <img 
-                                                  :src="user.Usersetting.profPic == null ? '../../public/none_profile.jpg' : user.Usersetting.profPic"
-                                                  alt="" 
-                                                  style="height: 3rem; width: 3rem; border-radius: 50%;" 
-                                                  class="mr-3"
-                                                >
-                                              </div>
+                                                <div>
+                                                  <img 
+                                                    :src="user.Usersetting.profPic == null ? '../../public/none_profile.jpg' : user.Usersetting.profPic"
+                                                    alt="" 
+                                                    style="height: 3rem; width: 3rem; border-radius: 50%;" 
+                                                    class="mr-3"
+                                                  >
+                                                </div>
                                                 <h2 style="font-weight: normal;">{{ user.user_name }}</h2>
                                               </div>
                                             </template>
@@ -727,6 +812,62 @@
                           </div>
                         </v-fade-transition>
 
+                        <v-fade-transition mode="out-in">
+                          <div v-if="activePanel == 'AdminNotif'" class="d-flex flex-column justify-center">
+                            <h1 class="text-center">Bejelentések</h1>
+                            <div style="border: .1vw solid rgb(var(--v-theme-text_color)); height: auto; min-height: 40vh; max-height: 40vh; overflow: auto;" class="rounded mb-5 mt-2 pt-2 px-2 d-flex flex-column adminUsers">
+                              <div v-for="(notif, index) in AllAdminNotifs" 
+                              style="background-color: rgb(var(--v-theme-background));"
+                              :class="[
+                                'my-1 pa-4 rounded d-flex ga-2 align-center position-relative',
+                                isMobile ? 'flex-column align-start' : 'flex-row align-center'
+                              ]"
+                              v-if="AllAdminNotifs.length > 0">
+                                <div style="min-width: max-content; max-width: 35rem;" class="d-flex ga-1 align-center">
+                                  <v-icon class="mr-1">mdi-alert</v-icon>
+                                  <h4 style="font-weight: 600;">Fajtája:</h4> <h4 style="font-weight: normal;">{{ notif.extra.split(';')[0] }}</h4>
+                                  <v-divider vertical v-if="!isMobile"></v-divider>
+                                  <v-divider inset v-if="isMobile"></v-divider>
+                                  <h4 style="font-weight: 600;">Üzenet:</h4> <h4 style="font-weight: normal;">{{ notif.extra.split(';')[1] }}</h4>
+                                </div>
+                                <v-divider vertical v-if="!isMobile"></v-divider>
+                                <v-divider inset v-if="isMobile"></v-divider>
+                                <div style="min-width: max-content; max-width: 15rem;" class="d-flex ga-1">
+                                  <h5 style="font-weight: normal;">{{ displayDatum(notif.datum) }}</h5>
+                                </div>
+                                <v-tooltip location="left">
+                                  <template v-slot:activator="{ props }">
+                                    <div class="position-absolute" style="right: 0.5rem; top: 50%; transform: translate(0%,-50%);">
+                                      <div 
+                                        v-bind="props" 
+                                        class="d-flex flex-row align-center rounded-pill" 
+                                        style="width: max-content; cursor: pointer; background-color: rgb(var(--v-theme-primary));"
+                                      >
+                                        <v-avatar size="40">
+                                          <template v-if="notif.User.Usersetting.profPic">
+                                            <img
+                                              :src="notif.User.Usersetting.profPic"
+                                              style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;"
+                                            />
+                                          </template>
+                                          <template v-else>
+                                            <v-icon size="25" color="icon_color">mdi-account</v-icon>
+                                          </template>
+                                        </v-avatar>
+                                      </div>
+                                    </div>
+                                  </template>
+                                  <span>{{ notif.User.user_name }}</span>
+                                </v-tooltip>
+                                
+                              </div>
+                              <div v-else class="text-center">
+                                <h2>Nincs egy bejelentés se!</h2>
+                              </div>
+                            </div>
+                          </div>
+                        </v-fade-transition>
+
                         <v-expand-transition mode="out-in">
                           <div v-if="ConfirmCode && ResponseContent == null" class="text-center mt-4">
                             <h4 style="font-weight: normal;">A megerősítő kód el lett küldve email-ben!</h4>
@@ -769,9 +910,13 @@
 import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, inject, onMounted, watch } from 'vue'
 import { useDisplay, useTheme } from 'vuetify';
-import { useChangeDarkmode, useGetProfil } from '@/api/profile/profileQuery';
+import { useChangeDarkmode, useGetProfil, useClearCookie } from '@/api/profile/profileQuery';
 import { useGetSettingsConfirm, useSetSettings, useProfilePicUpload, useGetAllUser, useSetUserNewSettings, useSetUserRoles, usesetNewClass } from '@/api/settingsConfirms/settingsConfrimQuery';
 import imageCompression from 'browser-image-compression';
+import { useUserStore } from '../stores/userStore';
+import { useGetUnReadNotification, useGetAllNotification, useGetReports } from '@/api/notifications/notificationQuery';
+
+const userStore = useUserStore();
 
 const showError = inject("showError");
 const showSucces = inject("showSucces");
@@ -782,11 +927,8 @@ watch(isMobile, async (newValue) => {
   SettingsMenu.value = newValue;
 });
 
-const get_token = getCookie("user");
-const route = useRoute();
 const router = useRouter();
 const theme = useTheme();
-const value = ref(0);
 const drawer = ref(false);
 const DarkmodeChange = ref(false);
 const dialog = ref(false);
@@ -796,6 +938,7 @@ const PassSettingDraw = ref(false);
 const editPicDraw = ref(true);
 const UsersDraw = ref(false);
 const AdminNotifDraw = ref(false);
+const NotifDraw = ref(false);
 const activePanel = ref('editPic');
 const userNameInput = ref('');
 const userEmailInput = ref('');
@@ -828,6 +971,78 @@ const adminTypeButton = ref(null);
 const AllUsers = ref([]);
 const selectedClass = ref('A');
 const selectedYear = ref('9');
+const AllNotifs = ref([]);
+const AllAdminNotifs = ref([]);
+
+const {mutate: clearCookie} = useClearCookie();
+
+const LogOut = async () =>{
+  userStore.unreadNotifs = {normal: 0, admin: 0};
+  await getUnReadNotification(userStore.className,{
+    onSuccess: (response) =>{
+      userStore.unreadNotifs = response;
+    }
+  });
+  await clearCookie(undefined,{
+    onSuccess: () =>{
+      theme.global.name.value = 'lightTheme';
+      router.push({name: 'login'})
+    }
+  })
+}
+
+function OpenSite(notif){
+  dialog.value = false;
+  router.push({name: "exam"})
+}
+
+const { mutate : getUnReadNotification} = useGetUnReadNotification()
+
+onMounted(() => {
+  watch(
+    () => userStore.className,
+    async (newClassName) => {
+      if (newClassName) {
+      await getUnReadNotification(userStore.className,{
+          onSuccess: (response) =>{
+            userStore.unreadNotifs = response;
+          }
+        });
+      }
+    }
+  )}
+)
+
+function displayDatum(datum){
+  return datum.split('T')[0] + " " + datum.split('T')[1].split('.')[0]
+}
+
+const {mutate: getAllNotification} = useGetAllNotification();
+
+const NotifDrawActive = async () => {
+  ProfSettingDraw.value = false;
+  EmailSettingDraw.value = false;
+  PassSettingDraw.value = false;
+  editPicDraw.value = false;
+  UsersDraw.value = false;
+  AdminNotifDraw.value = false;
+  NotifDraw.value = true;
+  activePanel.value = 'notif';
+  ResponseContent.value = null;
+  ResponseError.value = null;
+  userNameInput.value = '';
+  userEmailInput.value = '';
+  CurrentPasswordInput.value = '';
+  NewPasswordInput.value = '';
+  NewPasswordConfirmInput.value = '';
+
+  await getAllNotification(userStore.className,{
+    onSuccess: (response) =>{
+      userStore.unreadNotifs.normal = 0;
+      AllNotifs.value = response;
+    }
+  })
+}
 
 const { mutate : getAllUser} = useGetAllUser()
 
@@ -838,6 +1053,7 @@ const UsersActive = async () =>{
   editPicDraw.value = false;
   UsersDraw.value = true;
   AdminNotifDraw.value = false;
+  NotifDraw.value = false;
   activePanel.value = 'users';
   ResponseContent.value = null;
   ResponseError.value = null;
@@ -853,7 +1069,7 @@ const UsersActive = async () =>{
   loading.value = false;
 
   UsersLoading.value = true;
-  await getAllUser({name: null,activated_type: null, admin: null, token: get_token}, {
+  await getAllUser({name: null,activated_type: null, admin: null}, {
     onSuccess: (response) => {
       AllUsers.value = response;
       UsersLoading.value = false;
@@ -876,6 +1092,7 @@ function ProfSettingsActive(){
   editPicDraw.value = false;
   UsersDraw.value = false;
   AdminNotifDraw.value = false;
+  NotifDraw.value = false;
   activePanel.value = 'profile';
   ResponseContent.value = null;
   ResponseError.value = null;
@@ -895,10 +1112,37 @@ function handlePanelToggle(){
  users_UserPassword.value = '';
 }
 
+const {mutate: getReports} = useGetReports();
+
+const AdminNotifActive = async () =>{
+  ProfSettingDraw.value = false;
+  EmailSettingDraw.value = false;
+  PassSettingDraw.value = false;
+  editPicDraw.value = false;
+  UsersDraw.value = false;
+  AdminNotifDraw.value = true;
+  NotifDraw.value = false;
+  activePanel.value = 'AdminNotif';
+  ResponseContent.value = null;
+  ResponseError.value = null;
+  userNameInput.value = '';
+  userEmailInput.value = '';
+  CurrentPasswordInput.value = '';
+  NewPasswordInput.value = '';
+  NewPasswordConfirmInput.value = '';
+
+  await getReports(undefined,{
+    onSuccess: (response) =>{
+      AllAdminNotifs.value = response;
+      userStore.unreadNotifs.admin = 0;
+    }
+  });
+}
+
 const { mutate : setNewClass} = usesetNewClass()
 
 const setClass = async (user,osztaly) =>{
-  await setNewClass({id: user.id, osztaly: osztaly, token: get_token}, {
+  await setNewClass({id: user.id, osztaly: osztaly}, {
     onSuccess: (response) => {
       user.osztaly = osztaly;
     },
@@ -915,7 +1159,7 @@ const setClass = async (user,osztaly) =>{
 const { mutate : setUserNewSettings} = useSetUserNewSettings()
 
 const setNewSetting = async(user,id, model, type) =>{
-  await setUserNewSettings({content: model, id: id, type: type, token: get_token}, {
+  await setUserNewSettings({content: model, id: id, type: type}, {
     onSuccess: (response) => {
       if(type == 1){
         user.user_name = response;
@@ -944,7 +1188,7 @@ const setNewSetting = async(user,id, model, type) =>{
 const { mutate : setNewUserRoles} = useSetUserRoles()
 
 const setUserRoles = async (user, id, type) => {
-  await setNewUserRoles({id: id, type: type, token: get_token}, {
+  await setNewUserRoles({id: id, type: type}, {
     onSuccess: (response) => {
       if(type == 1){
         user.activated = 1;
@@ -996,14 +1240,12 @@ function ActivatedType(number) {
   activatedTypeButton.value = activatedTypeButton.value === number ? null : number;
 }
 
-// Watch az activatedTypeButton-ra
 watch(activatedTypeButton, async (newValue, oldValue) => {
   UsersLoading.value = true;
   await getAllUser({
       name: searchQuery.value,
       activated_type: newValue,
       admin: adminTypeButton.value, 
-      token: get_token
     }, 
     {
     onSuccess: (response) => {
@@ -1013,14 +1255,12 @@ watch(activatedTypeButton, async (newValue, oldValue) => {
   })
 });
 
-// Watch az adminTypeButton-ra
 watch(adminTypeButton, async (newValue, oldValue) => {
   UsersLoading.value = true;
   await getAllUser({
       name: searchQuery.value,
       activated_type: activatedTypeButton.value, 
       admin: newValue, 
-      token: get_token
     }, 
     {
     onSuccess: (response) => {
@@ -1040,7 +1280,6 @@ watch(searchQuery, async (newValue) => {
         name: newValue,
         activated_type: activatedTypeButton.value, 
         admin: adminTypeButton.value, 
-        token: get_token
       }, 
       {
       onSuccess: (response) => {
@@ -1056,7 +1295,6 @@ watch(searchQuery, async (newValue) => {
         name: null,
         activated_type: activatedTypeButton.value, 
         admin: adminTypeButton.value, 
-        token: get_token
       }, 
       {
       onSuccess: (response) => {
@@ -1075,6 +1313,7 @@ function EmailSettingsActive(){
   editPicDraw.value = false;
   UsersDraw.value = false;
   AdminNotifDraw.value = false;
+  NotifDraw.value = false;
   activePanel.value = 'email';
   ResponseContent.value = null;
   ResponseError.value = null;
@@ -1096,6 +1335,7 @@ function PassSettingsActive(){
   editPicDraw.value = false;
   UsersDraw.value = false;
   AdminNotifDraw.value = false;
+  NotifDraw.value = false;
   activePanel.value = 'password';
   ResponseContent.value = null;
   ResponseError.value = null;
@@ -1118,6 +1358,7 @@ const editPicActive = async() =>{
   editPicDraw.value = true;
   UsersDraw.value = false;
   AdminNotifDraw.value = false;
+  NotifDraw.value = false;
   activePanel.value = 'editPic';
   ResponseContent.value = null;
   ResponseError.value = null;
@@ -1179,7 +1420,6 @@ const handleProfPicUpload = async (event) => {
   }
 };
 
-// Fájl input triggerelése
 const triggerProfPicFileInput = () => {
   fileProfPicInput.value?.click();
 };
@@ -1250,25 +1490,25 @@ watch(otpCode, async (newVal) => {
 const {mutate: getProfil} = useGetProfil();
 
 onMounted(async () => {
-  if(get_token){
-    await getProfil(get_token, {
-      onSuccess: (load_user) => {
-        get_fullUser.value = load_user;
-        DarkmodeChange.value = load_user.Usersetting.darkmode;
-        theme.global.name.value = DarkmodeChange.value ? 'darkTheme' : 'lightTheme';
-      },
-      onError: (error) => {
-        if (showError) {
-          showError(error.response.data);
-        }else{
-          console.log(error.response.data);
-        }
+  await getProfil(undefined, {
+    onSuccess: (load_user) => {
+      get_fullUser.value = load_user;
+      userStore.userId = load_user.id;
+      DarkmodeChange.value = load_user.Usersetting.darkmode;
+      theme.global.name.value = DarkmodeChange.value ? 'darkTheme' : 'lightTheme';
+      userStore.className = load_user.osztaly
+    },
+    onError: (error) => {
+      if (showError) {
+        showError(error.response.data);
+      }else{
+        console.log(error.response.data);
+      }
 
-        deleteCookie('user');
-        router.push({name : 'login'})
-      },
-    });
-  }
+      deleteCookie('user');
+      router.push({name : 'login'})
+    },
+  });
 
   if(isMobile.value){
     SettingsMenu.value = true;
@@ -1278,40 +1518,26 @@ onMounted(async () => {
 const {mutate: ChangeDarkmode} = useChangeDarkmode();
 
 const HandleChangeDarkmode = async ()=>{
-  if(get_token != null){
-    await ChangeDarkmode({token: get_token, type: !DarkmodeChange.value },{
-      onSuccess: (response) =>{
-        DarkmodeChange.value = !DarkmodeChange.value;
-        get_fullUser.value.Usersetting.darkmode = DarkmodeChange.value;
-        theme.global.name.value = DarkmodeChange.value ? 'darkTheme' : 'lightTheme';
-        if (showSucces) {
-          showSucces(response);
-        }else{
-          console.log(response);
-        }
-      },
-      onError: (error) => {
-        if (showError) {
-          showError(error.response.data);
-        }else{
-          console.log(error.response.data);
-        }
+  await ChangeDarkmode(!DarkmodeChange.value,{
+    onSuccess: (response) =>{
+      DarkmodeChange.value = !DarkmodeChange.value;
+      get_fullUser.value.Usersetting.darkmode = DarkmodeChange.value;
+      theme.global.name.value = DarkmodeChange.value ? 'darkTheme' : 'lightTheme';
+      if (showSucces) {
+        showSucces(response);
+      }else{
+        console.log(response);
       }
-    });
-  }
+    },
+    onError: (error) => {
+      if (showError) {
+        showError(error.response.data);
+      }else{
+        console.log(error.response.data);
+      }
+    }
+  });
 }
-
-const color = computed(() => {
-  switch (value.value) {
-    case 0: return 'blue-grey';
-    case 1: return 'teal';
-    case 2: return 'brown';
-    case 3: return 'indigo';
-    case 4: return 'indigo';
-    case 5: return 'indigo';
-    default: return 'blue-grey';
-  }
-});
 
 function getCookie(name){
   const cookies = document.cookie.split('; ');
@@ -1325,9 +1551,9 @@ function getCookie(name){
 }
 
 function deleteCookie(name) {
-  document.cookie += `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   theme.global.name.value = 'lightTheme';
-  router.push('login')
+  router.push('login');
 }
 </script>
 

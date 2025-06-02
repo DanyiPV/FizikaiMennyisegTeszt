@@ -194,7 +194,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, inject, onMounted, watch, onBeforeUnmount } from 'vue';
 import { useDisplay, useTheme } from 'vuetify';
 import { useGetCategories, useGetSubcategories, useGetOsztalyok, useSetNewExam } from '@/api/tables/tablesQuery';
-import { useGetProfil } from '@/api/profile/profileQuery';
+import { useGetProfil, useClearCookie } from '@/api/profile/profileQuery';
 
 const showError = inject("showError");
 const showSucces = inject("showSucces");
@@ -203,7 +203,6 @@ const { mobile } = useDisplay();
 const isMobile = computed(() => mobile.value);
 const router = useRouter();
 
-const get_token = getCookie("user");
 const get_fullUser = ref(null);
 
 const TkatSelect = ref(null);
@@ -243,10 +242,16 @@ const {mutate: setNewExam} = useSetNewExam();
 
 const ExamPublish = async () =>{
   const idLista = TkatSelect.value.map(obj => TkatArray.value.filter(c => c.nev === obj).map(c => c.id)).flat().sort();
-  await setNewExam({tableidList: idLista, message: message.value, sorok: sliderValue.value, time: (minuteTimer.value * 60 + secondTimer.value), diff: (diffSelect.value == 'Könnyű' ? 1 : (diffSelect.value == 'Normál' ? 2 : 3)), osztaly: selectedClass.value, kezdet: formattedDateTime(), token: get_token},{
-    onSuccess: () =>{
+  await setNewExam({tableidList: idLista, message: message.value, sorok: sliderValue.value, time: (minuteTimer.value * 60 + secondTimer.value), diff: (diffSelect.value == 'Könnyű' ? 1 : (diffSelect.value == 'Normál' ? 2 : 3)), osztaly: selectedClass.value, kezdet: formattedDateTime()},{
+    onSuccess: (response) =>{
       if (showSucces) {
         showSucces("Sikerült a dolgozat feltöltése!");
+        socket.emit("send_notification", {
+          room: selectedClass.value,
+          message: "Új dolgozat lett kiírva!",
+          id: response,
+          type: 0
+        });
       }else{
         console.log("Sikerült a dolgozat feltöltése!");
       }
@@ -264,6 +269,7 @@ const ExamPublish = async () =>{
 const {mutate: getCategories} = useGetCategories();
 const {mutate: getProfil} = useGetProfil();
 const {mutate: getOsztalyok} = useGetOsztalyok();
+const {mutate: clearCookie} = useClearCookie();
 
 onMounted(async () => {
   await getCategories(undefined, {
@@ -279,37 +285,45 @@ onMounted(async () => {
       }},
   });
 
-  if(get_token){
-    await getProfil(get_token, {
-      onSuccess: async (load_user) => {
-        get_fullUser.value = load_user;
+  await getProfil(undefined,{
+    onSuccess: async (load_user) => {
+      get_fullUser.value = load_user;
 
-        if((get_fullUser.value.admin && get_fullUser.value.user_role == 'admin' && get_fullUser.value.osztaly == 'A') || (!get_fullUser.value.admin && get_fullUser.value.user_role == 'teacher' && get_fullUser.value.osztaly == 'T')){
-            await getOsztalyok(get_token, {
-                onSuccess: (response) => {
-                  comboOsztalyok.value = response.map(c => c.osztaly);
-                },
-                onError: (error) => {
-                if (showError) {
-                    showError(error.response.data);
-                }else{
-                    console.log(error.response.data);
-                }},
-            });
-        }
-      },
-      onError: (error) => {
-        if (showError) {
-          showError(error.response.data);
-        }else{
-          console.log(error.response.data);
-        }
+      if((get_fullUser.value.admin && get_fullUser.value.user_role == 'admin' && get_fullUser.value.osztaly == 'A') || (!get_fullUser.value.admin && get_fullUser.value.user_role == 'teacher' && get_fullUser.value.osztaly == 'T')){
+          await getOsztalyok(undefined,{
+              onSuccess: (response) => {
+                comboOsztalyok.value = response.map(c => c.osztaly);
+              },
+              onError: (error) => {
+              if (showError) {
+                  showError(error.response.data);
+              }else{
+                  console.log(error.response.data);
+              }},
+          });
+      }
+    },
+    onError: async (error) => {
+      if (showError) {
+        showError(error.response.data);
+      }else{
+        console.log(error.response.data);
+      }
 
-        deleteCookie('user');
-        router.push({name : 'login'})
-      },
-    });
-  }
+      userStore.unreadNotifs = 0;
+      await getUnReadNotification(userStore.className,{
+        onSuccess: (response) =>{
+          userStore.unreadNotifs = response;
+        }
+      });
+      await clearCookie(undefined,{
+        onSuccess: () =>{
+          theme.global.name.value = 'lightTheme';
+          router.push({name: 'login'})
+        }
+      })
+    },
+  });
 });
 
 watch(sliderValue, async (newValue)=>{
@@ -349,21 +363,4 @@ watch(TkatSelect, async (newValue)=>{
     }); 
   }
 });
-
-function getCookie(name){
-  const cookies = document.cookie.split('; ');
-  for (const cookie of cookies) {
-    const [key, value] = cookie.split('=');
-    if (key === name) {
-      return decodeURIComponent(value);
-    }
-  }
-  return null;
-}
-
-function deleteCookie(name) {
-  document.cookie += `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-  theme.global.name.value = 'lightTheme';
-  router.push('login')
-}
 </script>

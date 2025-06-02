@@ -4,12 +4,18 @@
   <ErrorHandler ref="errorHandler" />
 
   <SuccesHandler ref="succesHandler" />
+
+  <ReportHandler />
+
+  <NotifHandler />
 </template>
 
 <script setup>
 import { ref, provide, nextTick, watch } from "vue";
 import ErrorHandler from "@/components/ErrorHandler.vue";
 import SuccesHandler from "@/components/SuccesHandler.vue";
+import ReportHandler from "@/components/ReportHandler.vue";
+import NotifHandler from "@/components/NotificationHandler.vue";
 
 const errorHandler = ref(null);
 

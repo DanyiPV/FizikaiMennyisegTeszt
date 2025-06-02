@@ -2,7 +2,7 @@ import axiosClient from '../../lib/axios'
 import { useMutation } from '@tanstack/vue-query'
 
 const getAllTables = async () => {
-    const response = await axiosClient.get('http://localhost:3000/all-tables');
+    const response = await axiosClient.get('/all-tables');
     return response.data
 }
 
@@ -18,7 +18,7 @@ export const useGetAllTables = () => {
 }
 
 const getCategories = async () => {
-    const response = await axiosClient.get('http://localhost:3000/full-categories');
+    const response = await axiosClient.get('/full-categories');
     return response.data
 }
 
@@ -34,7 +34,7 @@ export const useGetCategories = () => {
 }
 
 const getSubcategories = async (idList: Array<number>) => {
-    const response = await axiosClient.post('http://localhost:3000/full-subcategories', idList);
+    const response = await axiosClient.post('/full-subcategories', idList);
     return response.data
 }
 
@@ -50,7 +50,7 @@ export const useGetSubcategories = () => {
 }
 
 const getTraningTables = async (settings: {alkatIds: Array<number>, sorok: number, diff: number}) => {
-    const response = await axiosClient.post('http://localhost:3000/traning-tables', settings);
+    const response = await axiosClient.post('/traning-tables', settings);
     return response.data
 }
 
@@ -65,8 +65,8 @@ export const useGetTraningTables = () => {
     })
 }
 
-const getFinalStats = async (stats: {tables: Array<object>, tablak: string , time: number, diff: number, def_time: number, tpont: number, exam_id: number | null, token: string}) => {
-    const response = await axiosClient.post('http://localhost:3000/get-final-stats', stats);
+const getFinalStats = async (stats: {tables: Array<object>, tablak: string , time: number, diff: number, def_time: number, tpont: number, exam_id: number | null}) => {
+    const response = await axiosClient.post('/get-final-stats', stats);
     return response.data
 }
 
@@ -81,12 +81,8 @@ export const useGetFinalStats = () => {
     })
 }
 
-const getResults = async (token: string) => {
-    const response = await axiosClient.get('http://localhost:3000/get-results',{
-        headers:{
-            token: token
-        }
-    });
+const getResults = async () => {
+    const response = await axiosClient.get('/get-results');
     return response.data
 }
 
@@ -101,12 +97,8 @@ export const useGetResults = () => {
     })
 }
 
-const getOsztalyok = async (token: string) => {
-    const response = await axiosClient.get('http://localhost:3000/get-osztalyok',{
-        headers:{
-            token: token
-        }
-    });
+const getOsztalyok = async () => {
+    const response = await axiosClient.get('/get-osztalyok');
     return response.data
 }
 
@@ -121,12 +113,8 @@ export const useGetOsztalyok = () => {
     })
 }
 
-const getUserResults = async (data: {search: string | null, osztaly: string | null, token: string, last: number}) => {
-    const response = await axiosClient.post('http://localhost:3000/get-user-result', data, {
-        headers:{
-            token: data.token
-        }
-    });
+const getUserResults = async (data: {search: string | null, osztaly: string | null, last: number}) => {
+    const response = await axiosClient.post('/get-user-result', data);
     return response.data
 }
 
@@ -141,12 +129,8 @@ export const usGetUserResults = () => {
     })
 }
 
-const setNewExam = async (data: {tableidList: Array<number>, message: string, sorok: number, time: number, diff: number, osztaly: string, kezdet: string, token: string}) => {
-    const response = await axiosClient.post('http://localhost:3000/set-new-exam', data, {
-        headers:{
-            token: data.token
-        }
-    });
+const setNewExam = async (data: {tableidList: Array<number>, message: string, sorok: number, time: number, diff: number, osztaly: string, kezdet: string}) => {
+    const response = await axiosClient.post('/set-new-exam', data);
     return response.data
 }
 
@@ -161,10 +145,8 @@ export const useSetNewExam = () => {
     })
 }
 
-const getExams = async (token: string) => {
-    const response = await axiosClient.get('http://localhost:3000/get-exam', {
-        params: { token }
-    });
+const getExams = async () => {
+    const response = await axiosClient.get('/get-exam');
     return response.data
 }
 

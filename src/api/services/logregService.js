@@ -22,11 +22,6 @@ class logregService
         return await logregRepository.getToken(token);
     }
     
-    async activateUser(id)
-    {
-        return await logregRepository.activateUser(id);
-    }
-    
     async uploadToken(tokenz)
     {
         return await logregRepository.uploadToken(tokenz);
@@ -40,6 +35,10 @@ class logregService
     async SetNewPassword(user_id, new_password)
     {
         return await logregRepository.SetNewPassword(user_id, new_password);
+    }
+
+    async getUseridThroughToken(token){
+        return await logregRepository.getUseridThroughToken(token)
     }
 }
 

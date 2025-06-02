@@ -10,7 +10,7 @@ class logregRepository
     {
         this.Users = db.Users;
 
-        //this.Tokenz = db.Tokenz;
+        this.Validation = db.Validation;
 
         this.Usersettings = db.Usersettings;
     }
@@ -63,23 +63,29 @@ class logregRepository
         }
     }
 
-    async uploadToken(tokenz)
+    async uploadToken(newCode)
     {
-        const newToken = await this.Tokenz.build(tokenz);
+        const existingCode = await this.Validation.findOne({
+            where: { user_id: newCode.user_id, type: 0 }
+        });
 
-        await newToken.save();
-        
-        return newToken;
+        if (existingCode) {
+            existingCode.token = newCode.token;
+            await existingCode.save();
+            return existingCode;
+        }
+
+        return await this.Validation.create(newCode);
     }
 
     async getToken(token)
     {
-        return await this.Tokenz.findOne
+        return await this.Validation.findOne
         (
             {
                 where: {
                     token: String(token),
-                    type: "regisztrálás"
+                    type: 0
                 }
             }
         )
@@ -87,13 +93,13 @@ class logregRepository
 
     async getUseridThroughToken(token)
     {
-        return await this.Tokenz.findOne
+        return await this.Validation.findOne
         (
             {
                 where: {
                     [Op.and]:{
-                        token: String(token),
-                        type: "regisztrálás",
+                        code: String(token),
+                        type: 0,
                     }
                 }
             }
@@ -133,21 +139,6 @@ class logregRepository
                 ]
             }
         });        
-    }
-
-    async activateUser(id)
-    {
-        const User = await this.Users.findOne({
-            where :{
-                id: id
-            }
-        });
-
-        User.activated = 1; 
-
-        await User.save();
-
-        return User.activated == 1;
     }
 }
 
