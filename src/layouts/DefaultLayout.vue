@@ -19,7 +19,7 @@
                           />
                         </template>
                         <template v-else>
-                          <v-icon size="25" color="icon_color">mdi-account</v-icon>
+                          <v-icon size="30" color="icon_color">mdi-account</v-icon>
                         </template>
                       </v-avatar>
                     </v-btn>
@@ -555,8 +555,12 @@
                                 </v-tooltip>
                                 
                               </div>
-                              <div v-else class="text-center">
+                              <div v-else-if="NotifsLoading == false && AllNotifs.length == 0" class="text-center">
                                 <h2>Még nincs egy értesítésed se!</h2>
+                              </div>
+
+                              <div class="d-flex justify-center mx-3 my-5" v-if="NotifsLoading">
+                                <v-progress-circular indeterminate></v-progress-circular>
                               </div>
                             </div>
                           </div>
@@ -824,26 +828,46 @@
                                 isMobile ? 'flex-column align-start' : 'flex-row align-center'
                               ]"
                               v-if="AllAdminNotifs.length > 0">
-                                <div style="min-width: max-content; max-width: 35rem;" class="d-flex ga-1 align-center">
-                                  <v-icon class="mr-1">mdi-alert</v-icon>
-                                  <h4 style="font-weight: 600;">Fajtája:</h4> <h4 style="font-weight: normal;">{{ notif.extra.split(';')[0] }}</h4>
+                                <div
+                                  :class="['d-flex', 'ga-1', 'align-center', { 'flex-column': isMobile, 'flex-row': !isMobile }]"
+                                  style="min-width: max-content; max-width: 35rem;"
+                                >
+                                <v-icon class="mr-1">mdi-alert</v-icon>
+                                  <div class="d-flex">
+                                    <h4 style="font-weight: 600;" class="mr-1">Fajtája:</h4> <h4 style="font-weight: normal;">{{ notif.extra.split(';')[0] }}</h4>
+                                  </div>
                                   <v-divider vertical v-if="!isMobile"></v-divider>
                                   <v-divider inset v-if="isMobile"></v-divider>
-                                  <h4 style="font-weight: 600;">Üzenet:</h4> <h4 style="font-weight: normal;">{{ notif.extra.split(';')[1] }}</h4>
+                                  <div class="d-flex align-center">
+                                    <h4 style="font-weight: 600;" class="mr-1">Üzenet:</h4> <h4 style="font-weight: normal; max-width: 15rem;">{{ notif.extra.split(';')[1] }}</h4>
+                                  </div>
                                 </div>
                                 <v-divider vertical v-if="!isMobile"></v-divider>
                                 <v-divider inset v-if="isMobile"></v-divider>
-                                <div style="min-width: max-content; max-width: 15rem;" class="d-flex ga-1">
+                                <div 
+                                  style="min-width: max-content; max-width: 15rem;" 
+                                  class="d-flex ga-1"
+                                >
                                   <h5 style="font-weight: normal;">{{ displayDatum(notif.datum) }}</h5>
                                 </div>
                                 <v-tooltip location="left">
                                   <template v-slot:activator="{ props }">
-                                    <div class="position-absolute" style="right: 0.5rem; top: 50%; transform: translate(0%,-50%);">
+                                    <div 
+                                      class="position-absolute"
+                                      :style="{
+                                        right: isMobile ? '.2rem' : '.5rem',
+                                        top: isMobile ? '.2rem' : '50%',
+                                        transform: isMobile ? 'translate(0%, 0%)' : 'translate(0%, -50%)'
+                                      }"
+                                    >
                                       <div 
                                         v-bind="props" 
                                         class="d-flex flex-row align-center rounded-pill" 
                                         style="width: max-content; cursor: pointer; background-color: rgb(var(--v-theme-primary));"
                                       >
+                                        <div v-if="isMobile" class="ml-2">
+                                          <h4 style="font-weight: normal;">{{ notif.User.user_name }}</h4>
+                                        </div>
                                         <v-avatar size="40">
                                           <template v-if="notif.User.Usersetting.profPic">
                                             <img
@@ -860,10 +884,13 @@
                                   </template>
                                   <span>{{ notif.User.user_name }}</span>
                                 </v-tooltip>
-                                
                               </div>
-                              <div v-else class="text-center">
+                              <div v-else-if="ReportLoading == false && AllAdminNotifs.length == 0" class="text-center">
                                 <h2>Nincs egy bejelentés se!</h2>
+                              </div>
+
+                              <div class="d-flex justify-center mx-3 my-5" v-if="ReportLoading">
+                                <v-progress-circular indeterminate></v-progress-circular>
                               </div>
                             </div>
                           </div>
@@ -950,12 +977,9 @@ const otpCode = ref(null);
 const ResponseContent = ref(null);
 const ResponseError = ref(null);
 const ReportLoading = ref(false);
-const UsersLoading = ref(false);
 const NotifsLoading = ref(false);
+const UsersLoading = ref(false);
 const SettingsMenu = ref(false);
-const ReportDelete = ref(false);
-const ReportAccept = ref(false);
-const CloseMessage = ref('');
 const searchQuery = ref('');
 const users_UserName = ref('');
 const users_UserEmail = ref('');
@@ -1037,10 +1061,12 @@ const NotifDrawActive = async () => {
   NewPasswordInput.value = '';
   NewPasswordConfirmInput.value = '';
 
+  NotifsLoading.value = true;
   await getAllNotification(userStore.className,{
     onSuccess: (response) =>{
       userStore.unreadNotifs.normal = 0;
       AllNotifs.value = response;
+      NotifsLoading.value = false;
     }
   })
 }
@@ -1132,10 +1158,12 @@ const AdminNotifActive = async () =>{
   NewPasswordInput.value = '';
   NewPasswordConfirmInput.value = '';
 
+  ReportLoading.value = true;
   await getReports(undefined,{
     onSuccess: (response) =>{
       AllAdminNotifs.value = response;
       userStore.unreadNotifs.admin = 0;
+      ReportLoading.value = false;
     }
   });
 }

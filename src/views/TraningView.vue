@@ -362,7 +362,9 @@ import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, inject, onMounted, watch, onBeforeUnmount } from 'vue';
 import { useDisplay, useTheme } from 'vuetify';
 import { useGetCategories, useGetSubcategories, useGetTraningTables, useGetFinalStats } from '@/api/tables/tablesQuery';
+import { useUserStore } from '../stores/userStore';
 
+const userStore = useUserStore();
 const showError = inject("showError");
 const showSucces = inject("showSucces");
 
@@ -667,6 +669,7 @@ const Befejezes = async () =>{
   clearInterval(timerShow.value);
   timerShow.value = null;
   traningEnd.value = true;
+  userStore.ExamOrTraningStarted = false;
   await getFinalStats({tables: MaradekAdatok.value, tablak: Object.values(AlkatSelect.value).join(', ') , time: timerSwitch.value ? (minuteTimer.value * 60 + secondTimer.value) : null, diff: (diffSelect.value == 'Könnyű' ? 1 : (diffSelect.value == 'Normál' ? 2 : 3)), def_time: timerSwitch.value ?  (def_minuteTimer.value * 60 + def_secondTimer.value) : null, tpont: fullPoint.value, exam_id: null, token: get_token},{
     onSuccess: (response) =>{
       achivedPoint.value = response;
@@ -690,6 +693,7 @@ const StartTraning = async () =>{
       KivettAdatok.value = response.kivettAdatok;
       MaradekAdatok.value = response.maradekAdatok;
       fullPoint.value = KivettAdatok.value.length;
+      userStore.ExamOrTraningStarted = true;
       if(timerSwitch.value){
         def_minuteTimer.value = minuteTimer.value;
         def_secondTimer.value = secondTimer.value;

@@ -342,7 +342,9 @@ import { useRouter, useRoute } from 'vue-router';
 import { ref, computed, inject, onMounted, watch, onBeforeUnmount, onUnmounted  } from 'vue';
 import { useDisplay, useTheme } from 'vuetify';
 import { useGetExams, useGetTraningTables, useGetFinalStats } from '@/api/tables/tablesQuery';
+import { useUserStore } from '../stores/userStore';
 
+const userStore = useUserStore();
 const showError = inject("showError");
 const showSucces = inject("showSucces");
 
@@ -651,6 +653,7 @@ const examStart = async (exam) =>{
         minuteTimer.value = Number(exam.ido) / 60
         secondTimer.value = Number(exam.ido) % 60
         examStarted.value = true;
+        userStore.ExamOrTraningStarted = true;
         timerShow.value = setInterval(() => {
             if(secondTimer.value == 0 && minuteTimer.value == 0){
                 Befejezes();
@@ -679,6 +682,7 @@ const {mutate: getFinalStats} = useGetFinalStats();
 const Befejezes = async () =>{
   clearInterval(timerShow.value);
   timerShow.value = null;
+  userStore.ExamOrTraningStarted = false;
   examEnd.value = true;
   await getFinalStats({tables: MaradekAdatok.value, tablak: examProperties.value.alkats.map(c=>c.nev).join(', ') , time: minuteTimer.value * 60 + secondTimer.value, diff: examProperties.value.dif, def_time: examProperties.value.ido, tpont: fullPoint.value, exam_id: examProperties.value.id},{
     onSuccess: (response) =>{

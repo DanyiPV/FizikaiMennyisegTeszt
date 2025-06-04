@@ -135,6 +135,7 @@
                 v-if="modal"
                 v-model="time"
                 theme="dark"
+                format="24hr"
                 title="Dolgozat kezdetének ideje"
                 ></v-time-picker>
               </v-dialog>

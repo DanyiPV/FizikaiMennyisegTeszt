@@ -5,5 +5,6 @@ export const useUserStore = defineStore('user', {
     className: '',
     unreadNotifs: {normal: 0, admin: 0},
     userId: null,
+    ExamOrTraningStarted: false,
   })
 });

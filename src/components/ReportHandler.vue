@@ -1,5 +1,5 @@
 <template>
-    <v-scale-transition mode="in-out" v-if="visible">
+    <v-fade-transition mode="in-out" v-if="visible && !userStore.ExamOrTraningStarted">
         <div style="width: max-content; position: fixed; bottom: 1.5rem; right: 1.5rem;" class="d-flex justify-center">
             <v-btn color="primary" icon class="px-3" size="55" @click="reportDialog = true; reportType = null; reportMessage = ''">
                 <v-icon color="text_color" size="35">
@@ -7,7 +7,7 @@
                 </v-icon>
             </v-btn>
         </div>
-    </v-scale-transition>
+    </v-fade-transition>
 
     <v-dialog max-width="800" v-model="reportDialog">
         <v-card title="Bejelentés">
@@ -43,7 +43,9 @@ import { useRoute } from 'vue-router';
 import axiosClient from '@/lib/axios';
 import {useSendReport} from '../api/notifications/notificationQuery'
 import socket from '../socket';
+import { useUserStore } from '../stores/userStore';
 
+const userStore = useUserStore();
 const {mutate: sendReport} = useSendReport();
 
 const route = useRoute();

@@ -7,7 +7,7 @@
     <div style="position: absolute; top: 0; left: 0; background-color: rgb(0, 0, 0 ,.4); height: 100%; width: 100%;"></div>
   </div>
 
-  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); height: auto; max-height: 80vh;">
+  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-60%); height: auto; max-height: 80vh;">
     <div class="text-center mb-2" style="color: white;">
       <h1 class="text" style="font-size: 5em; font-family: 'Orbitron', sans-serif;">Gravitas</h1>
       <h4 class="text" style="font-size: 1.5em;font-weight: normal;">Üdvözli önt az oldal!</h4>
@@ -17,7 +17,7 @@
       class="mx-auto pa-12 pb-8"
       elevation="4"
       max-width="600"
-      :min-width="isMobile ? '400' : '500'"
+      :min-width="isMobile ? '350' : '500'"
       rounded="lg"
     >
       <div class="text-subtitle-1 text-medium-emphasis" v-if="route.name != 'set-new-password'">Fiók</div>

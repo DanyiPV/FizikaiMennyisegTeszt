@@ -88,7 +88,7 @@ io.on("connection", (socket) => {
 
   // Értesítés küldése adott szobába
   socket.on("send_notification", ({ room, message, id, type }) => {
-    io.to(room).emit("receive_notification", {message, id, type});
+    socket.broadcast.to(room).emit("receive_notification", {message, id, type});
   });
 
   socket.on("disconnect", () => {
