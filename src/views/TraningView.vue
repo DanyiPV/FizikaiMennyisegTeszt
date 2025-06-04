@@ -123,17 +123,19 @@
           <h2 style="background-color: rgb(var(--v-theme-primary));" class="px-6 py-1 mb-2 rounded-pill">Gyakorlás</h2>
       </div>
 
-      <div v-if="timerShow" class="position-absolute text-center px-4 py-1 d-flex ga-1 rounded-pill" style="right: 1.3em; background-color: rgb(var(--v-theme-primary)); font-family: 'Orbitron', sans-serif; top: 1.9vh;">
-        <h2>{{ minuteTimer }}</h2>
-        <h2>:</h2>
-        <h2>{{ secondTimer < 10 ? '0' + secondTimer : secondTimer }}</h2>
+      <div v-if="timerShow" class="position-absolute text-center px-4 py-1 d-flex ga-1 rounded-pill justify-center" style="right: 1.3rem; width: 6.5rem; background-color: rgb(var(--v-theme-primary)); font-family: 'Orbitron', sans-serif; top: 1.5rem;">
+        <div class="d-flex">
+          <h3 style="font-weight: normal;">{{ minuteTimer }}</h3>
+          <h3 style="font-weight: normal;">:</h3>
+          <h3 style="font-weight: normal;">{{ secondTimer < 10 ? '0' + secondTimer : secondTimer }}</h3>
+        </div>
       </div>
 
-      <div class="position-absolute text-center rounded-pill" style="left: 1.3em; background-color: rgb(var(--v-theme-primary)); top: 1.9vh;">
+      <div class="position-absolute text-center rounded-pill" style="left: 1.3em; background-color: rgb(var(--v-theme-primary)); top: 1.5rem;">
         <v-btn 
         elevation="0" 
         class="px-3 py-1 rounded-pill"
-        style="font-size: 1em;"
+        style="font-size: .8rem;"
         @click="Befejezes()"
         >Befejezés</v-btn>
       </div>
