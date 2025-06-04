@@ -42,6 +42,7 @@ import { ref, onMounted, inject, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import axiosClient from '@/lib/axios';
 import {useSendReport} from '../api/notifications/notificationQuery'
+import socket from '../socket';
 
 const {mutate: sendReport} = useSendReport();
 
@@ -60,7 +61,7 @@ const SendNewReport = async () =>{
             }
 
             socket.emit("send_notification", {
-                room: selectedClass.value,
+                room: "A",
                 message: "Új bejelentés érkezett!",
                 id: response,
                 type: 1

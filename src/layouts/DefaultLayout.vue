@@ -347,7 +347,7 @@
                                     />
                                   </template>
                                   <template v-else>
-                                    <img src="../../public/none_profile.jpg"  alt="" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;">
+                                    <v-icon size="120" color="icon_color" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;">mdi-account</v-icon>
                                   </template>
                                 </v-btn>
                                 
@@ -622,14 +622,15 @@
                                                 class="d-flex flex-row align-center pa-1 pr-3 rounded-pill" 
                                                 style="width: max-content; cursor: pointer; background-color: rgb(var(--v-theme-primary));"
                                               >
-                                                <div>
+                                                <div v-if="user.Usersetting.profPic != null">
                                                   <img 
-                                                    :src="user.Usersetting.profPic == null ? '../../public/none_profile.jpg' : user.Usersetting.profPic"
+                                                    :src="user.Usersetting.profPic"
                                                     alt="" 
                                                     style="height: 3rem; width: 3rem; border-radius: 50%;" 
                                                     class="mr-3"
                                                   >
                                                 </div>
+                                                <v-icon v-else size="40" color="icon_color" style="height: 3rem; width: 3rem; border-radius: 50%;"  class="mr-3">mdi-account</v-icon>
                                                 <h2 style="font-weight: normal;">{{ user.user_name }}</h2>
                                               </div>
                                             </template>

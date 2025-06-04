@@ -22,8 +22,21 @@ const notifRoute = require("./api/routes/notifRoute")
 
 const newPasswordRoute = require("./api/routes/newPasswordRoute")
 
+const allowedOrigins = [
+  'http://localhost:5173',       // fejlesztés
+  'https://localhost',          // production
+  'http://gravitas-ckik.cloud',
+  'http://www.gravitas-ckik.cloud'
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 
@@ -55,35 +68,35 @@ const server = http.createServer(app);
 // Socket.IO szerver indítása
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173', // Vue dev szerver URL-je
-    methods: ['GET', 'POST'],
+    origin: [
+      'http://localhost:5173',
+      'http://gravitas-ckik.cloud',
+      'http://www.gravitas-ckik.cloud',
+      'https://localhost', 
+    ],
+    credentials: true,
   }
 });
 
 // Socket események
 io.on("connection", (socket) => {
-  //console.log("Új kliens csatlakozott:", socket.id);
 
   // Szoba csatlakozás
   socket.on("join_room", (roomName) => {
     socket.join(roomName);
-    //console.log(`${socket.id} belépett a(z) ${roomName} szobába`);
   });
 
   // Értesítés küldése adott szobába
   socket.on("send_notification", ({ room, message, id, type }) => {
-    //console.log(`Értesítés a(z) ${room} szobába: ${message}`);
     io.to(room).emit("receive_notification", {message, id, type});
   });
 
-  /*socket.on("disconnect", () => {
-    console.log("Kliens lecsatlakozott:", socket.id);
-  });*/
+  socket.on("disconnect", () => {
+  });
 });
 
 // HTTP szerver indítása
 server.listen(3001, () => {
-  console.log('Szerver fut: http://localhost:3001');
 });
 
 module.exports = app;

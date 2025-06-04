@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-center">
-    <v-progress-circular indeterminate v-if="MaradekAdatok && traningEnd && !achivedPoint"></v-progress-circular>
+    <v-progress-circular indeterminate v-if="MaradekAdatok && traningEnd && achivedPoint == null"></v-progress-circular>
   </div>
 
   <v-slide-y-transition mode="in-out" hide-on-leave>
@@ -100,18 +100,18 @@
             hide-details
           ></v-select>
         </v-col>
-        <v-col cols="5" md="3" class="d-flex justify-center">
-          <div style="width: max-content;" @click="StartTraning()">
+        <v-col cols="5" md="3" class="d-flex flex-column justify-center text-center">
+          <div @click="StartTraning()">
             <v-btn
             icon
             elevation="0"
-            style="width: max-content; height: max-content;"
             :disabled="!AlkatSelect || AlkatSelect.length == 0"
+            size="60"
             >
               <v-icon size="60">mdi-play-circle</v-icon>
             </v-btn>
-            <h2 style="font-weight: normal;" class="cursor-pointer" :style="{color: !AlkatSelect || AlkatSelect.length == 0 ? 'grey' : 'rgb(var(--v-theme-text_color))'}">Indítás</h2>
           </div>
+          <h2 style="font-weight: normal;" class="cursor-pointer" :style="{color: !AlkatSelect || AlkatSelect.length == 0 ? 'grey' : 'rgb(var(--v-theme-text_color))'}">Indítás</h2>
         </v-col>
       </v-row>
     </v-container>
@@ -234,7 +234,7 @@
     </v-container>
   </v-slide-y-transition>
 
-  <div v-if="!achivedPoint" style="width: 100%; height: 6rem;">
+  <div v-if="achivedPoint == null" style="width: 100%; height: 6rem;">
 
   </div>
 
@@ -266,7 +266,7 @@
   </div>
 
   <v-slide-y-transition mode="in-out">
-    <v-container v-if="achivedPoint" style="background-color: rgb(var(--v-theme-primary));" class="rounded-lg pa-2 d-flex justify-center mt-2">
+    <v-container v-if="achivedPoint != null" style="background-color: rgb(var(--v-theme-primary));" class="rounded-lg pa-2 d-flex justify-center mt-2">
       <div class="d-flex flex-column justify-center" :style="{width: isMobile ? '100%' : '80%'}">
         <div class="d-flex justify-center">
           <h1>Gyakorlás befejezve!</h1>
@@ -296,7 +296,7 @@
             <div v-if="timerSwitch" class="d-flex pl-2">
               <h3 style="font-weight: normal;">Eltelt idő</h3>
               <v-divider vertical class="mx-2"></v-divider>
-              <h3 style="font-weight: normal;">{{ (def_secondTimer - secondTimer) == -1 ? (def_minuteTimer - minuteTimer - 1) : (def_minuteTimer - minuteTimer)}} : {{ (def_secondTimer - secondTimer) == -1 ? 59 : (def_secondTimer - secondTimer) }}</h3>
+              <h3 style="font-weight: normal;">{{ formattedTime }}</h3>
             </div>
             <div v-else class="pl-2 align-center">
               <h3 style="font-weight: normal;">Nem volt beállítva idő!</h3>
@@ -418,7 +418,6 @@ function reTryTraining(){
   fullPoint.value = null;
   achivedPoint.value = null;
   traningEnd.value = false;
-  achivedPoint.value = null;
   timerShow.value = null;
   AlkatItems.value.length = 0;
 }
@@ -445,6 +444,16 @@ function showGrade(grade){
 function allowDrop(event) {
   event.preventDefault()
 }
+
+const formattedTime = computed(() => {
+  const minutes = (def_secondTimer.value - secondTimer.value) === -1 ? def_minuteTimer.value - minuteTimer.value - 1: def_minuteTimer.value - minuteTimer.value;
+
+  const secondsRaw = (def_secondTimer.value - secondTimer.value) === -1 ? 59: def_secondTimer.value - secondTimer.value;
+
+  const seconds = secondsRaw < 10 ? '0' + secondsRaw : secondsRaw;
+
+  return `${minutes} : ${seconds}`;
+});
 
 function handleDragStart(event, item, field, sourceObj = null) {
   // Csak akkor indítjuk, ha az érték nem üres

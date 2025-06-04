@@ -112,8 +112,8 @@ class logregRepository
             const fieldsToCheck = ['nev', 'jel', 'def', 'mer'];
 
             for (const field of fieldsToCheck) {
-                if (typeof item[field] === 'object' && item[field] !== null && item[field].value !== null) {
-                    if (item[field].value === dbData[field]) {
+                if (typeof item[field] == 'object' && item[field] != null && item[field].value != null) {
+                    if (item[field].value == dbData[field]) {
                         achivedPoints++;
                     }
                 }

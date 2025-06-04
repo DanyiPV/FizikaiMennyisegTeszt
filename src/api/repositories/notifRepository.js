@@ -68,9 +68,18 @@ class notifRepository
 
 
     async shownNotification(id,user_id){
-        const new_shownNotif = await this.UserNotification.build({id: null, notification_id: id, user_id, status: 'shown'});
+        const search_shownNotif = await this.UserNotification.findOne({
+            where:{
+                notification_id: id,
+                user_id
+            }
+        });
 
-        await new_shownNotif.save();
+        if(!search_shownNotif){
+            const new_shownNotif = await this.UserNotification.build({id: null, notification_id: id, user_id, status: 'shown'});
+    
+            await new_shownNotif.save();
+        }
 
         return 'OK'
     }
@@ -217,7 +226,7 @@ class notifRepository
     async sendReport(report){
         const new_report = await this.Notification.build(report);
 
-        new_report.save();
+        await new_report.save();
 
         return new_report.id;
     }

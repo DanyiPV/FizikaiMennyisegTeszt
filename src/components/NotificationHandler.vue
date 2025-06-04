@@ -2,7 +2,7 @@
   <v-slide-x-reverse-transition>
     <div
     v-if="notifications != null"
-    style="background-color: rgb(var(--v-theme-primary), .6); position: absolute; top: 20%; right: 0; border-top-left-radius: 12px; border-bottom-left-radius: 12px;" 
+    style="background-color: rgb(var(--v-theme-primary), .6); position: absolute; top: 15rem; right: 0; border-top-left-radius: 12px; border-bottom-left-radius: 12px;" 
     class="px-4 py-2 d-flex ga-2 align-center">
       <v-progress-circular :model-value="value" :rotate="360" :size="40" color="text_color">
         <v-icon size="15" color="text_color">mdi-bell</v-icon>
@@ -25,9 +25,11 @@ const userStore = useUserStore();
 const notifications = ref(null);
 
 function sendNotification() {
-  socket.emit("send_notification", {
-    room: userStore.className,
-    message: "Ez egy értesítés! z egy értesítés!z egy értesítés!z egy értesítés!z egy értesítés!"
+   socket.emit("send_notification", {
+    room: "A",
+    message: "Teszt üzenet",
+    id: 0,
+    type: 0
   });
 }
 
@@ -70,40 +72,39 @@ onMounted(async () =>{
 })
 
 onMounted(() => {
+  // 1. Csak egyszer regisztráljuk az üzenetfogadót
+  socket.on('receive_notification', (message, id, type) => {
+    notifications.value = message.message;  
+
+    if (message.type == 0) {
+      userStore.unreadNotifs.normal++;
+    } else {
+      userStore.unreadNotifs.admin++;
+    }
+
+    shownNotification(message.id);
+
+    setTimeout(() => {
+      notifications.value = null;
+      value.value = 100;
+      clearInterval(interval);
+    }, 5200);
+
+    interval = setInterval(() => {
+      if (value.value > 0) {
+        value.value -= 2;
+      } else {
+        clearInterval(interval);
+      }
+    }, 100);
+  });
+
+  // 2. Ez a watcher továbbra is csak a join_room-ot kezeli, ha változik a className
   watch(
     () => userStore.className,
     (newClassName) => {
       if (newClassName) {
-
         socket.emit('join_room', newClassName);
-
-        socket.on('receive_notification', (message, id, type) => {
-          notifications.value = message;
-
-          if(type == 0){
-            userStore.unreadNotifs.normal = userStore.unreadNotifs.normal + 1;
-          }else{
-            userStore.unreadNotifs.admin = userStore.unreadNotifs.admin + 1;
-          }
-
-          shownNotification(id);  
-
-          setTimeout(() => {
-            notifications.value = null;
-            value.value = 100;
-            clearInterval(interval)
-          }, 5200);
-
-          interval = setInterval(() => {
-            if (value.value >= 0) {
-              value.value -= 2
-            }
-
-            if(value.value <= 0){
-              clearInterval(interval)
-            }
-          }, 100)
-        });
       }
     },
     { immediate: true }

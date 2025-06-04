@@ -185,11 +185,9 @@ exports.getFinalStats = async (req, res, next) => {
             throw error;
         }
 
-        console.log(tables);
-
         const getAchivedPoints = await tablesService.getAchivedPoints(tables);
 
-        if(!getAchivedPoints){
+        if(getAchivedPoints == null){
             const error = new Error("Valami hiba történt az ellenörzés közben!");
 
             error.status = 500;

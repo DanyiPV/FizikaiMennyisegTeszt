@@ -648,7 +648,6 @@ const examStart = async (exam) =>{
         KivettAdatok.value = response.kivettAdatok;
         MaradekAdatok.value = response.maradekAdatok;
         fullPoint.value = KivettAdatok.value.length;
-        console.log(fullPoint.value);
         minuteTimer.value = Number(exam.ido) / 60
         secondTimer.value = Number(exam.ido) % 60
         examStarted.value = true;
@@ -668,9 +667,9 @@ const examStart = async (exam) =>{
     },
     onError: (error) => {
       if (showError) {
-          showError(error.response.data);
+        showError(error.response.data);
       }else{
-          console.log(error.response.data);
+        console.log(error.response.data);
       }},
   });
 }
@@ -704,9 +703,9 @@ onMounted(async () => {
       },
       onError: (response) =>{
           if (showError) {
-              showError(error.response.data);
+            showError(error.response.data);
           }else{
-              console.log(error.response.data);
+            console.log(error.response.data);
           }
       }
   });

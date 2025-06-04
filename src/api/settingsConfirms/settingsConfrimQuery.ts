@@ -2,7 +2,7 @@ import axiosClient from '../../lib/axios'
 import { useMutation } from '@tanstack/vue-query'
 
 const getSettingsConfirm = async (data: {email: string, user_name: string, id: number}) => {
-    const response = await axiosClient.get('http://localhost:3000/get-confirm-code', {
+    const response = await axiosClient.get('/get-confirm-code', {
         params: data,
     });
     return response.data
@@ -20,7 +20,7 @@ export const useGetSettingsConfirm = () => {
 }
 
 const setNewSettings = async (data: {content: string[], code: number, id: number, type: string}) => {
-    const response = await axiosClient.patch('http://localhost:3000/set-settings', data);
+    const response = await axiosClient.patch('/set-settings', data);
     return response.data
 }
 
@@ -42,7 +42,7 @@ const ProfilePicUpload = async (data: {id: number, pic: Blob}) => {
     formData.append('id', data.id.toString());  // ID
 
     try {
-        const response = await axiosClient.patch('http://localhost:3000/set-profilpic', formData, {
+        const response = await axiosClient.patch('/set-profilpic', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -67,7 +67,7 @@ export const useProfilePicUpload = () => {
 }
 
 const getAllUser = async (data: {name: string | null, activated_type: number | null, admin: string | null, token: string}) => {
-    const response = await axiosClient.get('http://localhost:3000/get-all-users', {
+    const response = await axiosClient.get('/get-all-users', {
         params: data,
         headers: {
             token: data.token,
@@ -92,7 +92,7 @@ export const useGetAllUser = () => {
 
 
 const setUserNewSettings = async (data: {content: string, id: number, type: number, token: string}) => {
-    const response = await axiosClient.patch('http://localhost:3000/set-user-settings', data, {
+    const response = await axiosClient.patch('/set-user-settings', data, {
         headers:{
             token: data.token
         }
@@ -112,7 +112,7 @@ export const useSetUserNewSettings = () => {
 }
 
 const setNewClass = async (data: {id: number, osztaly: string, token: string}) => {
-    const response = await axiosClient.patch('http://localhost:3000/set-new-class', data, {
+    const response = await axiosClient.patch('/set-new-class', data, {
         headers:{
             token: data.token
         }
@@ -132,7 +132,7 @@ export const usesetNewClass = () => {
 }
 
 const setNewUserRoles = async (data: {id: number, type: number, token: string}) => {
-    const response = await axiosClient.patch('http://localhost:3000/set-user-roles', data, {
+    const response = await axiosClient.patch('/set-user-roles', data, {
         headers:{
             token: data.token
         }

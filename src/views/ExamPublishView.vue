@@ -195,6 +195,7 @@ import { ref, computed, inject, onMounted, watch, onBeforeUnmount } from 'vue';
 import { useDisplay, useTheme } from 'vuetify';
 import { useGetCategories, useGetSubcategories, useGetOsztalyok, useSetNewExam } from '@/api/tables/tablesQuery';
 import { useGetProfil, useClearCookie } from '@/api/profile/profileQuery';
+import socket from '../socket';
 
 const showError = inject("showError");
 const showSucces = inject("showSucces");
