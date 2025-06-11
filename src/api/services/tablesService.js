@@ -42,16 +42,16 @@ class logregService
         return await tablesRepository.uploadResult(newResult);
     }
 
-    async getUserResults(id){
-        return await tablesRepository.getUserResults(id);
+    async getUserResults(id, exam){
+        return await tablesRepository.getUserResults(id,exam);
     }
 
     async getOsztalyok(){
         return await tablesRepository.getOsztalyok();
     }
 
-    async getUsersResults(search, osztaly, last){
-        return await tablesRepository.getUsersResults(search, osztaly, last);
+    async getUsersResults(search, osztaly, last, exam, id){
+        return await tablesRepository.getUsersResults(search, osztaly, last, exam, id);
     }
 
     async getCheckedUser(id){

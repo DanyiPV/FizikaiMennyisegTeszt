@@ -4,6 +4,10 @@ const { Op } = require('sequelize');
 
 const { Sequelize, DataTypes } = require('sequelize');
 
+const bcrypt = require("bcrypt");
+
+const salt = 10;
+
 class logregRepository
 {
     constructor(db)
@@ -177,7 +181,7 @@ class logregRepository
             user.password = await bcrypt.hash(content, salt);
         }
 
-        user.save();
+        await user.save();
 
         return type == 3 ? user.password : content;
     }
@@ -194,6 +198,7 @@ class logregRepository
         }
         else if(type == 2){
             user.user_role = 'banned';
+            user.osztaly = null;
             user.activated = 2;
             user.admin = 0;
         }
@@ -220,7 +225,7 @@ class logregRepository
             user.admin = 0;
         }
 
-        user.save();
+        await user.save();
 
         return 'OK'
     }

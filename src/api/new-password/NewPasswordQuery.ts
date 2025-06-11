@@ -25,7 +25,7 @@ export const useForgetPassword = (loading: Ref<boolean, boolean>,  ForgetBtnValu
   })
 }
 
-const setNewPassword = async (data: {password: string, token: string}) => {
+const setNewPassword = async (data: {password: string}) => {
     const response = await axiosClient.patch('/set-new-password', data)
     return response.data
 }

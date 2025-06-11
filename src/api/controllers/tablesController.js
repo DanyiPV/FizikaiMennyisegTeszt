@@ -200,12 +200,13 @@ exports.getFinalStats = async (req, res, next) => {
             osztaly: get_osztaly.dataValues.osztaly,
             tablak: tablak,
             Mpont: tpont,
-            Epont: getAchivedPoints,
+            Epont: getAchivedPoints.achivedPoints,
             dif: diff,
             Eido: time,
             Tido: def_time,
             exam_id: exam_id,
-            users_id: decoded.id
+            users_id: decoded.id,
+            result: getAchivedPoints.buffer
         }
 
         const uploadResult = await tablesService.uploadResult(newResult);
@@ -218,13 +219,40 @@ exports.getFinalStats = async (req, res, next) => {
             throw error;
         }
 
-        res.status(201).json(getAchivedPoints);
+
+        const rawTxt = getAchivedPoints.buffer.toString('utf-8');
+
+        const sorok = rawTxt.trim().split('\n');
+
+        const parsedRows = sorok.map((sor) => {
+            const cells = sor.split(';').filter(cell => cell.trim() !== '');
+
+            const parsedCells = cells.map(cell => {
+            const trimmed = cell.trim();
+
+            if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+                try {
+                    return JSON.parse(trimmed);
+                } catch (e) {
+                    return trimmed;
+                }
+            } else {
+                return trimmed;
+            }
+            });
+
+            return parsedCells;
+        });
+
+        res.status(201).json({achivedPoints: getAchivedPoints.achivedPoints, parsedRows});
     }catch(error){
         next(error);
     }
 }
 
 exports.getResults = async (req, res, next) => {
+    const exam = req.query.exam
+
     const token = req.cookies.token;
 
     const secretKey = process.env.JWT_KEY;
@@ -242,7 +270,7 @@ exports.getResults = async (req, res, next) => {
             throw error;
         }
 
-        const getResults = await tablesService.getUserResults(decoded.id);
+        const getResults = await tablesService.getUserResults(decoded.id, exam);
 
         res.status(200).send(getResults);
     }catch(error){
@@ -287,7 +315,7 @@ exports.getOsztalyok = async (req,res,next) =>{
 }
 
 exports.getUsersResult = async (req,res,next) =>{
-    const {search, osztaly, last} = req.body;
+    const {search, osztaly, last, exam} = req.body;
 
     const token = req.cookies.token;
 
@@ -316,45 +344,7 @@ exports.getUsersResult = async (req,res,next) =>{
             throw error;
         }
 
-        const getUserResults = await tablesService.getUsersResults(search, osztaly, last);
-
-        res.status(200).send(getUserResults);
-    }catch(error){
-        next(error);
-    }
-}
-
-exports.getUsersResult = async (req,res,next) =>{
-    const {search, osztaly, last} = req.body;
-
-    const token = req.cookies.token;
-
-    const secretKey = process.env.JWT_KEY;
-
-    try{
-        var decoded = null;
-
-        if(token){
-            decoded = jwt.verify(token, secretKey, { algorithms: ['HS256'] });
-        }else{
-            const error = new Error("Valami hiba történt a felhasználó igazolásában!");
-
-            error.status = 500;
-
-            throw error;
-        }
-
-        const user_Check = await tablesService.getCheckedUser(decoded.id);
-        
-        if(!user_Check){
-            const error = new Error("A felhasználónak nincs ehhez joga!");
-    
-            error.status = 400;
-    
-            throw error;
-        }
-
-        const getUserResults = await tablesService.getUsersResults(search, osztaly, last);
+        const getUserResults = await tablesService.getUsersResults(search, osztaly, last, exam, decoded.id);
 
         res.status(200).send(getUserResults);
     }catch(error){

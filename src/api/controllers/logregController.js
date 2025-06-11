@@ -93,8 +93,6 @@ exports.loginUser = async (req, res, next) =>
             throw error;
         }
 
-        console.log(await bcrypt.hash('admin', salt))
-
         const token = jwt.sign(
             { id: user.id },
             process.env.JWT_KEY,

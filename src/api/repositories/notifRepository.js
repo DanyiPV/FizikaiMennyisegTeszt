@@ -163,8 +163,10 @@ class notifRepository
             admin = Number(noUserCount.length) + Number(shownCount);
         }
 
+        const normal = (Number(unread) + Number(unseen.length)) == undefined || (Number(unread) + Number(unseen.length)) == null || (Number(unread) + Number(unseen.length)) == NaN ? 0 : (Number(unread) + Number(unseen.length))
+        admin = admin == undefined || admin == null || admin == NaN ? 0 : admin
 
-        return {normal: Number(unread) + Number(unseen.length), admin};
+        return {normal, admin};
     }
 
     async allNotification(osztaly){

@@ -17,7 +17,7 @@
               <v-divider></v-divider>
 
               <v-card-text>
-                <h2 style="font-weight: normal;">Ezen a felületen tudsz gyakorolni / felkészülni a dolgozatokra!</h2>
+                <h2 style="font-weight: normal; min-height: 5.5rem;">Ezen a felületen tudsz gyakorolni / felkészülni a dolgozatokra!</h2>
               </v-card-text>
 
               <v-divider></v-divider>
@@ -45,7 +45,7 @@
               <v-divider></v-divider>
 
               <v-card-text>
-                <h2 style="font-weight: normal;">Ezen a felületen lehet kiírni dolgozatokat egyes osztályoknak!</h2>
+                <h2 style="font-weight: normal; min-height: 5.5rem;">Ezen a felületen lehet kiírni dolgozatokat egyes osztályoknak!</h2>
               </v-card-text>
 
               <v-divider></v-divider>
@@ -73,7 +73,7 @@
               <v-divider></v-divider>
 
               <v-card-text>
-                <h2 style="font-weight: normal;">Ezen a felületen tekintheted meg a régi / jelenlegi / közeledő dolgozatokat!</h2>
+                <h2 style="font-weight: normal; min-height: 5.5rem;">Ezen a felületen tekintheted meg a régi / jelenlegi / közeledő dolgozatokat!</h2>
               </v-card-text>
 
               <v-divider></v-divider>
@@ -104,7 +104,7 @@
               <v-divider></v-divider>
 
               <v-card-text>
-                <h2 style="font-weight: normal;">Ezen a felületen kezdheted el a tanulást, áttekintheted az egyes táblázatokat és felkészülhetsz a dolgozatokra!</h2>
+                <h2 style="font-weight: normal; min-height: 5.5rem;">Ezen a felületen kezdheted el a tanulást, áttekintheted az egyes táblázatokat és felkészülhetsz a dolgozatokra!</h2>
               </v-card-text>
 
               <v-divider></v-divider>
@@ -131,7 +131,7 @@
               <v-divider></v-divider>
 
               <v-card-text>
-                <h2 style="font-weight: normal;">{{ get_fullUser && ((get_fullUser.osztaly == 'T' && get_fullUser.user_role == 'teacher') || (get_fullUser.osztaly == 'A' && get_fullUser.user_role == 'admin')) ? 'Ezen a felületen tekintheted meg az eredményeidet vagy egyes osztályoknak vagy diáknak az eredményét lehet megtekinteni!' : 'Ezen a felületen tekintheted meg az eredményeidet!' }}</h2>
+                <h2 style="font-weight: normal; min-height: 5.5rem;">{{ get_fullUser && ((get_fullUser.osztaly == 'T' && get_fullUser.user_role == 'teacher') || (get_fullUser.osztaly == 'A' && get_fullUser.user_role == 'admin')) ? 'Ezen a felületen tekintheted meg az eredményeidet vagy egyes osztályoknak vagy diáknak az eredményét lehet megtekinteni!' : 'Ezen a felületen tekintheted meg az eredményeidet!' }}</h2>
               </v-card-text>
 
               <v-divider></v-divider>

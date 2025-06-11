@@ -66,12 +66,9 @@ export const useProfilePicUpload = () => {
     );
 }
 
-const getAllUser = async (data: {name: string | null, activated_type: number | null, admin: string | null, token: string}) => {
+const getAllUser = async (data: {name: string | null, activated_type: number | null, admin: string | null}) => {
     const response = await axiosClient.get('/get-all-users', {
-        params: data,
-        headers: {
-            token: data.token,
-        },
+        params: data
     });    
     return response.data
 }
@@ -91,12 +88,8 @@ export const useGetAllUser = () => {
 }
 
 
-const setUserNewSettings = async (data: {content: string, id: number, type: number, token: string}) => {
-    const response = await axiosClient.patch('/set-user-settings', data, {
-        headers:{
-            token: data.token
-        }
-    });
+const setUserNewSettings = async (data: {content: string, id: number, type: number}) => {
+    const response = await axiosClient.patch('/set-user-settings', data);
     return response.data
 }
 
@@ -111,12 +104,8 @@ export const useSetUserNewSettings = () => {
     })
 }
 
-const setNewClass = async (data: {id: number, osztaly: string, token: string}) => {
-    const response = await axiosClient.patch('/set-new-class', data, {
-        headers:{
-            token: data.token
-        }
-    });
+const setNewClass = async (data: {id: number, osztaly: string}) => {
+    const response = await axiosClient.patch('/set-new-class', data);
     return response.data
 }
 
@@ -131,12 +120,8 @@ export const usesetNewClass = () => {
     })
 }
 
-const setNewUserRoles = async (data: {id: number, type: number, token: string}) => {
-    const response = await axiosClient.patch('/set-user-roles', data, {
-        headers:{
-            token: data.token
-        }
-    });
+const setNewUserRoles = async (data: {id: number, type: number}) => {
+    const response = await axiosClient.patch('/set-user-roles', data);
     return response.data
 }
 

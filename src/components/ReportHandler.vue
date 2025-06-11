@@ -1,5 +1,5 @@
 <template>
-    <v-fade-transition mode="in-out" v-if="visible && !userStore.ExamOrTraningStarted">
+    <v-fade-transition mode="in-out" v-if="visible && userStore.ExamOrTraningStarted == null">
         <div style="width: max-content; position: fixed; bottom: 1.5rem; right: 1.5rem;" class="d-flex justify-center">
             <v-btn color="primary" icon class="px-3" size="55" @click="reportDialog = true; reportType = null; reportMessage = ''">
                 <v-icon color="text_color" size="35">
@@ -9,7 +9,7 @@
         </div>
     </v-fade-transition>
 
-    <v-dialog max-width="800" v-model="reportDialog">
+    <v-dialog max-width="1000" v-model="reportDialog">
         <v-card title="Bejelentés">
             <v-card-text>
                 <v-radio-group label="Bejelentés fajtája" hide-details v-model="reportType">
@@ -22,7 +22,7 @@
                     <v-radio label="Megjelenítési hiba – ha valami nem néz ki jól (pl. reszponzivitás, mobilos nézet)." value="Megjelenítési hiba"></v-radio>
                 </v-radio-group>
 
-                <v-divider class="my-6"></v-divider>
+                <v-divider class="my-4"></v-divider>
 
                 <v-text-field label="Bejelentés oka" variant="outlined" v-model="reportMessage"></v-text-field>
             </v-card-text>

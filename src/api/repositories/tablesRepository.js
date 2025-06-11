@@ -101,6 +101,8 @@ class logregRepository
 
     async getAchivedPoints(tablak){
         var achivedPoints = 0;
+        var forIndex = 0;
+        var txtContent = ""
         for (const item of tablak) {
             const dbData = await this.Tables.findOne({ where: { id: item.id } });
             
@@ -115,12 +117,26 @@ class logregRepository
                 if (typeof item[field] == 'object' && item[field] != null && item[field].value != null) {
                     if (item[field].value == dbData[field]) {
                         achivedPoints++;
+                        txtContent += (JSON.stringify({value: dbData[field], correct: true}) + ';')
+                    }else{
+                        txtContent += (JSON.stringify({value: dbData[field], correct: false}) + ';')
                     }
                 }
+                else if(typeof item[field] == 'object' && (item[field].value != null || item[field] != null)){
+                    txtContent += (JSON.stringify({value: dbData[field], correct: false}) + ';')
+                }
+                else{
+                    txtContent += (item[field] + ';')
+                }
             }
+            if(forIndex < tablak.length-1){
+                txtContent += "\n"
+            }
+            forIndex++;
         }
+        const buffer = Buffer.from(txtContent, 'utf8');
 
-        return achivedPoints;
+        return {achivedPoints, buffer};
     }
 
     async uploadResult(newResult){
@@ -131,31 +147,70 @@ class logregRepository
         return 'OK'
     }
 
-    async getUserResults(id){
+    async getUserResults(id, exam){
+        const resultWhereClause = { users_id: id };
+
+        if (exam == 'false') {
+            resultWhereClause.exam_id = { [Sequelize.Op.not]: null };
+        } else if (exam == 'true') {
+            resultWhereClause.exam_id = null;
+        }
+
+        const countResults = await this.Results.count({
+            where: {
+                users_id: id
+            },
+        });
+
         const results = await this.Results.findAll({
             order: [['datum', 'DESC']],
-            where:{
-                users_id: id,
-            },
+            where: resultWhereClause,
             include: [
                 {
                     model: this.Users,
                     attributes: ["user_name"],
                 },
             ],
-        })
+        });
 
         var resultWithUser = [];
 
         for (let i = 0; i < results.length; i++) {
-            const result = { ...results[i].dataValues, ...results[i].dataValues.User.dataValues };
-        
+            const raw = results[i].dataValues;
+            const user = raw.User?.dataValues || {};
+
+            const result = { ...raw, ...user };
             delete result.User;
-        
+
+            const rawTxt = result.result.toString('utf-8');
+
+            const sorok = rawTxt.trim().split('\n');
+
+            const parsedRows = sorok.map((sor) => {
+                const cells = sor.split(';').filter(cell => cell.trim() !== '');
+
+                const parsedCells = cells.map(cell => {
+                const trimmed = cell.trim();
+
+                if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+                    try {
+                    return JSON.parse(trimmed);
+                    } catch (e) {
+                    return trimmed;
+                    }
+                } else {
+                    return trimmed;
+                }
+                });
+
+                return parsedCells;
+            });
+            result.result = parsedRows;
+
             resultWithUser.push(result);
         }
 
-        return resultWithUser;
+        return {res: resultWithUser, countResults};
     }
 
     async getOsztalyok(){
@@ -171,51 +226,101 @@ class logregRepository
         })
     }
 
-    async getUsersResults(search, osztaly, last){
-        const whereClause = {};
-    
-        if (search && search != "") {
+    async getUsersResults(search, osztaly, last, exam, id){
+        const whereClause = {
+            id: { [Sequelize.Op.not]: id }
+        };
+
+        if (search && search !== "") {
             whereClause.user_name = { [Sequelize.Op.like]: `%${search}%` };
         }
-    
+
         if (osztaly) {
             whereClause.osztaly = osztaly;
         }
 
-        const users = await this.Users.findAll(
-            { 
-                where: whereClause,
-                attributes: ['user_name'],
-                include: [
-                    {
-                        model: this.Results,
-                        required: true,
-                        limit: last === 1 ? 1 : undefined,
-                        order: [['datum', 'DESC']],
-                    },
-                ],
-            }
-        );
+        const resultWhereClause = {};
+        if (exam === false) {
+            resultWhereClause.exam_id = { [Sequelize.Op.not]: null };
+        } else if (exam === true) {
+            resultWhereClause.exam_id = null;
+        }
 
-       
+        // === Felhasználók lekérdezése, kizárva az adott felhasználót (id)
+        const users = await this.Users.findAll({ 
+            where: whereClause,
+            attributes: ['user_name'],
+            include: [
+                {
+                model: this.Results,
+                required: true,
+                where: Object.keys(resultWhereClause).length > 0 ? resultWhereClause : undefined,
+                limit: last === 1 ? 1 : undefined,
+                order: [['datum', 'DESC']],
+                },
+            ],
+        });
+
+        // === Eredmények számlálása az osztályra, kizárva a user id-t
+        const countOsztaly = await this.Results.count({
+            where: {
+                osztaly,
+                users_id: { [Sequelize.Op.not]: id },
+            }
+        });
+
+        // === Felhasználók számlálása, kizárva a user id-t
+        const countUsers = await this.Users.count({
+            where: {
+                user_name: { [Sequelize.Op.like]: `%${search}%` },
+                id: { [Sequelize.Op.not]: id }
+            },
+            include: [
+                {
+                model: this.Results,
+                required: true,
+                },
+            ],
+        });
+
         var usersWithResults = [];
 
         for (let i = 0; i < users.length; i++) {
-
-            delete users[i].dataValues.id
+            delete users[i].dataValues.id;
 
             if (users[i].dataValues.Results && users[i].dataValues.Results[0]) {
-
                 const values = users[i].dataValues.Results.map(c => c.dataValues);
-                
                 const user_name = users[i].dataValues.user_name;
+
                 for (let j = 0; j < values.length; j++) {
-                    usersWithResults.unshift({ ...values[j], user_name});
+                    const rawResult = values[j].result.toString('utf-8');
+                    
+                    const lines = rawResult.split('\n').filter(line => line.trim() !== '');
+
+                    const parsedLines = lines.map(line => {
+                        const parts = line.split(';').filter(p => p.trim() !== '');
+
+                        return parts.map(part => {
+                            const trimmed = part.trim();
+                            try {
+                                if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+                                    return JSON.parse(trimmed);
+                                }
+                                return trimmed;
+                            } catch {
+                                return trimmed;
+                            }
+                        });
+                    });
+
+                    values[j].result = parsedLines;
+
+                    usersWithResults.unshift({ ...values[j], user_name });
                 }
             }
         }
 
-        return usersWithResults;
+        return {res: usersWithResults, countResults: countOsztaly + countUsers};
     }
 
     async getCheckedUser(id){

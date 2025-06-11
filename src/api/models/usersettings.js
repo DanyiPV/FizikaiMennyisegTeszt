@@ -20,15 +20,6 @@ module.exports = (sequelize, DataTypes) => {
                 },
                 defaultValue: 0,
             },
-            private:{
-                type: DataTypes.BOOLEAN,
-                allowNull:false,
-                validate: {
-                    min: 0,
-                    max: 1,
-                },
-                defaultValue: 0,
-            },
             profPic:{
                 type: DataTypes.BLOB('long'),
                 allowNull: true,

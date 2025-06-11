@@ -81,8 +81,12 @@ export const useGetFinalStats = () => {
     })
 }
 
-const getResults = async () => {
-    const response = await axiosClient.get('/get-results');
+const getResults = async (exam: boolean) => {
+    const response = await axiosClient.get('/get-results',{
+        params:{
+            exam
+        }
+    });
     return response.data
 }
 
@@ -113,7 +117,7 @@ export const useGetOsztalyok = () => {
     })
 }
 
-const getUserResults = async (data: {search: string | null, osztaly: string | null, last: number}) => {
+const getUserResults = async (data: {search: string | null, osztaly: string | null, last: number, exam: boolean}) => {
     const response = await axiosClient.post('/get-user-result', data);
     return response.data
 }

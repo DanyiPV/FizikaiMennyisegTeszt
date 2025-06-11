@@ -3,7 +3,7 @@
     <v-progress-circular indeterminate v-if="MaradekAdatok && traningEnd && achivedPoint == null"></v-progress-circular>
   </div>
 
-  <v-slide-y-transition mode="in-out" hide-on-leave>
+  <v-slide-y-transition mode="in-out">
     <v-container style="background-color: rgb(var(--v-theme-primary));" class="mt-1 rounded-lg" v-if="MaradekAdatok === null">
       <v-row>
         <v-col cols="12" md="6">
@@ -320,6 +320,44 @@
               <h3 style="font-weight: normal;">{{ showGrade(Math.floor(achivedPoint / fullPoint * 100)) }}</h3>
             </div>
           </div>
+
+          <v-divider class="my-2"></v-divider>
+
+          <v-expansion-panels elevation="2" style="border: .1vw solid rgb(var(--v-theme-text_color),.4);" class="rounded-lg">
+            <v-expansion-panel class="ma-1">
+                <v-expansion-panel-title class="text-h6">
+                    Eredmény áttekintése
+                </v-expansion-panel-title>
+                <v-expansion-panel-text>
+                    <v-table class="table-fixed rounded" style="background-color: rgb(var(--v-theme-primary));">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 20%;"><h2>Név</h2></th>
+                                <th class="text-center" style="width: 20%;"><h2>Jel</h2></th>
+                                <th class="text-center" style="width: 35%;"><h2>Definíció</h2></th>
+                                <th class="text-center" style="width: 25%;"><h2>Mértékegység</h2></th>
+                            </tr>
+                        </thead>
+                        <tbody style="max-width: 100%;">
+                            <tr v-for="table in trainingTable" :key="table[1]">
+                                <td v-if="typeof table[0] === 'string'" class="text-center pa-1 ma-1" style="width: 20%; font-size: 1rem;" v-mathjax="table[0]"></td>
+                                <td v-else class="text-center pa-1 rounded" style="width: 20%; font-size: 1rem;" v-mathjax="table[0].value" :style="{backgroundColor: table[0].correct ? 'rgb(var(--v-theme-success), .4)' : 'rgb(var(--v-theme-error), .4)' }"></td>
+
+                                <td v-if="typeof table[1] === 'string'" class="text-center pa-1 ma-1" style="width: 20%; font-size: 1rem;" v-mathjax="table[1]"></td>
+                                <td v-else class="text-center pa-1 rounded" style="width: 20%; font-size: 1rem;" v-mathjax="table[1].value" :style="{backgroundColor: table[1].correct ? 'rgb(var(--v-theme-success), .4)' : 'rgb(var(--v-theme-error), .4)' }"></td>
+
+                                <td v-if="typeof table[2] === 'string'" class="text-center pa-1 ma-1" style="width: 20%; font-size: 1rem;" v-mathjax="table[2]"></td>
+                                <td v-else class="text-center pa-1 rounded" style="width: 20%; font-size: 1rem;" v-mathjax="table[2].value" :style="{backgroundColor: table[2].correct ? 'rgb(var(--v-theme-success), .4)' : 'rgb(var(--v-theme-error), .4)' }"></td>
+
+                                <td v-if="typeof table[3] === 'string'" class="text-center pa-1 ma-1" style="width: 20%; font-size: 1rem;" v-mathjax="table[3]"></td>
+                                <td v-else class="text-center pa-1 rounded" style="width: 20%; font-size: 1rem;" v-mathjax="table[3].value" :style="{backgroundColor: table[3].correct ? 'rgb(var(--v-theme-success), .4)' : 'rgb(var(--v-theme-error), .4)' }"></td>
+                            </tr>
+                        </tbody>
+                    </v-table>
+                </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
+
         </div>
         <v-row class="mb-2 mt-6 justify-center">
           <v-col
@@ -403,6 +441,7 @@ let animationFrameId = null;
 let mathjaxRenderTimeout = null;
 const fullPoint = ref(null);
 const achivedPoint = ref(null);
+const trainingTable = ref(null);
 
 // --- Eseménykezelők ---
 
@@ -421,6 +460,7 @@ function reTryTraining(){
   timerSwitch.value = false;
   fullPoint.value = null;
   achivedPoint.value = null;
+  trainingTable.value = null;
   traningEnd.value = false;
   timerShow.value = null;
   AlkatItems.value.length = 0;
@@ -671,10 +711,11 @@ const Befejezes = async () =>{
   clearInterval(timerShow.value);
   timerShow.value = null;
   traningEnd.value = true;
-  userStore.ExamOrTraningStarted = false;
+  userStore.ExamOrTraningStarted = null;
   await getFinalStats({tables: MaradekAdatok.value, tablak: Object.values(AlkatSelect.value).join(', ') , time: timerSwitch.value ? (minuteTimer.value * 60 + secondTimer.value) : null, diff: (diffSelect.value == 'Könnyű' ? 1 : (diffSelect.value == 'Normál' ? 2 : 3)), def_time: timerSwitch.value ?  (def_minuteTimer.value * 60 + def_secondTimer.value) : null, tpont: fullPoint.value, exam_id: null, token: get_token},{
     onSuccess: (response) =>{
-      achivedPoint.value = response;
+      achivedPoint.value = response.achivedPoints;
+      trainingTable.value = response.parsedRows;
     },
     onError: (error) =>{
       if (showError) {
@@ -695,7 +736,7 @@ const StartTraning = async () =>{
       KivettAdatok.value = response.kivettAdatok;
       MaradekAdatok.value = response.maradekAdatok;
       fullPoint.value = KivettAdatok.value.length;
-      userStore.ExamOrTraningStarted = true;
+      userStore.ExamOrTraningStarted = 'Training';
       if(timerSwitch.value){
         def_minuteTimer.value = minuteTimer.value;
         def_secondTimer.value = secondTimer.value;

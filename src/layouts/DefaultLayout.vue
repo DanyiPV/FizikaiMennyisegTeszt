@@ -9,7 +9,7 @@
                 </v-toolbar-title>
 
                 <div class="d-flex ga-2">
-                  <v-badge :content="(userStore.unreadNotifs.normal + userStore.unreadNotifs.admin) == 0 ? null : (userStore.unreadNotifs.normal + userStore.unreadNotifs.admin)" :color="(userStore.unreadNotifs.normal + userStore.unreadNotifs.admin) == 0 ? 'transparent' :'error'">
+                  <v-badge :content="(userStore.unreadNotifs.normal + userStore.unreadNotifs.admin) == 0 || (userStore.unreadNotifs.normal + userStore.unreadNotifs.admin) == NaN ? null : (userStore.unreadNotifs.normal + userStore.unreadNotifs.admin)" :color="(userStore.unreadNotifs.normal + userStore.unreadNotifs.admin) == 0 || (userStore.unreadNotifs.normal + userStore.unreadNotifs.admin) == NaN  ? 'transparent' :'error'">
                     <v-btn icon @click="dialog = true" v-if="get_fullUser">
                       <v-avatar size="40">
                         <template v-if="get_fullUser.Usersetting.profPic">
@@ -27,7 +27,7 @@
 
                     
                     <v-btn icon @click="HandleChangeDarkmode()" ><v-icon color="icon_color">{{ DarkmodeChange ? 'mdi-weather-sunny' : 'mdi-weather-night' }}</v-icon></v-btn>
-                    <v-btn icon @click="LogOut()"><v-icon color="error">mdi-logout</v-icon></v-btn>
+                    <v-btn icon @click="LogOut()"><v-icon color="error" :disabled="userStore.ExamOrTraningStarted == 'Exam'">mdi-logout</v-icon></v-btn>
                 </div>
             </v-app-bar>
 
@@ -228,7 +228,7 @@
 
                       <v-expand-transition>
                         <div class="rounded-0 w-100 d-flex align-center pa-2 pl-4 cursor-pointer position-relativ custom-drawer-btn" @click="NotifDrawActive()">
-                            <v-badge :content="userStore.unreadNotifs.normal == 0 ? null : userStore.unreadNotifs.normal" :color="userStore.unreadNotifs.normal == 0 ? 'transparent' :'error'">
+                            <v-badge :content="userStore.unreadNotifs.normal == 0  || userStore.unreadNotifs.normal == NaN ? null : userStore.unreadNotifs.normal" :color="userStore.unreadNotifs.normal == 0 || userStore.unreadNotifs.normal == NaN ? 'transparent' :'error'">
                               <v-icon style="flex: 0; text-align: center;" size="20">mdi-bell</v-icon>
                             </v-badge>  
                             <h4 style="flex: 1; text-align: center; margin: 0; text-transform: capitalize; font-weight: normal;">
@@ -279,7 +279,7 @@
 
                       <v-expand-transition>
                         <div class="w-100 d-flex align-center pa-2 pl-4 cursor-pointer position-relativ custom-drawer-btn" style="border-radius: 0;" @click="AdminNotifActive" v-if="get_fullUser.admin && get_fullUser.user_role == 'admin' && get_fullUser.osztaly == 'A'">
-                          <v-badge :content="userStore.unreadNotifs.admin == 0 ? null : userStore.unreadNotifs.admin" :color="userStore.unreadNotifs.admin == 0 ? 'transparent' :'error'">
+                          <v-badge :content="userStore.unreadNotifs.admin == 0 || userStore.unreadNotifs.admin == NaN ? null : userStore.unreadNotifs.admin" :color="userStore.unreadNotifs.admin == 0 || userStore.unreadNotifs.admin == NaN ? 'transparent' :'error'">
                             <v-icon style="flex: 0; text-align: center;">mdi-alert-circle</v-icon>
                           </v-badge>  
                           <h4
@@ -644,16 +644,16 @@
                                         <div style="position: absolute; right: 2vw; background-color: rgb(var(--v-theme-error), .2);" class="pa-2 rounded-pill" v-if="user.activated == 2">
                                           <h3 style="color: rgb(var(--v-theme-error));">KITíLTVA</h3>
                                         </div>
-                                        <div style="position: absolute; right: 2vw; background-color: rgb(var(--v-theme-warning), .2);" class="pa-2 rounded-pill" v-if="user.activated == 0">
+                                        <div style="position: absolute; right: 2vw; background-color: rgb(var(--v-theme-warning), .2);" class="pa-2 rounded-pill" v-else-if="user.activated == 0">
                                           <h3 style="color: rgb(var(--v-theme-warning));">NEM AKTIVÁLVA</h3>
                                         </div>
-                                        <div style="position: absolute; right: 2vw; background-color: rgb(var(--v-theme-admin_bc), .2);" class="pa-2 rounded-pill" v-if="user.admin">
+                                        <div style="position: absolute; right: 2vw; background-color: rgb(var(--v-theme-admin_bc), .2);" class="pa-2 rounded-pill" v-else-if="user.admin">
                                           <h3 style="color: rgb(var(--v-theme-admin_bc));">ADMIN</h3>
                                         </div>
-                                        <div style="position: absolute; right: 2vw; background-color: rgb(var(--v-theme-teacher_bc), .2);" class="pa-2 rounded-pill" v-if="!user.admin && user.osztaly != null && user.osztaly == 'T'">
+                                        <div style="position: absolute; right: 2vw; background-color: rgb(var(--v-theme-teacher_bc), .2);" class="pa-2 rounded-pill" v-else-if="!user.admin && user.osztaly != null && user.osztaly == 'T'">
                                           <h3 style="color: rgb(var(--v-theme-teacher_bc));">TANÁR</h3>
                                         </div>
-                                        <div style="position: absolute; right: 2vw; background-color: rgb(var(--v-theme-student_bc), .2);" class="pa-2 rounded-pill" v-if="!user.admin && user.osztaly != null && user.osztaly != 'T' && user.osztaly != 'A'">
+                                        <div style="position: absolute; right: 2vw; background-color: rgb(var(--v-theme-student_bc), .2);" class="pa-2 rounded-pill" v-else-if="!user.admin && user.osztaly != null && user.osztaly != 'T' && user.osztaly != 'A'">
                                           <h3 style="color: rgb(var(--v-theme-student_bc));">{{ user.osztaly }}</h3>
                                         </div>
                                       </div>
@@ -700,7 +700,7 @@
                                       <div 
                                       class="d-flex flex-column align-start" 
                                       :style="{width: isMobile ? '100%': '30%'}"
-                                      v-if="user.osztaly == null && user.user_role == 'student'">
+                                      v-if="user.user_role == 'student'">
                                         <div class="d-flex ga-2 mt-4 mb-2" style="width: 100%;">
                                           <v-combobox
                                             v-model="selectedYear"
@@ -1002,18 +1002,24 @@ const AllAdminNotifs = ref([]);
 const {mutate: clearCookie} = useClearCookie();
 
 const LogOut = async () =>{
-  userStore.unreadNotifs = {normal: 0, admin: 0};
-  await getUnReadNotification(userStore.className,{
-    onSuccess: (response) =>{
-      userStore.unreadNotifs = response;
+  if(!userStore.ExamOrTraningStarted != 'Exam'){
+    userStore.unreadNotifs = {normal: 0, admin: 0}
+    userStore.className = ''
+    userStore.userId = null
+    userStore.ExamOrTraningStarted = null
+    await clearCookie(undefined,{
+      onSuccess: () =>{
+        theme.global.name.value = 'lightTheme';
+        router.push({name: 'login'})
+      }
+    })
+  }else{
+    if (showError) {
+      showError('Dolgozat közben nem lehet kilépni!');
+    }else{
+      console.log('Dolgozat közben nem lehet kilépni!');
     }
-  });
-  await clearCookie(undefined,{
-    onSuccess: () =>{
-      theme.global.name.value = 'lightTheme';
-      router.push({name: 'login'})
-    }
-  })
+  }
 }
 
 function OpenSite(notif){
@@ -1202,6 +1208,14 @@ const setNewSetting = async(user,id, model, type) =>{
       }
       else if(type == 3){
         user.password = response;
+      }
+
+      handlePanelToggle();
+
+      if (showSucces) {
+        showSucces('Felhasználónak sikeresen meg lett változtatva a ' + (type == 1 ? 'felhasználó neve' : (type == 2 ? 'email címe' : 'jelszava')) + '!');
+      }else{
+        console.log('Felhasználónak sikeresen meg lett változtatva a ' + (type == 1 ? 'felhasználó neve' : (type == 2 ? 'email címe' : 'jelszava')) + '!');
       }
     },
     onError: (error) => {
@@ -1534,8 +1548,7 @@ onMounted(async () => {
         console.log(error.response.data);
       }
 
-      deleteCookie('user');
-      router.push({name : 'login'})
+      LogOut();
     },
   });
 

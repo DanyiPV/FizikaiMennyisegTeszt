@@ -281,7 +281,7 @@
             <div class="d-flex pl-2">
               <h3 style="font-weight: normal;">Eltelt idő</h3>
               <v-divider vertical class="mx-2"></v-divider>
-              <h3 style="font-weight: normal;">{{ ((Number(examProperties.ido)/60) - secondTimer) == -1 ? ((Number(examProperties.ido)/60) - minuteTimer - 1) : ((Number(examProperties.ido)/60) - minuteTimer)}} : {{ ((Number(examProperties.ido)%60) - secondTimer) == -1 ? 59 : ((Number(examProperties.ido)%60) - secondTimer) }}</h3>
+              <h3 style="font-weight: normal;">{{ formattedTime }}</h3>
             </div>
   
             <v-divider class="my-2"></v-divider>
@@ -300,6 +300,44 @@
               <h3 style="font-weight: normal;">{{ showGrade(Math.floor(achivedPoint / fullPoint * 100)) }}</h3>
             </div>
           </div>
+
+          
+          <v-divider class="my-2"></v-divider>
+
+          <v-expansion-panels elevation="2" style="border: .1vw solid rgb(var(--v-theme-text_color),.4);" class="rounded-lg">
+            <v-expansion-panel class="ma-1">
+                <v-expansion-panel-title class="text-h6">
+                    Eredmény áttekintése
+                </v-expansion-panel-title>
+                <v-expansion-panel-text>
+                    <v-table class="table-fixed rounded" style="background-color: rgb(var(--v-theme-primary));">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 20%;"><h2>Név</h2></th>
+                                <th class="text-center" style="width: 20%;"><h2>Jel</h2></th>
+                                <th class="text-center" style="width: 35%;"><h2>Definíció</h2></th>
+                                <th class="text-center" style="width: 25%;"><h2>Mértékegység</h2></th>
+                            </tr>
+                        </thead>
+                        <tbody style="max-width: 100%;">
+                            <tr v-for="table in trainingTable" :key="table[1]">
+                                <td v-if="typeof table[0] === 'string'" class="text-center pa-1 ma-1" style="width: 20%; font-size: 1rem;" v-mathjax="table[0]"></td>
+                                <td v-else class="text-center pa-1 rounded" style="width: 20%; font-size: 1rem;" v-mathjax="table[0].value" :style="{backgroundColor: table[0].correct ? 'rgb(var(--v-theme-success), .4)' : 'rgb(var(--v-theme-error), .4)' }"></td>
+
+                                <td v-if="typeof table[1] === 'string'" class="text-center pa-1 ma-1" style="width: 20%; font-size: 1rem;" v-mathjax="table[1]"></td>
+                                <td v-else class="text-center pa-1 rounded" style="width: 20%; font-size: 1rem;" v-mathjax="table[1].value" :style="{backgroundColor: table[1].correct ? 'rgb(var(--v-theme-success), .4)' : 'rgb(var(--v-theme-error), .4)' }"></td>
+
+                                <td v-if="typeof table[2] === 'string'" class="text-center pa-1 ma-1" style="width: 20%; font-size: 1rem;" v-mathjax="table[2]"></td>
+                                <td v-else class="text-center pa-1 rounded" style="width: 20%; font-size: 1rem;" v-mathjax="table[2].value" :style="{backgroundColor: table[2].correct ? 'rgb(var(--v-theme-success), .4)' : 'rgb(var(--v-theme-error), .4)' }"></td>
+
+                                <td v-if="typeof table[3] === 'string'" class="text-center pa-1 ma-1" style="width: 20%; font-size: 1rem;" v-mathjax="table[3]"></td>
+                                <td v-else class="text-center pa-1 rounded" style="width: 20%; font-size: 1rem;" v-mathjax="table[3].value" :style="{backgroundColor: table[3].correct ? 'rgb(var(--v-theme-success), .4)' : 'rgb(var(--v-theme-error), .4)' }"></td>
+                            </tr>
+                        </tbody>
+                    </v-table>
+                </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </div>
         <v-row class="mb-2 mt-6 justify-center">
           <v-col
@@ -371,9 +409,20 @@ const minuteTimer = ref(null);
 const secondTimer = ref(null);
 const examProperties = ref(null);
 const achivedPoint = ref(null);
+const trainingTable = ref(null);
 const currentTime = ref(new Date());
 const interval = ref(null);
 const Exams = ref([]);
+
+const formattedTime = computed(() => {
+  const time = examProperties.value.ido - (minuteTimer.value * 60 + secondTimer.value)
+
+  const minutes = Math.floor(time / 60)
+
+  const seconds = time % 60;
+
+  return `${minutes} : ${seconds < 10 ? '0'+seconds : seconds}`;
+});
 
 const backToExams = async () =>{
   KivettAdatok.value = null;
@@ -383,6 +432,7 @@ const backToExams = async () =>{
   secondTimer.value = null;
   examProperties.value = null;
   achivedPoint.value = null;
+  trainingTable.value = null;
   examStarted.value = false;
   examEnd.value = false;
 
@@ -403,7 +453,7 @@ const backToExams = async () =>{
 function endFormat(exam){
     var h = Number(exam.kezdet.split(' ')[1].split(':')[0]);
     var m = Number(exam.kezdet.split(' ')[1].split(':')[1]) + Math.floor(Number(exam.ido)/60);
-    if(m > 60){
+    if(m >= 60){
         h = h + Math.floor(m/60);
         m = m - (60 * Math.floor(m/60));
     }
@@ -655,7 +705,7 @@ const examStart = async (exam) =>{
         minuteTimer.value = Number(exam.ido) / 60
         secondTimer.value = Number(exam.ido) % 60
         examStarted.value = true;
-        userStore.ExamOrTraningStarted = true;
+        userStore.ExamOrTraningStarted = 'Exam';
         timerShow.value = setInterval(() => {
             if(secondTimer.value == 0 && minuteTimer.value == 0){
                 Befejezes();
@@ -684,11 +734,12 @@ const {mutate: getFinalStats} = useGetFinalStats();
 const Befejezes = async () =>{
   clearInterval(timerShow.value);
   timerShow.value = null;
-  userStore.ExamOrTraningStarted = false;
+  userStore.ExamOrTraningStarted = null;
   examEnd.value = true;
   await getFinalStats({tables: MaradekAdatok.value, tablak: examProperties.value.alkats.map(c=>c.nev).join(', ') , time: minuteTimer.value * 60 + secondTimer.value, diff: examProperties.value.dif, def_time: examProperties.value.ido, tpont: fullPoint.value, exam_id: examProperties.value.id},{
     onSuccess: (response) =>{
-      achivedPoint.value = response;
+      achivedPoint.value = response.achivedPoints;
+      trainingTable.value = response.parsedRows;
     },
     onError: (error) =>{
       if (showError) {

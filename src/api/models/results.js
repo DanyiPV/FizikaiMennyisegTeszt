@@ -31,8 +31,8 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 validate:{
-                    min: 0,
-                    max: 2
+                    min: 1,
+                    max: 3
                 }
             },
             Eido:{
@@ -49,6 +49,10 @@ module.exports = (sequelize, DataTypes) => {
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
                 onUpdate: Sequelize.literal('CURRENT_TIMESTAMP'),
             },
+            result: {
+                type: DataTypes.BLOB('long'),
+                allowNull: false
+            }
         },
         {
             sequelize,
